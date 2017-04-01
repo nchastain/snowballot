@@ -1,1 +1,1 @@
-Boilerplate React App
+Snowballot - An intelligent groupthink generator.
