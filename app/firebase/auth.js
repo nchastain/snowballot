@@ -1,4 +1,7 @@
+import firebase from 'firebase'
 import {firebaseRef, firebaseAuth} from './constants.js'
+import * as actions from 'actions'
+import { configure } from 'store'
 
 export function auth (email, pw) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
@@ -11,6 +14,9 @@ export function logout () {
 
 export function login (email, pw) {
   return firebaseAuth().signInWithEmailAndPassword(email, pw)
+  .catch(function (error) {
+    console.log(error)
+  })
 }
 
 export function resetPassword (email) {

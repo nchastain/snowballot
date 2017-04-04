@@ -3,10 +3,12 @@
 /*foundation*/
 @import "base/foundation-settings";
 @import "foundation";
+@import "base/app-settings";
 @include foundation-everything;
 
 /*Components*/
-
+@import "components/Navigation";
+@import "components/Dashboard";
 
 
 

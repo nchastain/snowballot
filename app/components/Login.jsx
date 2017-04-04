@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
+import firebase from 'firebase'
+import { connect } from 'react-redux'
+import * as redux from 'redux'
+import * as actions from 'actions'
 import { login, resetPassword } from '../firebase/auth'
+
 
 function setErrorMsg(error) {
   return {
@@ -7,11 +12,15 @@ function setErrorMsg(error) {
   }
 }
 
-export default class Login extends Component {
+export class Login extends Component {
   state = { loginMessage: null }
   handleSubmit = (e) => {
     e.preventDefault()
     login(this.email.value, this.pw.value)
+      .then(function(){
+        const user = firebase.auth().currentUser
+        actions.login(user.uid)
+      })
       .catch((error) => {
           this.setState(setErrorMsg('Invalid username/password.'))
         })
@@ -42,9 +51,11 @@ export default class Login extends Component {
               &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
             </div>
           }
-          <button type="submit" className="btn btn-primary">Login</button>
+          <button type="submit" className="button button-primary">Login</button>
         </form>
       </div>
     )
   }
 }
+
+export default connect()(Login)

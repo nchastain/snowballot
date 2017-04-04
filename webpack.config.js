@@ -1,7 +1,10 @@
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack')
+var path = require('path')
 
 module.exports = {
+  devServer: {
+    historyApiFallback: true
+  },
   entry: [
     'script!jquery/dist/jquery.min.js',
     'script!foundation-sites/dist/foundation.min.js',
@@ -28,6 +31,9 @@ module.exports = {
     ],
     alias: {
       App: 'app/components/App.jsx',
+      actions: 'app/actions/index.jsx',
+      store: 'app/store/configureStore.jsx',
+      reducers: 'app/reducers/reducers.jsx',
       applicationStyles: 'app/styles/app.scss'
     },
     extensions: ['', '.js', '.jsx']
@@ -50,4 +56,4 @@ module.exports = {
     ]
   },
   devtool: 'cheap-module-eval-source-map'
-};
+}

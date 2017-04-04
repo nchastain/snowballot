@@ -13,10 +13,14 @@
     "axios": "^0.9.1",
     "express": "^4.13.4",
     "firebase": "^3.7.4",
+    "moment": "^2.18.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0",
-    "react-router-dom": "^4.0.0"
+    "react-router-dom": "^4.0.0",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.5.1",

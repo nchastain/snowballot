@@ -1,13 +1,25 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { logout } from '../firebase/auth'
+import * as actions from 'actions'
+import { connect } from 'react-redux'
+import Redux from 'redux'
 
-export default class Navigation extends Component {
+export class Navigation extends Component {
+  constructor (props) {
+    super(props)
+    this.onLogout = this.onLogout.bind(this)
+  }
+  onLogout (e) {
+    const { dispatch } = this.props
+    e.preventDefault()
+    dispatch(actions.startLogout())
+  }
   render () {
     return (
       <div className='top-bar' data-topbar={true} role='navigation'>
-        <div className='container'>
-          <section class='top-bar-section'>
+        <div>
+          <section className='top-bar-section'>
             <ul className='left'>
               <li>
                 <Link to='/' className='navbar-brand'>Home</Link>
@@ -20,10 +32,11 @@ export default class Navigation extends Component {
               {this.props.authed
                 ? <button
                   style={{border: 'none', background: 'transparent'}}
-                  onClick={() => {
+                  onClick={(evt) => {
+                    this.onLogout(evt)
                     logout()
                   }}
-                  className='navbar-brand'>Logout</button>
+                  className='navbar-brand right'>Logout</button>
                 : <span>
                   <li className='right'><Link to='/login'>Login</Link></li>
                   <li className='right'><Link to='/register'>Register</Link></li>
@@ -36,3 +49,5 @@ export default class Navigation extends Component {
     )
   }
 }
+
+export default connect()(Navigation)

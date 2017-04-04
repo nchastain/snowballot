@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
+import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
 import Login from 'Login'
 import Register from 'Register'
 import Home from 'Home'
@@ -62,8 +62,8 @@ export default class App extends Component {
       <BrowserRouter>
         <div>
           <Navigation authed={this.state.authed} />
-          <div className="container">
-            <div className="row">
+          <div className='container'>
+            <div className='row'>
               <Switch>
                 <Route path='/' exact component={Home} />
                 <PublicRoute authed={this.state.authed} path='/login' component={Login} />
@@ -75,6 +75,6 @@ export default class App extends Component {
           </div>
         </div>
       </BrowserRouter>
-    );
+    )
   }
 }

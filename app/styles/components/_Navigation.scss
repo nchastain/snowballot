@@ -1,0 +1,22 @@
+ul {
+	margin: 0;
+	display: inline;
+	.right {
+		float: right;
+	}
+	.left {
+		float: left;
+	}
+}
+
+li {
+	list-style-type: none;
+	display: inline;
+	padding-right: 1rem;
+}
+
+button {
+	.right {
+		float: right;
+	}
+}
