@@ -91,12 +91,13 @@ export class Dashboard extends Component {
 
   renderSbs () {
     if (!this.props.sbs || this.props.sbs.length === 0) return
-    return this.props.sbs.reverse().map((sb, idx) => (
-      <div key={sb.title + idx} className='snowballot-container'>
+    const sortedSbs = this.props.sbs.sort(function (a, b) { return b.createdAt - a.createdAt })
+    return sortedSbs.map((sb, idx) => (
+      <div key={`sb-${sb.createdAt}`} className='snowballot-container'>
         <h4>{sb.title}</h4>
         <ul>
           {sb.choices.map((choice, idx) => (
-            <li key={sb.title + idx}>{choice.votes} votes, {choice.title}</li>
+            <li key={choice.id}>{choice.votes} votes, {choice.title}</li>
           ))}
         </ul>
       </div>
@@ -145,7 +146,6 @@ export class Dashboard extends Component {
     return (
       <div>
         <div className='snowballots-section'>
-          <h1 className='text-center'>My Snowballots</h1>
           {this.renderSbs()}
         </div>
         <div className='newSnowballot-section'>
@@ -159,7 +159,7 @@ export class Dashboard extends Component {
             />
             {this.renderChoices()}
             <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>
-            <button id='newSnowballot' className='button primary expanded'> + create a new snowballot</button>
+            <button id='newSnowballot' className='button primary'> + create a new snowballot</button>
           </form>
         </div>
       </div>

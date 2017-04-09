@@ -2,12 +2,11 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
-  devServer: {
-    historyApiFallback: true
-  },
   entry: [
     'script!jquery/dist/jquery.min.js',
     'script!foundation-sites/dist/foundation.min.js',
+    'webpack/hot/dev-server',
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     './app/index.jsx'
   ],
   externals: {
@@ -17,14 +16,20 @@ module.exports = {
     new webpack.ProvidePlugin({
       '$': 'jquery',
       'jQuery': 'jquery'
-    })
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    path: path.join(__dirname),
+    publicPath: '/',
+    filename: 'bundle.js',
+    hotUpdateChunkFilename: 'hot/hot-update.js',
+    hotUpdateMainFilename: 'hot/hot-update.json'
   },
   resolve: {
-    root: __dirname,
+    root: path.join(__dirname),
     modulesDirectories: [
       'node_modules',
       './app/components'
@@ -52,8 +57,8 @@ module.exports = {
   },
   sassLoader: {
     includePaths: [
-      path.resolve(__dirname, './node_modules/foundation-sites/scss')
+      path.resolve(path.join(__dirname), './node_modules/foundation-sites/scss')
     ]
   },
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'cheap-module-eval-source-map',
 }

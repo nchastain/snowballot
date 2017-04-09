@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "npm start & webpack-dev-server --progress --color"
   },
   "author": "Andrew Mead",
   "license": "MIT",
@@ -44,6 +45,9 @@
     "sass-loader": "^3.1.2",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.13"
+    "webpack": "^1.12.13",
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-dev-server": "^1.11.0",
+    "webpack-hot-middleware": "^2.18.0"
   }
 }

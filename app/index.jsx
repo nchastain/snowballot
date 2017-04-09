@@ -20,6 +20,10 @@ firebase.auth().onAuthStateChanged((user) => {
 //Load foundation
 $(document).foundation();
 
+if (module.hot) {
+  module.hot.accept();
+}
+
 // App css
 require('style!css!sass!applicationStyles')
 
