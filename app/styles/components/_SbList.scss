@@ -40,10 +40,13 @@
 	display: block;
 	padding: 1rem;
 	background-color: white;
+	&:hover {
+		background-color: $light-blue-hover;
+	}
 }
 
 .snowballot-container + .snowballot-container {
-	margin-top: 2.5rem;
+	margin-top: 1.5rem;
 }
 
 .choice-container {

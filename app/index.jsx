@@ -5,6 +5,7 @@ import App from 'App'
 import firebase from 'firebase'
 import * as actions from 'actions'
 import { configure } from './store/configureStore.jsx'
+import { BrowserRouter } from 'react-router-dom'
 
 let store = configure()
 
@@ -29,7 +30,9 @@ require('style!css!sass!applicationStyles')
 
 ReactDOM.render(
   <Provider store={store}>
-  	<App />
+  	<BrowserRouter>
+  		<App />
+  	</BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );
