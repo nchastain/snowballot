@@ -5,10 +5,41 @@
 .snowballots-section {
 	min-height: 300px;
 	background-color: $light-grey;
-	padding: 2rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	li {
+		display: block;
+	}
+	h4 {
+		margin-bottom: 0;
+		color: $light-blue;
+	}
 }
 
 .newSnowballot-section {
 	padding-top: 1rem;
 }
 
+.snowballot-container {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+	border: 1px solid $light-blue;
+	display: block;
+	padding: 1rem;
+	background-color: white;
+}
+
+.choice-container {
+	width: 100%;
+	display: table;
+	input {
+		width: 100%;
+		display: table-cell;
+		border-right: 0px;
+	}
+	.delete-choice-button {
+		display: table-cell;
+	}
+}

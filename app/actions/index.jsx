@@ -9,18 +9,11 @@ export var addSb = (sb) => {
   }
 }
 
-export var startAddSb = (title, choice1, choice2) => {
+export var startAddSb = (title, choices) => {
   return (dispatch, getState) => {
     var sb = {
       title,
-      choices: [{
-        title: choice1,
-        votes: 0
-      },
-      {
-        title: choice2,
-        votes: 0
-      }],
+      choices,
       createdAt: moment().unix()
     }
     var uid = firebase.auth().currentUser.uid
@@ -32,6 +25,34 @@ export var startAddSb = (title, choice1, choice2) => {
         id: sbRef.key
       }))
     })
+  }
+}
+
+export var startAddSbs = () => {
+  return (dispatch, getState) => {
+    var uid = getState().auth.uid
+    var sbsRef = firebaseRef.child(`users/${uid}/sbs`)
+
+    return sbsRef.once('value').then((snapshot) => {
+      var sbs = snapshot.val() || {}
+      var parsedSbs = []
+
+      Object.keys(sbs).forEach((sbId) => {
+        parsedSbs.push({
+          id: sbId,
+          ...sbs[sbId]
+        })
+      })
+
+      dispatch(addSbs(parsedSbs))
+    })
+  }
+}
+
+export var addSbs = (sbs) => {
+  return {
+    type: 'ADD_SBS',
+    sbs
   }
 }
 

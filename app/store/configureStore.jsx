@@ -4,8 +4,8 @@ import { sbsReducer, authReducer } from 'reducers'
 
 export const configure = function (initialState = {}) {
   var reducer = redux.combineReducers({
-    sbsReducer,
-    authReducer
+    sbs: sbsReducer,
+    auth: authReducer
   })
 
   var store = redux.createStore(reducer, initialState, redux.compose(
