@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import firebase from 'firebase'
 import { connect } from 'react-redux'
 import * as redux from 'redux'
-import * as actions from 'actions'
+import * as actions from '../actions'
 import { login, resetPassword } from '../firebase/auth'
 
 

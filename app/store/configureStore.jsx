@@ -1,17 +1,23 @@
 import * as redux from 'redux'
 import thunk from 'redux-thunk'
-import { sbsReducer, authReducer } from 'reducers'
+import { sbsReducer, authReducer } from '.././reducers/reducers.jsx'
 
-export const configure = function (initialState = {}) {
+const configure = function (initialState = {}) {
   var reducer = redux.combineReducers({
     sbs: sbsReducer,
     auth: authReducer
   })
 
-  var store = redux.createStore(reducer, initialState, redux.compose(
+  if (typeof window !== 'undefined') {
+    var store = redux.createStore(reducer, initialState, redux.compose(
     redux.applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
-  ))
+    ))
+  } else {
+    var store = redux.createStore(reducer, initialState)
+  }
 
   return store
 }
+
+export default configure

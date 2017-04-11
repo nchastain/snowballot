@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import Dashboard from 'Dashboard'
-import Login from 'Login'
-import Register from 'Register'
-import Home from 'Home'
+import Dashboard from './Dashboard'
+import Login from './Login'
+import Register from './Register'
+import Home from './Home'
+import SbDetail from './SbDetail'
 import { firebaseAuth } from '../firebase/constants'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
@@ -23,7 +24,7 @@ function PublicRoute ({component: Component, authed, ...rest}) {
       {...rest}
       render={(props) => authed === false
         ? <Component {...props} />
-        : <Redirect to='/dashboard' />}
+        : <Redirect to='/dashboard/snowballots' />}
     />
   )
 }
@@ -64,7 +65,8 @@ class Main extends Component {
           <Route exact path='/' component={Home} />
           <PublicRoute authed={this.state.authed} path='/login' component={Login} />
           <PublicRoute authed={this.state.authed} path='/register' component={Register} />
-          <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
+          <PrivateRoute exact authed={this.state.authed} path='/dashboard/snowballots' component={Dashboard} />
+          <Route path='/dashboard/snowballots/:id' component={SbDetail} />
           <Route render={() => <h3>No Match</h3>} />
         </Switch>
       </main>

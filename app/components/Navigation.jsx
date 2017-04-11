@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { logout } from '../firebase/auth'
-import * as actions from 'actions'
+import * as actions from '../actions'
 import { connect } from 'react-redux'
 import Redux from 'redux'
 import { firebaseAuth } from '../firebase/constants'
@@ -51,9 +51,7 @@ export class Navigation extends Component {
               <li>
                 <Link to='/' className='navbar-brand'>Home</Link>
               </li>
-              <li>
-                <Link to='/dashboard' className='navbar-brand'>Dashboard</Link>
-              </li>
+              {this.state.authed && <li><Link to='/dashboard/snowballots' className='navbar-brand'>Dashboard</Link></li>}
             </ul>
             <ul className='right'>
               {this.state.authed

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as actions from 'actions'
+import * as actions from '../actions'
 
 let createHandlers = function (dispatch) {
   let handleSubmit = function (title, choices) {
@@ -21,9 +21,11 @@ export class SbList extends Component {
     this.validateSb = this.validateSb.bind(this)
     this.deleteChoice = this.deleteChoice.bind(this)
     this.checkTab = this.checkTab.bind(this)
+    this.renderAdd = this.renderAdd.bind(this)
     this.handlers = createHandlers(this.props.dispatch)
     this.state = {
       title: '',
+      adding: false,
       choices: [
         {title: '', votes: 0, id: 1},
         {title: '', votes: 0, id: 2}
@@ -44,11 +46,36 @@ export class SbList extends Component {
     return {title, filteredChoices}
   }
 
+  renderAdd () {
+    return this.state.adding
+      ? <div className='newSnowballot-section'>
+        <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
+          <input
+            ref='sbtitle'
+            type='text'
+            value={this.state.title}
+            placeholder='Enter title of new snowballot'
+            onChange={(e) => this.setState({title: e.target.value})}
+          />
+          {this.renderChoices()}
+          <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>
+          <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}>+ create snowballot</div>
+        </form>
+      </div>
+      : <button
+          id='newSnowballot'
+          className='button primary expanded'
+          onClick={() => this.setState({ adding: true })}
+        >
+          + create a new snowballot
+        </button>
+  }
   handleSubmit (e) {
     e.preventDefault()
     const validSb = this.validateSb()
     this.handlers.handleSubmit(validSb.title, validSb.filteredChoices)
     this.setState({
+      adding: false,
       title: '',
       choices: [
         {
@@ -144,20 +171,7 @@ export class SbList extends Component {
         <div className='snowballots-section'>
           {this.renderSbs()}
         </div>
-        <div className='newSnowballot-section'>
-          <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
-            <input
-              ref='sbtitle'
-              type='text'
-              value={this.state.title}
-              placeholder='Enter title of new snowballot'
-              onChange={(e) => this.setState({title: e.target.value})}
-            />
-            {this.renderChoices()}
-            <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>
-            <button id='newSnowballot' className='button primary'> + create a new snowballot</button>
-          </form>
-        </div>
+        {this.renderAdd()}
       </div>
     )
   }

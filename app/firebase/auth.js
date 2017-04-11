@@ -1,7 +1,6 @@
 import firebase from 'firebase'
 import {firebaseRef, firebaseAuth} from './constants.js'
-import * as actions from 'actions'
-import { configure } from 'store'
+import * as actions from '.././actions'
 
 export function auth (email, pw) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
