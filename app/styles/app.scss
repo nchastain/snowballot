@@ -9,9 +9,7 @@
 /*Components*/
 @import "components/Navigation";
 @import "components/SbList";
-
-body {
-	background-color: $dark-grey;
-}
+@import "components/SbDetail";
+@import "components/Main";
 
 

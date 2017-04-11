@@ -1,5 +1,10 @@
 #newSnowballot {
 	display: block;
+	margin-top: 1rem;
+}
+
+#submitSnowballot {
+	display: block;
 	float: right;
 }
 
@@ -9,7 +14,6 @@
 }
 
 .snowballots-section {
-	min-height: 300px;
 	background-color: $light-grey;
 	padding-left: 2rem;
 	padding-right: 2rem;

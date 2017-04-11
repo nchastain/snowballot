@@ -1,6 +1,6 @@
 import moment from 'moment'
 import firebase from 'firebase'
-import {firebaseRef, githubProvider} from 'app/firebase/constants.js'
+import {firebaseRef, githubProvider} from '.././firebase/constants.js'
 
 export var addSb = (sb) => {
   return {
