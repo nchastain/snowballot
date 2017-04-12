@@ -66,7 +66,7 @@ class Main extends Component {
           <PublicRoute authed={this.state.authed} path='/login' component={Login} />
           <PublicRoute authed={this.state.authed} path='/register' component={Register} />
           <PrivateRoute exact authed={this.state.authed} path='/dashboard/snowballots' component={Dashboard} />
-          <Route path='/dashboard/snowballots/:id' component={SbDetail} />
+          <Route path='/dashboard/snowballots/:alias' component={SbDetail} />
           <Route render={() => <h3>No Match</h3>} />
         </Switch>
       </main>

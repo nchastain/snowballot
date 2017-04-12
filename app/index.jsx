@@ -27,6 +27,7 @@ if (module.hot) {
 
 // App css
 require('style!css!sass!applicationStyles')
+require('font-awesome-webpack')
 
 ReactDOM.render(
   <Provider store={store}>

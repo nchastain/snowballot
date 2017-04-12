@@ -1,4 +1,46 @@
-.sb-detail-container {
-	padding: 1rem;
-	background-color: white;
+.sb-title {
+	font-weight: bold;
+}
+
+.box-header {
+    display: table; 
+    vertical-align: middle;
+    margin-top: 10px;
+    border: 1px solid $light-blue;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: left;
+    background-color: white;
+    .button {
+		margin-bottom: 0px !important;
+		margin-top: -2px !important;
+    }
+    &:hover {
+		background-color: $light-blue-hover;
+		cursor: pointer;
+	}
+}
+
+.left-cell {
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 10px;
+    width: 1px;
+    white-space: nowrap;
+}
+
+.right-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.vote-count {
+	font-size: 1rem;
+	display: inline;
+	float: right;
+	margin-left: 2px;
+	display: inline-block;
+	padding-right: 10px;
+	padding-left: 10px;
 }

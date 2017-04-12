@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 
 let createHandlers = function (dispatch) {
-  let handleSubmit = function (title, choices) {
-    dispatch(actions.startAddSb(title, choices))
+  let handleSubmit = function (title, alias, choices) {
+    dispatch(actions.startAddSb(title, alias, choices))
   }
   return {
     handleSubmit
@@ -37,13 +37,14 @@ export class SbList extends Component {
     const title = this.refs.sbtitle.value
     if (title.length === 0) throw new Error('Snowballots must have a title.')
     const dupesObj = {}
+    const alias = this.refs.sbalias.value.length > 0 ? this.refs.sbalias.value : title.replace(/\s+/g, '').substring(0, 10)
     const filteredChoices = this.state.choices.filter(function (choice) {
       let duplicate = false
       dupesObj[choice.title.toLowerCase()] ? duplicate = true : dupesObj[choice.title.toLowerCase()] = choice
       return choice.title.length > 0 && !duplicate
     })
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
-    return {title, filteredChoices}
+    return {title, alias, filteredChoices}
   }
 
   renderAdd () {
@@ -56,6 +57,13 @@ export class SbList extends Component {
             value={this.state.title}
             placeholder='Enter title of new snowballot'
             onChange={(e) => this.setState({title: e.target.value})}
+          />
+          <input
+            ref='sbalias'
+            type='text'
+            value={this.state.alias}
+            placeholder='Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'
+            onChange={(e) => this.setState({alias: e.target.value})}
           />
           {this.renderChoices()}
           <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>
@@ -73,10 +81,11 @@ export class SbList extends Component {
   handleSubmit (e) {
     e.preventDefault()
     const validSb = this.validateSb()
-    this.handlers.handleSubmit(validSb.title, validSb.filteredChoices)
+    this.handlers.handleSubmit(validSb.title, validSb.alias, validSb.filteredChoices)
     this.setState({
       adding: false,
       title: '',
+      alias: '',
       choices: [
         {
           title: '',
@@ -121,7 +130,7 @@ export class SbList extends Component {
     if (!this.props.sbs || this.props.sbs.length === 0) return
     const sortedSbs = this.props.sbs.sort(function (a, b) { return b.createdAt - a.createdAt })
     return sortedSbs.map((sb, idx) => (
-      <Link to={`/dashboard/snowballots/${sb.id}`} key={`sb-${sb.createdAt}`} className='snowballot-container'>
+      <Link to={`/dashboard/snowballots/${sb.alias}`} key={`sb-${sb.createdAt}`} className='snowballot-container'>
           <h4>{sb.title}</h4>
       </Link>
     ))

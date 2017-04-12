@@ -9,10 +9,11 @@ export var addSb = (sb) => {
   }
 }
 
-export var startAddSb = (title, choices) => {
+export var startAddSb = (title, alias, choices) => {
   return (dispatch, getState) => {
     var sb = {
       title,
+      alias,
       choices,
       createdAt: moment().unix()
     }
@@ -53,6 +54,14 @@ export var addSbs = (sbs) => {
   return {
     type: 'ADD_SBS',
     sbs
+  }
+}
+
+export var addVote = (sbId, choiceId) => {
+  return {
+    type: 'ADD_VOTE',
+    sbId,
+    choiceId
   }
 }
 
