@@ -2,15 +2,54 @@
 	font-weight: bold;
 }
 
+.back-button-container {
+	margin-bottom: 10px;
+	display: inline-block;
+	&:hover {
+		.back-arrow {
+			margin-right: 5px;
+		}
+	}
+}
+
+.back-arrow {
+	color: $light-blue;
+	margin-right: 15px;
+	transition: margin-right 0.3s ease-out;
+}
+
+.circle {
+	color: #666;
+	visibility: visible;
+  	opacity: 1;
+  	transition: visibility 0s, opacity 0.3s linear;
+}
+
+.circle-full {
+	visibility: hidden;
+  	opacity: 0;
+  	transition: visibility 0s, opacity 0.3s linear;
+	color: $light-blue;
+}
+
+.plus {
+	visibility: hidden;
+	opacity: 0;
+	color: $light-blue;
+	transition: visibility 0s, opacity 0.3s linear;
+}
+
 .box-header {
-    display: table; 
+    display: table;
+    color: #666;
     vertical-align: middle;
     margin-top: 10px;
-    border: 1px solid $light-blue;
+    border: 1px solid #eee;
     padding: 0.5rem;
     width: 100%;
     text-align: left;
     background-color: white;
+    overflow: hidden;
     .button {
 		margin-bottom: 0px !important;
 		margin-top: -2px !important;
@@ -18,13 +57,26 @@
     &:hover {
 		background-color: $light-blue-hover;
 		cursor: pointer;
+		.circle {
+			display: none;
+		}
+		.circle-full, .plus {
+			visibility: visible;
+  			opacity: 1;
+		}
+		.left-cell {
+			padding-right: 14px;
+		}
+		.vote-count {
+			margin-right: -10px;
+		}
 	}
 }
 
 .left-cell {
     display: table-cell;
     vertical-align: middle;
-    padding-right: 10px;
+    padding-right: 0px;
     width: 1px;
     white-space: nowrap;
 }
@@ -39,8 +91,9 @@
 	font-size: 1rem;
 	display: inline;
 	float: right;
-	margin-left: 2px;
 	display: inline-block;
 	padding-right: 10px;
 	padding-left: 10px;
+	margin-right: -45px;
+	transition: margin-right 0.3s linear;
 }

@@ -35,13 +35,14 @@ export class SbDetail extends Component {
           {sb.choices.map((choice, idx) =>
             <div key={choice.title + idx} className='box-header clearfix' onClick={() => this.vote(sb.id, choice.id)}>
               <div className='left-cell'>
-                <div className='button tiny' onClick={() => this.vote(sb.id, choice.id)}><FA name='arrow-up fa-3x' /></div>
+                <span className='circle'><FA name='circle-o' /></span>
+                <span className='circle-full'><FA name='check-circle' /></span>
               </div>
               <div className='right-cell'>
                 <li key={sb.id + choice.title + idx}>{choice.title}</li>
               </div>
               <div className='right-cell'>
-                <span className='vote-count'>{choice.votes} votes</span>
+                <span className='vote-count'>{choice.votes} votes<span className='plus'> + 1?</span></span>
               </div>
             </div>
           )}
@@ -53,9 +54,12 @@ export class SbDetail extends Component {
   render () {
     return (
       <div>
-        <Link to='/dashboard/snowballots'>Back to dashboard</Link>
-        <br />
-        <br />
+        <div>
+          <div className='back-button-container'>
+            <FA name='arrow-left' className='back-arrow' />
+            <Link to='/dashboard/snowballots'>Back to dashboard</Link>
+          </div>
+        </div>
         <div className='snowballots-section'>
           {this.renderSb()}
         </div>
