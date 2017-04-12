@@ -5,34 +5,41 @@ import * as redux from 'redux'
 import * as actions from '../actions'
 import { login, resetPassword } from '../firebase/auth'
 
-
-function setErrorMsg(error) {
+function setErrorMsg (error) {
   return {
     loginMessage: error
   }
 }
 
 export class Login extends Component {
-  state = { loginMessage: null }
-  handleSubmit = (e) => {
+  constructor (props) {
+    super(props)
+    this.state = {
+      loginMessage: null
+    }
+  }
+
+  handleSubmit (e) {
     e.preventDefault()
     login(this.email.value, this.pw.value)
-      .then(function(){
+      .then(function (){
         const user = firebase.auth().currentUser
         actions.login(user.uid)
       })
       .catch((error) => {
-          this.setState(setErrorMsg('Invalid username/password.'))
-        })
+        this.setState(setErrorMsg('Invalid username/password.'))
+      })
   }
-  resetPassword = () => {
+
+  resetPassword () {
     resetPassword(this.email.value)
       .then(() => this.setState(setErrorMsg(`Password reset email sent to ${this.email.value}.`)))
       .catch((error) => this.setState(setErrorMsg(`Email address not found.`)))
   }
+
   render () {
     return (
-      <div className="col-sm-6 col-sm-offset-3">
+      <div className='col-sm-6 col-sm-offset-3'>
         <h1> Login </h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">

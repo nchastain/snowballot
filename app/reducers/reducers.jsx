@@ -10,19 +10,12 @@ export const sbsReducer = (state = [], action) => {
         ...state,
         ...action.sbs
       ]
+    case 'UPDATE_SB':
+      return state.map((sb) => {
+        return sb.id === action.id ? action.updatedSb : sb
+      })
     case 'LOGOUT':
       return []
-    case 'ADD_VOTE':
-      return state.map((sb) => {
-        if (sb.id === action.sbId) {
-          sb.choices.map((choice) => {
-            if (choice.id === action.choiceId) {
-              choice.votes++
-            }
-          })
-        }
-        return sb
-      })
     default:
       return state
   }

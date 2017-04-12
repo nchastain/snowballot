@@ -17,8 +17,7 @@ export var startAddSb = (title, alias, choices) => {
       choices,
       createdAt: moment().unix()
     }
-    var uid = firebase.auth().currentUser.uid
-    var sbRef = firebaseRef.child(`users/${uid}/sbs`).push(sb)
+    var sbRef = firebaseRef.child(`publicSbs`).push(sb)
 
     return sbRef.then(() => {
       dispatch(addSb({
@@ -31,8 +30,7 @@ export var startAddSb = (title, alias, choices) => {
 
 export var startAddSbs = () => {
   return (dispatch, getState) => {
-    var uid = getState().auth.uid
-    var sbsRef = firebaseRef.child(`users/${uid}/sbs`)
+    var sbsRef = firebaseRef.child(`publicSbs`)
 
     return sbsRef.once('value').then((snapshot) => {
       var sbs = snapshot.val() || {}
@@ -57,11 +55,20 @@ export var addSbs = (sbs) => {
   }
 }
 
-export var addVote = (sbId, choiceId) => {
+export var startUpdateSb = (id, updatedSb) => {
+  return (dispatch, getState) => {
+    var sbRef = firebaseRef.child(`publicSbs/${id}`)
+    return sbRef.update(updatedSb).then(() => {
+      dispatch(updateSb(id, updatedSb))
+    })
+  }
+}
+
+export var updateSb = (id, updatedSb) => {
   return {
-    type: 'ADD_VOTE',
-    sbId,
-    choiceId
+    type: 'UPDATE_SB',
+    id,
+    updatedSb
   }
 }
 

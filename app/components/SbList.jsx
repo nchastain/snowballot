@@ -78,6 +78,7 @@ export class SbList extends Component {
           + create a new snowballot
         </button>
   }
+  
   handleSubmit (e) {
     e.preventDefault()
     const validSb = this.validateSb()

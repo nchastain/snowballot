@@ -6,11 +6,11 @@ import * as actions from 'actions'
 import Redux from 'redux'
 
 let createHandlers = function (dispatch) {
-  let vote = function (sbId, choiceId) {
-    dispatch(actions.addVote(sbId, choiceId))
+  let updateSb = function (id, updatedSb) {
+    dispatch(actions.startUpdateSb(id, updatedSb))
   }
   return {
-    vote
+    updateSb
   }
 }
 
@@ -20,9 +20,17 @@ export class SbDetail extends Component {
     this.handlers = createHandlers(this.props.dispatch)
   }
 
-  vote (sbId, choiceId) {
-    this.handlers.vote(sbId, choiceId)
-    console.log(sbId, choiceId)
+  vote (sb, choiceId) {
+    var updatedChoices = sb.choices.map((choice) => {
+      if (choice.id === choiceId) choice.votes++
+      return choice
+    })
+    var updatedSb = {
+      ...sb,
+      choices: updatedChoices
+    }
+    this.handlers.updateSb(sb.id, updatedSb)
+    console.log(sb.id, updatedSb)
   }
 
   renderSb () {
@@ -33,7 +41,7 @@ export class SbDetail extends Component {
         <h4 className='sb-title'>{sb.title}</h4>
         <ul className='sb-choices'>
           {sb.choices.map((choice, idx) =>
-            <div key={choice.title + idx} className='box-header clearfix' onClick={() => this.vote(sb.id, choice.id)}>
+            <div key={choice.title + idx} className='box-header clearfix' onClick={() => this.vote(sb, choice.id)}>
               <div className='left-cell'>
                 <span className='circle'><FA name='circle-o' /></span>
                 <span className='circle-full'><FA name='check-circle' /></span>
