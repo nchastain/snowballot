@@ -1,15 +1,37 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import * as actions from '../actions'
-import SbDetail from './SbDetail'
-import SbList from './SbList'
+import AddForm from './AddForm'
 
-const Dashboard = () => (
-  <Switch>
-    <Route exact path='/dashboard/snowballots' component={SbList} />
-    <Route path='/dashboard/snowballots/:id' component={SbDetail} />
-  </Switch>
-)
+export class Dashboard extends Component {
+  constructor (props) {
+    super(props)
+  }
 
-export default Dashboard
+  renderSbs () {
+    if (!this.props.sbs || this.props.sbs.length === 0) return
+    const mySbs = this.props.sbs.filter((sb) => {
+      return sb.creator === this.props.auth.uid
+    })
+    const sortedSbs = mySbs.sort(function (a, b) { return b.createdAt - a.createdAt })
+    return sortedSbs.map((sb, idx) => (
+      <Link to={`/sbs/${sb.alias}`} key={`sb-${sb.createdAt}`} className='snowballot-container'>
+        <h4>{sb.title}</h4>
+      </Link>
+    ))
+  }
+
+  render () {
+    return (
+      <div>
+        <div className='snowballots-section'>
+          {this.renderSbs()}
+        </div>
+        <AddForm />
+      </div>
+    )
+  }
+}
+
+export default connect(state=>state)(Dashboard)

@@ -1,6 +1,6 @@
 import moment from 'moment'
 import firebase from 'firebase'
-import {firebaseRef, githubProvider} from '.././firebase/constants.js'
+import {firebaseRef, githubProvider, firebaseAuth} from '.././firebase/constants.js'
 
 export var addSb = (sb) => {
   return {
@@ -15,7 +15,8 @@ export var startAddSb = (title, alias, choices) => {
       title,
       alias,
       choices,
-      createdAt: moment().unix()
+      createdAt: moment().unix(),
+      creator: getState().auth.uid
     }
     var sbRef = firebaseRef.child(`publicSbs`).push(sb)
 

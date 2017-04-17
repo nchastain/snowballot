@@ -9,10 +9,16 @@ import { BrowserRouter } from 'react-router-dom'
 
 let store = configure()
 
+let initialized = false
+
+if (!initialized) {
+  store.dispatch(actions.startAddSbs())
+  initialized = true
+}
+
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(actions.login(user.uid))
-    store.dispatch(actions.startAddSbs())
   } else {
     store.dispatch(actions.logout())
   }

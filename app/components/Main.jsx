@@ -4,6 +4,7 @@ import Login from './Login'
 import Register from './Register'
 import Home from './Home'
 import SbDetail from './SbDetail'
+import Discover from './Discover'
 import { firebaseAuth } from '../firebase/constants'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
@@ -24,7 +25,7 @@ function PublicRoute ({component: Component, authed, ...rest}) {
       {...rest}
       render={(props) => authed === false
         ? <Component {...props} />
-        : <Redirect to='/dashboard/snowballots' />}
+        : <Redirect to='/dashboard' />}
     />
   )
 }
@@ -65,9 +66,10 @@ class Main extends Component {
           <Route exact path='/' component={Home} />
           <PublicRoute authed={this.state.authed} path='/login' component={Login} />
           <PublicRoute authed={this.state.authed} path='/register' component={Register} />
-          <PrivateRoute exact authed={this.state.authed} path='/dashboard/snowballots' component={Dashboard} />
-          <Route path='/dashboard/snowballots/:alias' component={SbDetail} />
-          <Route render={() => <h3>No Match</h3>} />
+          <PrivateRoute exact authed={this.state.authed} path='/dashboard' component={Dashboard} />
+          <Route path='/discover' component={Discover} />
+          <Route path='/sbs/:alias' component={SbDetail} />
+          <Route render={() => <h3>404 - Page Not Found</h3>} />
         </Switch>
       </main>
     )

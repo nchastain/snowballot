@@ -4,6 +4,7 @@ import { logout } from '../firebase/auth'
 import * as actions from '../actions'
 import { connect } from 'react-redux'
 import Redux from 'redux'
+import AccountControl from './AccountControl'
 import { firebaseAuth } from '../firebase/constants'
 
 export class Navigation extends Component {
@@ -51,23 +52,9 @@ export class Navigation extends Component {
               <li>
                 <Link to='/' className='navbar-brand'>Home</Link>
               </li>
-              {this.state.authed && <li><Link to='/dashboard/snowballots' className='navbar-brand'>Dashboard</Link></li>}
+              <li><Link to='/discover' className='navbar-brand'>Discover</Link></li>
             </ul>
-            <ul className='right'>
-              {this.state.authed
-                ? <button
-                  style={{border: 'none', background: 'transparent'}}
-                  onClick={(evt) => {
-                    this.onLogout(evt)
-                    logout()
-                  }}
-                  className='navbar-brand right'>Logout</button>
-                : <span>
-                  <li className='right'><Link to='/login'>Login</Link></li>
-                  <li className='right'><Link to='/register'>Register</Link></li>
-                </span>
-              }
-            </ul>
+            <AccountControl authed={this.state.authed} />
           </section>
         </div>
       </div>

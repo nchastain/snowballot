@@ -23,6 +23,11 @@
 	visibility: visible;
   	opacity: 1;
   	transition: visibility 0s, opacity 0.3s linear;
+  	&.not-selected {
+  		visibility: hidden;
+  		opacity: 0;
+  		transition: none;
+  	}
 }
 
 .circle-full {
@@ -30,6 +35,11 @@
   	opacity: 0;
   	transition: visibility 0s, opacity 0.3s linear;
 	color: $light-blue;
+	&.selected {
+		visibility: visible;
+  		opacity: 1;
+  		transition: none;
+	}
 }
 
 .plus {
@@ -71,6 +81,22 @@
 			margin-right: -10px;
 		}
 	}
+}
+
+.box-header-voted {
+	display: table;
+    color: #666;
+    vertical-align: middle;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: left;
+    background-color: white;
+    overflow: hidden;
+    &.selected {
+    	background-color: $light-blue-hover;
+    }
 }
 
 .left-cell {

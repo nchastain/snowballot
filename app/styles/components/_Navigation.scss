@@ -7,6 +7,13 @@ ul {
 	.left {
 		float: left;
 	}
+	.logout-button {
+		margin-right: 10px;
+		cursor: pointer;
+		&:hover {
+			opacity: 0.8;
+		}
+	}
 }
 
 li {
