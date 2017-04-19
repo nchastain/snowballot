@@ -29,8 +29,8 @@ class AccountControl extends React.Component {
         <li><Link to='/dashboard' className='navbar-brand right'>Dashboard</Link></li>
       </ul>
     : <ul className='right'>
-        <li className='right' style={{paddingLeft: '1.5rem'}}><Link to='/login'>Login</Link></li>
-        <li className='right'><Link to='/register'>Register</Link></li>
+        <li className='right' activeClassName='active' style={{paddingLeft: '1.5rem'}}><Link to='/login'>Login</Link></li>
+        <li className='right'><Link to='/register' activeClassName='active' className='navbar-brand right'>Register</Link></li>
       </ul>
   }
 }

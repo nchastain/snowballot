@@ -46,16 +46,16 @@ export class Navigation extends Component {
   render () {
     return (
       <div className='top-bar' data-topbar={true} role='navigation'>
-        <a href="/">
+        <a href='/'>
           <img className='logo' src='.././assets/stylizeds.png' />
         </a>
         <div className='top-bar-section'>
           <section>
             <ul className='left'>
               <li>
-                <Link to='/' className='navbar-brand'>Home</Link>
+                <Link to='/' activeClassName='active' className='navbar-brand'>Home</Link>
               </li>
-              <li><Link to='/discover' className='navbar-brand'>Discover</Link></li>
+              <li><Link to='/discover' activeClassName='active' className='navbar-brand'>Discover</Link></li>
             </ul>
             <AccountControl authed={this.state.authed} />
           </section>

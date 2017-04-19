@@ -1,0 +1,29 @@
+input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
+	margin-left: 5px;
+}
+
+.newSbOptions {
+	background-color: $light-blue-hover;
+	padding: 0.5rem;
+	margin-bottom: 10px;
+	#expireCheckbox, #privateCheckbox {
+		margin-bottom: 0;
+	}
+	.option-section + .option-section {
+		margin-bottom: 10px;
+	}
+	.date-holder {
+		width: 50%;
+	}
+	.date-selector {
+		margin-top: 10px;
+	}
+	.options-header {
+		float: right;
+		display: block;
+		width: 100%;
+		color: $light-blue;
+		text-transform: uppercase;
+		font-size: 80%;
+	}
+}

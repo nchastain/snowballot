@@ -4,14 +4,25 @@ import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import * as actions from '.././actions'
 import Redux from 'redux'
+import DateTime from 'react-datetime'
 
 let createHandlers = function (dispatch) {
-  let handleSubmit = function (title, alias, isPrivate, choices) {
-    dispatch(actions.startAddSb(title, alias, isPrivate, choices))
+  let handleSubmit = function (options, choices) {
+    dispatch(actions.startAddSb(options, choices))
   }
   return {
     handleSubmit
   }
+}
+
+const initialState = {
+  title: '',
+  adding: false,
+  doesExpire: false,
+  choices: [
+    {title: '', votes: 0, id: 1},
+    {title: '', votes: 0, id: 2}
+  ]
 }
 
 class AddForm extends React.Component {
@@ -24,14 +35,7 @@ class AddForm extends React.Component {
     this.deleteChoice = this.deleteChoice.bind(this)
     this.checkTab = this.checkTab.bind(this)
     this.handlers = createHandlers(this.props.dispatch)
-    this.state = {
-      title: '',
-      adding: false,
-      choices: [
-        {title: '', votes: 0, id: 1},
-        {title: '', votes: 0, id: 2}
-      ]
-    }
+    this.state = initialState
   }
 
   validateSb () {
@@ -45,8 +49,15 @@ class AddForm extends React.Component {
       return choice.title.length > 0 && !duplicate
     })
     const isPrivate = this.refs.sbprivate.checked
+    const expires = this.state.expires || null
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
-    return {title, alias, isPrivate, filteredChoices}
+    const options = {
+      title: title,
+      alias: alias,
+      isPrivate: isPrivate,
+      expires: expires
+    }
+    return {options, filteredChoices}
   }
 
   renderChoices () {
@@ -77,25 +88,8 @@ class AddForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const validSb = this.validateSb()
-    this.handlers.handleSubmit(validSb.title, validSb.alias, validSb.isPrivate, validSb.filteredChoices)
-    this.setState({
-      adding: false,
-      isPrivate: false,
-      title: '',
-      alias: '',
-      choices: [
-        {
-          title: '',
-          votes: 0,
-          id: 1
-        },
-        {
-          title: '',
-          votes: 0,
-          id: 2
-        }
-      ]
-    })
+    this.handlers.handleSubmit(validSb.options, validSb.filteredChoices)
+    this.setState(initialState)
   }
 
   choiceUpdate (e) {
@@ -140,6 +134,43 @@ class AddForm extends React.Component {
     return this.state.adding
       ? <div className='newSnowballot-section'>
         <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
+          <div className='newSbOptions'>
+            <div className='options-header'>Options</div>
+            <span className='option-section'>
+              Make snowballot expire at a certain time?
+              <input
+                id='expireCheckbox'
+                ref='sbexpire'
+                type='checkbox'
+                value={this.state.doesExpire}
+                onChange={(e) => this.setState({doesExpire: e.target.checked})}
+              />
+              {this.state.doesExpire
+                ? <span className='date-selector'>
+                    <br />
+                    <div className='date-holder'>
+                      <DateTime
+                        inputProps={{placeholder: 'Enter a time for this snowballot to expire'}}
+                        value={this.state.expires || ''}
+                        onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
+                        closeOnSelect={true}
+                      />
+                    </div>
+                  </span>
+                : <br />}
+            </span>
+            <span className='option-section'>
+              Make private?
+              <input
+                id='privateCheckbox'
+                ref='sbprivate'
+                type='checkbox'
+                value={this.state.isPrivate}
+                onChange={(e) => this.setState({isPrivate: e.target.checked})}
+              />
+            </span>
+          </div>
+          <label>Enter title of new snowballot</label>
           <input
             ref='sbtitle'
             type='text'
@@ -147,20 +178,13 @@ class AddForm extends React.Component {
             placeholder='Enter title of new snowballot'
             onChange={(e) => this.setState({title: e.target.value})}
           />
+          <label>Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'</label>
           <input
             ref='sbalias'
             type='text'
             value={this.state.alias}
             placeholder='Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'
             onChange={(e) => this.setState({alias: e.target.value})}
-          />
-          Make private?
-          <input
-            id='privateCheckbox'
-            ref='sbprivate'
-            type='checkbox'
-            value={this.state.isPrivate}
-            onChange={(e) => this.setState({isPrivate: e.target.checked})}
           />
           {this.renderChoices()}
           <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>

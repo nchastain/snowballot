@@ -14,13 +14,15 @@ ul {
 	}
 }
 
-.top-bar-section {
-	display: inline-block;
-	width: calc(100% - #{$logo-size});
+.top-bar-section section {
+	display: inline;
+	overflow: auto;
+	width: auto;
 	padding-right: 10px;
 }
 
 .top-bar {
+	font-weight: bold;
 	background-color: #333333 !important;
 	color: white !important;
 	padding: 10px;
@@ -28,7 +30,7 @@ ul {
 		color: white;
 	}
 	a:hover, li:hover {
-		color: $light-blue;
+		color: $light-blue-hover;
 	}
 }
 
@@ -47,11 +49,21 @@ button {
 }
 
 .logo {
+	float: left;
 	display: inline;
 	width: $logo-size;
 	height: $logo-size;
+	transition: width 10s ease-in, height 10s ease-in, transform 10s ease-in;
+	transition-delay: 0.5s;
 	&:hover {
 		opacity: 0.8;
 		cursor: pointer;
+		width: $logo-size * 10;
+		height: $logo-size * 10;
+		transform: rotate(9000deg);
 	}
+}
+
+.active {
+	text-decoration: underline;
 }

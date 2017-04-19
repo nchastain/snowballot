@@ -1,5 +1,6 @@
 @import "base/variables";
 @import "base/fa/scss/font-awesome.scss";
+@import "./date-time.scss";
 
 /*foundation*/
 @import "base/foundation-settings";
@@ -13,8 +14,4 @@
 @import "components/SbDetail";
 @import "components/Main";
 @import "components/Discover";
-
-
-input[type='checkbox']#privateCheckbox {
-	margin-left: 5px;
-}
+@import "components/AddForm";

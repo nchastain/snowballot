@@ -16,30 +16,26 @@ export var addPrivateSb = (sb) => {
   }
 }
 
-export var startAddSb = (title, alias, isPrivate, choices) => {
+export var startAddSb = (options, choices) => {
   return (dispatch, getState) => {
     const sb = {
-      title,
-      alias,
-      isPrivate,
+      ...options,
       choices,
       createdAt: moment().unix(),
       creator: getState().auth.uid
     }
-
-    const sbStore = isPrivate ? `privateSbs/${sb.creator}` : `publicSbs`
+    const sbStore = sb.isPrivate ? `privateSbs/${sb.creator}` : `publicSbs`
     const sbRef = firebaseRef.child(sbStore).push(sb)
 
     return sbRef.then(() => {
-      isPrivate ? dispatch(addPrivateSb({...sb, id: sbRef.key})) : dispatch(addSb({...sb, id: sbRef.key}))
+      sb.isPrivate ? dispatch(addPrivateSb({...sb, id: sbRef.key})) : dispatch(addSb({...sb, id: sbRef.key}))
     })
   }
 }
 
-export var startAddPrivateSbs = () => {
+export var startAddPrivateSbs = (userId) => {
   return (dispatch, getState) => {
-    var privateSbsRef = firebaseRef.child(`privateSbs/${getState().auth.uid}`)
-
+    var privateSbsRef = firebaseRef.child(`privateSbs/${userId}`)
     return privateSbsRef.once('value').then((snapshot) => {
       var sbs = snapshot.val() || {}
       var parsedSbs = []

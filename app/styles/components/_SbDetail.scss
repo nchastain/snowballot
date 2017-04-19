@@ -60,6 +60,28 @@
     text-align: left;
     background-color: white;
     overflow: hidden;
+    &.static {
+    	&.box-header:hover {
+			cursor: initial;
+			background-color: white;
+
+			.circle {
+				display: initial;
+			}
+		
+			.circle-full, .plus {
+				visibility: hidden;
+  				opacity: 0;
+			}
+			.left-cell {
+				padding-right: initial;
+			}
+			.vote-count {
+				margin-right: -45px;
+			}
+    	}
+    }
+
     .button {
 		margin-bottom: 0px !important;
 		margin-top: -2px !important;
@@ -153,4 +175,17 @@
 	padding: 0.5rem;
 	color: $light-blue;
 	font-weight: bold;
+}
+
+.please-login-message {
+	background-color: $light-blue;
+	padding: 1rem;
+	color: $light-blue-hover;
+	.login-message-text {
+		margin-left: 10px;
+	}
+	a {
+		color: white;
+		text-decoration: underline;
+	}
 }
