@@ -47,7 +47,7 @@ export class Navigation extends Component {
     return (
       <div className='top-bar' data-topbar={true} role='navigation'>
         <a href="/">
-          <img className='logo' src='.././assets/intricatelogo.png' />
+          <img className='logo' src='.././assets/stylizeds.png' />
         </a>
         <div className='top-bar-section'>
           <section>
