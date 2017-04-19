@@ -89,6 +89,40 @@ export var clearPrivateSbs = () => {
   }
 }
 
+export var startUpdateUser = (sbId, choiceId) => {
+  return (dispatch, getState) => {
+    var votedSbRef = firebaseRef.child(`users/${getState().auth.uid}/votes/`)
+    return votedSbRef.update({[sbId]: choiceId}).then(() => {
+      dispatch(updateUser(sbId, choiceId))
+    })
+  }
+}
+
+export var startAddVotes = (userId) => {
+  return (dispatch, getState) => {
+    var userVotesRef = firebaseRef.child(`users/${userId}/votes`)
+    return userVotesRef.once('value').then((snapshot) => {
+      var votes = snapshot.val() || {}
+      dispatch(addVotes(votes))
+    })
+  }
+}
+
+export var addVotes = (votes) => {
+  return {
+    type: 'ADD_VOTES',
+    votes
+  }
+}
+
+export var updateUser = (sbId, choiceId) => {
+  return {
+    type: 'UPDATE_USER',
+    sbId,
+    choiceId
+  }
+}
+
 export var addSbs = (sbs) => {
   return {
     type: 'ADD_SBS',
@@ -96,9 +130,11 @@ export var addSbs = (sbs) => {
   }
 }
 
-export var startUpdateSb = (id, updatedSb) => {
+export var startUpdateSb = (id, choiceId, updatedSb) => {
   return (dispatch, getState) => {
     var sbRef = firebaseRef.child(`publicSbs/${id}`)
+    var userRef = firebaseRef.child(`users/${getState().auth.uid}`)
+    if (userRef) dispatch(startUpdateUser(id, choiceId))
     return sbRef.update(updatedSb).then(() => {
       dispatch(updateSb(id, updatedSb))
     })

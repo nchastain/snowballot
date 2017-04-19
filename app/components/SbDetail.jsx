@@ -6,8 +6,8 @@ import * as actions from '.././actions'
 import Redux from 'redux'
 
 let createHandlers = function (dispatch) {
-  let updateSb = function (id, updatedSb) {
-    dispatch(actions.startUpdateSb(id, updatedSb))
+  let updateSb = function (id, choiceId, updatedSb) {
+    dispatch(actions.startUpdateSb(id, choiceId, updatedSb))
   }
   return {
     updateSb
@@ -17,11 +17,33 @@ let createHandlers = function (dispatch) {
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
+    let matchedSb, matchedSbItem
+    let voted = false
+    let votedChoiceId = ''
+    if (props.sbs && props.sbs.length !== 0) {
+      matchedSb = props.sbs.filter((sb) => sb.alias === props.match.params.alias)
+      matchedSbItem = matchedSb[0]
+      voted = Boolean(props.auth.votes[matchedSbItem.id])
+      votedChoiceId = voted ? props.auth.votes[matchedSbItem.id] : ''
+    }
     this.state = {
-      voted: false,
-      votedChoiceId: ''
+      voted,
+      votedChoiceId
     }
     this.handlers = createHandlers(this.props.dispatch)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    let matchedSb, matchedSbItem
+    let voted = false
+    let votedChoiceId = ''
+    if (nextProps.sbs && nextProps.sbs.length !== 0 && nextProps.auth.votes && nextProps.auth.votes.length !== 0) {
+      matchedSb = nextProps.sbs.filter((sb) => sb.alias === nextProps.match.params.alias)
+      matchedSbItem = matchedSb[0]
+      voted = Boolean(nextProps.auth.votes[matchedSbItem.id])
+      votedChoiceId = voted ? nextProps.auth.votes[matchedSbItem.id] : ''
+    }
+    this.setState({voted, votedChoiceId})
   }
 
   vote (sb, choiceId) {
@@ -34,8 +56,7 @@ export class SbDetail extends Component {
       ...sb,
       choices: updatedChoices
     }
-    this.handlers.updateSb(sb.id, updatedSb)
-    console.log(sb.id, updatedSb)
+    this.handlers.updateSb(sb.id, choiceId, updatedSb)
   }
 
   renderSelectedChoice (choice) {

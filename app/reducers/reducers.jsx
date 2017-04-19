@@ -25,10 +25,24 @@ export var authReducer = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
       return {
+        ...state,
         uid: action.uid
+      }
+    case 'ADD_VOTES':
+      return {
+        ...state,
+        votes: {...state.votes, ...action.votes}
       }
     case 'LOGOUT':
       return {}
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        votes: {
+          ...state.votes,
+          [action.sbId]: action.choiceId
+        }
+      }
     default:
       return state
   }
