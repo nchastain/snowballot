@@ -1,5 +1,4 @@
 ul {
-	margin: 0;
 	display: inline;
 	.right {
 		float: right;
@@ -8,7 +7,6 @@ ul {
 		float: left;
 	}
 	.logout-button {
-		margin-right: 10px;
 		cursor: pointer;
 		&:hover {
 			opacity: 0.8;
@@ -16,14 +14,44 @@ ul {
 	}
 }
 
+.top-bar-section {
+	display: inline-block;
+	width: calc(100% - #{$logo-size});
+	padding-right: 10px;
+}
+
+.top-bar {
+	background-color: #333333 !important;
+	color: white !important;
+	padding: 10px;
+	a {
+		color: white;
+	}
+	a:hover, li:hover {
+		color: $light-blue;
+	}
+}
+
 li {
 	list-style-type: none;
 	display: inline;
-	padding-right: 1rem;
+	&+li, &+a {
+		padding-left: 1.5rem;
+	}
 }
 
 button {
 	.right {
 		float: right;
+	}
+}
+
+.logo {
+	display: inline;
+	width: $logo-size;
+	height: $logo-size;
+	&:hover {
+		opacity: 0.8;
+		cursor: pointer;
 	}
 }

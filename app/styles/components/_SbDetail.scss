@@ -123,3 +123,34 @@
 	margin-right: -45px;
 	transition: margin-right 0.3s linear;
 }
+
+.alert-container {
+	display: block;
+	float: right;
+	top: 50px;
+	text-align: center;
+	margin: 0 auto;
+	padding: 0.5rem;
+	/*transition: margin-right 0.3s linear;*/
+	.status-message {
+		margin-right: -100px;
+		visibility: hidden;
+		/*transition: margin-right 0.3s linear;*/
+	}
+	.status-message.voted {
+		margin-right: 0px;
+		visibility: visible;
+		transition: margin-right 0.3s ease, visibility 0.3s linear;
+	}
+}
+
+.status-message {
+	text-align: center;
+	margin: 0 auto;
+	visibility: hidden;
+	display: block;
+	background-color: $light-blue-hover;
+	padding: 0.5rem;
+	color: $light-blue;
+	font-weight: bold;
+}

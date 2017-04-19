@@ -140,6 +140,9 @@ export class SbDetail extends Component {
             <Link to='/discover'>Back to Discover</Link>
           </div>
         </div>
+        <div className='alert-container'>
+          <span className={this.state.voted ? 'status-message voted' : 'status-message'}>thank you for contributing to this snowballot!</span>
+        </div>
         <div className='snowballots-section'>
           {this.renderSb()}
         </div>

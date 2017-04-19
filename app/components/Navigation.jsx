@@ -46,8 +46,11 @@ export class Navigation extends Component {
   render () {
     return (
       <div className='top-bar' data-topbar={true} role='navigation'>
-        <div>
-          <section className='top-bar-section'>
+        <a href="/">
+          <img className='logo' src='../../assets/favicon.png' />
+        </a>
+        <div className='top-bar-section'>
+          <section>
             <ul className='left'>
               <li>
                 <Link to='/' className='navbar-brand'>Home</Link>

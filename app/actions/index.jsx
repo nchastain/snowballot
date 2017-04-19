@@ -9,23 +9,57 @@ export var addSb = (sb) => {
   }
 }
 
-export var startAddSb = (title, alias, choices) => {
+export var addPrivateSb = (sb) => {
+  return {
+    type: 'ADD_PRIVATE_SB',
+    sb
+  }
+}
+
+export var startAddSb = (title, alias, isPrivate, choices) => {
   return (dispatch, getState) => {
-    var sb = {
+    const sb = {
       title,
       alias,
+      isPrivate,
       choices,
       createdAt: moment().unix(),
       creator: getState().auth.uid
     }
-    var sbRef = firebaseRef.child(`publicSbs`).push(sb)
+
+    const sbStore = isPrivate ? `privateSbs/${sb.creator}` : `publicSbs`
+    const sbRef = firebaseRef.child(sbStore).push(sb)
 
     return sbRef.then(() => {
-      dispatch(addSb({
-        ...sb,
-        id: sbRef.key
-      }))
+      isPrivate ? dispatch(addPrivateSb({...sb, id: sbRef.key})) : dispatch(addSb({...sb, id: sbRef.key}))
     })
+  }
+}
+
+export var startAddPrivateSbs = () => {
+  return (dispatch, getState) => {
+    var privateSbsRef = firebaseRef.child(`privateSbs/${getState().auth.uid}`)
+
+    return privateSbsRef.once('value').then((snapshot) => {
+      var sbs = snapshot.val() || {}
+      var parsedSbs = []
+
+      Object.keys(sbs).forEach((sbId) => {
+        parsedSbs.push({
+          id: sbId,
+          ...sbs[sbId]
+        })
+      })
+
+      dispatch(addPrivateSbs(parsedSbs))
+    })
+  }
+}
+
+export var addPrivateSbs = (sbs) => {
+  return {
+    type: 'ADD_PRIVATE_SBS',
+    sbs
   }
 }
 
@@ -46,6 +80,12 @@ export var startAddSbs = () => {
 
       dispatch(addSbs(parsedSbs))
     })
+  }
+}
+
+export var clearPrivateSbs = () => {
+  return {
+    type: 'CLEAR_PRIVATE_SBS'
   }
 }
 
@@ -99,7 +139,8 @@ export var logout = () => {
 export var startLogout = () => {
   return (dispatch, getState) => {
     return firebase.auth().signOut().then(() => {
-      console.log('Logged out!')
+      dispatch(clearPrivateSbs())
+      dispatch(startAddSbs())
     })
   }
 }

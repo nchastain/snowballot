@@ -6,8 +6,8 @@ import * as actions from '.././actions'
 import Redux from 'redux'
 
 let createHandlers = function (dispatch) {
-  let handleSubmit = function (title, alias, choices) {
-    dispatch(actions.startAddSb(title, alias, choices))
+  let handleSubmit = function (title, alias, isPrivate, choices) {
+    dispatch(actions.startAddSb(title, alias, isPrivate, choices))
   }
   return {
     handleSubmit
@@ -44,10 +44,10 @@ class AddForm extends React.Component {
       dupesObj[choice.title.toLowerCase()] ? duplicate = true : dupesObj[choice.title.toLowerCase()] = choice
       return choice.title.length > 0 && !duplicate
     })
+    const isPrivate = this.refs.sbprivate.checked
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
-    return {title, alias, filteredChoices}
+    return {title, alias, isPrivate, filteredChoices}
   }
-
 
   renderChoices () {
     return this.state.choices.map((choice) => (
@@ -77,9 +77,10 @@ class AddForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const validSb = this.validateSb()
-    this.handlers.handleSubmit(validSb.title, validSb.alias, validSb.filteredChoices)
+    this.handlers.handleSubmit(validSb.title, validSb.alias, validSb.isPrivate, validSb.filteredChoices)
     this.setState({
       adding: false,
+      isPrivate: false,
       title: '',
       alias: '',
       choices: [
@@ -152,6 +153,14 @@ class AddForm extends React.Component {
             value={this.state.alias}
             placeholder='Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'
             onChange={(e) => this.setState({alias: e.target.value})}
+          />
+          Make private?
+          <input
+            id='privateCheckbox'
+            ref='sbprivate'
+            type='checkbox'
+            value={this.state.isPrivate}
+            onChange={(e) => this.setState({isPrivate: e.target.checked})}
           />
           {this.renderChoices()}
           <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>

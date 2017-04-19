@@ -19,17 +19,17 @@ class AccountControl extends React.Component {
   render () {
     return this.props.authed
     ? <ul className='right'>
-        <li><Link to='/dashboard' className='navbar-brand right'>Dashboard</Link></li>
         <li
-        style={{border: 'none', background: 'transparent'}}
+        style={{border: 'none', background: 'transparent', 'padding-left': '1.5rem'}}
         onClick={(evt) => {
           this.onLogout(evt)
           logout()
         }}
         className='navbar-brand right logout-button'>Logout</li>
+        <li><Link to='/dashboard' className='navbar-brand right'>Dashboard</Link></li>
       </ul>
     : <ul className='right'>
-        <li className='right'><Link to='/login'>Login</Link></li>
+        <li className='right' style={{'padding-left': '1.5rem'}}><Link to='/login'>Login</Link></li>
         <li className='right'><Link to='/register'>Register</Link></li>
       </ul>
   }
