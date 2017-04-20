@@ -16,7 +16,6 @@ class Discover extends React.Component {
   render () {
     return (
       <div>
-        <h1>Discover Page</h1>
         {this.renderSbs()}
       </div>
     )

@@ -2,28 +2,87 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 	margin-left: 5px;
 }
 
-.newSbOptions {
+.newSbSection {
 	background-color: $light-blue-hover;
 	padding: 0.5rem;
 	margin-bottom: 10px;
-	#expireCheckbox, #privateCheckbox {
-		margin-bottom: 0;
-	}
-	.option-section + .option-section {
-		margin-bottom: 10px;
-	}
-	.date-holder {
-		width: 50%;
-	}
-	.date-selector {
-		margin-top: 10px;
-	}
-	.options-header {
+	.header {
 		float: right;
 		display: block;
 		width: 100%;
 		color: $light-blue;
 		text-transform: uppercase;
 		font-size: 80%;
+		margin-bottom: 10px;
 	}
+}
+
+.newSnowballot-section {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 1rem;
+	background-color: white;
+	#addchoice, #newSnowballot {
+		margin-bottom: 0;
+	}
+	input {
+		border: 0px;
+		border-left: 5px solid $light-blue;
+		box-shadow: none;
+		&:hover {
+			border: 1px solid $light-blue;
+			border-left: 5px solid $light-blue;
+		}
+	}
+}
+
+.newSbChoices {
+	input {
+		border: 0px;
+		box-shadow: none;
+		margin-top: 0;
+	}
+	.choice-container {
+		margin-bottom: 10px;
+	}
+}
+
+.newSbOptions {
+	.fa, .fa-2x {
+		color: white;
+	}
+	#expireCheckbox, #privateCheckbox {
+		margin-bottom: 0;
+	}
+	.option-section {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		display: block;
+	}
+	.date-holder {
+		width: 50%;
+		margin-top: 10px;
+	}
+	.date-selector {
+		margin-top: 10px;
+	}
+}
+
+#newSnowballot {
+	display: block;
+	margin-top: 1rem;
+	margin-bottom: 0;
+}
+
+#submitSnowballot {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 0;
+}
+
+#addchoice {
+	margin-top: 0;
+	display: inline-block;
+	background-color: white;
+	color: $light-blue;
 }

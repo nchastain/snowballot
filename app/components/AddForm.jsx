@@ -134,10 +134,24 @@ class AddForm extends React.Component {
     return this.state.adding
       ? <div className='newSnowballot-section'>
         <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
-          <div className='newSbOptions'>
-            <div className='options-header'>Options</div>
+          <input
+            ref='sbtitle'
+            type='text'
+            value={this.state.title}
+            placeholder='Enter title of new snowballot'
+            onChange={(e) => this.setState({title: e.target.value})}
+          />
+          <input
+            ref='sbalias'
+            type='text'
+            value={this.state.alias}
+            placeholder='Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'
+            onChange={(e) => this.setState({alias: e.target.value})}
+          />
+          <div className='newSbOptions newSbSection'>
+            <div className='header'>Options</div>
             <span className='option-section'>
-              Make snowballot expire at a certain time?
+              <FA name='calendar-times-o' className='fa-2x fa-fw' /> Make snowballot expire at a certain time?
               <input
                 id='expireCheckbox'
                 ref='sbexpire'
@@ -160,7 +174,7 @@ class AddForm extends React.Component {
                 : <br />}
             </span>
             <span className='option-section'>
-              Make private?
+              <FA name='eye-slash' className='fa-2x fa-fw' /> Make snowballot private?
               <input
                 id='privateCheckbox'
                 ref='sbprivate'
@@ -170,25 +184,12 @@ class AddForm extends React.Component {
               />
             </span>
           </div>
-          <label>Enter title of new snowballot</label>
-          <input
-            ref='sbtitle'
-            type='text'
-            value={this.state.title}
-            placeholder='Enter title of new snowballot'
-            onChange={(e) => this.setState({title: e.target.value})}
-          />
-          <label>Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'</label>
-          <input
-            ref='sbalias'
-            type='text'
-            value={this.state.alias}
-            placeholder='Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'
-            onChange={(e) => this.setState({alias: e.target.value})}
-          />
-          {this.renderChoices()}
-          <div id='addchoice' className='button secondary' onClick={this.addChoice}>+ add choice</div>
-          <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}>+ create snowballot</div>
+          <div className='newSbSection newSbChoices'>
+            <div className='header'>Choices</div>
+            {this.renderChoices()}
+            <div id='addchoice' className='button secondary' onClick={this.addChoice}><FA name='plus' className='fa fa-fw' /> add choice</div>
+          </div>
+          <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
         </form>
       </div>
       : <button
@@ -196,7 +197,7 @@ class AddForm extends React.Component {
           className='button primary expanded'
           onClick={() => this.setState({ adding: true })}
         >
-          + create a new snowballot
+          <FA className='fa fa-fw' name='plus' /> create a new snowballot
         </button>
   }
 }
