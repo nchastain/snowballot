@@ -2,11 +2,10 @@ import firebase from 'firebase'
 
 try {
   const config = {
-    apiKey: 'AIzaSyAHjeL0K9HzKAswXoTnqNOCGxV-D-Di2fU',
-    authDomain: 'snowballot-2e903.firebaseapp.com',
-    databaseURL: 'https://snowballot-2e903.firebaseio.com',
-    storageBucket: 'snowballot-2e903.appspot.com',
-    messagingSenderId: '48491209280'
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET
   }
 
   firebase.initializeApp(config)

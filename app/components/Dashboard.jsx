@@ -14,9 +14,6 @@ export class Dashboard extends Component {
     let mySbs = this.props.sbs.filter((sb) => {
       return sb.creator === this.props.auth.uid
     })
-    if (this.props.privateSbs && this.props.sbs.length !== 0) {
-      mySbs = [...mySbs, ...this.props.privateSbs]
-    }
     const sortedSbs = mySbs.sort(function (a, b) { return b.createdAt - a.createdAt })
     return sortedSbs.map((sb, idx) => (
       <Link to={`/sbs/${sb.alias}`} key={`sb-${sb.createdAt}`} className='snowballot-container'>

@@ -17,15 +17,13 @@ let createHandlers = function (dispatch) {
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    let matchedSbItem, potentialPublic, potentialPrivate
+    let matchedSb
     let voted = false
     let votedChoiceId = ''
     if (props.sbs && props.sbs.length !== 0) {
-      potentialPublic = props.sbs.filter((sb) => sb.alias === props.match.params.alias)
-      potentialPrivate = props.privateSbs.filter((sb) => sb.alias === props.match.params.alias)
-      matchedSbItem = [...potentialPublic, ...potentialPrivate][0]
-      if (Object.keys(props.auth).length > 0) voted = Boolean(props.auth.votes[matchedSbItem.id])
-      votedChoiceId = voted ? props.auth.votes[matchedSbItem.id] : ''
+      matchedSb = props.sbs.filter((sb) => sb.alias === props.match.params.alias)[0]
+      if (Object.keys(props.auth).length > 0) voted = Boolean(props.auth.votes[matchedSb.id])
+      votedChoiceId = voted ? props.auth.votes[matchedSb.id] : ''
     }
     this.state = {
       voted,
@@ -35,15 +33,13 @@ export class SbDetail extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    let matchedSbItem, potentialPublic, potentialPrivate
+    let matchedSb
     let voted = false
     let votedChoiceId = ''
     if (nextProps.sbs && nextProps.sbs.length !== 0 && nextProps.auth.votes && nextProps.auth.votes.length !== 0) {
-      potentialPublic = nextProps.sbs.filter((sb) => sb.alias === nextProps.match.params.alias)
-      potentialPrivate = nextProps.privateSbs.filter((sb) => sb.alias === nextProps.match.params.alias)
-      matchedSbItem = [...potentialPublic, ...potentialPrivate][0]
-      if (Object.keys(nextProps.auth).length > 0) voted = Boolean(nextProps.auth.votes[matchedSbItem.id])
-      votedChoiceId = voted ? nextProps.auth.votes[matchedSbItem.id] : ''
+      matchedSb = nextProps.sbs.filter((sb) => sb.alias === nextProps.match.params.alias)[0]
+      if (Object.keys(nextProps.auth).length > 0) voted = Boolean(nextProps.auth.votes[matchedSb.id])
+      votedChoiceId = voted ? nextProps.auth.votes[matchedSb.id] : ''
     }
     this.setState({voted, votedChoiceId})
   }
@@ -90,9 +86,7 @@ export class SbDetail extends Component {
   }
 
   renderVotedSb () {
-    const potentialPublic = this.props.sbs.filter((sb) => sb.alias === this.props.match.params.alias)
-    const oneToFilter = potentialPublic.length > 0 ? 'sbs' : 'privateSbs'
-    const matchedSb = this.props[oneToFilter].filter((sb) => sb.alias === this.props.match.params.alias)
+    const matchedSb = this.props.sbs.filter((sb) => sb.alias === this.props.match.params.alias)[0]
     return matchedSb.map((sb, idx) => (
       <div key={sb.id}>
         <h4 className='sb-title'>{sb.title}</h4>
@@ -130,11 +124,9 @@ export class SbDetail extends Component {
 
   renderSb () {
     if (!this.props.sbs || this.props.sbs.length === 0) return
-    const potentialPublic = this.props.sbs.filter((sb) => sb.alias === this.props.match.params.alias)
-    const oneToFilter = potentialPublic.length > 0 ? 'sbs' : 'privateSbs'
-    const matchedSb = this.props[oneToFilter].filter((sb) => sb.alias === this.props.match.params.alias)
-    return this.state.voted ? this.renderVotedSb() : matchedSb.map((sb, idx) => (
-      <div key={sb.id}>
+    const sb = this.props.sbs.filter((sb) => sb.alias === this.props.match.params.alias)[0]
+    return this.state.voted ? this.renderVotedSb() : (
+      <div>
         <h4 className='sb-title'>{sb.title}</h4>
         <ul className='sb-choices'>
           {sb.choices.map((choice, idx) =>
@@ -165,7 +157,7 @@ export class SbDetail extends Component {
           )}
         </ul>
       </div>
-    ))
+    )
   }
 
   render () {

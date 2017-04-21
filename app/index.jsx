@@ -19,7 +19,6 @@ if (!initialized) {
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(actions.login(user.uid))
-    store.dispatch(actions.startAddPrivateSbs(user.uid))
     store.dispatch(actions.startAddVotes(user.uid))
   } else {
     store.dispatch(actions.logout())

@@ -9,13 +9,6 @@ export var addSb = (sb) => {
   }
 }
 
-export var addPrivateSb = (sb) => {
-  return {
-    type: 'ADD_PRIVATE_SB',
-    sb
-  }
-}
-
 export var startAddSb = (options, choices) => {
   return (dispatch, getState) => {
     const sb = {
@@ -24,44 +17,17 @@ export var startAddSb = (options, choices) => {
       createdAt: moment().unix(),
       creator: getState().auth.uid
     }
-    const sbStore = sb.isPrivate ? `privateSbs/${sb.creator}` : `publicSbs`
-    const sbRef = firebaseRef.child(sbStore).push(sb)
+    const sbRef = firebaseRef.child(`sbs`).push(sb)
 
     return sbRef.then(() => {
-      sb.isPrivate ? dispatch(addPrivateSb({...sb, id: sbRef.key})) : dispatch(addSb({...sb, id: sbRef.key}))
+      dispatch(addSb({...sb, id: sbRef.key}))
     })
-  }
-}
-
-export var startAddPrivateSbs = (userId) => {
-  return (dispatch, getState) => {
-    var privateSbsRef = firebaseRef.child(`privateSbs/${userId}`)
-    return privateSbsRef.once('value').then((snapshot) => {
-      var sbs = snapshot.val() || {}
-      var parsedSbs = []
-
-      Object.keys(sbs).forEach((sbId) => {
-        parsedSbs.push({
-          id: sbId,
-          ...sbs[sbId]
-        })
-      })
-
-      dispatch(addPrivateSbs(parsedSbs))
-    })
-  }
-}
-
-export var addPrivateSbs = (sbs) => {
-  return {
-    type: 'ADD_PRIVATE_SBS',
-    sbs
   }
 }
 
 export var startAddSbs = () => {
   return (dispatch, getState) => {
-    var sbsRef = firebaseRef.child(`publicSbs`)
+    var sbsRef = firebaseRef.child(`sbs`)
 
     return sbsRef.once('value').then((snapshot) => {
       var sbs = snapshot.val() || {}
@@ -76,12 +42,6 @@ export var startAddSbs = () => {
 
       dispatch(addSbs(parsedSbs))
     })
-  }
-}
-
-export var clearPrivateSbs = () => {
-  return {
-    type: 'CLEAR_PRIVATE_SBS'
   }
 }
 
@@ -128,7 +88,7 @@ export var addSbs = (sbs) => {
 
 export var startUpdateSb = (id, choiceId, updatedSb) => {
   return (dispatch, getState) => {
-    var sbRef = firebaseRef.child(`publicSbs/${id}`)
+    var sbRef = firebaseRef.child(`sbs/${id}`)
     var userRef = firebaseRef.child(`users/${getState().auth.uid}`)
     if (userRef) dispatch(startUpdateUser(id, choiceId))
     return sbRef.update(updatedSb).then(() => {
@@ -171,7 +131,6 @@ export var logout = () => {
 export var startLogout = () => {
   return (dispatch, getState) => {
     return firebase.auth().signOut().then(() => {
-      dispatch(clearPrivateSbs())
       dispatch(startAddSbs())
     })
   }

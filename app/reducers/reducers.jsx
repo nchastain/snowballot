@@ -47,22 +47,3 @@ export var authReducer = (state = {}, action) => {
       return state
   }
 }
-
-export var privateSbsReducer = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_PRIVATE_SB':
-      return [
-        ...state,
-        action.sb
-      ]
-    case 'ADD_PRIVATE_SBS':
-      return [
-        ...state,
-        ...action.sbs
-      ]
-    case 'CLEAR_PRIVATE_SBS':
-      return []
-    default:
-      return state
-  }
-}
