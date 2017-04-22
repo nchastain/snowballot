@@ -22,12 +22,19 @@ export class Dashboard extends Component {
     this.handlers.findUserSbs(this.props.user.uid)
   }
 
+  getVoteSum (choices) {
+    let voteTotal = 0
+    choices.forEach(function (choice) { voteTotal += choice.votes })
+    return voteTotal
+  }
+
   renderSbs () {
     if (!this.props.user.sbs || Object.keys(this.props.user.sbs).length === 0) return
     const sortedSbs = this.props.user.sbs.sort(function (a, b) { return b.createdAt - a.createdAt })
     return sortedSbs.map((sb, idx) => (
       <Link to={`/sbs/${sb.alias}`} key={`sb-${sb.createdAt}`} className='snowballot-container'>
-        <h4>{sb.title}</h4>
+        <h5>{sb.title}</h5>
+        <span className='vote-total'><span className='number'>{this.getVoteSum(sb.choices)}</span> votes</span>
       </Link>
     ))
   }

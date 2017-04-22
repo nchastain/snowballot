@@ -4,7 +4,7 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 
 .newSbSection {
 	text-align: left;
-	background-color: $light-blue-hover;
+	background-color: #eee;
 	padding: 0.5rem;
 	margin-bottom: 10px;
 	.header {
@@ -16,6 +16,19 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 		font-size: 80%;
 		margin-bottom: 10px;
 	}
+}
+
+.custom-url, .expire-section {
+	input {
+		width: 35%;
+		display: inline-block;
+		margin-left: 10px;
+		margin-bottom: 0;
+	}
+}
+
+.expire-section {
+	width: 100%;
 }
 
 .newSnowballot-section {
@@ -30,14 +43,22 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 		border: 0px;
 		border-left: 5px solid $light-blue;
 		box-shadow: none;
-		&:hover {
-			border: 1px solid $light-blue;
-			border-left: 5px solid $light-blue;
-		}
 	}
 }
 
 .newSbChoices {
+	.delete-choice-button {
+		display: none;
+		opacity: 0;
+	}	
+	.choice-container {
+		&:hover {
+			.delete-choice-button {
+				opacity: 1;
+				display: table-cell;
+			}
+		}
+	}
 	input {
 		border: 0px;
 		box-shadow: none;
@@ -61,11 +82,13 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 		display: block;
 	}
 	.date-holder {
-		width: 50%;
 		margin-top: 10px;
+		display: inline-block;
 	}
 	.date-selector {
 		margin-top: 10px;
+		display: inline-block;
+		width: 50%;
 	}
 }
 

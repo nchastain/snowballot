@@ -148,7 +148,7 @@ class AddForm extends React.Component {
         />
         <div className='newSbOptions newSbSection'>
           <div className='header'>Options</div>
-          <span className='option-section'>
+          <span className='option-section expire-section'>
             <FA name='calendar-times-o' className='fa-2x fa-fw' /> Make snowballot expire at a certain time?
             <input
               id='expireCheckbox'
@@ -161,7 +161,7 @@ class AddForm extends React.Component {
                   <br />
                   <div className='date-holder'>
                     <DateTime
-                      inputProps={{placeholder: 'Enter a time for this snowballot to expire'}}
+                      inputProps={{placeholder: 'Enter an expiration date'}}
                       value={this.state.expires || ''}
                       onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
                       closeOnSelect={true}
@@ -182,13 +182,17 @@ class AddForm extends React.Component {
 
           <span className='option-section'>
             { !this.state.isPrivate
-            ? <input
-                type='text'
-                value={this.state.alias}
-                placeholder='For public snowballots, enter custom URL of new snowballot - ex. snowballot.com/foo'
-                onChange={(e) => this.setState({alias: e.target.value})}
-              />
-            : null
+            ? <span className='custom-url'>
+                <FA name='snowflake-o' className='fa-2x fa-fw' /><span> Custom URL&#58; snowballot.com&#47;sbs&#47;</span>
+                <input
+                  type='text'
+                  value={this.state.alias}
+                  onChange={(e) => this.setState({alias: e.target.value})}
+                />
+              </span>
+            : <span className='custom-url' style={{opacity: '0.5'}} >
+                <FA name='snowflake-o' className='fa-2x fa-fw' /><span className='private-hex-text'>(Sorry, custom URLs unavailable for private snowballots)</span>
+              </span>
             }
           </span>
         </div>
