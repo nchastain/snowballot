@@ -1,23 +1,29 @@
 .snowballot-square-text {
-	position: relative;
 	text-align: center;
-	overflow: hidden;
+	position: absolute;
 	top: 50%;
+	text-align: left;
 	transform: translateY(-50%);
+	overflow: hidden;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 1rem;
 }
 
 .discover-snowballot-container {
 	display: inline-block;
-	width: 200px;
-	height: 200px;
+	width: calc(25% - 1.25rem);
+	height: 22vw;
 	padding: 1rem;
+	padding-bottom: 16.67%;
+	overflow: hidden;
 	margin: 10px;
+	position: relative;
+	margin-left: 0 auto;
+	margin-right: 0 auto;
 	border: 1px solid $light-blue;
-	background-color: white;
+	background-color: $light-blue-hover;
 	&:hover {
-		background-color: $light-blue-hover;
+		opacity: 0.8;
 	}
 }
+ 

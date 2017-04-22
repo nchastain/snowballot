@@ -9,73 +9,25 @@ export var addSb = (sb) => {
   }
 }
 
-export var startAddSb = (options, choices) => {
-  return (dispatch, getState) => {
-    const sb = {
-      ...options,
-      choices,
-      createdAt: moment().unix(),
-      creator: getState().auth.uid
-    }
-    const sbRef = firebaseRef.child(`sbs`).push(sb)
-
-    return sbRef.then(() => {
-      dispatch(addSb({...sb, id: sbRef.key}))
-    })
-  }
-}
-
-export var startAddSbs = () => {
-  return (dispatch, getState) => {
-    var sbsRef = firebaseRef.child(`sbs`)
-
-    return sbsRef.once('value').then((snapshot) => {
-      var sbs = snapshot.val() || {}
-      var parsedSbs = []
-
-      Object.keys(sbs).forEach((sbId) => {
-        parsedSbs.push({
-          id: sbId,
-          ...sbs[sbId]
-        })
-      })
-
-      dispatch(addSbs(parsedSbs))
-    })
-  }
-}
-
-export var startUpdateUser = (sbId, choiceId) => {
-  return (dispatch, getState) => {
-    var votedSbRef = firebaseRef.child(`users/${getState().auth.uid}/votes/`)
-    return votedSbRef.update({[sbId]: choiceId}).then(() => {
-      dispatch(updateUser(sbId, choiceId))
-    })
-  }
-}
-
-export var startAddVotes = (userId) => {
-  return (dispatch, getState) => {
-    var userVotesRef = firebaseRef.child(`users/${userId}/votes`)
-    return userVotesRef.once('value').then((snapshot) => {
-      var votes = snapshot.val() || {}
-      dispatch(addVotes(votes))
-    })
-  }
-}
-
-export var addVotes = (votes) => {
+export var showSb = (sb) => {
   return {
-    type: 'ADD_VOTES',
-    votes
+    type: 'SHOW_SB',
+    sb
   }
 }
 
-export var updateUser = (sbId, choiceId) => {
+export var showVote = (voted, choice) => {
   return {
-    type: 'UPDATE_USER',
-    sbId,
-    choiceId
+    type: 'SHOW_VOTE',
+    voted,
+    choice
+  }
+}
+
+export var showUserSbs = (sbs) => {
+  return {
+    type: 'SHOW_USER_SBS',
+    sbs
   }
 }
 
@@ -83,17 +35,6 @@ export var addSbs = (sbs) => {
   return {
     type: 'ADD_SBS',
     sbs
-  }
-}
-
-export var startUpdateSb = (id, choiceId, updatedSb) => {
-  return (dispatch, getState) => {
-    var sbRef = firebaseRef.child(`sbs/${id}`)
-    var userRef = firebaseRef.child(`users/${getState().auth.uid}`)
-    if (userRef) dispatch(startUpdateUser(id, choiceId))
-    return sbRef.update(updatedSb).then(() => {
-      dispatch(updateSb(id, updatedSb))
-    })
   }
 }
 
@@ -112,26 +53,106 @@ export var login = (uid) => {
   }
 }
 
-export var startLogin = () => {
-  return (dispatch, getState) => {
-    firebase.auth().signInWithPopup(githubProvider).then((result) => {
-      console.log('Auth worked!', result)
-    }, (error) => {
-      console.log('Unable to auth', error)
-    })
-  }
-}
-
 export var logout = () => {
   return {
     type: 'LOGOUT'
   }
 }
 
-export var startLogout = () => {
+export var findSb = (sbAlias) => {
   return (dispatch, getState) => {
-    return firebase.auth().signOut().then(() => {
-      dispatch(startAddSbs())
+    var sbRef = firebaseRef.child(`sbs`).orderByChild('alias').equalTo(sbAlias)
+
+    return sbRef.once('value').then((snapshot) => {
+      var sb = snapshot.val() || {} // sb is an object with a single key whose value is the object we want
+      var realSb = sb[Object.keys(sb)[0]]
+      var parsedSb = Object.assign({}, realSb, {id: Object.keys(sb)[0]}) // Firebase keys snowballots on IDs, but we want the ID in the object itself
+      dispatch(showSb(parsedSb))
+      dispatch(findVote(parsedSb.id))
+    })
+  }
+}
+
+export var findVote = (sbId) => {
+  return (dispatch, getState) => {
+    var votingRef = firebaseRef.child(`users/${getState().user.uid}/votes/${sbId}`)
+
+    return votingRef.once('value').then((snapshot) => {
+      var voted = Boolean(snapshot.val())
+      var choice = snapshot.val()
+      dispatch(showVote(voted, choice))
+    })
+  }
+}
+
+export var findPublicSbs = () => {
+  return (dispatch, getState) => {
+    var publicSbsRef = firebaseRef.child(`sbs`).orderByChild('isPrivate').equalTo(false)
+
+    return publicSbsRef.once('value').then((snapshot) => {
+      var sbs = snapshot.val() || {}
+      var parsedSbs = []
+
+      Object.keys(sbs).forEach((sbId) => {
+        parsedSbs.push({
+          id: sbId,
+          ...sbs[sbId]
+        })
+      })
+      dispatch(addSbs(parsedSbs))
+    })
+  }
+}
+
+export var findUserSbs = (userId) => {
+  return (dispatch, getState) => {
+    var userSbsRef = firebaseRef.child(`sbs`).orderByChild('creator').equalTo(userId)
+
+    return userSbsRef.once('value').then((snapshot) => {
+      var sbs = snapshot.val() || {}
+      var parsedSbs = []
+
+      Object.keys(sbs).forEach((sbId) => {
+        parsedSbs.push({
+          id: sbId,
+          ...sbs[sbId]
+        })
+      })
+      dispatch(showUserSbs(parsedSbs))
+    })
+  }
+}
+
+export var startAddSb = (options, choices) => {
+  return (dispatch, getState) => {
+    const sb = {
+      ...options,
+      choices,
+      createdAt: moment().unix(),
+      creator: getState().user.uid
+    }
+    const sbRef = firebaseRef.child(`sbs`).push(sb)
+
+    return sbRef.then(() => {
+      dispatch(addSb({...sb, id: sbRef.key}))
+    })
+  }
+}
+
+export var startUpdateUser = (sbId, choiceId, fresh) => {
+  return (dispatch, getState) => {
+    var votedSbRef = firebaseRef.child(`users/${getState().user.uid}/votes/`)
+    return fresh ? votedSbRef.update({[sbId]: choiceId}) : votedSbRef.child(`${sbId}`).remove()
+  }
+}
+
+export var startUpdateSb = (id, choiceId, updatedSb, fresh) => {
+  return (dispatch, getState) => {
+    var sbRef = firebaseRef.child(`sbs/${id}`)
+    var userRef = firebaseRef.child(`users/${getState().user.uid}`)
+    if (userRef) dispatch(startUpdateUser(id, choiceId, fresh))
+    return sbRef.update(updatedSb).then(() => {
+      dispatch(updateSb(id, updatedSb))
     })
   }
 }

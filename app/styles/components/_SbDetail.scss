@@ -1,3 +1,19 @@
+.snowballots-section {
+	text-align: left;
+	background-color: $light-grey;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	li {
+		display: block;
+	}
+	h4 {
+		margin-bottom: 0;
+		color: $light-blue;
+	}
+}
+
 .sb-title {
 	font-weight: bold;
 }
@@ -50,6 +66,7 @@
 }
 
 .box-header {
+	text-align: left;
     display: table;
     color: #666;
     vertical-align: middle;
@@ -77,7 +94,7 @@
 				padding-right: initial;
 			}
 			.vote-count {
-				margin-right: -45px;
+				margin-right: -35px;
 			}
     	}
     }
@@ -107,6 +124,7 @@
 
 .box-header-voted {
 	display: table;
+	text-align: left;
     color: #666;
     vertical-align: middle;
     margin-top: 10px;
@@ -119,6 +137,28 @@
     &.selected {
     	background-color: $light-blue-hover;
     }
+    &:hover {
+    	cursor: pointer;
+		background-color: $light-blue-hover;
+		.vote-count {
+			margin-right: 0px;
+		}
+		.plus {
+			visibility: visible;
+			opacity: 1;
+    	}
+	}
+	&.selected:hover {
+		background-color: white;
+		&.vote-count {
+			margin-right: -35px;
+		}
+		.plus {
+			visibility: visible;
+			opacity: 1;
+			color: red;
+    	}
+	}
 }
 
 .left-cell {
@@ -142,7 +182,7 @@
 	display: inline-block;
 	padding-right: 10px;
 	padding-left: 10px;
-	margin-right: -45px;
+	margin-right: -35px;
 	transition: margin-right 0.3s linear;
 }
 
@@ -176,11 +216,11 @@
 	font-weight: bold;
 }
 
-.please-login-message {
+.please-login-message, .creator-message {
 	background-color: $light-blue;
 	padding: 1rem;
 	color: $light-blue-hover;
-	.login-message-text {
+	.login-message-text, .creator-message-text {
 		margin-left: 10px;
 	}
 	a {

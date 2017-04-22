@@ -5,6 +5,7 @@ import FA from 'react-fontawesome'
 import * as actions from '.././actions'
 import Redux from 'redux'
 import DateTime from 'react-datetime'
+import uuid from 'uuid'
 
 let createHandlers = function (dispatch) {
   let handleSubmit = function (options, choices) {
@@ -17,8 +18,9 @@ let createHandlers = function (dispatch) {
 
 const initialState = {
   title: '',
-  adding: false,
+  alias: '',
   doesExpire: false,
+  isPrivate: false,
   choices: [
     {title: '', votes: 0, id: 1},
     {title: '', votes: 0, id: 2}
@@ -39,16 +41,18 @@ class AddForm extends React.Component {
   }
 
   validateSb () {
-    const title = this.refs.sbtitle.value
-    if (title.length === 0) throw new Error('Snowballots must have a title.')
+    if (this.state.title.length === 0) throw new Error('Snowballots must have a title.')
+    const title = this.state.title
+    const privateAlias = uuid.v4().replace(/-/g, '').substring(0, 10)
+    const publicAlias = this.state.alias.length > 0 ? this.state.alias : title.replace(/\s+/g, '').substring(0, 10)
+    const alias = this.state.isPrivate ? privateAlias : publicAlias
     const dupesObj = {}
-    const alias = this.refs.sbalias.value.length > 0 ? this.refs.sbalias.value : title.replace(/\s+/g, '').substring(0, 10)
     const filteredChoices = this.state.choices.filter(function (choice) {
       let duplicate = false
       dupesObj[choice.title.toLowerCase()] ? duplicate = true : dupesObj[choice.title.toLowerCase()] = choice
       return choice.title.length > 0 && !duplicate
     })
-    const isPrivate = this.refs.sbprivate.checked
+    const isPrivate = this.state.isPrivate
     const expires = this.state.expires || null
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
     const options = {
@@ -64,7 +68,6 @@ class AddForm extends React.Component {
     return this.state.choices.map((choice) => (
       <div key={`choice-container-${choice.id}`} className='choice-container input-group'>
         <input
-          key={`choice-${choice.id}`}
           className='choice-input input-group-field'
           id={`choice-${choice.id}`}
           value={choice.title}
@@ -88,8 +91,14 @@ class AddForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     const validSb = this.validateSb()
+    this.setState(initialState, function () {
+      this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
+        {title: '', votes: 0, id: 1},
+        {title: '', votes: 0, id: 2}
+      ]})
+    })
     this.handlers.handleSubmit(validSb.options, validSb.filteredChoices)
-    this.setState(initialState)
+    this.props.history.push(`/sbs/${validSb.options.alias}`)
   }
 
   choiceUpdate (e) {
@@ -98,9 +107,7 @@ class AddForm extends React.Component {
       if (choice.id === position) choice.title = e.target.value
       return choice
     })
-    this.setState({
-      choices: updatedChoices
-    })
+    this.setState({ choices: updatedChoices })
   }
 
   checkTab (e) {
@@ -131,74 +138,68 @@ class AddForm extends React.Component {
   }
 
   render () {
-    return this.state.adding
-      ? <div className='newSnowballot-section'>
-        <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
-          <input
-            ref='sbtitle'
-            type='text'
-            value={this.state.title}
-            placeholder='Enter title of new snowballot'
-            onChange={(e) => this.setState({title: e.target.value})}
-          />
-          <input
-            ref='sbalias'
-            type='text'
-            value={this.state.alias}
-            placeholder='Enter custom URL of new snowballot - ex. foo => snowballot.com/foo'
-            onChange={(e) => this.setState({alias: e.target.value})}
-          />
-          <div className='newSbOptions newSbSection'>
-            <div className='header'>Options</div>
-            <span className='option-section'>
-              <FA name='calendar-times-o' className='fa-2x fa-fw' /> Make snowballot expire at a certain time?
-              <input
-                id='expireCheckbox'
-                ref='sbexpire'
-                type='checkbox'
-                value={this.state.doesExpire}
-                onChange={(e) => this.setState({doesExpire: e.target.checked})}
+    return <div className='newSnowballot-section'>
+      <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
+        <input
+          type='text'
+          value={this.state.title}
+          placeholder='Enter title of new snowballot'
+          onChange={(e) => this.setState({title: e.target.value})}
+        />
+        <div className='newSbOptions newSbSection'>
+          <div className='header'>Options</div>
+          <span className='option-section'>
+            <FA name='calendar-times-o' className='fa-2x fa-fw' /> Make snowballot expire at a certain time?
+            <input
+              id='expireCheckbox'
+              type='checkbox'
+              value={this.state.doesExpire}
+              onChange={(e) => this.setState({doesExpire: e.target.checked})}
+            />
+            {this.state.doesExpire
+              ? <span className='date-selector'>
+                  <br />
+                  <div className='date-holder'>
+                    <DateTime
+                      inputProps={{placeholder: 'Enter a time for this snowballot to expire'}}
+                      value={this.state.expires || ''}
+                      onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
+                      closeOnSelect={true}
+                    />
+                  </div>
+                </span>
+              : <br />}
+          </span>
+          <span className='option-section'>
+            <FA name='eye-slash' className='fa-2x fa-fw' /> Make snowballot private?
+            <input
+              id='privateCheckbox'
+              type='checkbox'
+              checked={this.state.isPrivate}
+              onChange={(e) => this.setState({isPrivate: e.target.checked})}
+            />
+          </span>
+
+          <span className='option-section'>
+            { !this.state.isPrivate
+            ? <input
+                type='text'
+                value={this.state.alias}
+                placeholder='For public snowballots, enter custom URL of new snowballot - ex. snowballot.com/foo'
+                onChange={(e) => this.setState({alias: e.target.value})}
               />
-              {this.state.doesExpire
-                ? <span className='date-selector'>
-                    <br />
-                    <div className='date-holder'>
-                      <DateTime
-                        inputProps={{placeholder: 'Enter a time for this snowballot to expire'}}
-                        value={this.state.expires || ''}
-                        onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
-                        closeOnSelect={true}
-                      />
-                    </div>
-                  </span>
-                : <br />}
-            </span>
-            <span className='option-section'>
-              <FA name='eye-slash' className='fa-2x fa-fw' /> Make snowballot private?
-              <input
-                id='privateCheckbox'
-                ref='sbprivate'
-                type='checkbox'
-                value={this.state.isPrivate}
-                onChange={(e) => this.setState({isPrivate: e.target.checked})}
-              />
-            </span>
-          </div>
-          <div className='newSbSection newSbChoices'>
-            <div className='header'>Choices</div>
-            {this.renderChoices()}
-            <div id='addchoice' className='button secondary' onClick={this.addChoice}><FA name='plus' className='fa fa-fw' /> add choice</div>
-          </div>
-          <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
-        </form>
-      </div>
-      : <button
-          id='newSnowballot'
-          className='button primary expanded'
-          onClick={() => this.setState({ adding: true })}
-        >
-          <FA className='fa fa-fw' name='plus' /> create a new snowballot
-        </button>
+            : null
+            }
+          </span>
+        </div>
+        <div className='newSbSection newSbChoices'>
+          <div className='header'>Choices</div>
+          {this.renderChoices()}
+          <div id='addchoice' className='button secondary' onClick={this.addChoice}><FA name='plus' className='fa fa-fw' /> add choice</div>
+        </div>
+        <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
+      </form>
+    </div>
   }
 }
 
