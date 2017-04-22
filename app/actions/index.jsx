@@ -68,7 +68,7 @@ export var findSb = (sbAlias) => {
       var realSb = sb[Object.keys(sb)[0]]
       var parsedSb = Object.assign({}, realSb, {id: Object.keys(sb)[0]}) // Firebase keys snowballots on IDs, but we want the ID in the object itself
       dispatch(showSb(parsedSb))
-      dispatch(findVote(parsedSb.id))
+      if (getState().user.uid) dispatch(findVote(parsedSb.id))
     })
   }
 }

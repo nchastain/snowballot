@@ -18,51 +18,14 @@
 	font-weight: bold;
 }
 
-.back-button-container {
-	margin-bottom: 10px;
-	display: inline-block;
-	&:hover {
-		.back-arrow {
-			margin-right: 5px;
-		}
-	}
-}
-
-.back-arrow {
-	color: $light-blue;
-	margin-right: 15px;
-	transition: margin-right 0.3s ease-out;
-}
-
-.circle {
-	color: #666;
-	visibility: visible;
-  	opacity: 1;
-  	transition: visibility 0s, opacity 0.3s linear;
-  	&.not-selected {
-  		visibility: hidden;
-  		opacity: 0;
-  		transition: none;
-  	}
-}
-
-.circle-full {
-	visibility: hidden;
-  	opacity: 0;
-  	transition: visibility 0s, opacity 0.3s linear;
-	color: $light-blue;
-	&.selected {
-		visibility: visible;
-  		opacity: 1;
-  		transition: none;
-	}
-}
-
 .plus {
 	visibility: hidden;
 	opacity: 0;
 	color: $light-blue;
 	transition: visibility 0s, opacity 0.3s linear;
+	&.selected {
+		color: red;
+	}
 }
 
 .box-header {
@@ -77,16 +40,41 @@
     text-align: left;
     background-color: white;
     overflow: hidden;
+    .selection-icon {
+		padding-right: 10px;
+		vertical-align: middle;
+		padding-bottom: 2px;
+    }
+    .selection-icon.unselected {
+    	display: inline-block;
+    }
+    .selection-icon.selected {
+    	display: none;
+    	color: $light-blue;
+    }
+    &.selected {
+    	background-color: $light-blue-hover;
+    	.selection-icon.selected {
+    		display: inline-block;
+    	}
+    	.selection-icon.unselected {
+    		display: none;
+    	}
+    	&:hover {
+			.selection-icon.selected {
+				display: none;
+			}
+			.selection-icon.unselected {
+				display: inline-block;
+			}
+    	}
+    }
     &.static {
     	&.box-header:hover {
 			cursor: initial;
 			background-color: white;
 
-			.circle {
-				display: initial;
-			}
-		
-			.circle-full, .plus {
+			.plus {
 				visibility: hidden;
   				opacity: 0;
 			}
@@ -106,58 +94,13 @@
     &:hover {
 		background-color: $light-blue-hover;
 		cursor: pointer;
-		.circle {
-			display: none;
-		}
-		.circle-full, .plus {
+		.plus {
 			visibility: visible;
   			opacity: 1;
-		}
-		.left-cell {
-			padding-right: 14px;
 		}
 		.vote-count {
 			margin-right: -10px;
 		}
-	}
-}
-
-.box-header-voted {
-	display: table;
-	text-align: left;
-    color: #666;
-    vertical-align: middle;
-    margin-top: 10px;
-    border: 1px solid #eee;
-    padding: 0.5rem;
-    width: 100%;
-    text-align: left;
-    background-color: white;
-    overflow: hidden;
-    &.selected {
-    	background-color: $light-blue-hover;
-    }
-    &:hover {
-    	cursor: pointer;
-		background-color: $light-blue-hover;
-		.vote-count {
-			margin-right: 0px;
-		}
-		.plus {
-			visibility: visible;
-			opacity: 1;
-    	}
-	}
-	&.selected:hover {
-		background-color: white;
-		&.vote-count {
-			margin-right: -35px;
-		}
-		.plus {
-			visibility: visible;
-			opacity: 1;
-			color: red;
-    	}
 	}
 }
 
@@ -193,27 +136,22 @@
 	text-align: center;
 	margin: 0 auto;
 	padding: 0.5rem;
-	/*transition: margin-right 0.3s linear;*/
-	.status-message {
-		margin-right: -100px;
-		visibility: hidden;
-		/*transition: margin-right 0.3s linear;*/
-	}
-	.status-message.voted {
-		margin-right: 0px;
-		visibility: visible;
-		transition: margin-right 0.3s ease, visibility 0.3s linear;
-	}
 }
 
 .status-message {
 	text-align: center;
 	margin: 0 auto;
-	visibility: hidden;
+	opacity: 0;
 	display: block;
 	padding: 0.5rem;
 	color: $light-blue;
 	font-weight: bold;
+	margin-right: -100px;
+	transition: margin-right 1.2s ease, opacity 1.2s ease;
+	&.voted {
+		margin-right: 0px;
+		opacity: 1;
+	}
 }
 
 .please-login-message, .creator-message {

@@ -20,7 +20,7 @@ export class Navigation extends Component {
   onLogout (e) {
     const { dispatch } = this.props
     e.preventDefault()
-    dispatch(actions.startLogout())
+    dispatch(actions.logout())
   }
 
   componentDidMount () {

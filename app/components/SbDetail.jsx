@@ -60,12 +60,11 @@ export class SbDetail extends Component {
     var updatedSb = {
       ...this.props.sb,
       userVoted: freshVote,
-      userChoice: freshVote ? choiceId : '',
+      userChoice: freshVote ? choiceId : null,
       choices: updatedChoices
     }
-    this.setState({voted: freshVote, votedChoiceId: freshVote ? choiceId : ''})
-    debugger;
     this.handlers.updateSb(this.props.sb.id, choiceId, updatedSb, freshVote)
+    this.setState({voted: freshVote, votedChoiceId: freshVote ? choiceId : ''})
   }
 
   renderSelectedChoice (choice) {
@@ -97,15 +96,17 @@ export class SbDetail extends Component {
   }
 
   renderCreatorMessage () {
-    return moment.unix(this.props.sb.createdAt).subtract(1, 'hours').isBefore(moment())
+    return moment.unix(this.props.sb.createdAt).subtract(1, 'hours').isBefore(moment().unix())
     ? <div className='creator-message'>
         <span className='creator-message-text'>
         You just created this snowballot! Now <a href={`/sbs/${this.props.sb.alias}`}>send it to people</a> and bask in the wisdom of crowds.
         </span>
       </div>
-    : <span className='creator-message-text'>
+    : <div className='creator-message'>
+      <span className='creator-message-text'>
       You created this snowballot on {moment.unix(this.props.sb.createdAt).format('dddd, MMMM Do, YYYY')}
       </span>
+      </div>
   }
 
   renderAuthMessage () {
@@ -120,33 +121,25 @@ export class SbDetail extends Component {
 
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0) return
-    return this.state.voted ? this.renderVotedSb() : (
+    return (
       <div>
         <h4 className='sb-title'>{this.props.sb.title}</h4>
         <ul className='sb-choices'>
           {this.props.sb.choices.map((choice, idx) =>
             <div
               key={choice.title + idx}
-              className={this.props.user.uid ? 'box-header clearfix' : 'box-header clearfix static'}
-              onClick={() => !this.props.user.uid ? null : this.vote(this.props.sb, choice.id)}
+              className={this.props.user.uid ? choice.id === this.props.sb.userChoice ? 'box-header clearfix selected' : 'box-header clearfix' : 'box-header clearfix static'}
+              onClick={() => !this.props.user.uid ? null : this.vote(choice.id)}
             >
               <div className='left-cell'>
-                <span
-                  className='circle'
-                >
-                  <FA name='circle-o' />
-                </span>
-                <span
-                  className='circle-full'
-                >
-                  <FA name='check-circle' />
-                </span>
+                <FA className='fa-fw selection-icon unselected' name='circle-o' />
+                <FA className='fa-fw selection-icon selected' name='check-circle' />
               </div>
               <div className='right-cell'>
                 <li key={this.props.sb.id + choice.title + idx}>{choice.title}</li>
               </div>
               <div className='right-cell'>
-                <span className='vote-count'>{choice.votes} votes<span className='plus'> + 1?</span></span>
+                <span className='vote-count'>{choice.votes} votes {choice.id === this.props.sb.userChoice ? <span className='plus selected'> - 1?</span> : <span className='plus'> + 1?</span>}</span>
               </div>
             </div>
           )}
@@ -163,7 +156,7 @@ export class SbDetail extends Component {
           {this.renderAuthMessage()}
         </div>
         <div className='alert-container'>
-          <span className={this.state.voted ? 'status-message voted' : 'status-message'}>thank you for contributing to this snowballot!</span>
+          <span className={this.state.voted ? 'status-message voted' : 'status-message'}>{this.state.voted ? <span>thank you for contributing to this snowballot!</span> : <span>Nevermind!</span>}</span>
         </div>
         <div className='snowballots-section'>
           {this.renderSb()}
