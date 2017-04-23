@@ -12,6 +12,7 @@
 		margin-bottom: 0;
 		color: $light-blue;
 	}
+
 }
 
 .sb-title {
@@ -70,24 +71,6 @@
 			}
     	}
     }
-    &.static {
-    	&.box-header:hover {
-			cursor: initial;
-			background-color: white;
-
-			.plus {
-				visibility: hidden;
-  				opacity: 0;
-			}
-			.left-cell {
-				padding-right: initial;
-			}
-			.vote-count {
-				margin-right: -35px;
-			}
-    	}
-    }
-
     .button {
 		margin-bottom: 0px !important;
 		margin-top: -2px !important;
@@ -95,13 +78,6 @@
     &:hover {
 		background-color: $light-blue-hover;
 		cursor: pointer;
-		.plus {
-			visibility: visible;
-  			opacity: 1;
-		}
-		.vote-count {
-			margin-right: -10px;
-		}
 	}
 }
 

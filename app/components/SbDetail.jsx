@@ -19,12 +19,11 @@ let createHandlers = function (dispatch) {
   }
 }
 
-let hovering = false
-
-let setDOMReferences = function () {
+let setDOMReferences = function (e) {
   const plusText = document.querySelector('.box-header.selected .plus')
   const voteCount = document.querySelector('.box-header.selected .vote-count')
-  return {plusText, voteCount}
+  const selected = e.currentTarget.className.indexOf('selected') !== -1
+  return {selected, plusText, voteCount}
 }
 
 export class SbDetail extends Component {
@@ -51,13 +50,25 @@ export class SbDetail extends Component {
     }
   }
 
-  vote (choiceId) {
-    let oldDOMRefs = setDOMReferences()
-    const {plusText, voteCount} = oldDOMRefs
+  vote (e, choiceId) {
+    let oldDOMRefs = setDOMReferences(e)
+    const {selected, plusText, voteCount} = oldDOMRefs
+    if (!selected) {
+      e.currentTarget.querySelector('.selection-icon.selected').style.display = 'inline-block'
+      e.currentTarget.querySelector('.selection-icon.unselected').style.display = 'none'
+    }
+    if (selected) {
+      e.currentTarget.querySelector('.selection-icon.selected').style.display = 'none'
+      e.currentTarget.querySelector('.selection-icon.unselected').style.display = 'inline-block'
+    }
     if (plusText && voteCount) {
       plusText.style.visibility = 'hidden'
       plusText.style.opacity = '0'
       voteCount.style.marginRight = '-35px'
+    } else if (plusText && voteCount) {
+      plusText.style.visibility = 'visible'
+      plusText.style.opacity = '1'
+      voteCount.style.marginRight = '10px'
     }
     let freshVote
     var updatedChoices = this.props.sb.choices.map((choice) => {
@@ -124,20 +135,33 @@ export class SbDetail extends Component {
       </div>
   }
 
-  hoverVote () {
-    let DOMRefs = setDOMReferences()
+  hoverVote (e) {
+    if (!this.props.user.uid) return
+    let DOMRefs = setDOMReferences(e)
     const {plusText, voteCount} = DOMRefs
+    const offset = 10
+    const show = `-${offset}px`
+    const hide = `-${offset + 25}px`
+    const currentVoteCount = e.currentTarget.querySelector('.vote-count')
+    const currentPlus = e.currentTarget.querySelector('.plus')
+    if (e.type === 'mouseenter') {
+      currentVoteCount.style.marginRight = show
+      currentPlus.style.visibility = 'visible'
+      currentPlus.style.opacity = '1'
+    } else if (e.type === 'mouseleave') {
+      currentVoteCount.style.marginRight = hide
+      currentPlus.style.visibility = 'hidden'
+      currentPlus.style.opacity = '0'
+    }
     if (plusText && voteCount) {
-      if (!hovering) {
+      if (e.type === 'mouseenter') {
         plusText.style.visibility = 'visible'
         plusText.style.opacity = '1'
-        voteCount.style.marginRight = '-10px'
-        hovering = !hovering
-      } else {
+        voteCount.style.marginRight = show
+      } else if (e.type === 'mouseleave') {
         plusText.style.visibility = 'hidden'
         plusText.style.opacity = '0'
-        voteCount.style.marginRight = '-35px'
-        hovering = !hovering
+        voteCount.style.marginRight = hide
       }
     }
   }
@@ -162,9 +186,9 @@ export class SbDetail extends Component {
             <div
               key={choice.title + idx}
               className={this.props.user.uid ? choice.id === this.props.sb.userChoice ? 'box-header clearfix selected' : 'box-header clearfix' : 'box-header clearfix static'}
-              onClick={() => !this.props.user.uid ? null : this.vote(choice.id)}
-              onMouseEnter={() => this.hoverVote()}
-              onMouseLeave={() => this.hoverVote()}
+              onClick={(e) => !this.props.user.uid ? null : this.vote(e, choice.id)}
+              onMouseEnter={(e) => this.hoverVote(e)}
+              onMouseLeave={(e) => this.hoverVote(e)}
             >
               <div className='left-cell'>
                 <FA className='fa-fw selection-icon unselected' name='circle-o' />
