@@ -11,6 +11,7 @@
 .discover-snowballot-container {
 	display: inline-block;
 	width: calc(25% - 1.25rem);
+	max-width: 250px;
 	height: 22vw;
 	padding: 1rem;
 	padding-bottom: 16.67%;
@@ -25,4 +26,9 @@
 		background-color: $light-blue-hover;
 	}
 }
- 
+
+@media (max-width: 600px) {
+	.discover-snowballot-container {
+		width: calc(50% - 1.25rem);
+	}
+ }

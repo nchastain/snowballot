@@ -19,6 +19,14 @@ let createHandlers = function (dispatch) {
   }
 }
 
+let hovering = false
+
+let setDOMReferences = function () {
+  const plusText = document.querySelector('.box-header.selected .plus')
+  const voteCount = document.querySelector('.box-header.selected .vote-count')
+  return {plusText, voteCount}
+}
+
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
@@ -44,6 +52,13 @@ export class SbDetail extends Component {
   }
 
   vote (choiceId) {
+    let oldDOMRefs = setDOMReferences()
+    const {plusText, voteCount} = oldDOMRefs
+    if (plusText && voteCount) {
+      plusText.style.visibility = 'hidden'
+      plusText.style.opacity = '0'
+      voteCount.style.marginRight = '-35px'
+    }
     let freshVote
     var updatedChoices = this.props.sb.choices.map((choice) => {
       if (choice.id === choiceId) {
@@ -109,6 +124,24 @@ export class SbDetail extends Component {
       </div>
   }
 
+  hoverVote () {
+    let DOMRefs = setDOMReferences()
+    const {plusText, voteCount} = DOMRefs
+    if (plusText && voteCount) {
+      if (!hovering) {
+        plusText.style.visibility = 'visible'
+        plusText.style.opacity = '1'
+        voteCount.style.marginRight = '-10px'
+        hovering = !hovering
+      } else {
+        plusText.style.visibility = 'hidden'
+        plusText.style.opacity = '0'
+        voteCount.style.marginRight = '-35px'
+        hovering = !hovering
+      }
+    }
+  }
+
   renderAuthMessage () {
     return this.props.user.uid
     ? null
@@ -130,6 +163,8 @@ export class SbDetail extends Component {
               key={choice.title + idx}
               className={this.props.user.uid ? choice.id === this.props.sb.userChoice ? 'box-header clearfix selected' : 'box-header clearfix' : 'box-header clearfix static'}
               onClick={() => !this.props.user.uid ? null : this.vote(choice.id)}
+              onMouseEnter={() => this.hoverVote()}
+              onMouseLeave={() => this.hoverVote()}
             >
               <div className='left-cell'>
                 <FA className='fa-fw selection-icon unselected' name='circle-o' />
