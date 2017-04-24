@@ -49,20 +49,23 @@ export class SbDetail extends Component {
 
   componentWillReceiveProps (nextProps) {
     let expired = false
+    let voted = false
+    let votedChoiceId = ''
     if (nextProps.sb) {
-      expired = nextProps.sb.expires && moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
+      if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
     }
     if (nextProps.sb && nextProps.sb.userVoted && nextProps.sb.userChoice) {
       let voted = nextProps.sb.userVoted
       let votedChoiceId = nextProps.sb.userChoice
-      this.setState({voted: voted, votedChoiceId: votedChoiceId, expired: expired})
     }
+    this.setState({voted: voted, votedChoiceId: votedChoiceId, expired: expired})
   }
 
   vote (e, choiceId) {
+    let expired = false
     let oldDOMRefs = setDOMReferences(e)
     const {selected, plusText, voteCount} = oldDOMRefs
-    let expired = this.props.sb.expires && moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
+    if (typeof this.props.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
     if (expired) {
       this.setState({expired: true})
       return
