@@ -21,18 +21,24 @@ class AccountControl extends React.Component {
     return this.props.authed
     ? <ul className='right'>
         <li
-        style={{border: 'none', background: 'transparent', paddingLeft: '1.5rem'}}
         onClick={(evt) => {
           this.onLogout(evt)
           logout()
         }}
-        className='navbar-brand right logout-button'>Logout</li>
-        <li><Link to='/dashboard' className='navbar-brand right'>Dashboard</Link></li>
-        <li><Link to='/sbs/add' className='navbar-brand right' style={{border: 'none', background: 'transparent', paddingRight: '1.5rem'}}>Add</Link><FA style={{paddingTop: '5px'}} className='addButton fa fa-fw right navbar-brand' name='plus' /></li>
+        className='navbar-brand right logout-button link-container'
+        >Logout</li>
+        <Link className={this.props.active === '/dashboard'
+        ? 'navbar-brand link-container active right'
+        : 'navbar-brand link-container right'} to='/dashboard'>
+          <li>Dashboard</li>
+        </Link>
+        <Link to='/sbs/add' className={this.props.active === '/sbs/add' ? 'addLink navbar-brand active right link-container' : 'addLink navbar-brand right link-container'}>
+          <li><FA className='addButton fa fa-fw' name='plus' />Add</li>
+        </Link>
       </ul>
     : <ul className='right'>
-        <li className='right' activeClassName='active' style={{paddingLeft: '1.5rem'}}><Link to='/login'>Login</Link></li>
-        <li className='right'><Link to='/register' activeClassName='active' className='navbar-brand right'>Register</Link></li>
+        <li className={this.props.active === '/login' ? 'right active' : 'right'} style={{paddingLeft: '1.5rem'}}><Link to='/login'>Login</Link></li>
+        <li className={this.props.active === '/register' ? 'right active' : 'right'} ><Link to='/register' className='navbar-brand right'>Register</Link></li>
       </ul>
   }
 }

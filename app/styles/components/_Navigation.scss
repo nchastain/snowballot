@@ -15,31 +15,22 @@ ul {
 }
 
 .top-bar-section section {
-	display: inline;
-	overflow: auto;
 	width: auto;
-	padding-right: 10px;
+	padding-bottom: 0;
 }
 
 .top-bar {
 	font-weight: bold;
-	background-color: #333333 !important;
+	background-color: rgba(0,0,0,0.8) !important;
 	color: white !important;
-	padding: 10px;
 	a {
 		color: white;
-	}
-	a:hover, li:hover {
-		color: $light-blue-hover;
 	}
 }
 
 li {
+	display: inline-block;
 	list-style-type: none;
-	display: inline;
-	&+li, &+a {
-		padding-left: 1.5rem;
-	}
 }
 
 button {
@@ -50,10 +41,10 @@ button {
 
 .logo {
 	float: left;
-	display: inline;
+	display: inline-block;
 	width: $logo-size;
 	height: $logo-size;
-	transition: width 10s ease-in, height 10s ease-in, transform 10s ease-in;
+	transition: width 3s ease-in, height 3s ease-in, transform 3s ease-in;
 	transition-delay: 0.5s;
 	&:hover {
 		opacity: 0.8;
@@ -64,6 +55,46 @@ button {
 	}
 }
 
+.logo-container {
+	padding: 15px !important;
+	display: inline-block;
+	float: left;
+}
+
+.link-container {
+	text-align: center;
+	padding: 15px;
+	&.addLink {
+		padding-left: 0px !important;
+	}
+	&.logo {
+		&:hover {
+			opacity: 0.8;
+			background-color: initial;
+		}
+	}
+	.addButton {
+	  padding-left: 0px !important;
+	}
+	&:hover {
+		background-color: rgba(255,255, 255, 0.1);
+	}
+	& + .link-container {
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+	}
+}
+
 .active {
-	text-decoration: underline;
+	position: relative;
+	color: $light-blue-hover !important;
+	&:after {
+		content: "";
+		background-color: $light-blue-hover;
+		position: absolute;
+		bottom: 3px;
+		left: 0%;
+		height: 2px;
+		width: 100%;
+	}
 }

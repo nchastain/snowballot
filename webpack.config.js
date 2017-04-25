@@ -52,7 +52,7 @@ module.exports = {
       './app/components'
     ],
     alias: {
-      App: 'app/components/App.jsx',
+      Main: 'app/components/Main.jsx',
       actions: 'app/actions/index.jsx',
       store: 'app/store/configureStore.jsx',
       reducers: 'app/reducers/reducers.jsx',

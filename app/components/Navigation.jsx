@@ -45,22 +45,26 @@ export class Navigation extends Component {
 
   render () {
     return (
-      <div className='top-bar' data-topbar={true} role='navigation'>
-        <a href='/'>
+        <span>
+        <Link className='navbar-brand left logo-container' to='/'>
           <img className='logo' src='.././assets/stylizeds.png' />
-        </a>
-        <div className='top-bar-section'>
+        </Link>
+        <div className='top-bar-section top-bar'>
           <section>
             <ul className='left'>
-              <li>
-                <Link to='/' activeClassName='active' className='navbar-brand'>Home</Link>
-              </li>
-              <li><Link to='/discover' activeClassName='active' className='navbar-brand'>Discover</Link></li>
+              <Link to='/' className={this.props.active === '/' ? 'navbar-brand active link-container left' : 'navbar-brand link-container left'}>
+                <li>
+                  Home
+                </li>
+              </Link>
+              <Link to='/discover' className={this.props.active === '/discover' ? 'navbar-brand active link-container left' : 'navbar-brand link-container left'}>
+                <li>Discover</li>
+              </Link>
             </ul>
-            <AccountControl authed={this.state.authed} />
+            <AccountControl active={this.props.active} authed={this.state.authed} />
           </section>
         </div>
-      </div>
+        </span>
     )
   }
 }

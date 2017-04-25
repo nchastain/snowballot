@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import App from 'App'
+import Main from './components/Main'
 import firebase from 'firebase'
 import * as actions from 'actions'
 import configure from './store/configureStore.jsx'
@@ -31,7 +31,7 @@ require('font-awesome-webpack')
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Main />
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')
