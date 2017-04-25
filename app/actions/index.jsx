@@ -146,25 +146,16 @@ export var startUpdateUser = (sbId, choiceId, fresh) => {
   }
 }
 
-// until I think more about how to incorporate this functionality in a more generic way, grandfathering this in
-export var startUpdateSb = (id, choiceId, updatedSb, fresh) => {
+export var startUpdateSb = (id, updates, options) => {
   return (dispatch, getState) => {
     var sbRef = firebaseRef.child(`sbs/${id}`)
-    var userRef = firebaseRef.child(`users/${getState().user.uid}`)
-    if (userRef) dispatch(startUpdateUser(id, choiceId, fresh))
-    return sbRef.update(updatedSb).then(() => {
-      dispatch(updateSb(id, updatedSb))
-    })
-  }
-}
-
-export var startChangeSb = (id, changes, options) => {
-  return (dispatch, getState) => {
-    var sbRef = firebaseRef.child(`sbs/${id}`)
-
+    var userRef = firebaseRef.child(`users/${getState().user.uid}`) || null
+    if (userRef && typeof options.choiceId !== 'undefined' && typeof options.freshVote !== 'undefined') {
+      dispatch(startUpdateUser(id, options.choiceId, options.freshVote))
+    }
     return sbRef.once('value').then((snapshot) => {
       var sb = snapshot.val() || {}
-      var updatedSb = Object.assign({}, sb, {id: id}, changes)
+      var updatedSb = Object.assign({}, sb, {id: id}, updates)
       return sbRef.update(updatedSb).then(() => {
         dispatch(updateSb(id, updatedSb))
       })

@@ -9,19 +9,15 @@ import classnames from 'classnames'
 import SharePanel from './SharePanel'
 
 let createHandlers = function (dispatch) {
-  let updateSb = function (id, choiceId, updatedSb, fresh) {
-    dispatch(actions.startUpdateSb(id, choiceId, updatedSb, fresh))
+  let updateSb = function (id, updates, options) {
+    dispatch(actions.startUpdateSb(id, updates, options))
   }
   let findSb = function (alias) {
     dispatch(actions.findSb(alias))
   }
-  let changeSb = function (id, updates, options) {
-    dispatch(actions.startChangeSb(id, updates, options))
-  }
   return {
     updateSb,
-    findSb,
-    changeSb
+    findSb
   }
 }
 
@@ -29,7 +25,8 @@ let setDOMReferences = function (e) {
   const plusText = document.querySelector('.box-header.selected .plus')
   const voteCount = document.querySelector('.box-header.selected .vote-count')
   const selected = e.currentTarget.className.indexOf('selected') !== -1
-  return {selected, plusText, voteCount}
+  const votedBox = document.querySelector('.box-header.selected')
+  return {selected, votedBox, plusText, voteCount}
 }
 
 export class SbDetail extends Component {
@@ -70,7 +67,7 @@ export class SbDetail extends Component {
   vote (e, choiceId) {
     let expired = false
     let oldDOMRefs = setDOMReferences(e)
-    const {selected, plusText, voteCount} = oldDOMRefs
+    const {selected, votedBox, plusText, voteCount} = oldDOMRefs
     if (typeof this.props.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
     if (expired) {
       this.setState({expired: true})
@@ -79,6 +76,9 @@ export class SbDetail extends Component {
     if (!selected) {
       e.currentTarget.querySelector('.selection-icon.selected').style.display = 'inline-block'
       e.currentTarget.querySelector('.selection-icon.unselected').style.display = 'none'
+      votedBox.style.backgroundColor = 'white'
+      votedBox.querySelector('.selection-icon.selected').style.display = 'none'
+      votedBox.querySelector('.selection-icon.unselected').style.display = 'inline-block'
     }
     if (selected) {
       e.currentTarget.querySelector('.selection-icon.selected').style.display = 'none'
@@ -106,8 +106,7 @@ export class SbDetail extends Component {
       }
       return choice
     })
-    var updatedSb = {
-      ...this.props.sb,
+    var updates = {
       userVoted: freshVote,
       userChoice: freshVote ? choiceId : null,
       choices: updatedChoices
@@ -116,7 +115,7 @@ export class SbDetail extends Component {
       choiceId,
       freshVote
     }
-    this.handlers.updateSb(this.props.sb.id, choiceId, updatedSb, freshVote)
+    this.handlers.updateSb(this.props.sb.id, updates, options)
     this.setState({voted: freshVote, votedChoiceId: freshVote ? choiceId : ''})
   }
 
@@ -243,7 +242,7 @@ export class SbDetail extends Component {
       id: this.props.sb.choices.length + 1
     }
     const options = {}
-    this.handlers.changeSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)
+    this.handlers.updateSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)
     this.setState({newChoice: ''})
   }
 
