@@ -23,6 +23,14 @@
 	font-weight: bold;
 }
 
+.error-message {
+  color: #e70f1f;
+  padding: 0.5rem;
+  background-color: rgba(231, 15, 31, 0.3);
+  display: inline-block;
+  margin-left: 10px;
+}
+
 .plus {
 	visibility: hidden;
 	opacity: 0;

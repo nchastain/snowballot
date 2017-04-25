@@ -236,14 +236,29 @@ export class SbDetail extends Component {
   }
 
   addChoice () {
-    const choice = {
-      title: this.state.newChoice,
-      votes: 0,
-      id: this.props.sb.choices.length + 1
+    const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
+    if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
+    else {
+      const choice = {
+        title: this.state.newChoice,
+        votes: 0,
+        id: this.props.sb.choices.length + 1
+      }
+      const options = {}
+      this.handlers.updateSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)
+      this.setState({newChoice: ''})
     }
-    const options = {}
-    this.handlers.updateSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)
-    this.setState({newChoice: ''})
+  }
+
+  handleAddChoiceChange (e) {
+    const code = (e.keyCode ? e.keyCode : e.which)
+    this.setState({error: ''})
+    if (code === 13) {  // Enter keycode
+      const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
+      if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
+      else this.addChoice()
+    }
+    this.setState({newChoice: e.target.value})
   }
 
   showAddChoice () {
@@ -252,7 +267,8 @@ export class SbDetail extends Component {
         <input
           id='detail-add-input'
           type='text' placeholder='Start typing a new choice here.'
-          onChange={(e) => this.setState({newChoice: e.target.value})}
+          onChange={(e) => this.handleAddChoiceChange(e)}
+          onKeyDown={(e) => this.handleAddChoiceChange(e)}
           value={this.state.newChoice}
         />
         <div
@@ -263,6 +279,7 @@ export class SbDetail extends Component {
           <FA name='plus' className='fa fa-fw' />
           add choice
         </div>
+        {this.state.error ? <div className='error-message'>{this.state.error}</div> : null}
       </span>
     )
   }
