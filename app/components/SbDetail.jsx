@@ -6,6 +6,7 @@ import * as actions from '.././actions'
 import Redux from 'redux'
 import moment from 'moment'
 import classnames from 'classnames'
+import SharePanel from './SharePanel'
 
 let createHandlers = function (dispatch) {
   let updateSb = function (id, choiceId, updatedSb, fresh) {
@@ -14,9 +15,13 @@ let createHandlers = function (dispatch) {
   let findSb = function (alias) {
     dispatch(actions.findSb(alias))
   }
+  let changeSb = function (id, updates, options) {
+    dispatch(actions.startChangeSb(id, updates, options))
+  }
   return {
     updateSb,
-    findSb
+    findSb,
+    changeSb
   }
 }
 
@@ -35,6 +40,7 @@ export class SbDetail extends Component {
     let expired = false
     if (typeof this.props.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
     this.state = {
+      newChoice: '',
       voted: voted,
       votedChoiceId: votedChoiceId,
       expired: expired
@@ -105,6 +111,10 @@ export class SbDetail extends Component {
       userVoted: freshVote,
       userChoice: freshVote ? choiceId : null,
       choices: updatedChoices
+    }
+    var options = {
+      choiceId,
+      freshVote
     }
     this.handlers.updateSb(this.props.sb.id, choiceId, updatedSb, freshVote)
     this.setState({voted: freshVote, votedChoiceId: freshVote ? choiceId : ''})
@@ -226,6 +236,38 @@ export class SbDetail extends Component {
     )
   }
 
+  addChoice () {
+    const choice = {
+      title: this.state.newChoice,
+      votes: 0,
+      id: this.props.sb.choices.length + 1
+    }
+    const options = {}
+    this.handlers.changeSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)
+    this.setState({newChoice: ''})
+  }
+
+  showAddChoice () {
+    return (
+      <span>
+        <input
+          id='detail-add-input'
+          type='text' placeholder='Start typing a new choice here.'
+          onChange={(e) => this.setState({newChoice: e.target.value})}
+          value={this.state.newChoice}
+        />
+        <div
+          id='detail-add-choice'
+          className='button secondary'
+          onClick={() => this.addChoice()}
+        >
+          <FA name='plus' className='fa fa-fw' />
+          add choice
+        </div>
+      </span>
+    )
+  }
+
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0) return
     return (
@@ -254,6 +296,7 @@ export class SbDetail extends Component {
             </div>
           )}
         </ul>
+        {this.props.sb.isExtensible && this.props.user.uid && this.showAddChoice()}
       </div>
     )
   }
@@ -261,16 +304,21 @@ export class SbDetail extends Component {
   render () {
     return (
       <div>
+        <SharePanel />
         <div className='above-sb-container'>
-          {this.props.sb.expires && this.renderExpiresMessage()}
-          {this.props.user.uid === this.props.sb.creator && this.renderCreatorMessage()}
-          {this.renderAuthMessage()}
+          <div className='other-sb-info'>
+            {this.props.sb.expires && this.renderExpiresMessage()}
+            {this.props.user.uid === this.props.sb.creator && this.renderCreatorMessage()}
+            {this.renderAuthMessage()}
+          </div>
         </div>
         <div className='alert-container'>
           <span className={this.state.voted ? 'status-message voted' : 'status-message'}>{this.state.voted ? <span>thank you for contributing to this snowballot!</span> : <span>Nevermind!</span>}</span>
         </div>
-        <div className='snowballots-section'>
-          {this.renderSb()}
+        <div className='detail-snowballot-container'>
+          <div className='snowballots-section'>
+            {this.renderSb()}
+          </div>
         </div>
       </div>
     )

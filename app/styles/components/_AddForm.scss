@@ -1,5 +1,10 @@
-input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
+input[type='checkbox'] {
 	margin-left: 5px;
+}
+
+input[type='checkbox']#expireCheckbox {
+	margin-left: 5px;
+	width: 15px;
 }
 
 .newSbSection {
@@ -35,6 +40,7 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 1rem;
+	padding: 1rem;
 	background-color: white;
 	#addchoice, #newSnowballot {
 		margin-bottom: 0;
@@ -83,13 +89,18 @@ input[type='checkbox']#privateCheckbox, input[type='checkbox']#expireCheckbox {
 	}
 	.date-holder {
 		margin-top: 10px;
-		display: inline-block;
+		display: inline;
 	}
 	.date-selector {
 		margin-top: 10px;
-		display: inline-block;
+		display: inline;
 		width: 50%;
 	}
+}
+
+.rdt {
+	display: inline;
+	width: 20%;
 }
 
 #newSnowballot {

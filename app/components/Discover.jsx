@@ -35,7 +35,7 @@ class Discover extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className='discover-container'>
         {this.renderSbs()}
       </div>
     )

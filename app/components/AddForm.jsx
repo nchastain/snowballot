@@ -21,6 +21,7 @@ const initialState = {
   alias: '',
   doesExpire: false,
   isPrivate: false,
+  isExtensible: false,
   choices: [
     {title: '', votes: 0, id: 1},
     {title: '', votes: 0, id: 2}
@@ -54,12 +55,14 @@ class AddForm extends React.Component {
     })
     const isPrivate = this.state.isPrivate
     const expires = this.state.expires || null
+    const isExtensible = this.state.isExtensible || false
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
     const options = {
       title: title,
       alias: alias,
       isPrivate: isPrivate,
-      expires: expires
+      expires: expires,
+      isExtensible: isExtensible
     }
     return {options, filteredChoices}
   }
@@ -158,7 +161,6 @@ class AddForm extends React.Component {
             />
             {this.state.doesExpire
               ? <span className='date-selector'>
-                  <br />
                   <div className='date-holder'>
                     <DateTime
                       inputProps={{placeholder: 'Enter an expiration date'}}
@@ -167,8 +169,9 @@ class AddForm extends React.Component {
                       closeOnSelect={true}
                     />
                   </div>
+                  <br />
                 </span>
-              : <br />}
+              : <br /> }
           </span>
           <span className='option-section'>
             <FA name='eye-slash' className='fa-2x fa-fw' /> Make snowballot private?
@@ -194,6 +197,16 @@ class AddForm extends React.Component {
                 <FA name='snowflake-o' className='fa-2x fa-fw' /><span className='private-hex-text'>(Sorry, custom URLs unavailable for private snowballots)</span>
               </span>
             }
+          </span>
+
+          <span className='option-section'>
+            <FA name='users' className='fa-2x fa-fw' /> Allow others to add new choices?
+            <input
+              id='extensibleCheckbox'
+              type='checkbox'
+              checked={this.state.isExtensible}
+              onChange={(e) => this.setState({isExtensible: e.target.checked})}
+            />
           </span>
         </div>
         <div className='newSbSection newSbChoices'>

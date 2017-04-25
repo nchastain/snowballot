@@ -1,0 +1,54 @@
+.share-panel {
+	display: inline-block;
+	color: $light-blue;
+	padding-right: 0.5rem;
+	padding-top: 0.5rem;
+	padding-bottom: 1rem;
+	width: 100%;
+  #alt-container {
+    display: inline;
+    position: relative;
+    margin-right: 10px;
+    margin-top: 5px;
+    float: right;
+    height: 32px;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    background-color: white;
+    border-radius: 10px;
+    #facebook-alt, #twitter-alt, #copy-alt {
+      opacity: 0;
+      display: none;
+      line-height: 32px;
+    }
+    #share-alt {
+      line-height: 32px;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    }
+  }
+  
+	.share-icon {
+		&:hover {
+			cursor: pointer;
+			opacity: 0.8;
+		}
+		float: right;
+		border-radius: 25px;
+	}
+  #clipboard {
+    display: inline;
+  }
+	.share-icon-container {
+    padding-top: 0.5rem;
+		display: inline-block;
+		float: right;
+		+ .share-icon-container {
+			margin-right: 10px;
+		}
+		border-radius: 25px;
+	}
+}
+
