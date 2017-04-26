@@ -1,3 +1,8 @@
+.sb-choices {
+  margin-left: 0;
+}
+
+
 .detail-snowballot-container {
   background-color: white;
   padding: 1rem;
@@ -15,6 +20,7 @@
 	h4 {
 		margin-bottom: 0;
 		color: $light-blue;
+    font-family: 'FuturaExtraBold';
 	}
 
 }
@@ -41,6 +47,25 @@
 	}
 }
 
+.tag-list {
+  float: right;
+  .fa {
+    background-color: initial;
+    border: initial;
+    margin: initial;
+    padding: initial;
+    margin-right: 5px;
+  }
+  span {
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    margin: 3px;
+    border-radius: 2px;
+  }
+}
+
 #detail-add-choice {
   &:hover {
     opacity: 0.8;
@@ -63,6 +88,7 @@
 .box-header {
 	text-align: left;
     display: table;
+    font-family: 'Futura';
     color: #666;
     vertical-align: middle;
     margin-top: 10px;

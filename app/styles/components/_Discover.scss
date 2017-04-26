@@ -10,6 +10,7 @@
 	transform: translateY(-50%);
 	overflow: hidden;
 	font-size: 1rem;
+	font-family: 'Futura';
 	width: calc(100% - 2rem);
 }
 
@@ -29,4 +30,18 @@
 	&:hover {
 		background-color: $light-blue-hover;
 	}
+}
+
+.search-input {
+	display: inline-block;
+	width: calc(100% - 70px);
+	margin-left: 10px;
+	margin-right: 10px;
+	float: right;
+}
+
+.search-icon {
+	display: inline-block;
+	color: #D3D3D3;
+	margin-left: 5px;
 }

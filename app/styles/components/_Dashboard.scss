@@ -1,6 +1,7 @@
 .snowballot-container {
 	border-left: 5px solid $light-blue;
 	display: inline-block;
+	font-family: 'Futura';
 	width: 100%;
 	padding: 1rem;
 	background-color: white;
@@ -52,6 +53,9 @@
 	font-weight: bold;
 	padding-right: 20px;
 	color: $light-blue;
+	.no-photo {
+		padding-right: 10px;
+	}
 	&:hover {
 		cursor: pointer;
 		opacity: 0.8;
@@ -72,6 +76,7 @@
   display: inline-block;
   position: relative;
   width: 100%;
+  font-family: 'Futura';
 }
 
 .dashboard-share-panel {

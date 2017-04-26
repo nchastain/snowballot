@@ -285,9 +285,11 @@ export class SbDetail extends Component {
   }
 
   renderSb () {
-    if (!this.props.sb || this.props.sb.length === 0) return
+    if (!this.props.sb || this.props.sb.length === 0) return null
+    const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span>{tag.text}</span>) : null
     return (
       <div>
+        {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         <h4 className='sb-title'>{this.props.sb.title}</h4>
         <ul className='sb-choices'>
           {this.props.sb.choices.map((choice, idx) =>

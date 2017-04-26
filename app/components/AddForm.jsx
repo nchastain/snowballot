@@ -6,6 +6,8 @@ import * as actions from '.././actions'
 import Redux from 'redux'
 import DateTime from 'react-datetime'
 import uuid from 'uuid'
+import Tagger from './Tagger'
+import classnames from 'classnames'
 
 let createHandlers = function (dispatch) {
   let handleSubmit = function (options, choices) {
@@ -17,6 +19,7 @@ let createHandlers = function (dispatch) {
 }
 
 const initialState = {
+  optionsExpanded: false,
   title: '',
   alias: '',
   doesExpire: false,
@@ -25,7 +28,9 @@ const initialState = {
   choices: [
     {title: '', votes: 0, id: 1},
     {title: '', votes: 0, id: 2}
-  ]
+  ],
+  tags: [{ id: 1, text: 'Thailand' }, { id: 2, text: 'India' }],
+  suggestions: ['USA', 'Canada']
 }
 
 class AddForm extends React.Component {
@@ -37,6 +42,8 @@ class AddForm extends React.Component {
     this.validateSb = this.validateSb.bind(this)
     this.deleteChoice = this.deleteChoice.bind(this)
     this.checkTab = this.checkTab.bind(this)
+    this.handleAdd = this.handleAdd.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
     this.handlers = createHandlers(this.props.dispatch)
     this.state = initialState
   }
@@ -56,15 +63,32 @@ class AddForm extends React.Component {
     const isPrivate = this.state.isPrivate
     const expires = this.state.expires || null
     const isExtensible = this.state.isExtensible || false
+    const tags = this.state.tags || []
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
     const options = {
       title: title,
       alias: alias,
       isPrivate: isPrivate,
       expires: expires,
-      isExtensible: isExtensible
+      isExtensible: isExtensible,
+      tags: tags
     }
     return {options, filteredChoices}
+  }
+
+  handleDelete (i) {
+    let tags = this.state.tags
+    tags.splice(i, 1)
+    this.setState({tags: tags})
+  }
+
+  handleAdd (tag) {
+    let tags = this.state.tags
+    tags.push({
+        id: tags.length + 1,
+        text: tag
+    })
+    this.setState({tags: tags})
   }
 
   renderChoices () {
@@ -140,7 +164,17 @@ class AddForm extends React.Component {
     this.setState({choices: updatedChoices})
   }
 
+  toggleOptionsMenu () {
+    this.setState({optionsExpanded: !this.state.optionsExpanded})
+    console.log('optionsExpanded is now' + this.state.optionsExpanded)
+  }
+
   render () {
+    const showToggleText = <div>SHOW<FA name='caret-right' className='fa-2x fa-fw' /></div>
+    const hideToggleText = <div>HIDE<FA name='caret-down' className='fa-2x fa-fw' /></div>
+    const optionsClass = {
+      expanded: this.state.optionsExpanded
+    }
     return <div className='newSnowballot-section'>
       <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
         <input
@@ -150,64 +184,80 @@ class AddForm extends React.Component {
           onChange={(e) => this.setState({title: e.target.value})}
         />
         <div className='newSbOptions newSbSection'>
-          <div className='header'>Options</div>
-          <span className='option-section expire-section'>
-            <FA name='calendar-times-o' className='fa-2x fa-fw' /> Make snowballot expire at a certain time?
-            <input
-              id='expireCheckbox'
-              type='checkbox'
-              value={this.state.doesExpire}
-              onChange={(e) => this.setState({doesExpire: e.target.checked})}
-            />
-            {this.state.doesExpire
-              ? <span className='date-selector'>
-                  <div className='date-holder'>
-                    <DateTime
-                      inputProps={{placeholder: 'Enter an expiration date'}}
-                      value={this.state.expires || ''}
-                      onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
-                      closeOnSelect={true}
-                    />
-                  </div>
-                  <br />
+          <div id='options-top'>
+            <div className='header'>Options</div>
+            <div id='toggleOptionsMenu' onClick={() => this.toggleOptionsMenu()}>{this.state.optionsExpanded ? hideToggleText : showToggleText}</div>
+          </div>
+          <div id='real-options-section' className={classnames(optionsClass)}>
+            <span className='option-section expire-section'>
+              <FA name='calendar-times-o' className='fa-2x fa-fw' /> Make snowballot expire at a certain time?
+              <input
+                id='expireCheckbox'
+                type='checkbox'
+                value={this.state.doesExpire}
+                onChange={(e) => this.setState({doesExpire: e.target.checked})}
+              />
+              {this.state.doesExpire
+                ? <span className='date-selector'>
+                    <div className='date-holder'>
+                      <DateTime
+                        inputProps={{placeholder: 'Enter an expiration date'}}
+                        value={this.state.expires || ''}
+                        onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
+                        closeOnSelect={true}
+                      />
+                    </div>
+                    <br />
+                  </span>
+                : <br /> }
+            </span>
+            <span className='option-section'>
+              <FA name='eye-slash' className='fa-2x fa-fw' /> Make snowballot private?
+              <input
+                id='privateCheckbox'
+                type='checkbox'
+                checked={this.state.isPrivate}
+                onChange={(e) => this.setState({isPrivate: e.target.checked})}
+              />
+            </span>
+
+            <span className='option-section'>
+              { !this.state.isPrivate
+              ? <span className='custom-url'>
+                  <FA name='snowflake-o' className='fa-2x fa-fw' /><span> Custom URL&#58; snowballot.com&#47;sbs&#47;</span>
+                  <input
+                    type='text'
+                    value={this.state.alias}
+                    onChange={(e) => this.setState({alias: e.target.value})}
+                  />
                 </span>
-              : <br /> }
-          </span>
-          <span className='option-section'>
-            <FA name='eye-slash' className='fa-2x fa-fw' /> Make snowballot private?
-            <input
-              id='privateCheckbox'
-              type='checkbox'
-              checked={this.state.isPrivate}
-              onChange={(e) => this.setState({isPrivate: e.target.checked})}
-            />
-          </span>
+              : <span className='custom-url' style={{opacity: '0.5'}} >
+                  <FA name='snowflake-o' className='fa-2x fa-fw' /><span className='private-hex-text'>(Sorry, custom URLs unavailable for private snowballots)</span>
+                </span>
+              }
+            </span>
 
-          <span className='option-section'>
-            { !this.state.isPrivate
-            ? <span className='custom-url'>
-                <FA name='snowflake-o' className='fa-2x fa-fw' /><span> Custom URL&#58; snowballot.com&#47;sbs&#47;</span>
-                <input
-                  type='text'
-                  value={this.state.alias}
-                  onChange={(e) => this.setState({alias: e.target.value})}
-                />
-              </span>
-            : <span className='custom-url' style={{opacity: '0.5'}} >
-                <FA name='snowflake-o' className='fa-2x fa-fw' /><span className='private-hex-text'>(Sorry, custom URLs unavailable for private snowballots)</span>
-              </span>
-            }
-          </span>
+            <span className='option-section'>
+              <FA name='users' className='fa-2x fa-fw' /> Allow others to add new choices?
+              <input
+                id='extensibleCheckbox'
+                type='checkbox'
+                checked={this.state.isExtensible}
+                onChange={(e) => this.setState({isExtensible: e.target.checked})}
+              />
+            </span>
 
-          <span className='option-section'>
-            <FA name='users' className='fa-2x fa-fw' /> Allow others to add new choices?
-            <input
-              id='extensibleCheckbox'
-              type='checkbox'
-              checked={this.state.isExtensible}
-              onChange={(e) => this.setState({isExtensible: e.target.checked})}
-            />
-          </span>
+            <span className='option-section' id='tag-section'>
+              <FA name='tags' className='fa-2x fa-fw' /> Add tags to this snowballot (optional)
+              <Tagger
+                className='tag-holder'
+                handleAdd={this.handleAdd}
+                handleDelete={this.handleDelete}
+                tags={this.state.tags}
+                suggestions={this.state.suggestions}
+              />
+            </span>
+          </div>
         </div>
         <div className='newSbSection newSbChoices'>
           <div className='header'>Choices</div>

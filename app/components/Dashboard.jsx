@@ -57,7 +57,17 @@ export class Dashboard extends Component {
   }
 
   render () {
-
+    const photoLogout = (
+      <div id='dashboard-logout-container'>
+        <img id='dashboard-profile-image' className='right' src={this.props.user.photoURL} />
+        Logout
+      </div>
+    )
+    const noPhotoLogout = (
+      <div id='dashboard-logout-container' className='no-photo'>
+        Logout
+      </div>
+    )
     return (
       <div className='dashboard-outer'>
         <div className='snowballots-section'>
@@ -69,10 +79,7 @@ export class Dashboard extends Component {
         }}
           className='dashboard-logout-button'
         >
-          <div id='dashboard-logout-container'>
-            <img id='dashboard-profile-image' className='right' src={this.props.user.photoURL} />
-            Logout
-          </div>
+          {this.props.user.photoURL ? photoLogout : noPhotoLogout}
         </div>
       </div>
     )

@@ -12,14 +12,43 @@ input[type='checkbox']#expireCheckbox {
 	background-color: #eee;
 	padding: 0.5rem;
 	margin-bottom: 10px;
+	display: block;
 	.header {
-		float: right;
-		display: block;
-		width: 100%;
+		float: left;
+		display: inline-block;
 		color: $light-blue;
 		text-transform: uppercase;
 		font-size: 80%;
 		margin-bottom: 10px;
+	}
+}
+
+.newSbOptions {
+	.fa-2x {
+		line-height: inherit !important;
+		margin-top: -4px;
+	}
+}
+
+#options-top {
+	display: inline-block;
+	width: 100%;
+}
+
+#toggleOptionsMenu {
+	font-size: 12px;
+	float: right;
+	display: inline-block;
+	background-color: white;
+	color: $light-blue;
+	padding-left: 10px;
+	padding-top: 5px;
+	.fa {
+		color: $light-blue;
+		margin-left: -5px;
+	}
+	&:hover {
+		cursor: pointer;
 	}
 }
 
@@ -75,10 +104,30 @@ input[type='checkbox']#expireCheckbox {
 	}
 }
 
+#tag-section {
+	display: inline-block;
+}
+
+
+#real-options-section {
+	max-height: 0px;
+	transition: max-height 0.3s ease-in;
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	&.expanded {
+		max-height: 500px;
+		padding-bottom: initial;
+	}
+}
+
 .newSbOptions {
+	display: block;
+	width: 100%;
 	.fa, .fa-2x {
 		color: white;
 	}
+	padding-bottom: 0;
 	#expireCheckbox, #privateCheckbox {
 		margin-bottom: 0;
 	}
@@ -86,6 +135,14 @@ input[type='checkbox']#expireCheckbox {
 		margin-top: 5px;
 		margin-bottom: 5px;
 		display: block;
+		.tag-holder {
+			display: inline-block;
+			width: 50%;
+			margin-left: 5px;
+			input[type='checkbox']#tagInput {
+				display: inline-block !important;
+			}
+		}
 	}
 	.date-holder {
 		margin-top: 10px;

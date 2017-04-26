@@ -28,12 +28,16 @@ class AccountControl extends React.Component {
 
   render () {
     const navclasses = 'navbar-brand link-container right '
+    const photoURL = this.props.user.photoURL
+    const photoLink = (
+      <Link className={navclasses} to='/dashboard'>
+        <img id='profile-image' className='right' src={photoURL} />
+      </Link>
+    )
     if (typeof this.props.user !== 'undefined') console.log(this.props.user)
     const userNav = (
       <span className='right'>
-        <Link className={navclasses} to='/dashboard'>
-          <img id='profile-image' className='right' src={this.props.user.photoURL} />
-        </Link>
+        {photoURL && photoLink}
         <Link className={navclasses + this.isActive('/dashboard')} to='/dashboard'>
           Dashboard
         </Link>
