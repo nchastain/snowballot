@@ -3,11 +3,12 @@ import firebase from 'firebase'
 import { connect } from 'react-redux'
 import * as redux from 'redux'
 import * as actions from '../actions'
-import { login, resetPassword } from '../firebase/auth'
+import { login, fbLogin, googleLogin, resetPassword } from '../firebase/auth'
+import FA from 'react-fontawesome'
 
-function setErrorMsg (error) {
+function setErrorMsg (err) {
   return {
-    loginMessage: error
+    loginMessage: err
   }
 }
 
@@ -16,7 +17,8 @@ export class Login extends Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {
-      loginMessage: null
+      loginMessage: null,
+      emailLogin: false
     }
   }
 
@@ -27,7 +29,7 @@ export class Login extends Component {
         const user = firebase.auth().currentUser
         actions.login(user.uid)
       })
-      .catch((error) => {
+      .catch((err) => {
         this.setState(setErrorMsg('Invalid username/password.'))
       })
   }
@@ -35,32 +37,61 @@ export class Login extends Component {
   resetPassword () {
     resetPassword(this.email.value)
       .then(() => this.setState(setErrorMsg(`Password reset email sent to ${this.email.value}.`)))
-      .catch((error) => this.setState(setErrorMsg(`Email address not found.`)))
+      .catch((err) => this.setState(setErrorMsg(`Email address not found.`)))
   }
 
   render () {
-    return (
-      <div className='col-sm-6 col-sm-offset-3'>
-        <h1> Login </h1>
+    const emailForm = (
+      <span id='login-form'>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+          <div className='form-group'>
+            <input className='form-control' ref={(email) => this.email = email} placeholder='Email'/>
           </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+          <div className='form-group'>
+            <input type='password' className='form-control' placeholder='Password' ref={(pw) => this.pw = pw} />
           </div>
           {
             this.state.loginMessage &&
-            <div className="alert alert-danger" role="alert">
-              <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span className="sr-only">Error:</span>
-              &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
+            <div className='alert alert-danger' role='alert'>
+              <span className='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+              <span className='sr-only'>Error:</span>
+              &nbsp;{this.state.loginMessage} <a href='#' onClick={this.resetPassword} className='alert-link'>Forgot Password?</a>
             </div>
           }
-          <button type="submit" className="button button-primary">Login</button>
+          <button type='submit' id='login-submit' className='button button-primary'>Login</button>
         </form>
+      </span>
+    )
+
+    return (
+      <div className='col-sm-6 col-sm-offset-3'>
+        <div id='icons-container'>
+          <div className='login-page-button' onClick={() => fbLogin()}>
+            <div id='fb-button' className='fa-icon-holder'>
+              <FA name='facebook' className='fa-2x fa-fw' />
+            </div>
+            <span className='login-text'>
+              Log in with Facebook
+            </span>
+          </div>
+          <div className='login-page-button' onClick={() => googleLogin()}>
+            <div id='google-button' className='fa-icon-holder'>
+              <FA name='google' className='fa-2x fa-fw' />
+            </div>
+            <span className='login-text'>
+              Log in with Google
+            </span>
+          </div>
+          <div className='login-page-button' onClick={() => this.setState({emailLogin: true})}>
+            <div id='email-button' className='fa-icon-holder'>
+              <FA name='envelope-o' className='fa-2x fa-fw' />
+            </div>
+            <span className='login-text'>
+              Log in with e-mail
+            </span>
+          </div>
+          {this.state.emailLogin && emailForm}
+        </div>
       </div>
     )
   }

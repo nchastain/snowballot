@@ -46,10 +46,13 @@ export var updateSb = (id, updatedSb) => {
   }
 }
 
-export var login = (uid) => {
+export var login = (uid, photoURL, displayName, email) => {
   return {
     type: 'LOGIN',
-    uid
+    uid,
+    photoURL,
+    displayName,
+    email
   }
 }
 

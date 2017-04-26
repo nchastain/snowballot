@@ -34,7 +34,10 @@ export var userReducer = (state = {}, action) => {
     case 'LOGIN':
       return {
         ...state,
-        uid: action.uid
+        uid: action.uid,
+        photoURL: action.photoURL,
+        displayName: action.displayName,
+        email: action.email
       }
     case 'SHOW_USER_SBS':
       return {

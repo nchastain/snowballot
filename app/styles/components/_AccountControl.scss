@@ -2,3 +2,16 @@
 	color: $light-blue;
   margin-top: -4px;
 }
+
+#profile-image {
+  border-radius: 25px;
+  height: 35px;
+  margin-top: -6px;
+  border: 1px solid #eee;
+}
+
+.user-name {
+  font-size: 0.75rem;
+  padding-left: 5px;
+  display: inline-block;
+}

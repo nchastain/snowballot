@@ -36,6 +36,29 @@
 	background-color: white;
 }
 
+#dashboard-profile-image {
+	height: 40px;
+	border-radius: 20px;
+	margin-right: 10px;
+}
+
+#dashboard-logout-container {
+	text-align: right;
+	padding: 10px;
+	background-color: #eee;
+	margin-top: 10px;
+	background-color: $light-blue-hover;
+	border-radius: 10px;
+	font-weight: bold;
+	padding-right: 20px;
+	color: $light-blue;
+	&:hover {
+		cursor: pointer;
+		opacity: 0.8;
+	}
+	display: inline-block;
+}
+
 .snowballot-container + .snowballot-container {
 	margin-top: 1.5rem;
 }

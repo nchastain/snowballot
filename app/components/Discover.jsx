@@ -13,7 +13,6 @@ let createHandlers = function (dispatch) {
 }
 
 class Discover extends React.Component {
-
   constructor (props) {
     super(props)
     this.handlers = createHandlers(this.props.dispatch)

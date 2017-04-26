@@ -31,6 +31,13 @@ const configure = function (initialState = {}) {
     store = redux.createStore(rootReducer, initialState)
   }
 
+  if (module.hot) {
+    module.hot.accept('.././reducers/reducers', () => {
+      const nextRootReducer = require('.././reducers/reducers')
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+
   return store
 }
 

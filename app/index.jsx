@@ -11,17 +11,18 @@ let store = configure()
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    store.dispatch(actions.login(user.uid))
+    console.log(user)
+    store.dispatch(actions.login(user.uid, user.photoURL, user.displayName, user.email))
   } else {
     store.dispatch(actions.logout())
   }
 })
 
 // Load foundation
-$(document).foundation();
+$(document).foundation()
 
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept()
 }
 
 // App css
@@ -35,4 +36,5 @@ ReactDOM.render(
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')
-);
+)
+

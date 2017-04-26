@@ -8,7 +8,11 @@ export function auth (email, pw) {
 }
 
 export function logout () {
-  return firebaseAuth().signOut()
+  return firebaseAuth().signOut().then(function () {
+    // Sign-out successful.
+  }).catch(function (err) {
+    console.log('An error occurred while signing out: ' + err)
+  })
 }
 
 export function login (email, pw) {
@@ -16,6 +20,48 @@ export function login (email, pw) {
   .catch(function (error) {
     console.log(error)
   })
+}
+
+export function fbLogin () {
+  let provider = new firebase.auth.FacebookAuthProvider()
+  return firebaseAuth().signInWithPopup(provider).then(function (result) {
+    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    console.log(result)
+    let token = result.credential.accessToken
+    console.log(token)
+    let user = result.user
+    //user.providerData[0].displayName, user.providerData[0].photoUrl
+    console.log(user)
+  }).catch(function (error) {
+    // Handle Errors here.
+    let errorCode = error.code
+    let errorMessage = error.message
+    // The email of the user's account used.
+    let email = error.email
+    // The firebase auth.AuthCredential type that was used.
+    var credential = error.credential
+    // ...
+  })
+}
+
+export function googleLogin () {
+  var provider = new firebase.auth.GoogleAuthProvider()
+  firebase.auth().signInWithPopup(provider).then(function (result) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = result.credential.accessToken
+    // The signed-in user info.
+    var user = result.user
+    // ...
+  }).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code
+    var errorMessage = error.message
+    // The email of the user's account used.
+    var email = error.email
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential
+    // ...
+  });
 }
 
 export function resetPassword (email) {
@@ -30,3 +76,4 @@ export function saveUser (user) {
     })
     .then(() => user)
 }
+

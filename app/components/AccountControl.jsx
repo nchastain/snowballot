@@ -4,6 +4,7 @@ import { logout } from '../firebase/auth'
 import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import * as actions from '.././actions'
+import classnames from 'classnames'
 
 class AccountControl extends React.Component {
   constructor (props) {
@@ -17,30 +18,42 @@ class AccountControl extends React.Component {
     dispatch(actions.logout())
   }
 
+  getPhoto () {
+    return <img src={this.props.user.photoURL} />
+  }
+
+  isActive (navLink) {
+    return navLink === this.props.active ? 'active' : ''
+  }
+
   render () {
-    return this.props.authed
-    ? <ul className='right'>
-        <li
-        onClick={(evt) => {
-          this.onLogout(evt)
-          logout()
-        }}
-        className='navbar-brand right logout-button link-container'
-        >Logout</li>
-        <Link className={this.props.active === '/dashboard'
-        ? 'navbar-brand link-container active right'
-        : 'navbar-brand link-container right'} to='/dashboard'>
-          <li>Dashboard</li>
+    const navclasses = 'navbar-brand link-container right '
+    if (typeof this.props.user !== 'undefined') console.log(this.props.user)
+    const userNav = (
+      <span className='right'>
+        <Link className={navclasses} to='/dashboard'>
+          <img id='profile-image' className='right' src={this.props.user.photoURL} />
         </Link>
-        <Link to='/sbs/add' className={this.props.active === '/sbs/add' ? 'addLink navbar-brand active right link-container' : 'addLink navbar-brand right link-container'}>
-          <li><FA className='addButton fa fa-fw' name='plus' />Add</li>
+        <Link className={navclasses + this.isActive('/dashboard')} to='/dashboard'>
+          Dashboard
         </Link>
-      </ul>
-    : <ul className='right'>
-        <li className={this.props.active === '/login' ? 'right active' : 'right'} style={{paddingLeft: '1.5rem'}}><Link to='/login'>Login</Link></li>
-        <li className={this.props.active === '/register' ? 'right active' : 'right'} ><Link to='/register' className='navbar-brand right'>Register</Link></li>
-      </ul>
+        <Link to='/sbs/add' className={this.isActive('/sbs/add') + ' ' + navclasses + 'addLink'}>
+          <FA className='addButton fa fa-fw' name='plus' />Add
+        </Link>
+      </span>
+    )
+    const noUserNav = (
+      <span className='right'>
+        <Link to='/login' className={navclasses + this.isActive('/login')}>
+          <li>Login</li>
+        </Link>
+        <Link to='/register' className={navclasses + this.isActive('/register')}>
+          <li>Register</li>
+        </Link>
+      </span>
+    )
+    return this.props.authed ? userNav : noUserNav
   }
 }
 
-export default connect()(AccountControl)
+export default connect(state => state)(AccountControl)
