@@ -30,27 +30,10 @@ class Discover extends React.Component {
     }
   }
 
-  // setNumPages () {
-  //   if (this.props.sbs && this.props.sbs.length > 0 && this.state.searchTerm !== '') {
-  //     const KEYS_TO_FILTERS = ['title']
-  //     const filteredSbs = this.props.sbs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
-  //     const numPages = Math.floor(filteredSbs / 5) === 0 ? 1 : Math.floor(filteredSbs / 5)
-  //     this.setState({numPages})
-  //   }
-  // }
-
-  // findNumPages () {
-  //   const KEYS_TO_FILTERS = ['title']
-  //   const filteredSbs = this.props.sbs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
-  //   const numPages = Math.floor(filteredSbs / 5) === 0 ? 1 : Math.floor(filteredSbs / 5)
-  //   return numPages
-  // }
-
   componentWillReceiveProps () {
-    // let numPages = this.findNumPages()
     this.setState({
       currentPage: this.getCurrentPage(this.props.history.location.pathname),
-      numPages: this.props.sbs.length === 0 ? 1 : Math.floor(this.props.sbs.length / 5)
+      numPages: this.props.sbs.length === 0 ? 1 : Math.floor(this.props.sbs.length / 4)
     })
   }
 
@@ -60,9 +43,8 @@ class Discover extends React.Component {
 
   renderSbs (sbs, page) {
     if (sbs.length === 0) return <div>Sorry, no snowballots found for that search</div>
-    const startIdx = parseInt(this.state.currentPage) === 1 ? 0 : parseInt(this.state.currentPage) * 5
-    const endIdx = startIdx + 5
-    console.log(startIdx, endIdx)
+    const startIdx = parseInt(this.state.currentPage) === 1 ? 0 : parseInt(this.state.currentPage) * 4
+    const endIdx = startIdx + 4
     const sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
     return sortedSbs.map((sb, idx) => (
       <Link to={`/sbs/${sb.alias}`} key={`sb-${sb.createdAt}`}>
@@ -72,8 +54,12 @@ class Discover extends React.Component {
   }
 
   searchUpdated (term) {
-    // this.handlers.startSearchSbs(term)
-    this.setState({searchTerm: term})
+    if (this.state.currentPage !== 1) this.props.history.push('/discover/page=1')
+    // this.props.history.push(`/discover/page=1?q=${term}`)
+    const KEYS_TO_FILTERS = ['title']
+    const filteredSbs = term !== '' ? this.props.sbs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS)) : this.props.sbs
+    const newNumPages = Math.floor(filteredSbs.length / 4)
+    this.setState({currentPage: 1, searchTerm: term || '', numPages: newNumPages || 1})
   }
 
   renderSidebar () {
@@ -137,13 +123,17 @@ class Discover extends React.Component {
       'disabled-arrow': this.getCurrentPage(fullPath) === this.state.numPages
     }
 
+    const withPages = (
+      <div className='pagination'>
+        <Link className={classnames(leftArrowClasses)} to={`/discover/page=${this.getCurrentPage(fullPath) - 1}`}>&lsaquo;</Link>
+        {pages}
+        <Link className={classnames(rightArrowClasses)} to={`/discover/page=${this.getCurrentPage(fullPath) + 1}`}>&rsaquo;</Link>
+      </div>
+    )
+
     return (
       <span>
-        <div className='pagination'>
-          <Link className={classnames(leftArrowClasses)} to={`/discover/page=${this.getCurrentPage(fullPath) - 1}`}>&lsaquo;</Link>
-          {pages}
-          <Link className={classnames(rightArrowClasses)} to={`/discover/page=${this.getCurrentPage(fullPath) + 1}`}>&rsaquo;</Link>
-        </div>
+        {pages.length > 1 ? withPages : <div className='pagination' />}
       </span>
     )
   }
