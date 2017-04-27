@@ -2,6 +2,6 @@
 	padding: 5rem;
 }
 
-.fa, .fa-2x, .fa-3x {
+.fa:not(.page-arrow), .fa-2x:not(.page-arrow), .fa-3x:not(.page-arrow) {
   vertical-align: middle;
 }

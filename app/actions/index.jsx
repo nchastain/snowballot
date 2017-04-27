@@ -165,3 +165,21 @@ export var startUpdateSb = (id, updates, options) => {
     })
   }
 }
+
+export var startSearchSbs = (searchTerm) => {
+  return (dispatch, getState) => {
+    var publicSbsRef = firebaseRef.child(`sbs`).child('isPrivate').equalTo('false')
+    return publicSbsRef.orderByChild('title').startAt(searchTerm).endAt(searchTerm + '\uf8ff').once('value').then((snapshot) => {
+      var sbs = snapshot.val() || {}
+      var parsedSbs = []
+
+      Object.keys(sbs).forEach((sbId) => {
+        parsedSbs.push({
+          id: sbId,
+          ...sbs[sbId]
+        })
+      })
+      dispatch(addSbs(parsedSbs))
+    })
+  }
+}

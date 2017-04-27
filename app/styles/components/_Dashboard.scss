@@ -1,18 +1,23 @@
+.snowballots-section {
+	display: block;
+}
+
 .snowballot-container {
 	border-left: 5px solid $light-blue;
 	display: inline-block;
-	font-family: 'Futura';
+	font-family: 'Futura' !important;
 	width: 100%;
 	padding: 1rem;
 	background-color: white;
 	position: relative;
 	&:hover {
-		background-color: $light-blue-hover;
+		background-color: rgba($light-blue, 0.1);
 	}
 	h5 {
 		display: inline-block;
 		float: left;
 		position: relative;
+		font-family: 'Futura' !important;
 	}
 	.vote-total {
 		.number {
@@ -27,7 +32,7 @@
 		text-align: center;
 		text-transform: uppercase;
 		font-size: 50%;
-		background-color: rgba(20, 124, 192, 0.2);
+		background-color: rgba($light-blue, 0.2);
 		padding: 10px;
 	}
 }
@@ -44,13 +49,13 @@
 }
 
 #dashboard-logout-container {
-	text-align: right;
+	width: 100%;
 	padding: 10px;
 	background-color: #eee;
 	margin-top: 10px;
-	background-color: $light-blue-hover;
+	background-color: rgba($light-blue, 0.3);
 	border-radius: 10px;
-	font-weight: bold;
+	font-family: 'FuturaExtraBold';
 	padding-right: 20px;
 	color: $light-blue;
 	.no-photo {
@@ -83,7 +88,7 @@
 	display: inline-block;
 	float: right;
 	height: 55px;
-	background-color: $light-blue-hover;
+	background-color: rgba($light-blue, 0.3);
 	color: white;
 	padding-left: 0.5rem;
 	padding-right: 1rem;

@@ -52,7 +52,7 @@ export class Navigation extends Component {
     return (
       <div className='bar'>
         <Link className={navclasses} to='/'>
-          <img className='logo' src='.././assets/stylizeds.png' />
+          <img className='logo' src='.././assets/logo.png' />
         </Link>
         <Link to='/' className={navclasses + this.isActive('/')}>
           Home

@@ -9,7 +9,7 @@
 	font-weight: bold;
 	text-transform: uppercase;
 	font-size: 110%;
-	background-color: rgba(0,0,0,0.8) !important;
+	background-color: $light-blue !important;
 	color: white !important;
 	display: inline-block;
 	width: 100%;
@@ -71,6 +71,10 @@ button {
 	}
 }
 
+.addButton {
+	color: $light-blue-hover !important;
+}
+
 .active {
 	position: relative;
 	color: $light-blue-hover !important;
@@ -86,5 +90,12 @@ button {
 	&.addLink:after {
 		left: 10px;
 		width: calc(100% - 25px);
+	}
+	&a {
+		cursor: default;
+	}
+	&:hover {
+		cursor: default;
+		background-color: initial;
 	}
 }

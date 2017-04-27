@@ -34,7 +34,6 @@ class AccountControl extends React.Component {
         <img id='profile-image' className='right' src={photoURL} />
       </Link>
     )
-    if (typeof this.props.user !== 'undefined') console.log(this.props.user)
     const userNav = (
       <span className='right'>
         {photoURL && photoLink}

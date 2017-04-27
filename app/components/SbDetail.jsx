@@ -65,6 +65,7 @@ export class SbDetail extends Component {
   }
 
   vote (e, choiceId) {
+    debugger;
     let expired = false
     let oldDOMRefs = setDOMReferences(e)
     const {selected, votedBox, plusText, voteCount} = oldDOMRefs
@@ -76,9 +77,11 @@ export class SbDetail extends Component {
     if (!selected) {
       e.currentTarget.querySelector('.selection-icon.selected').style.display = 'inline-block'
       e.currentTarget.querySelector('.selection-icon.unselected').style.display = 'none'
-      votedBox.style.backgroundColor = 'white'
-      votedBox.querySelector('.selection-icon.selected').style.display = 'none'
-      votedBox.querySelector('.selection-icon.unselected').style.display = 'inline-block'
+      if (votedBox) {
+        votedBox.style.backgroundColor = 'white'
+        votedBox.querySelector('.selection-icon.selected').style.display = 'none'
+        votedBox.querySelector('.selection-icon.unselected').style.display = 'inline-block'
+      }
     }
     if (selected) {
       e.currentTarget.querySelector('.selection-icon.selected').style.display = 'none'
@@ -171,12 +174,12 @@ export class SbDetail extends Component {
       currentPlus.style.visibility = 'visible'
       currentPlus.style.opacity = '1'
       currentContainer.style.cursor = 'pointer'
-      currentContainer.style.backgroundColor = '#bfe6ff'
+      currentContainer.style.backgroundColor = 'rgba(66, 103, 178, 0.1)'
     } else if (e.type === 'mouseleave') {
       currentVoteCount.style.marginRight = hide
       currentPlus.style.visibility = 'hidden'
       currentPlus.style.opacity = '0'
-      currentContainer.style.backgroundColor = selected ? '#bfe6ff' : 'white'
+      currentContainer.style.backgroundColor = selected ? 'rgba(66, 103, 178, 0.2)' : 'white'
     }
     if (plusText && voteCount) {
       if (e.type === 'mouseenter') {
@@ -291,6 +294,7 @@ export class SbDetail extends Component {
       <div>
         {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         <h4 className='sb-title'>{this.props.sb.title}</h4>
+        <div id='sb-description-text'>{this.props.sb.description || null}</div>
         <ul className='sb-choices'>
           {this.props.sb.choices.map((choice, idx) =>
             <div

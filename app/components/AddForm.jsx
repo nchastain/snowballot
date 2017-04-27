@@ -29,8 +29,8 @@ const initialState = {
     {title: '', votes: 0, id: 1},
     {title: '', votes: 0, id: 2}
   ],
-  tags: [{ id: 1, text: 'Thailand' }, { id: 2, text: 'India' }],
-  suggestions: ['USA', 'Canada']
+  tags: [],
+  suggestions: []
 }
 
 class AddForm extends React.Component {
@@ -63,6 +63,7 @@ class AddForm extends React.Component {
     const isPrivate = this.state.isPrivate
     const expires = this.state.expires || null
     const isExtensible = this.state.isExtensible || false
+    const description = this.state.description || ''
     const tags = this.state.tags || []
     if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
     const options = {
@@ -71,7 +72,8 @@ class AddForm extends React.Component {
       isPrivate: isPrivate,
       expires: expires,
       isExtensible: isExtensible,
-      tags: tags
+      tags: tags,
+      description: description
     }
     return {options, filteredChoices}
   }
@@ -184,7 +186,7 @@ class AddForm extends React.Component {
           onChange={(e) => this.setState({title: e.target.value})}
         />
         <div className='newSbOptions newSbSection'>
-          <div id='options-top'>
+          <div id='options-top' onClick={() => this.toggleOptionsMenu()}>
             <div className='header'>Options</div>
             <div id='toggleOptionsMenu' onClick={() => this.toggleOptionsMenu()}>{this.state.optionsExpanded ? hideToggleText : showToggleText}</div>
           </div>
@@ -224,7 +226,7 @@ class AddForm extends React.Component {
             <span className='option-section'>
               { !this.state.isPrivate
               ? <span className='custom-url'>
-                  <FA name='snowflake-o' className='fa-2x fa-fw' /><span> Custom URL&#58; snowballot.com&#47;sbs&#47;</span>
+                  <FA name='snowflake-o' className='fa-2x fa-fw' /><span>Add a custom URL?&#58; snowballot.com&#47;sbs&#47;</span>
                   <input
                     type='text'
                     value={this.state.alias}
@@ -247,8 +249,17 @@ class AddForm extends React.Component {
               />
             </span>
 
+            <span className='option-section' >
+              <FA name='pencil' className='fa-2x fa-fw' /> Add a description for this snowballot?
+              <textarea
+                id='sbDescription'
+                value={this.state.description}
+                onChange={(e) => this.setState({description: e.target.value})}
+              />
+            </span>
+
             <span className='option-section' id='tag-section'>
-              <FA name='tags' className='fa-2x fa-fw' /> Add tags to this snowballot (optional)
+              <FA name='tags' className='fa-2x fa-fw' /> Add tags to this snowballot?
               <Tagger
                 className='tag-holder'
                 handleAdd={this.handleAdd}

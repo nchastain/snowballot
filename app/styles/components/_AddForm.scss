@@ -33,6 +33,9 @@ input[type='checkbox']#expireCheckbox {
 #options-top {
 	display: inline-block;
 	width: 100%;
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 #toggleOptionsMenu {
@@ -135,6 +138,13 @@ input[type='checkbox']#expireCheckbox {
 		margin-top: 5px;
 		margin-bottom: 5px;
 		display: block;
+		width: 100%;
+		textarea {
+			margin-left: 50px;
+			width: calc(100% - 500px);
+			max-width: 50%;
+			min-width: 200px;
+		}
 		.tag-holder {
 			display: inline-block;
 			width: 50%;
@@ -170,6 +180,7 @@ input[type='checkbox']#expireCheckbox {
 	display: inline-block;
 	width: 100%;
 	margin-bottom: 0;
+	background-color: rgba($light-blue, 0.7);
 }
 
 #addchoice {
