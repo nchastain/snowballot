@@ -15,6 +15,7 @@ class Tagger extends React.Component {
         suggestions={suggestions}
         handleDelete={handleDelete}
         handleAddition={handleAdd}
+        placeholder='Add new tag and press &#39;Enter&#39;'
       />
     )
   }

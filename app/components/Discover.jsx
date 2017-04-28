@@ -22,7 +22,7 @@ let createHandlers = function (dispatch) {
 class Discover extends React.Component {
   constructor (props) {
     super(props)
-    this.itemsPerPage = 8
+    this.itemsPerPage = 16
     this.handlers = createHandlers(props.dispatch)
     this.state = {
       searchTerm: this.getSearchTermFromURL(props.history.location.search),
@@ -122,7 +122,7 @@ class Discover extends React.Component {
     if (document.querySelector('#discover-body-container')) {
       document.querySelector('#discover-body-container').style.paddingBottom =
         sbs.length - startIdx < (this.state.itemsPerPage / 2)
-        ? 'calc(25% + 0.5rem - 4px)' // 4px appears to be the inline-block addition
+        ? 'calc(75% + 0.5rem - 12px)' // 4px per row appears to be the inline-block addition
         : '0.5rem'
     }
     console.log(sbs.length, 'sbs.length')

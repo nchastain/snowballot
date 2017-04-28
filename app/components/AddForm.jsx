@@ -22,12 +22,14 @@ const initialState = {
   optionsExpanded: false,
   title: '',
   alias: '',
+  choicesExpanded: {},
+  description: '',
   doesExpire: false,
   isPrivate: false,
   isExtensible: false,
   choices: [
-    {title: '', votes: 0, id: 1},
-    {title: '', votes: 0, id: 2}
+    {title: '', votes: 0, id: 1, info: ''},
+    {title: '', votes: 0, id: 2, info: ''}
   ],
   tags: [],
   suggestions: []
@@ -84,6 +86,13 @@ class AddForm extends React.Component {
     this.setState({tags: tags})
   }
 
+  toggleChoiceOptions (e) {
+    const infoSection = document.querySelector(`#choice-more-info-${e.target.id}`)
+    const expandState = Boolean(!this.state.choicesExpanded[e.target.id])
+    infoSection.classList.toggle('choice-more-info-expanded')
+    this.setState({choicesExpanded: {...this.state.choicesExpanded, [e.target.id]: expandState}})
+  }
+
   handleAdd (tag) {
     let tags = this.state.tags
     tags.push({
@@ -93,27 +102,67 @@ class AddForm extends React.Component {
     this.setState({tags: tags})
   }
 
+  setUpInfo (id) {
+    // console.log('setting up info for choice: ', id)
+    // const choiceArr = this.state.choices.filter(choice => choice.id === id)
+    // const thisChoice = choiceArr[0]
+
+    // this.setState({choices: {...this.state.choices, thisChoice})
+  }
+
+  createInfoPane (id) {
+    return (
+      <div className='choice-more-info' id={`choice-more-info-choice-${id}`}>
+        <div
+          id='add-info'
+          className='button secondary'
+          onClick={(id) => this.setUpInfo(id)}
+        >
+          <FA name='commenting-o' className='fa fa-fw more-info-icon' />
+          add additional info (context, details, etc.)
+        </div>
+        <textarea
+          rows={3}
+          id={`choice-${id}`}
+          onChange={(e) => this.choiceUpdate(e, 'info')}
+          style={{width: '500px'}}
+        />
+      </div>
+    )
+  }
+
   renderChoices () {
     return this.state.choices.map((choice) => (
-      <div key={`choice-container-${choice.id}`} className='choice-container input-group'>
-        <input
-          className='choice-input input-group-field'
-          id={`choice-${choice.id}`}
-          value={choice.title}
-          type='text'
-          placeholder={`Enter name of Choice ${choice.id}`}
-          onKeyDown={this.checkTab}
-          onChange={this.choiceUpdate}
-        />
+      <span key={`choice-container-${choice.id}`}>
         <div
-          key={`delete-${choice.id}`}
-          id={`delete-${choice.id}`}
-          className='delete-choice-button button alert input-group-button'
-          onClick={this.deleteChoice}
+          id={`choice-container-choice-${choice.id}`}
+          className='choice-container input-group'
         >
-          &times;
+          <FA
+            id={`choice-${choice.id}`}
+            name={this.state.choicesExpanded[`choice-${choice.id}`] ? 'compress' : 'ellipsis-h'}
+            className='input-group-button fa fa-fw choice-expand'
+            onClick={(e) => this.toggleChoiceOptions(e)}
+          />
+          <input
+            className='choice-input input-group-field'
+            id={`choice-${choice.id}`}
+            value={choice.title}
+            type='text'
+            placeholder={`Enter name of Choice ${choice.id}`}
+            onKeyDown={this.checkTab}
+            onChange={(e) => this.choiceUpdate(e, 'title')}
+          />
+          <FA
+            key={`delete-${choice.id}`}
+            id={`delete-${choice.id}`}
+            className='fa fa-fw delete-choice-button button alert input-group-button'
+            name='close'
+            onClick={this.deleteChoice}
+          />
         </div>
-      </div>
+        {this.createInfoPane(choice.id)}
+      </span>
     ))
   }
 
@@ -130,10 +179,10 @@ class AddForm extends React.Component {
     this.props.history.push(`/sbs/${validSb.options.alias}`)
   }
 
-  choiceUpdate (e) {
+  choiceUpdate (e, property) {
     const position = parseInt(e.target.id.match(/\d+$/).join(''))
     const updatedChoices = this.state.choices.map((choice) => {
-      if (choice.id === position) choice.title = e.target.value
+      if (choice.id === position) choice[property] = e.target.value
       return choice
     })
     this.setState({ choices: updatedChoices })
@@ -168,7 +217,22 @@ class AddForm extends React.Component {
 
   toggleOptionsMenu () {
     this.setState({optionsExpanded: !this.state.optionsExpanded})
-    console.log('optionsExpanded is now' + this.state.optionsExpanded)
+  }
+
+  handleOptionToggle (e) {
+    switch (e.target.id) {
+      case 'option-expire':
+        this.setState({doesExpire: !this.state.doesExpire})
+        break
+      case 'option-private':
+        this.setState({isPrivate: !this.state.isPrivate})
+        break
+      case 'option-extensible':
+        this.setState({isExtensible: !this.state.isExtensible})
+        break
+      default:
+        break
+    }
   }
 
   render () {
@@ -194,6 +258,7 @@ class AddForm extends React.Component {
       <div className='newSnowballot-section'>
         <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
           <input
+            id='title-input'
             type='text'
             value={this.state.title}
             placeholder='Enter title of new snowballot'
@@ -206,6 +271,7 @@ class AddForm extends React.Component {
             </div>
             <div id='real-options-section' className={classnames(optionsClass)}>
 
+              {/* Lock voting */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA name='calendar-times-o' className='fa-2x fa-fw' />
@@ -214,10 +280,11 @@ class AddForm extends React.Component {
                   Lock voting on snowballot after certain time?
                 </div>
                 <div className='options-selector'>
-                  <input
-                    type='checkbox'
-                    value={this.state.doesExpire}
-                    onChange={(e) => this.setState({doesExpire: e.target.checked})}
+                  <FA
+                    id='option-expire'
+                    name={this.state.doesExpire ? 'check-circle' : 'circle'}
+                    className='fa fa-fw custom-check'
+                    onClick={(e) => this.handleOptionToggle(e)}
                   />
                 </div>
                 <div className='options-rest'>
@@ -225,6 +292,7 @@ class AddForm extends React.Component {
                 </div>
               </div>
 
+              {/* Private/public */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA name='eye-slash' className='fa-2x fa-fw' />
@@ -233,14 +301,16 @@ class AddForm extends React.Component {
                   Make snowballot private?
                 </div>
                 <div className='options-selector'>
-                  <input
-                    type='checkbox'
-                    value={this.state.isPrivate}
-                    onChange={(e) => this.setState({isPrivate: e.target.checked})}
+                  <FA
+                    id='option-private'
+                    name={this.state.isPrivate ? 'check-circle' : 'circle'}
+                    className='fa fa-fw custom-check'
+                    onClick={(e) => this.handleOptionToggle(e)}
                   />
                 </div>
               </div>
 
+              {/* URL Alias */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA
@@ -255,11 +325,12 @@ class AddForm extends React.Component {
                   <input
                     type='text'
                     value={this.state.alias}
-                    onChange={(e) => this.setState({alias: e.target.checked})}
+                    onChange={(e) => this.setState({alias: e.target.value})}
                   />
                 </div>
               </div>
 
+              {/* Extensibility */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA name='users' className='fa-2x fa-fw' />
@@ -268,14 +339,16 @@ class AddForm extends React.Component {
                   Allow others to add new choices?
                 </div>
                 <div className='options-selector'>
-                  <input
-                    type='checkbox'
-                    value={this.state.isExtensible}
-                    onChange={(e) => this.setState({isExtensible: e.target.checked})}
+                  <FA
+                    id='option-extensible'
+                    name={this.state.isExtensible ? 'check-circle' : 'circle'}
+                    className='fa fa-fw custom-check'
+                    onClick={(e) => this.handleOptionToggle(e)}
                   />
                 </div>
               </div>
 
+              {/* Description */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA name='pencil' className='fa-2x fa-fw' />
@@ -285,12 +358,15 @@ class AddForm extends React.Component {
                 </div>
                 <div className='options-rest'>
                   <textarea
+                    rows={3}
                     value={this.state.description}
                     onChange={(e) => this.setState({description: e.target.value})}
+                    style={{width: '500px'}}
                   />
                 </div>
               </div>
 
+              {/* Tags */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA name='tags' className='fa-2x fa-fw' />
