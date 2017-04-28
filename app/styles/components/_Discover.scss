@@ -195,6 +195,11 @@
 .pagination a.active-page {
     color: white;
 		text-decoration: underline;
+		&:hover {
+			color: white;
+			background-color: initial;
+			cursor: default;
+		}
 }
 
 .pagination a:hover {background-color: rgba($light-blue, 0.1);}

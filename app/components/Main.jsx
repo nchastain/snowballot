@@ -71,7 +71,7 @@ class Main extends Component {
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
             <PublicRoute authed={this.state.authed} path='/register' component={Register} />
             <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
-            <PrivateRoute exact authed={this.state.authed} path='/sbs/add' component={AddForm} />
+            <Route exact authed={this.state.authed} path='/sbs/add' component={AddForm} />
             <Route path='/discover/' component={Discover} />
             <Route path='/sbs/:alias' component={SbDetail} />
             <Route render={() => <h3>404 - Page Not Found</h3>} />

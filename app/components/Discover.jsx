@@ -53,11 +53,8 @@ class Discover extends React.Component {
     this.handlers.findPublicSbs()
   }
 
-
-
   getSearchTermFromURL (searchStr) {
     let pageStr = searchStr.substr(searchStr.lastIndexOf('=') + 1)
-    console.log(pageStr)
     return pageStr
   }
 
@@ -172,14 +169,15 @@ class Discover extends React.Component {
           <div id='search-results-icons'>
             <Link
               className={classnames(leftArrowClasses)}
-              to={`/discover/page=${this.getCurrentPage(fullPath) - 1}`
-            }>
+              to={`/discover/page=${this.getCurrentPage(fullPath) - 1}?q=${query}`}
+            >
               &lsaquo;
             </Link>
             {pages}
             <Link
               className={classnames(rightArrowClasses)}
-              to={`/discover/page=${this.getCurrentPage(fullPath) + 1}`}>
+              to={`/discover/page=${this.getCurrentPage(fullPath) + 1}?q=${query}`}
+            >
               &rsaquo;
             </Link>
           </div>
