@@ -289,7 +289,7 @@ export class SbDetail extends Component {
 
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0) return null
-    const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span>{tag.text}</span>) : null
+    const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
     return (
       <div>
         {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}

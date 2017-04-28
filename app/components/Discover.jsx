@@ -22,18 +22,30 @@ let createHandlers = function (dispatch) {
 class Discover extends React.Component {
   constructor (props) {
     super(props)
-    this.handlers = createHandlers(this.props.dispatch)
+    this.itemsPerPage = 8
+    this.handlers = createHandlers(props.dispatch)
     this.state = {
-      searchTerm: '',
-      numPages: 1,
-      currentPage: this.getCurrentPage(this.props.history.location.pathname)
+      searchTerm: this.getSearchTermFromURL(props.history.location.search),
+      itemsPerPage: this.itemsPerPage,
+      numPages: props.sbs.length === 0
+        ? 1
+        : Math.ceil(props.sbs.length / this.itemsPerPage),
+      currentPage: this.getCurrentPage(props.history.location.pathname)
     }
   }
 
-  componentWillReceiveProps () {
+  componentWillMount () {
+    this.handlers.findPublicSbs()
+    this.getSearchResults(this.state.searchTerm)
+  }
+
+  componentWillReceiveProps (nextProps) {
     this.setState({
-      currentPage: this.getCurrentPage(this.props.history.location.pathname),
-      numPages: this.props.sbs.length === 0 ? 1 : Math.floor(this.props.sbs.length / 4)
+      currentPage: this.getCurrentPage(nextProps.history.location.pathname),
+      searchTerm: this.getSearchTermFromURL(nextProps.history.location.search),
+      numPages: nextProps.sbs.length === 0
+        ? 1
+        : Math.ceil(this.getSearchResults(this.state.searchTerm).length / this.state.itemsPerPage)
     })
   }
 
@@ -41,25 +53,31 @@ class Discover extends React.Component {
     this.handlers.findPublicSbs()
   }
 
-  renderSbs (sbs, page) {
-    if (sbs.length === 0) return <div>Sorry, no snowballots found for that search</div>
-    const startIdx = parseInt(this.state.currentPage) === 1 ? 0 : parseInt(this.state.currentPage) * 4
-    const endIdx = startIdx + 4
-    const sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
-    return sortedSbs.map((sb, idx) => (
-      <Link to={`/sbs/${sb.alias}`} key={`sb-${sb.createdAt}`}>
-        <div className='discover-snowballot-container'><h4 className='snowballot-square-text'>{sb.title}</h4></div>
-      </Link>
-    ))
+
+
+  getSearchTermFromURL (searchStr) {
+    let pageStr = searchStr.substr(searchStr.lastIndexOf('=') + 1)
+    console.log(pageStr)
+    return pageStr
+  }
+
+  getSearchResults (term) {
+    const KEYS_TO_FILTERS = ['title']
+    const filteredSbs = term !== ''
+      ? this.props.sbs.filter(createFilter(term, KEYS_TO_FILTERS))
+      : this.props.sbs
+    return filteredSbs
   }
 
   searchUpdated (term) {
-    if (this.state.currentPage !== 1) this.props.history.push('/discover/page=1')
-    // this.props.history.push(`/discover/page=1?q=${term}`)
-    const KEYS_TO_FILTERS = ['title']
-    const filteredSbs = term !== '' ? this.props.sbs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS)) : this.props.sbs
-    const newNumPages = Math.floor(filteredSbs.length / 4)
-    this.setState({currentPage: 1, searchTerm: term || '', numPages: newNumPages || 1})
+    if (this.state.currentPage !== 1) this.props.history.push(`/discover/page=1?q=${term}`)
+    else {
+      this.props.history.push(`/discover/page=1?q=${term}`)
+      const filteredSbs = this.getSearchResults(term)
+      const newNumPages = Math.ceil(filteredSbs.length / this.state.itemsPerPage)
+      const parsedNumPages = newNumPages !== 0 ? newNumPages : 1
+      this.setState({currentPage: 1, searchTerm: term || '', numPages: parsedNumPages || 1})
+    }
   }
 
   renderSidebar () {
@@ -79,36 +97,60 @@ class Discover extends React.Component {
   }
 
   renderSearch () {
-    if (!this.props.sbs || this.props.sbs.length === 0) return
-    const KEYS_TO_FILTERS = ['title']
-    const filteredSbs = this.props.sbs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
       <span>
         <div id='discover-search-bar'>
-          <FA name='search' className='fa-2x fa-fw search-icon' /><SearchInput className='search-input' onChange={(e) => this.searchUpdated(e)} />
+          <FA
+            name='search'
+            className='fa-2x fa-fw search-icon'
+          />
+            <SearchInput
+              className='search-input'
+              value={this.state.searchTerm}
+              onChange={(e) => this.searchUpdated(e)}
+            />
         </div>
         <div id='discover-body-container'>
-          <div id='discover-sidebar'>
-            {this.renderSidebar()}
-          </div>
           <div id='discover-grid'>
-            {this.renderSbs(filteredSbs)}
+            {this.renderSbs(this.getSearchResults(this.state.searchTerm))}
           </div>
         </div>
       </span>
     )
   }
 
+  renderSbs (sbs) {
+    let startIdx = this.state.currentPage === 1 ? 0 : (this.state.currentPage - 1) * this.state.itemsPerPage
+    let endIdx = startIdx + this.state.itemsPerPage
+    if (document.querySelector('#discover-body-container')) {
+      document.querySelector('#discover-body-container').style.paddingBottom =
+        sbs.length - startIdx < (this.state.itemsPerPage / 2)
+        ? 'calc(25% + 0.5rem - 4px)' // 4px appears to be the inline-block addition
+        : '0.5rem'
+    }
+    console.log(sbs.length, 'sbs.length')
+    if (sbs.length === 0) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
+    const sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
+    return sortedSbs.map((sb, idx) => (
+      <div className='sb-outer-container' key={`sb-${sb.createdAt}`} >
+        <Link to={`/sbs/${sb.alias}`} className='sb-inner-container'>
+          <div><h4 className='snowballot-square-text'>{sb.title}</h4></div>
+        </Link>
+      </div>
+    ))
+  }
+
   renderPages () {
     const pages = []
     const fullPath = this.props.history.location.pathname
+    const query = this.state.searchTerm !== '' ? `q=${this.state.searchTerm}` : ''
     for (let i = 1; i < this.state.numPages + 1; i++) {
       pages.push(
         <Link
           className={i === this.getCurrentPage(fullPath) ? 'active-page' : ''}
           key={i}
           id={`page-${i}`}
-          to={`/discover/page=${i}`}>{i}
+          to={`/discover/page=${i}?${query}`}>{i}
         </Link>
       )
     }
@@ -124,11 +166,25 @@ class Discover extends React.Component {
     }
 
     const withPages = (
-      <div className='pagination'>
-        <Link className={classnames(leftArrowClasses)} to={`/discover/page=${this.getCurrentPage(fullPath) - 1}`}>&lsaquo;</Link>
-        {pages}
-        <Link className={classnames(rightArrowClasses)} to={`/discover/page=${this.getCurrentPage(fullPath) + 1}`}>&rsaquo;</Link>
-      </div>
+      <span>
+        <div id='search-results-message'>{this.state.searchTerm !== '' ? `${this.getSearchResults(this.state.searchTerm).length} snowballots found` : ''}</div>
+        <div className='pagination'>
+          <div id='search-results-icons'>
+            <Link
+              className={classnames(leftArrowClasses)}
+              to={`/discover/page=${this.getCurrentPage(fullPath) - 1}`
+            }>
+              &lsaquo;
+            </Link>
+            {pages}
+            <Link
+              className={classnames(rightArrowClasses)}
+              to={`/discover/page=${this.getCurrentPage(fullPath) + 1}`}>
+              &rsaquo;
+            </Link>
+          </div>
+        </div>
+      </span>
     )
 
     return (

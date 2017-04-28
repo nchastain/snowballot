@@ -1,5 +1,8 @@
 .discover-container {
 	background-color: white;
+	display: block;
+	max-width: 1200px;
+	margin: auto;
 }
 .snowballot-square-text {
 	text-align: center;
@@ -16,13 +19,35 @@
 
 #discover-body-container {
 	width: 100%;
-	display: inline-block;
-	position: relative;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	padding: 0.5rem;
+	font-size: 0; /* to get rid of extra space at bottom of container */
 }
 
-#discover-sidebar {
+.empty-search-results {
+	text-align: center;
+	display: block;
+	font-size: 15px;
+	padding: 1rem;
+	color: $light-blue;
+	background-color: rgba(#eee, 0.5);
+	width: 100%;
+}
+
+#search-results-message {
+	text-transform: initial;
+	text-align: center;
+	display: inline-block;
+	color: rgba($light-blue, 0.7);
+	float: left;
+	margin-top: 10px;
+}
+
+#search-results-icons {
+	float: right;
+	display: inline-block;
+}
+
+/*#discover-sidebar {
 	height: 100%;
 	margin-left: 1rem;
 	margin-right: 1rem;
@@ -40,6 +65,36 @@
 		font-size: 16px;
 		color: rgba($light-blue, 0.9);
 	}
+}*/
+
+
+.sb-outer-container {
+	width: 25%;
+	float: left;
+	position: relative;
+	background-color: white;
+	padding-bottom: 25%;
+}
+
+.sb-inner-container {
+	text-align: center;
+	padding: 1rem;
+	background-color: rgba(#eee, 0.5);
+	position: absolute;
+	height: calc(100% - 1rem);
+	width: calc(100% - 1rem);
+	top: 0.5rem;
+	left: 0.5rem;
+	&:hover {
+		background-color: rgba(#eee, 0.8);
+		color: white;
+	}
+}
+
+#discover-grid {
+	width: 100%;
+	display: inline-block;
+	font-size: 0;
 }
 
 #discover-search-bar {
@@ -54,19 +109,24 @@
 		margin-bottom: 0px;
 	}
 }
+
+
+
 .discover-snowballot-container {
+	width: calc(25% - 7.5px);
 	display: inline-block;
-	width: calc(25% - 1.25rem);
-	height: 22vw;
 	padding: 1rem;
-	padding-bottom: 16.67%;
+	padding-bottom: 25%;
 	overflow: hidden;
-	margin: 10px;
-	margin-top: 0;
 	position: relative;
 	background-color: #eee;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	&:hover {
-		background-color: rgba($light-blue, 0.3);
+		background-color: rgba($light-blue, 0.1);
+	}
+	+ .discover-snowballot-container {
+		margin-left: 10px;
 	}
 }
 
@@ -116,6 +176,7 @@
 .pagination {
     display: inline-block;
     margin: 0;
+    width: 80%;
 }
 
 .pagination a {
@@ -137,14 +198,6 @@
 }
 
 .pagination a:hover {background-color: rgba($light-blue, 0.1);}
-
-#discover-grid {
-	padding: 1rem;
-	margin-left: 1rem;
-	padding-top: 0px;
-	width: 90%;
-	float: right;
-}
 
 .disabled-arrow {
 	pointer-events: none;
