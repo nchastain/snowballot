@@ -4,6 +4,11 @@
 
 .snowballot-container {
 	border-left: 5px solid $light-blue;
+  color: $light-blue;
+  &:hover {
+    color: $light-blue;
+    opacity: 0.8;
+  }
 	display: inline-block;
 	font-family: 'Futura' !important;
 	width: 100%;
@@ -42,12 +47,24 @@
 	background-color: white;
 }
 
-#dashboard-profile-image {
-	height: 40px;
-	border-radius: 20px;
-	margin-right: 10px;
+#logout-button {
+	display: inline-block !important;
+	background-color: white;
+	color: $light-blue;
+	float: right;
+	margin-top: 25px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 3px $dark-grey;
+	text-transform: uppercase;
+	font-size: 80%;
+	&:hover {
+		opacity: 0.8;
+	}
 }
 
+#dashboard-profile-image {
+	margin-top: 10px;
+}
 #dashboard-logout-container {
 	width: 100%;
 	padding: 10px;

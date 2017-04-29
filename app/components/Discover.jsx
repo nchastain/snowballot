@@ -125,7 +125,6 @@ class Discover extends React.Component {
         ? 'calc(75% + 0.5rem - 12px)' // 4px per row appears to be the inline-block addition
         : '0.5rem'
     }
-    console.log(sbs.length, 'sbs.length')
     if (sbs.length === 0) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
     const sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
     return sortedSbs.map((sb, idx) => (

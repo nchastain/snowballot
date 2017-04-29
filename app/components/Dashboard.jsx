@@ -57,29 +57,23 @@ export class Dashboard extends Component {
   }
 
   render () {
-    const photoLogout = (
-      <div id='dashboard-logout-container'>
-        <img id='dashboard-profile-image' className='right' src={this.props.user.photoURL} />
-        Logout
-      </div>
-    )
-    const noPhotoLogout = (
-      <div id='dashboard-logout-container' className='no-photo'>
-        Logout
-      </div>
-    )
+    const photoLogout = <div id='dashboard-profile-image' ><img className='right' src={this.props.user.photoURL} /></div>
+
     return (
       <div className='dashboard-outer'>
         <div className='snowballots-section'>
           {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0 ? this.renderSbs() : this.renderNone() }
         </div>
-        <div onClick={(evt) => {
-          this.onLogout(evt)
-          logout()
-        }}
-          className='dashboard-logout-button'
+        <div
+          id='logout-button'
+          className='button secondary'
+          onClick={(evt) => {
+            this.onLogout(evt)
+            logout()
+          }}
         >
-          {this.props.user.photoURL ? photoLogout : noPhotoLogout}
+          <span id='logout-text'>logout</span>
+          {this.props.user.photoURL && photoLogout }
         </div>
       </div>
     )

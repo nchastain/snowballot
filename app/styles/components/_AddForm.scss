@@ -96,6 +96,26 @@
 		color: $light-blue;
 		box-shadow: 1px 1px 3px $dark-grey;
 	}
+	.choice-field {
+		color: rgba(black, 0.6);
+		transition: opacity 0.3s ease-in, height 0.3s ease-in;
+		height: 0px;
+		opacity: 0;
+		width: 100%;
+		float: right;
+		border: 0;
+		border-left: 5px solid $light-blue;
+		box-shadow: none;
+		&:focus {
+			border: 0;
+			box-shadow: none;
+		}
+	}
+	.field-expanded {
+		opacity: 1;
+		height: 150px;
+		resize: none;
+	}
 	.more-info-icon {
 		padding-right: 25px;
 	}

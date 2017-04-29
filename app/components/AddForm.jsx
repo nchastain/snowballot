@@ -102,12 +102,9 @@ class AddForm extends React.Component {
     this.setState({tags: tags})
   }
 
-  setUpInfo (id) {
-    // console.log('setting up info for choice: ', id)
-    // const choiceArr = this.state.choices.filter(choice => choice.id === id)
-    // const thisChoice = choiceArr[0]
-
-    // this.setState({choices: {...this.state.choices, thisChoice})
+  setUpInfo (e, id) {
+    const fieldToToggle = document.querySelector(`#field-choice-${id}`)
+    fieldToToggle.classList.toggle('field-expanded')
   }
 
   createInfoPane (id) {
@@ -116,16 +113,16 @@ class AddForm extends React.Component {
         <div
           id='add-info'
           className='button secondary'
-          onClick={(id) => this.setUpInfo(id)}
+          onClick={(e) => this.setUpInfo(e, id)}
         >
           <FA name='commenting-o' className='fa fa-fw more-info-icon' />
           add additional info (context, details, etc.)
         </div>
         <textarea
           rows={3}
-          id={`choice-${id}`}
+          className='choice-field'
+          id={`field-choice-${id}`}
           onChange={(e) => this.choiceUpdate(e, 'info')}
-          style={{width: '500px'}}
         />
       </div>
     )
@@ -171,8 +168,8 @@ class AddForm extends React.Component {
     const validSb = this.validateSb()
     this.setState(initialState, function () {
       this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
-        {title: '', votes: 0, id: 1},
-        {title: '', votes: 0, id: 2}
+        {title: '', votes: 0, id: 1, info: ''},
+        {title: '', votes: 0, id: 2, info: ''}
       ]})
     })
     this.handlers.handleSubmit(validSb.options, validSb.filteredChoices)
@@ -236,8 +233,8 @@ class AddForm extends React.Component {
   }
 
   render () {
-    const showToggleText = <div>SHOW<FA name='caret-right' className='fa-2x fa-fw' /></div>
-    const hideToggleText = <div>HIDE<FA name='caret-down' className='fa-2x fa-fw' /></div>
+    const showToggleText = <div style={{fontSize: '80%'}}>SHOW OPTIONS<FA name='caret-right' className='fa-2x fa-fw' /></div>
+    const hideToggleText = <div style={{fontSize: '80%'}}>HIDE OPTIONS<FA name='caret-down' className='fa-2x fa-fw' /></div>
     const publicAlias = <span>Add a custom URL?&#58; snowballot.com&#47;sbs&#47;</span>
     const privateAlias = <span className='disabled-option'>(Sorry, custom URLs are only available for public snowballots.)</span>
     const optionsClass = {

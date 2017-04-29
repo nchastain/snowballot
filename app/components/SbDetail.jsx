@@ -65,7 +65,6 @@ export class SbDetail extends Component {
   }
 
   vote (e, choiceId) {
-    debugger;
     let expired = false
     let oldDOMRefs = setDOMReferences(e)
     const {selected, votedBox, plusText, voteCount} = oldDOMRefs
@@ -122,12 +121,19 @@ export class SbDetail extends Component {
     this.setState({voted: freshVote, votedChoiceId: freshVote ? choiceId : ''})
   }
 
+  isTouched (choices) {
+    let totalVotes = 0
+    choices.forEach(function (choice) { totalVotes += choice.votes })
+    return totalVotes > 0
+  }
+
   sbClasses (choice) {
+    const choices = this.props.sb.choices
     return classnames({
       'box-header': true,
       'clearfix': true,
       'selected': !this.state.expired && choice.id === this.props.sb.userChoice,
-      'leader': this.state.expired && choice.id === this.findLeader(this.props.sb.choices).id
+      'leader': this.state.expired && this.isTouched(choices) && choice.id === this.findLeader(choices).id
     })
   }
 
@@ -239,6 +245,7 @@ export class SbDetail extends Component {
   }
 
   addChoice () {
+    if (this.state.expired) this.setState({error: 'Sorry, this snowballot has expired!'})
     const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
     if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
     else {
@@ -297,28 +304,34 @@ export class SbDetail extends Component {
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
         <ul className='sb-choices'>
           {this.props.sb.choices.map((choice, idx) =>
-            <div
-              key={choice.title + idx}
-              className={this.sbClasses(choice)}
-              onClick={(e) => !this.props.user.uid ? null : this.vote(e, choice.id)}
-              onMouseEnter={(e) => this.hoverVote(e)}
-              onMouseLeave={(e) => this.hoverVote(e)}
-            >
-              <div className='left-cell'>
-                <FA className='fa-fw selection-icon unselected' name='circle-o' />
-                <FA className='fa-fw selection-icon selected' name='check-circle' />
-                <FA className='fa-fw selection-icon trophy' name='trophy' />
+            <span>
+              <div
+                key={choice.title + idx}
+                className={this.sbClasses(choice)}
+                onClick={(e) => !this.props.user.uid ? null : this.vote(e, choice.id)}
+                onMouseEnter={(e) => this.hoverVote(e)}
+                onMouseLeave={(e) => this.hoverVote(e)}
+              >
+                <div className='left-cell'>
+                  <FA className='fa-fw selection-icon unselected' name='circle-o' />
+                  <FA className='fa-fw selection-icon selected' name='check-circle' />
+                  <FA className='fa-fw selection-icon trophy' name='trophy' />
+                </div>
+                <div className='right-cell'>
+                  <li key={this.props.sb.id + choice.title + idx}>{choice.title}</li>
+                </div>
+                <div className='right-cell'>
+                  <span className='vote-count'>{choice.votes} votes {choice.id === this.props.sb.userChoice ? <span className='plus selected'> - 1?</span> : <span className='plus'> + 1?</span>}</span>
+                </div>
               </div>
-              <div className='right-cell'>
-                <li key={this.props.sb.id + choice.title + idx}>{choice.title}</li>
-              </div>
-              <div className='right-cell'>
-                <span className='vote-count'>{choice.votes} votes {choice.id === this.props.sb.userChoice ? <span className='plus selected'> - 1?</span> : <span className='plus'> + 1?</span>}</span>
-              </div>
-            </div>
+              {choice.info &&
+              <div className='more-sb-info'>
+                {choice.info}
+              </div>}
+            </span>
           )}
         </ul>
-        {this.props.sb.isExtensible && this.props.user.uid && this.showAddChoice()}
+        {this.props.sb.isExtensible && this.props.user.uid && !this.state.expired && this.showAddChoice()}
       </div>
     )
   }
@@ -333,9 +346,6 @@ export class SbDetail extends Component {
             {this.props.user.uid === this.props.sb.creator && this.renderCreatorMessage()}
             {this.renderAuthMessage()}
           </div>
-        </div>
-        <div className='alert-container'>
-          <span className={this.state.voted ? 'status-message voted' : 'status-message'}>{this.state.voted ? <span>thank you for contributing to this snowballot!</span> : <span>Nevermind!</span>}</span>
         </div>
         <div className='detail-snowballot-container'>
           <div className='snowballots-section'>

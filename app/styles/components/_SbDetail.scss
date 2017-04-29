@@ -2,7 +2,6 @@
   margin-left: 0;
 }
 
-
 .detail-snowballot-container {
   background-color: white;
   padding: 1rem;
@@ -45,6 +44,16 @@
 	&.selected {
 		color: red;
 	}
+}
+
+.more-sb-info {
+  color: #A7A7A7;
+  background-color: white;
+  padding: 1rem;
+  padding-left: 2rem;
+  margin-left: 1px;
+  width: calc(100% - 2px);
+  font-size: 80%;
 }
 
 .tag-list {
@@ -205,6 +214,7 @@
 
 .above-sb-container {
 	display: inline-block;
+  margin-bottom: -6px;
 	width: 100%;
 	color: rgba($light-blue, 0.3);
 	.login-message-text, .creator-message-text {
@@ -215,7 +225,8 @@
 		text-decoration: underline;
 	}
 	.other-sb-info {
-		padding: 1rem;
+    display: inline-block;
+    width: 100%;
 		background-color: rgba($light-blue, 0.1);
     color: rgba($light-blue, 0.6);
 	}
