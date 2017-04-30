@@ -79,6 +79,18 @@
 	}
 }
 
+#gallery .imgThumbnail{
+    width:150px;
+    height: 150px;
+    float:left;
+    margin:2px;
+}
+
+#gallery .imgThumbnail img{
+    width:150px;
+    height: 150px;
+}
+
 .choice-more-info {
 	width: 100%;
 	height: 0px;
@@ -91,9 +103,9 @@
 	#add-info {
 		border-radius: 5px;
 		margin-top: 10px;
-		display: inline-block;
 		background-color: white;
 		color: $light-blue;
+		margin-right: 10px;
 		box-shadow: 1px 1px 3px $dark-grey;
 	}
 	.choice-field {
@@ -101,6 +113,7 @@
 		transition: opacity 0.3s ease-in, height 0.3s ease-in;
 		height: 0px;
 		opacity: 0;
+		display: none;
 		width: 100%;
 		float: right;
 		border: 0;
@@ -114,15 +127,19 @@
 	.field-expanded {
 		opacity: 1;
 		height: 150px;
+		display: block;
 		resize: none;
 	}
 	.more-info-icon {
 		padding-right: 25px;
+		&:hover {
+			opacity: 0.8;
+		}
 	}
 }
 
 .choice-more-info-expanded {
-	height: 300px;
+	height: 325px;
 	padding: 1rem;
 	opacity: 1;
 }
@@ -240,6 +257,7 @@ input[type='checkbox']#expireCheckbox {
 	}
 	&:hover {
 		cursor: pointer;
+		opacity: 0.8;
 	}
 }
 
@@ -380,6 +398,9 @@ input[type='checkbox']#expireCheckbox {
 	width: 100%;
 	margin-bottom: 0;
 	background-color: rgba($light-blue, 0.7);
+	&:hover {
+		opacity: 0.8;
+	}
 }
 
 #addchoice {
@@ -389,4 +410,7 @@ input[type='checkbox']#expireCheckbox {
 	background-color: white;
 	color: $light-blue;
 	box-shadow: 1px 1px 3px $dark-grey;
+	&:hover {
+		opacity: 0.8;
+	}
 }

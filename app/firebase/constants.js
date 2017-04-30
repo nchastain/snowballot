@@ -14,5 +14,7 @@ try {
 }
 
 export const firebaseRef = firebase.database().ref()
+export const storageRef = firebase.storage().ref()
+export const imagesRef = firebase.storage().ref().child('images')
 export const firebaseAuth = firebase.auth
 export default firebase

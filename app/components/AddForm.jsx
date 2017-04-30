@@ -7,7 +7,9 @@ import Redux from 'redux'
 import DateTime from 'react-datetime'
 import uuid from 'uuid'
 import Tagger from './Tagger'
+import Choice from './Choice'
 import classnames from 'classnames'
+import { imagesRef } from '../firebase/constants'
 
 let createHandlers = function (dispatch) {
   let handleSubmit = function (options, choices) {
@@ -17,6 +19,9 @@ let createHandlers = function (dispatch) {
     handleSubmit
   }
 }
+
+let contextForComponent
+let updatedChoicesFromSUEH
 
 const initialState = {
   optionsExpanded: false,
@@ -48,6 +53,7 @@ class AddForm extends React.Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.handlers = createHandlers(this.props.dispatch)
     this.state = initialState
+    contextForComponent = this
   }
 
   validateSb () {
@@ -86,11 +92,18 @@ class AddForm extends React.Component {
     this.setState({tags: tags})
   }
 
-  toggleChoiceOptions (e) {
+  addImage (imageName) {
+    let newImageRef = imagesRef.child(imageName)
+    newImageRef.put(file).then(function(snapshot) {
+      console.log('Uploaded a file!')
+    })
+  }
+
+  toggleChoiceOptions (e, choicesExpanded) {
     const infoSection = document.querySelector(`#choice-more-info-${e.target.id}`)
-    const expandState = Boolean(!this.state.choicesExpanded[e.target.id])
+    const expandState = Boolean(!choicesExpanded[e.target.id])
     infoSection.classList.toggle('choice-more-info-expanded')
-    this.setState({choicesExpanded: {...this.state.choicesExpanded, [e.target.id]: expandState}})
+    contextForComponent.setState({choicesExpanded: {...choicesExpanded, [e.target.id]: expandState}})
   }
 
   handleAdd (tag) {
@@ -124,41 +137,94 @@ class AddForm extends React.Component {
           id={`field-choice-${id}`}
           onChange={(e) => this.choiceUpdate(e, 'info')}
         />
+        <div
+          id='add-info'
+          className='button secondary'
+        >
+          <FA name='photo' className='fa fa-fw more-info-icon' />
+          add photo
+        </div>
+        <input type='file' id='file-input' />
+        <div id='gallery' />
       </div>
     )
   }
 
+  choiceImageUpdate (id, choices, uploadedImage) {
+    const updatedChoices = choices.map((choice) => {
+      if (choice.id === id) choice.image = uploadedImage
+      return choice
+    })
+    return updatedChoices
+  }
+
+  previewImage (file) {
+    let galleryId = 'gallery'
+
+    let gallery = document.getElementById(galleryId)
+    let imageType = /image.*/
+
+    if (!file.type.match(imageType)) {
+      throw 'File Type must be an image'
+    }
+
+    while (gallery.firstChild) {
+      gallery.removeChild(gallery.firstChild)
+    }
+
+    let thumb = document.createElement('div')
+    thumb.classList.add('imgThumbnail') // Add the class thumbnail to the created div
+
+    let img = document.createElement('img')
+    img.file = file
+    thumb.appendChild(img)
+    gallery.appendChild(thumb)
+
+    // Using FileReader to display the image content
+    let reader = new FileReader()
+    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result } })(img)
+    reader.readAsDataURL(file)
+  }
+
+  setUpEventHandling (id, choices) {
+    console.log('in set up event handling')
+    if (!document.getElementById('file-input')) return
+
+    document.getElementById('file-input').addEventListener('change', function () {
+      let file = this.files[0]
+      console.log('name : ' + file.name)
+      console.log('size : ' + file.size)
+      console.log('type : ' + file.type)
+    })
+
+    let uploadfile = document.querySelector('#file-input')
+    const that = this
+    uploadfile.addEventListener('change', function () {
+      let files = this.files
+      that.previewImage(files[0])
+      updatedChoicesFromSUEH = that.choiceImageUpdate(id, choices, files[0])
+      // imagesRef.child('example').put(files[0]).then(function(snapshot) {
+      //   console.log('uploaded a file')
+      // })
+      // basically, the move here is going to be to update state on the correct choice with this image, and then on submit
+      // that file will be submitted along with the rest of the SB.
+    }, false)
+  }
+
   renderChoices () {
+    let that = this
     return this.state.choices.map((choice) => (
       <span key={`choice-container-${choice.id}`}>
-        <div
-          id={`choice-container-choice-${choice.id}`}
-          className='choice-container input-group'
-        >
-          <FA
-            id={`choice-${choice.id}`}
-            name={this.state.choicesExpanded[`choice-${choice.id}`] ? 'compress' : 'ellipsis-h'}
-            className='input-group-button fa fa-fw choice-expand'
-            onClick={(e) => this.toggleChoiceOptions(e)}
-          />
-          <input
-            className='choice-input input-group-field'
-            id={`choice-${choice.id}`}
-            value={choice.title}
-            type='text'
-            placeholder={`Enter name of Choice ${choice.id}`}
-            onKeyDown={this.checkTab}
-            onChange={(e) => this.choiceUpdate(e, 'title')}
-          />
-          <FA
-            key={`delete-${choice.id}`}
-            id={`delete-${choice.id}`}
-            className='fa fa-fw delete-choice-button button alert input-group-button'
-            name='close'
-            onClick={this.deleteChoice}
-          />
-        </div>
+        <Choice
+          choice={choice}
+          choicesExpanded={that.state.choicesExpanded}
+          toggleChoiceOptions={that.toggleChoiceOptions}
+          checkTab={that.checkTab}
+          choiceUpdate={that.choiceUpdate}
+          deleteChoice={that.deleteChoice}
+        />
         {this.createInfoPane(choice.id)}
+        {this.setUpEventHandling(choice.id, this.state.choices)}
       </span>
     ))
   }
@@ -318,13 +384,14 @@ class AddForm extends React.Component {
                 <div className='options-unit-text'>
                   {this.state.isPrivate ? privateAlias : publicAlias}
                 </div>
+                {!this.state.isPrivate &&
                 <div className='options-selector'>
                   <input
                     type='text'
                     value={this.state.alias}
                     onChange={(e) => this.setState({alias: e.target.value})}
                   />
-                </div>
+                </div>}
               </div>
 
               {/* Extensibility */}
