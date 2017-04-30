@@ -327,6 +327,7 @@ export class SbDetail extends Component {
               {choice.info &&
               <div className='more-sb-info'>
                 {choice.info}
+                {choice.image.name}
               </div>}
             </span>
           )}

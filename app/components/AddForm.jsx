@@ -21,7 +21,6 @@ let createHandlers = function (dispatch) {
 }
 
 let contextForComponent
-let updatedChoicesFromSUEH
 
 const initialState = {
   optionsExpanded: false,
@@ -144,8 +143,10 @@ class AddForm extends React.Component {
           <FA name='photo' className='fa fa-fw more-info-icon' />
           add photo
         </div>
-        <input type='file' id='file-input' />
-        <div id='gallery' />
+        <input type='file' className='file-input' id={`file-input-${id}`} />
+        <div id={`gallery-${id}`}>
+          <img className='gallery-image' id={`gallery-img-${id}`} />
+        </div>
       </div>
     )
   }
@@ -158,54 +159,32 @@ class AddForm extends React.Component {
     return updatedChoices
   }
 
-  previewImage (file) {
-    let galleryId = 'gallery'
+  previewImage (file, choiceId) {
 
-    let gallery = document.getElementById(galleryId)
-    let imageType = /image.*/
-
-    if (!file.type.match(imageType)) {
-      throw 'File Type must be an image'
-    }
-
-    while (gallery.firstChild) {
-      gallery.removeChild(gallery.firstChild)
-    }
-
-    let thumb = document.createElement('div')
-    thumb.classList.add('imgThumbnail') // Add the class thumbnail to the created div
-
-    let img = document.createElement('img')
-    img.file = file
-    thumb.appendChild(img)
-    gallery.appendChild(thumb)
-
+    let img = document.querySelector(`#gallery-img-${choiceId}`)
     // Using FileReader to display the image content
     let reader = new FileReader()
     reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result } })(img)
     reader.readAsDataURL(file)
   }
 
-  setUpEventHandling (id, choices) {
-    console.log('in set up event handling')
-    if (!document.getElementById('file-input')) return
+  setUpEventHandling (choices) {
+    if (!document.querySelector('.file-input')) return
 
-    document.getElementById('file-input').addEventListener('change', function () {
+    document.querySelector('.file-input').addEventListener('click', function () {
       let file = this.files[0]
       console.log('name : ' + file.name)
       console.log('size : ' + file.size)
       console.log('type : ' + file.type)
     })
 
-    let uploadfile = document.querySelector('#file-input')
+    let uploadfile = document.querySelector('.file-input')
     const that = this
     uploadfile.addEventListener('change', function () {
       let files = this.files
-      that.previewImage(files[0])
-      updatedChoicesFromSUEH = that.choiceImageUpdate(id, choices, files[0])
-      // imagesRef.child('example').put(files[0]).then(function(snapshot) {
-      //   console.log('uploaded a file')
-      // })
+      const choiceId = parseInt(uploadfile.id.match(/\d+$/).join(''))
+      that.previewImage(files[0], choiceId)
+      that.setState({choices: that.choiceImageUpdate(choiceId, choices, files[0])})
       // basically, the move here is going to be to update state on the correct choice with this image, and then on submit
       // that file will be submitted along with the rest of the SB.
     }, false)
@@ -224,7 +203,6 @@ class AddForm extends React.Component {
           deleteChoice={that.deleteChoice}
         />
         {this.createInfoPane(choice.id)}
-        {this.setUpEventHandling(choice.id, this.state.choices)}
       </span>
     ))
   }
@@ -299,6 +277,7 @@ class AddForm extends React.Component {
   }
 
   render () {
+    this.setUpEventHandling(this.state.choices)
     const showToggleText = <div style={{fontSize: '80%'}}>SHOW OPTIONS<FA name='caret-right' className='fa-2x fa-fw' /></div>
     const hideToggleText = <div style={{fontSize: '80%'}}>HIDE OPTIONS<FA name='caret-down' className='fa-2x fa-fw' /></div>
     const publicAlias = <span>Add a custom URL?&#58; snowballot.com&#47;sbs&#47;</span>
@@ -430,23 +409,6 @@ class AddForm extends React.Component {
                 </div>
               </div>
 
-              {/* Tags */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA name='tags' className='fa-2x fa-fw' />
-                </div>
-                <div className='options-unit-text'>
-                  Add tags to this snowballot?
-                </div>
-                <div className='options-rest'>
-                  <Tagger
-                    handleAdd={this.handleAdd}
-                    handleDelete={this.handleDelete}
-                    tags={this.state.tags}
-                    suggestions={this.state.suggestions}
-                  />
-                </div>
-              </div>
 
             </div>
           </div>
