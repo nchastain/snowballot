@@ -57,7 +57,7 @@ export class SbDetail extends Component {
     let votedChoiceId = ''
     if (nextProps.sb) {
       if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
-      if (nextProps.sb.choices) this.updateChoicesWithImages(nextProps)
+      if (nextProps.sb.choices && nextProps.sb.choices.length !== 0 && nextProps.sb.privateAlias && nextProps.sb.privateAlias !== '') this.updateSbImages(nextProps)
     }
     if (nextProps.sb && nextProps.sb.userVoted && nextProps.sb.userChoice) {
       let voted = nextProps.sb.userVoted
@@ -66,12 +66,13 @@ export class SbDetail extends Component {
     this.setState({voted: voted, votedChoiceId: votedChoiceId, expired: expired})
   }
 
-  updateChoicesWithImages (props) {
+  updateSbImages (props) {
     props.sb.choices.forEach(function (choice) {
       if (choice.hasImage) {
         let imageUrl = imagesRef.child(`${props.sb.privateAlias}/${choice.id}`)
         imageUrl.getDownloadURL().then(function (url) {
-          document.querySelector(`#image-holder-${choice.id}`).src = url
+          const imageHolder = document.querySelector(`#image-holder-${choice.id}`)
+          imageHolder.src = imageHolder === null ? 'http://placehold.it/200x200' : url
         }).catch(function (error) {
           switch (error.code) {
             case 'storage/object_not_found':
@@ -86,6 +87,24 @@ export class SbDetail extends Component {
         })
       }
     })
+    if (props.sb.hasMainImage) {
+      let imageUrl = imagesRef.child(`${props.sb.privateAlias}/main`)
+      imageUrl.getDownloadURL().then(function (url) {
+        const imageHolder = document.querySelector('#image-holder-main')
+        imageHolder.src = imageHolder === null ? 'http://placehold.it/200x200' : url
+      }).catch(function (error) {
+        switch (error.code) {
+          case 'storage/object_not_found':
+            break
+          case 'storage/unauthorized':
+            break
+          case 'storage/canceled':
+            break
+          case 'storage/unknown':
+            break
+        }
+      })
+    }
   }
 
   vote (e, choiceId) {
@@ -329,10 +348,11 @@ export class SbDetail extends Component {
       <div>
         {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         <h4 className='sb-title'>{this.props.sb.title}</h4>
+        {this.props.sb.hasMainImage && <img id='image-holder-main' src='http://placehold.it/200/200' />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
         <ul className='sb-choices'>
           {this.props.sb.choices.map((choice, idx) =>
-            <span>
+            <span key={choice.id}>
               <div
                 key={choice.title + idx}
                 className={this.sbClasses(choice)}

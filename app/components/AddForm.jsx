@@ -58,6 +58,8 @@ class AddForm extends React.Component {
   validateSb () {
     if (this.state.title.length === 0) throw new Error('Snowballots must have a title.')
     const title = this.state.title
+    const hasMainImage = this.state.hasMainImage || false
+    const mainImage = this.state.mainImage || ''
     const privateAlias = this.state.privateAlias || uuid.v4().replace(/-/g, '').substring(0, 10)
     const publicAlias = this.state.alias.length > 0 ? this.state.alias : title.replace(/\s+/g, '').substring(0, 10)
     const alias = this.state.isPrivate ? privateAlias : publicAlias
@@ -81,7 +83,9 @@ class AddForm extends React.Component {
       expires: expires,
       isExtensible: isExtensible,
       tags: tags,
-      description: description
+      description: description,
+      mainImage: mainImage,
+      hasMainImage: hasMainImage
     }
     return {options, filteredChoices}
   }
@@ -143,7 +147,7 @@ class AddForm extends React.Component {
           onChange={(e) => this.choiceUpdate(e, 'info')}
         />
         <div
-          id='add-info'
+          id='add-photo'
           className='button secondary'
           onClick={(e) => this.setUpPhotoUpload(e, id)}
         >
@@ -186,9 +190,10 @@ class AddForm extends React.Component {
     uploaders.forEach(function (elem) {
       elem.addEventListener('change', function () {
         let files = this.files
-        const choiceId = parseInt(elem.id.match(/\d+$/).join(''))
+        const choiceId = elem.id === 'file-input-main' ? 'main' : parseInt(elem.id.match(/\d+$/).join(''))
         that.previewImage(files[0], choiceId)
-        that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
+        if (choiceId === 'main') that.setState({hasMainImage: true, mainImage: files[0]})
+        else that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
         // that.setState({choices: that.choiceImageUpdate(choiceId, choices, files[0])})
         // basically, the move here is going to be to update state on the correct choice with this image, and then on submit
         // that file will be submitted along with the rest of the SB.
@@ -218,6 +223,7 @@ class AddForm extends React.Component {
     this.state.choices.forEach(function (choice) {
       if (choice.image) that.addImage(alias, choice.id, choice.image)
     })
+    if (this.state.hasMainImage) this.addImage(alias, 'main', this.state.mainImage)
   }
 
   addAlias () {
@@ -411,6 +417,24 @@ class AddForm extends React.Component {
                 </div>
               </div>
 
+              {/* Photo */}
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA name='photo' className='fa-2x fa-fw' />
+                </div>
+                <div className='options-unit-text'>
+                  Add a photo for this snowballot?
+                </div>
+                <div className='options-rest'>
+                  <div className='photo-uploader' id={'photo-upload-main'}>
+                    <input type='file' className='file-input' id={'file-input-main'} />
+                    <div id={'gallery-main'}>
+                      <img className='gallery-image' id={'gallery-img-main'} src='' />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Description */}
               <div className='options-unit'>
                 <div className='options-icon'>
@@ -428,7 +452,6 @@ class AddForm extends React.Component {
                   />
                 </div>
               </div>
-
 
             </div>
           </div>

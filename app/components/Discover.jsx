@@ -5,6 +5,7 @@ import * as actions from '../actions'
 import SearchInput, {createFilter} from 'react-search-input'
 import FA from 'react-fontawesome'
 import classnames from 'classnames'
+import { imagesRef } from '../firebase/constants'
 
 let createHandlers = function (dispatch) {
   let findPublicSbs = function () {
@@ -25,6 +26,7 @@ class Discover extends React.Component {
     this.itemsPerPage = 16
     this.handlers = createHandlers(props.dispatch)
     this.state = {
+      images: {},
       searchTerm: this.getSearchTermFromURL(props.history.location.search),
       itemsPerPage: this.itemsPerPage,
       numPages: props.sbs.length === 0
@@ -116,6 +118,18 @@ class Discover extends React.Component {
     )
   }
 
+  applyImageStyles (sb) {
+    if (sb.hasMainImage) {
+      let imageUrl = imagesRef.child(`${sb.privateAlias}/main`)
+      let sbAlias = sb.privateAlias
+      const that = this
+      imageUrl.getDownloadURL().then(function (imageUrl) {
+        that.setState({images: {...that.state.images, [sbAlias]: imageUrl}})
+      })
+    }
+    return sb
+  }
+
   renderSbs (sbs) {
     let startIdx = this.state.currentPage === 1 ? 0 : (this.state.currentPage - 1) * this.state.itemsPerPage
     let endIdx = startIdx + this.state.itemsPerPage
@@ -125,11 +139,25 @@ class Discover extends React.Component {
         ? 'calc(75% + 0.5rem - 12px)' // 4px per row appears to be the inline-block addition
         : '0.5rem'
     }
+    const getBoxClasses = function (sb) {
+      return {
+        'sb-inner-container': true,
+        'sb-with-image': sb.hasMainImage || false
+      }
+    }
     if (sbs.length === 0) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
-    const sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
+    let sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
+    const that = this
+    sortedSbs = sortedSbs.map(sb => this.applyImageStyles(sb))
+    const getStyleObject = function (sb) {
+      const imageUrl = `url('${that.state.images[sb.privateAlias]}')`
+      if (sb.hasMainImage && imageUrl !== "url('undefined')") {
+        return { 'backgroundImage': `${imageUrl}`, 'backgroundSize': 'cover' }
+      } else return {}
+    }
     return sortedSbs.map((sb, idx) => (
       <div className='sb-outer-container' key={`sb-${sb.createdAt}`} >
-        <Link to={`/sbs/${sb.alias}`} className='sb-inner-container'>
+        <Link to={`/sbs/${sb.alias}`} className={classnames(getBoxClasses(sb))} style={getStyleObject(sb)}>
           <div><h4 className='snowballot-square-text'>{sb.title}</h4></div>
         </Link>
       </div>

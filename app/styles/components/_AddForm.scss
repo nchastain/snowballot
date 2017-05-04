@@ -36,6 +36,10 @@
 			box-shadow: none;
 		}
 	}
+	input[type='file'] {
+		border: 0;
+		display: inline-block;
+	}
 	.custom-check {
 		display: block;
     -moz-border-radius: 100px;
@@ -104,7 +108,7 @@
 	transition: height 0.3s ease-in, padding 0.3s ease-in, opacity 0.3s linear;
 	padding: 0rem;
 	background-color: rgba($light-blue, 0.2);
-	#add-info {
+	#add-info, #add-photo {
 		border-radius: 5px;
 		margin-top: 10px;
 		background-color: white;
@@ -353,7 +357,7 @@ input[type='checkbox']#expireCheckbox {
 	width: 100%;
 	&.expanded {
 		max-height: 500px;
-		padding-bottom: initial;
+		padding-bottom: 10px;
 	}
 }
 
