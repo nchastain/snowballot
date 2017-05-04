@@ -58,7 +58,7 @@ class AddForm extends React.Component {
   validateSb () {
     if (this.state.title.length === 0) throw new Error('Snowballots must have a title.')
     const title = this.state.title
-    const privateAlias = uuid.v4().replace(/-/g, '').substring(0, 10)
+    const privateAlias = this.state.privateAlias || uuid.v4().replace(/-/g, '').substring(0, 10)
     const publicAlias = this.state.alias.length > 0 ? this.state.alias : title.replace(/\s+/g, '').substring(0, 10)
     const alias = this.state.isPrivate ? privateAlias : publicAlias
     const dupesObj = {}
@@ -76,6 +76,7 @@ class AddForm extends React.Component {
     const options = {
       title: title,
       alias: alias,
+      privateAlias: privateAlias,
       isPrivate: isPrivate,
       expires: expires,
       isExtensible: isExtensible,
@@ -91,8 +92,8 @@ class AddForm extends React.Component {
     this.setState({tags: tags})
   }
 
-  addImage (imageName) {
-    let newImageRef = imagesRef.child(imageName)
+  addImage (alias, choiceId, file) {
+    let newImageRef = imagesRef.child(`${alias}/${choiceId}`)
     newImageRef.put(file).then(function(snapshot) {
       console.log('Uploaded a file!')
     })
@@ -119,6 +120,11 @@ class AddForm extends React.Component {
     fieldToToggle.classList.toggle('field-expanded')
   }
 
+  setUpPhotoUpload (e, id) {
+    const fieldToToggle = document.querySelector(`#photo-upload-${id}`)
+    fieldToToggle.classList.toggle('photo-upload-expanded')
+  }
+
   createInfoPane (id) {
     return (
       <div className='choice-more-info' id={`choice-more-info-choice-${id}`}>
@@ -128,7 +134,7 @@ class AddForm extends React.Component {
           onClick={(e) => this.setUpInfo(e, id)}
         >
           <FA name='commenting-o' className='fa fa-fw more-info-icon' />
-          add additional info (context, details, etc.)
+          add info
         </div>
         <textarea
           rows={3}
@@ -139,55 +145,55 @@ class AddForm extends React.Component {
         <div
           id='add-info'
           className='button secondary'
+          onClick={(e) => this.setUpPhotoUpload(e, id)}
         >
           <FA name='photo' className='fa fa-fw more-info-icon' />
           add photo
         </div>
-        <input type='file' className='file-input' id={`file-input-${id}`} />
-        <div id={`gallery-${id}`}>
-          <img className='gallery-image' id={`gallery-img-${id}`} />
+        <div className='photo-uploader' id={`photo-upload-${id}`}>
+          <input type='file' className='file-input' id={`file-input-${id}`} />
+          <div id={`gallery-${id}`}>
+            <img className='gallery-image' id={`gallery-img-${id}`} src={this.state.choices[id - 1].imageSrc} />
+          </div>
         </div>
       </div>
     )
   }
 
-  choiceImageUpdate (id, choices, uploadedImage) {
+  choiceImageUpdate (id, choices, uploadedFile) {
     const updatedChoices = choices.map((choice) => {
-      if (choice.id === id) choice.image = uploadedImage
+      if (choice.id === id) {
+        choice.image = uploadedFile
+        choice.hasImage = true
+      }
       return choice
     })
     return updatedChoices
   }
 
   previewImage (file, choiceId) {
-
     let img = document.querySelector(`#gallery-img-${choiceId}`)
-    // Using FileReader to display the image content
     let reader = new FileReader()
-    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result } })(img)
+    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result } })(img)
     reader.readAsDataURL(file)
   }
 
   setUpEventHandling (choices) {
     if (!document.querySelector('.file-input')) return
 
-    document.querySelector('.file-input').addEventListener('click', function () {
-      let file = this.files[0]
-      console.log('name : ' + file.name)
-      console.log('size : ' + file.size)
-      console.log('type : ' + file.type)
-    })
-
-    let uploadfile = document.querySelector('.file-input')
+    let uploaders = [...document.getElementsByClassName('file-input')]
     const that = this
-    uploadfile.addEventListener('change', function () {
-      let files = this.files
-      const choiceId = parseInt(uploadfile.id.match(/\d+$/).join(''))
-      that.previewImage(files[0], choiceId)
-      that.setState({choices: that.choiceImageUpdate(choiceId, choices, files[0])})
-      // basically, the move here is going to be to update state on the correct choice with this image, and then on submit
-      // that file will be submitted along with the rest of the SB.
-    }, false)
+    uploaders.forEach(function (elem) {
+      elem.addEventListener('change', function () {
+        let files = this.files
+        const choiceId = parseInt(elem.id.match(/\d+$/).join(''))
+        that.previewImage(files[0], choiceId)
+        that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
+        // that.setState({choices: that.choiceImageUpdate(choiceId, choices, files[0])})
+        // basically, the move here is going to be to update state on the correct choice with this image, and then on submit
+        // that file will be submitted along with the rest of the SB.
+      }, false)
+    })
   }
 
   renderChoices () {
@@ -207,8 +213,21 @@ class AddForm extends React.Component {
     ))
   }
 
+  addAllImages (alias) {
+    const that = this
+    this.state.choices.forEach(function (choice) {
+      if (choice.image) that.addImage(alias, choice.id, choice.image)
+    })
+  }
+
+  addAlias () {
+    const pAlias = uuid.v4().replace(/-/g, '').substring(0, 10)
+    this.setState({privateAlias: pAlias})
+  }
+
   handleSubmit (e) {
     e.preventDefault()
+    this.addAlias()
     const validSb = this.validateSb()
     this.setState(initialState, function () {
       this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
@@ -217,6 +236,7 @@ class AddForm extends React.Component {
       ]})
     })
     this.handlers.handleSubmit(validSb.options, validSb.filteredChoices)
+    this.addAllImages(validSb.options.privateAlias)
     this.props.history.push(`/sbs/${validSb.options.alias}`)
   }
 

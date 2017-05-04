@@ -134,6 +134,17 @@
 		display: block;
 		resize: none;
 	}
+	.photo-uploader {
+		opacity: 0;
+		display: block;
+		overflow: hidden;
+		height: 0;
+		transition: height 0.3s linear, opacity 0.3s linear;
+	}
+	.photo-upload-expanded {
+		opacity: 1;
+		height: 150px;
+	}
 	.more-info-icon {
 		padding-right: 25px;
 		&:hover {

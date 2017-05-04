@@ -7,6 +7,7 @@ import Redux from 'redux'
 import moment from 'moment'
 import classnames from 'classnames'
 import SharePanel from './SharePanel'
+import { imagesRef } from '../firebase/constants'
 
 let createHandlers = function (dispatch) {
   let updateSb = function (id, updates, options) {
@@ -56,12 +57,35 @@ export class SbDetail extends Component {
     let votedChoiceId = ''
     if (nextProps.sb) {
       if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
+      if (nextProps.sb.choices) this.updateChoicesWithImages(nextProps)
     }
     if (nextProps.sb && nextProps.sb.userVoted && nextProps.sb.userChoice) {
       let voted = nextProps.sb.userVoted
       let votedChoiceId = nextProps.sb.userChoice
     }
     this.setState({voted: voted, votedChoiceId: votedChoiceId, expired: expired})
+  }
+
+  updateChoicesWithImages (props) {
+    props.sb.choices.forEach(function (choice) {
+      if (choice.hasImage) {
+        let imageUrl = imagesRef.child(`${props.sb.privateAlias}/${choice.id}`)
+        imageUrl.getDownloadURL().then(function (url) {
+          document.querySelector(`#image-holder-${choice.id}`).src = url
+        }).catch(function (error) {
+          switch (error.code) {
+            case 'storage/object_not_found':
+              break
+            case 'storage/unauthorized':
+              break
+            case 'storage/canceled':
+              break
+            case 'storage/unknown':
+              break
+          }
+        })
+      }
+    })
   }
 
   vote (e, choiceId) {
@@ -294,6 +318,10 @@ export class SbDetail extends Component {
     )
   }
 
+  shouldDisplayExtra (choice) {
+    return choice.info || choice.hasImage
+  }
+
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0) return null
     const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
@@ -324,10 +352,10 @@ export class SbDetail extends Component {
                   <span className='vote-count'>{choice.votes} votes {choice.id === this.props.sb.userChoice ? <span className='plus selected'> - 1?</span> : <span className='plus'> + 1?</span>}</span>
                 </div>
               </div>
-              {choice.info &&
+              {this.shouldDisplayExtra(choice) &&
               <div className='more-sb-info'>
                 {choice.info}
-                {choice.image.name}
+                <img className='choice-image-holder' id={`image-holder-${choice.id}`} src='http://placehold.it/200x200' />
               </div>}
             </span>
           )}
