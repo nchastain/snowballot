@@ -88,7 +88,7 @@ class ChoiceMediaPane extends React.Component {
       {icon: 'link', label: 'add link', id: 'link'},
       {icon: 'film', label: 'add GIF', id: 'GIF'}
     ]
-    const paneClasses = {'choice-media-pane': true, 'choice-more-info': true, 'expanded': this.state.expanded}
+    const paneClasses = {'choice-media-pane': true, 'choice-more-info': true, 'expanded': this.props.choiceExpanded}
     const mediaButtonSection = mediaButtons.map(function (mB) {
       const { id, icon, label } = mB
       return (

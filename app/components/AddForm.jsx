@@ -312,7 +312,7 @@ class AddForm extends React.Component {
           inputProps={{placeholder: 'Enter an expiration date'}}
           value={this.state.expires || ''}
           onChange={(data) => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
-          closeOnSelect={true}
+          closeOnSelect
         />
       </div>
     )
