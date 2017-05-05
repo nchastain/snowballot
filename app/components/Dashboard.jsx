@@ -60,22 +60,25 @@ export class Dashboard extends Component {
     const photoLogout = <div id='dashboard-profile-image' ><img className='right' src={this.props.user.photoURL} /></div>
 
     return (
-      <div className='dashboard-outer'>
-        <div className='snowballots-section'>
-          {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0 ? this.renderSbs() : this.renderNone() }
+      <span>
+        <h1 className='create-title'>🌨 Dashboard</h1>
+        <div className='dashboard-outer'>
+          <div className='snowballots-section'>
+            {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0 ? this.renderSbs() : this.renderNone() }
+          </div>
+          <div
+            id='logout-button'
+            className='button secondary'
+            onClick={(evt) => {
+              this.onLogout(evt)
+              logout()
+            }}
+          >
+            <span id='logout-text'>logout</span>
+            {this.props.user.photoURL && photoLogout }
+          </div>
         </div>
-        <div
-          id='logout-button'
-          className='button secondary'
-          onClick={(evt) => {
-            this.onLogout(evt)
-            logout()
-          }}
-        >
-          <span id='logout-text'>logout</span>
-          {this.props.user.photoURL && photoLogout }
-        </div>
-      </div>
+      </span>
     )
   }
 }

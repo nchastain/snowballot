@@ -16,6 +16,14 @@ export var showSb = (sb) => {
   }
 }
 
+export var updateCreatedSb = (choiceId, updatedSections) => {
+  return {
+    type: 'UPDATE_CREATED_SB',
+    choiceId,
+    updatedSections
+  }
+}
+
 export var showVote = (voted, choice) => {
   return {
     type: 'SHOW_VOTE',

@@ -52,7 +52,7 @@ class AddForm extends React.Component {
     this.checkTab = this.checkTab.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.handlers = createHandlers(this.props.dispatch)
+    this.handlers = createHandlers(props.dispatch)
     this.state = initialState
     contextForComponent = this
   }
@@ -115,30 +115,10 @@ class AddForm extends React.Component {
   handleAdd (tag) {
     let tags = this.state.tags
     tags.push({
-        id: tags.length + 1,
-        text: tag
+      id: tags.length + 1,
+      text: tag
     })
     this.setState({tags: tags})
-  }
-
-  setUpInfo (e, id) {
-    const fieldToToggle = document.querySelector(`#field-choice-${id}`)
-    fieldToToggle.classList.toggle('field-expanded')
-  }
-
-  setUpPhotoUpload (e, id) {
-    const fieldToToggle = document.querySelector(`#photo-upload-${id}`)
-    fieldToToggle.classList.toggle('photo-upload-expanded')
-  }
-
-  setUpYouTubeUpload (e, id) {
-    // const fieldToToggle = document.querySelector(`#photo-upload-${id}`)
-    // fieldToToggle.classList.toggle('photo-upload-expanded')
-    console.log('youtube')
-  }
-
-  setUpGIFUpload (e, id) {
-    console.log('gif')
   }
 
   setGIF (id, gif) {
@@ -154,9 +134,6 @@ class AddForm extends React.Component {
     const imageToSet = document.querySelector(`#gif-${id}`)
     imageToSet.src = gif.downsized.url
     that.setState({choices: updatedChoices})
-  }
-  createInfoPane (id) {
-    return <ChoiceMediaPane id={id} choices={this.state.choices} />
   }
 
   choiceImageUpdate (id, choices, uploadedFile) {
@@ -189,9 +166,6 @@ class AddForm extends React.Component {
         that.previewImage(files[0], choiceId)
         if (choiceId === 'main') that.setState({hasMainImage: true, mainImage: files[0]})
         else that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
-        // that.setState({choices: that.choiceImageUpdate(choiceId, choices, files[0])})
-        // basically, the move here is going to be to update state on the correct choice with this image, and then on submit
-        // that file will be submitted along with the rest of the SB.
       }, false)
     })
   }
@@ -208,7 +182,7 @@ class AddForm extends React.Component {
           choiceUpdate={that.choiceUpdate}
           deleteChoice={that.deleteChoice}
         />
-        {this.createInfoPane(choice.id)}
+        <ChoiceMediaPane id={choice.id} choices={this.state.choices} />
       </span>
     ))
   }
@@ -229,6 +203,7 @@ class AddForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     this.addAlias()
+    this.choiceExtraUpdate(['info', 'photo'])
     const validSb = this.validateSb()
     this.setState(initialState, function () {
       this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
@@ -239,6 +214,19 @@ class AddForm extends React.Component {
     this.handlers.handleSubmit(validSb.options, validSb.filteredChoices)
     this.addAllImages(validSb.options.privateAlias)
     this.props.history.push(`/sbs/${validSb.options.alias}`)
+  }
+
+  choiceExtraUpdate (properties) {
+    const { createdSb } = this.props
+    let updatedChoices = this.state.choices
+    properties.forEach((property) => {
+      const extraSections = Object.keys(this.props.createdSb).map(choice => createdSb[choice][property])
+      updatedChoices = updatedChoices.map((choice, idx) => {
+        choice[property] = extraSections[idx] || ''
+        return choice
+      })
+    })
+    this.setState({ choices: updatedChoices })
   }
 
   choiceUpdate (e, property) {
@@ -318,146 +306,149 @@ class AddForm extends React.Component {
     )
 
     return (
-      <div className='newSnowballot-section'>
-        <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
-          <input
-            id='title-input'
-            type='text'
-            value={this.state.title}
-            placeholder='Enter title of new snowballot'
-            onChange={(e) => this.setState({title: e.target.value})}
-          />
-          <div className='newSbOptions newSbSection'>
-            <div id='options-top' onClick={() => this.toggleOptionsMenu()}>
-              <div className='header'>Options</div>
-              <div id='toggleOptionsMenu' onClick={() => this.toggleOptionsMenu()}>{this.state.optionsExpanded ? hideToggleText : showToggleText}</div>
-            </div>
-            <div id='real-options-section' className={classnames(optionsClass)}>
-
-              {/* Lock voting */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA name='calendar-times-o' className='fa-2x fa-fw' />
-                </div>
-                <div className='options-unit-text'>
-                  Lock voting on snowballot after certain time?
-                </div>
-                <div className='options-selector'>
-                  <FA
-                    id='option-expire'
-                    name={this.state.doesExpire ? 'check-circle' : 'circle'}
-                    className='fa fa-fw custom-check'
-                    onClick={(e) => this.handleOptionToggle(e)}
-                  />
-                </div>
-                <div className='options-rest'>
-                  {this.state.doesExpire && datePicker}
-                </div>
+      <span>
+        <h1 className='create-title'>🌨 Create a Snowballot</h1>
+        <div className='newSnowballot-section'>
+          <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
+            <input
+              id='title-input'
+              type='text'
+              value={this.state.title}
+              placeholder='Enter title of new snowballot'
+              onChange={(e) => this.setState({title: e.target.value})}
+            />
+            <div className='newSbOptions newSbSection'>
+              <div id='options-top' onClick={() => this.toggleOptionsMenu()}>
+                <div className='header'>Options</div>
+                <div id='toggleOptionsMenu' onClick={() => this.toggleOptionsMenu()}>{this.state.optionsExpanded ? hideToggleText : showToggleText}</div>
               </div>
+              <div id='real-options-section' className={classnames(optionsClass)}>
 
-              {/* Private/public */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA name='eye-slash' className='fa-2x fa-fw' />
+                {/* Lock voting */}
+                <div className='options-unit'>
+                  <div className='options-icon'>
+                    <FA name='calendar-times-o' className='fa-2x fa-fw' />
+                  </div>
+                  <div className='options-unit-text'>
+                    Lock voting on snowballot after certain time?
+                  </div>
+                  <div className='options-selector'>
+                    <FA
+                      id='option-expire'
+                      name={this.state.doesExpire ? 'check-circle' : 'circle'}
+                      className='fa fa-fw custom-check'
+                      onClick={(e) => this.handleOptionToggle(e)}
+                    />
+                  </div>
+                  <div className='options-rest'>
+                    {this.state.doesExpire && datePicker}
+                  </div>
                 </div>
-                <div className='options-unit-text'>
-                  Make snowballot private?
-                </div>
-                <div className='options-selector'>
-                  <FA
-                    id='option-private'
-                    name={this.state.isPrivate ? 'check-circle' : 'circle'}
-                    className='fa fa-fw custom-check'
-                    onClick={(e) => this.handleOptionToggle(e)}
-                  />
-                </div>
-              </div>
 
-              {/* URL Alias */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA
-                    name='snowflake-o'
-                    className={classnames({'fa-2x': true, 'fa-fw': true, 'disabled-option': this.state.isPrivate})}
-                  />
+                {/* Private/public */}
+                <div className='options-unit'>
+                  <div className='options-icon'>
+                    <FA name='eye-slash' className='fa-2x fa-fw' />
+                  </div>
+                  <div className='options-unit-text'>
+                    Make snowballot private?
+                  </div>
+                  <div className='options-selector'>
+                    <FA
+                      id='option-private'
+                      name={this.state.isPrivate ? 'check-circle' : 'circle'}
+                      className='fa fa-fw custom-check'
+                      onClick={(e) => this.handleOptionToggle(e)}
+                    />
+                  </div>
                 </div>
-                <div className='options-unit-text'>
-                  {this.state.isPrivate ? privateAlias : publicAlias}
-                </div>
-                {!this.state.isPrivate &&
-                <div className='options-selector'>
-                  <input
-                    type='text'
-                    value={this.state.alias}
-                    onChange={(e) => this.setState({alias: e.target.value})}
-                  />
-                </div>}
-              </div>
 
-              {/* Extensibility */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA name='users' className='fa-2x fa-fw' />
+                {/* URL Alias */}
+                <div className='options-unit'>
+                  <div className='options-icon'>
+                    <FA
+                      name='snowflake-o'
+                      className={classnames({'fa-2x': true, 'fa-fw': true, 'disabled-option': this.state.isPrivate})}
+                    />
+                  </div>
+                  <div className='options-unit-text'>
+                    {this.state.isPrivate ? privateAlias : publicAlias}
+                  </div>
+                  {!this.state.isPrivate &&
+                  <div className='options-selector'>
+                    <input
+                      type='text'
+                      value={this.state.alias}
+                      onChange={(e) => this.setState({alias: e.target.value})}
+                    />
+                  </div>}
                 </div>
-                <div className='options-unit-text'>
-                  Allow others to add new choices?
-                </div>
-                <div className='options-selector'>
-                  <FA
-                    id='option-extensible'
-                    name={this.state.isExtensible ? 'check-circle' : 'circle'}
-                    className='fa fa-fw custom-check'
-                    onClick={(e) => this.handleOptionToggle(e)}
-                  />
-                </div>
-              </div>
 
-              {/* Photo */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA name='photo' className='fa-2x fa-fw' />
+                {/* Extensibility */}
+                <div className='options-unit'>
+                  <div className='options-icon'>
+                    <FA name='users' className='fa-2x fa-fw' />
+                  </div>
+                  <div className='options-unit-text'>
+                    Allow others to add new choices?
+                  </div>
+                  <div className='options-selector'>
+                    <FA
+                      id='option-extensible'
+                      name={this.state.isExtensible ? 'check-circle' : 'circle'}
+                      className='fa fa-fw custom-check'
+                      onClick={(e) => this.handleOptionToggle(e)}
+                    />
+                  </div>
                 </div>
-                <div className='options-unit-text'>
-                  Add a photo for this snowballot?
-                </div>
-                <div className='options-rest'>
-                  <div className='photo-uploader' id={'photo-upload-main'}>
-                    <input type='file' className='file-input' id={'file-input-main'} />
-                    <div id={'gallery-main'}>
-                      <img className='gallery-image' id={'gallery-img-main'} src='' />
+
+                {/* Photo */}
+                <div className='options-unit'>
+                  <div className='options-icon'>
+                    <FA name='photo' className='fa-2x fa-fw' />
+                  </div>
+                  <div className='options-unit-text'>
+                    Add a photo for this snowballot?
+                  </div>
+                  <div className='options-rest'>
+                    <div className='photo-uploader' id={'photo-upload-main'}>
+                      <input type='file' className='file-input' id={'file-input-main'} />
+                      <div id={'gallery-main'}>
+                        <img className='gallery-image' id={'gallery-img-main'} src='' />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Description */}
-              <div className='options-unit'>
-                <div className='options-icon'>
-                  <FA name='pencil' className='fa-2x fa-fw' />
+                {/* Description */}
+                <div className='options-unit'>
+                  <div className='options-icon'>
+                    <FA name='pencil' className='fa-2x fa-fw' />
+                  </div>
+                  <div className='options-unit-text'>
+                    Add a description for this snowballot?
+                  </div>
+                  <div className='options-rest'>
+                    <textarea
+                      rows={3}
+                      value={this.state.description}
+                      onChange={(e) => this.setState({description: e.target.value})}
+                      style={{width: '500px'}}
+                    />
+                  </div>
                 </div>
-                <div className='options-unit-text'>
-                  Add a description for this snowballot?
-                </div>
-                <div className='options-rest'>
-                  <textarea
-                    rows={3}
-                    value={this.state.description}
-                    onChange={(e) => this.setState({description: e.target.value})}
-                    style={{width: '500px'}}
-                  />
-                </div>
-              </div>
 
+              </div>
             </div>
-          </div>
-          <div className='newSbSection newSbChoices'>
-            <div className='header'>Choices</div>
-            {this.renderChoices()}
-            <div id='addchoice' className='button secondary' onClick={this.addChoice}><FA name='plus' className='fa fa-fw' /> add choice</div>
-          </div>
-          <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
-        </form>
-      </div>
+            <div className='newSbSection newSbChoices'>
+              <div className='header'>Choices</div>
+              {this.renderChoices()}
+              <div id='addchoice' className='button secondary' onClick={this.addChoice}><FA name='plus' className='fa fa-fw' /> add choice</div>
+            </div>
+            <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
+          </form>
+        </div>
+      </span>
     )
   }
 }

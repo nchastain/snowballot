@@ -221,12 +221,15 @@ class Discover extends React.Component {
 
   render () {
     return (
-      <div className='discover-container'>
-        {this.renderSearch()}
-        <div id='discover-pages'>
-          {this.renderPages()}
+      <span>
+        <h1 className='create-title'>🌨 Discover</h1>
+        <div className='discover-container'>
+          {this.renderSearch()}
+          <div id='discover-pages'>
+            {this.renderPages()}
+          </div>
         </div>
-      </div>
+      </span>
     )
   }
 }

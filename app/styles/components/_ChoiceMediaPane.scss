@@ -1,6 +1,22 @@
 .choice-media-pane {
   display: block;
+  margin-left: $choiceInset;
+  width: calc(100% - 1rem);
   &.expanded {
     padding: 10px;
+  }
+}
+
+#choice-info-expanded {
+  margin-top: 10px;
+}
+
+.button-save {
+  color: white;
+  background-color: rgba($light-blue, 0.8);
+  border-radius: 5px;
+  &:hover {
+    opacity: 0.8;
+    background-color: rgba($light-blue, 0.8);
   }
 }

@@ -29,6 +29,18 @@ export const sbReducer = (state = [], action) => {
   }
 }
 
+export const createdSbReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'UPDATE_CREATED_SB':
+      return {
+        ...state,
+        [action.choiceId]: action.updatedSections
+      }
+    default:
+      return state
+  }
+}
+
 export var userReducer = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':

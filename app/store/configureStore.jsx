@@ -3,13 +3,15 @@ import thunk from 'redux-thunk'
 import {
   sbsReducer,
   userReducer,
-  sbReducer
+  sbReducer,
+  createdSbReducer
   } from '.././reducers/reducers.jsx'
 
 const configure = function (initialState = {}) {
   var reducer = redux.combineReducers({
     sbs: sbsReducer,
     user: userReducer,
+    createdSb: createdSbReducer,
     sb: sbReducer
   })
 
