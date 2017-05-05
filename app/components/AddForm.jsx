@@ -10,6 +10,8 @@ import Tagger from './Tagger'
 import Choice from './Choice'
 import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
+import ReactPlayer from 'react-player'
+import ChoiceMediaPane from './ChoiceMediaPane'
 
 let createHandlers = function (dispatch) {
   let handleSubmit = function (options, choices) {
@@ -129,39 +131,32 @@ class AddForm extends React.Component {
     fieldToToggle.classList.toggle('photo-upload-expanded')
   }
 
+  setUpYouTubeUpload (e, id) {
+    // const fieldToToggle = document.querySelector(`#photo-upload-${id}`)
+    // fieldToToggle.classList.toggle('photo-upload-expanded')
+    console.log('youtube')
+  }
+
+  setUpGIFUpload (e, id) {
+    console.log('gif')
+  }
+
+  setGIF (id, gif) {
+    const that = this
+    if (!that.state) return
+    const updatedChoices = that.state.choices.map((choice) => {
+      if (choice.id === id) {
+        choice.GIF = gif.downsized.url
+        choice.hasGIF = true
+      }
+      return choice
+    })
+    const imageToSet = document.querySelector(`#gif-${id}`)
+    imageToSet.src = gif.downsized.url
+    that.setState({choices: updatedChoices})
+  }
   createInfoPane (id) {
-    return (
-      <div className='choice-more-info' id={`choice-more-info-choice-${id}`}>
-        <div
-          id='add-info'
-          className='button secondary'
-          onClick={(e) => this.setUpInfo(e, id)}
-        >
-          <FA name='commenting-o' className='fa fa-fw more-info-icon' />
-          add info
-        </div>
-        <textarea
-          rows={3}
-          className='choice-field'
-          id={`field-choice-${id}`}
-          onChange={(e) => this.choiceUpdate(e, 'info')}
-        />
-        <div
-          id='add-photo'
-          className='button secondary'
-          onClick={(e) => this.setUpPhotoUpload(e, id)}
-        >
-          <FA name='photo' className='fa fa-fw more-info-icon' />
-          add photo
-        </div>
-        <div className='photo-uploader' id={`photo-upload-${id}`}>
-          <input type='file' className='file-input' id={`file-input-${id}`} />
-          <div id={`gallery-${id}`}>
-            <img className='gallery-image' id={`gallery-img-${id}`} src={this.state.choices[id - 1].imageSrc} />
-          </div>
-        </div>
-      </div>
-    )
+    return <ChoiceMediaPane id={id} choices={this.state.choices} />
   }
 
   choiceImageUpdate (id, choices, uploadedFile) {

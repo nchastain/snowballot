@@ -338,7 +338,7 @@ export class SbDetail extends Component {
   }
 
   shouldDisplayExtra (choice) {
-    return choice.info || choice.hasImage
+    return choice.info || choice.hasImage || choice.hasGIF
   }
 
   renderSb () {
@@ -375,7 +375,8 @@ export class SbDetail extends Component {
               {this.shouldDisplayExtra(choice) &&
               <div className='more-sb-info'>
                 {choice.info}
-                <img className='choice-image-holder' id={`image-holder-${choice.id}`} src='http://placehold.it/200x200' />
+                {choice.hasImage && <img className='choice-image-holder' id={`image-holder-${choice.id}`} src='http://placehold.it/200x200' />}
+                {choice.hasGIF && <img className='choice-gif-holder' id={`gif-holder-${choice.id}`} src={choice.GIF} />}
               </div>}
             </span>
           )}

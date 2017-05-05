@@ -1,0 +1,13 @@
+.choice-media-button {
+    border-radius: 5px;
+    background-color: white;
+    color: $light-blue;
+    margin-right: 10px;
+    margin-bottom: 0px;
+    box-shadow: 1px 1px 3px $dark-grey;
+    &:hover {
+      background-color: white;
+      opacity: 0.8;
+      color: $light-blue;
+    }
+  }
