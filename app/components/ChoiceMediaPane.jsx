@@ -1,8 +1,6 @@
-import FA from 'react-fontawesome'
 import classnames from 'classnames'
 import React from 'react'
 import Picker from 'react-giphy-picker'
-import ReactPlayer from 'react-player'
 import ChoiceMediaButton from './ChoiceMediaButton'
 import IncludedMedia from './IncludedMedia'
 import * as actions from '.././actions'
@@ -20,67 +18,83 @@ class ChoiceMediaPane extends React.Component {
 
   expandSection (sectionID) {
     const toExpand = this.state.expanded === sectionID ? '' : sectionID
-    this.setState({ expanded: toExpand })
+    this.setState({ expanded: toExpand, [sectionID]: '' })
   }
 
   setGIF () { }
 
   saveSection (section) {
     const newIncluded = Object.assign({}, this.state.included, {[section]: this.state[section]})
-    this.setState({[section]: '', expanded: '', included: newIncluded})
+    const newState = section === 'photoFile' ? {included: newIncluded} : {[section]: '', expanded: '', included: newIncluded}
+    this.setState(newState)
     this.props.dispatch(actions.updateCreatedSb(this.props.id, newIncluded))
   }
 
-  createSection (id) {
+  previewImage () {
+    const that = this
+    const file = document.querySelector(`#file-input-${this.props.id}`).files[0]
+    this.setState({photoFile: file}, function () {
+      that.saveSection('photoFile')
+    })
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = function (e) {
+      that.setState({photo: e.target.result, photoFile: file})
+    }
+  }
+
+  addLink (url) {
+    this.setState({youtube: url})
+  }
+
+  createSection () {
     const info = (
       <span>
         <div id='choice-info-expanded'>
           <textarea
             rows={3}
             className='choice-field'
-            id={`field-choice-${id}`}
+            id={`field-choice-${this.props.id}`}
             value={this.state.info}
             onChange={(e) => this.setState({info: e.target.value})}
           />
         </div>
-        <div className='button button-save' onClick={(e, id) => this.saveSection('info')}>Save</div>
+        <div className='button button-save' onClick={(e) => this.saveSection('info')}>Save</div>
       </span>
-    )
+      )
     const photo = (
-      <div>
-        <div>Photo</div>
-        <div className='choice-photo-uploader' id={`photo-upload-${id}`}>
-          <input type='file' className='file-input' id={`file-input-${id}`} />
-          <div id={`gallery-${id}`}>
-            <img className='gallery-image' id={`gallery-img-${id}`} src={this.props.choices[id - 1].imageSrc} />
+      <span>
+        <div className='choice-photo-uploader' id={`photo-upload-${this.props.id}`}>
+          <input type='file' className='choice-file-input' id={`file-input-${this.props.id}`} onChange={() => this.previewImage()} />
+          <div id={`gallery-${this.props.id}`}>
+            <img className={this.state.photo ? 'gallery-image' : 'gallery-image hidden'} id={`gallery-img-${this.props.id}`} src={this.state.photo} />
           </div>
         </div>
-        <div className='button button-save' onClick={() => this.saveSection('photo')}>Save</div>
-      </div>
-    )
+        {this.state.photo && <div className='button button-save' onClick={() => this.saveSection('photo')}>Save</div>}
+      </span>
+      )
     const youtube = (
       <div>
-        <div>YouTube</div>
-        <ReactPlayer url={this.props.choices[id - 1].link || 'https://www.youtube.com/watch?v=w-QXjOQjVmQ'} controls />
-        <div className='button button-save' onClick={() => this.saveSection('youtube', 'something here')}>Save</div>
+        <input type='text' className='link-input' placeholder='Paste a YouTube link here' onChange={(e) => this.addLink(e.target.value)} />
+        <div className='button button-save' onClick={() => this.saveSection('youtube')}>Save</div>
       </div>
-    )
+      )
     const link = (
       <div>
         Link
         <div className='button button-save' onClick={() => this.saveSection('link', 'something here')}>Save</div>
       </div>
-    )
+      )
     const GIF = (
       <div>
         <div>GIF</div>
-        <Picker onSelected={this.setGIF.bind(this, id)} />
-        <div className='gif-container' id={`gif-container-${id}`}>
-          <img className='gif' id={`gif-${id}`} />
+        <Picker onSelected={this.setGIF.bind(this, this.props.id)} />
+        <div className='gif-container' id={`gif-container-${this.props.id}`}>
+          <img className='gif' id={`gif-${this.props.id}`} />
         </div>
         <div className='button button-save' onClick={() => this.saveSection('GIF', 'something here')}>Save</div>
       </div>
-    )
+      )
     return { info, photo, youtube, link, GIF }
   }
 
@@ -89,15 +103,14 @@ class ChoiceMediaPane extends React.Component {
     return includedSections.map(iS => <div key={iS}>{iS}</div>)
   }
 
-  showExpanded (id) {
-    const sections = this.createSection(id)
+  showExpanded () {
+    const sections = this.createSection()
     const inner = sections[this.state.expanded]
     if (inner) return <div id='media-container'>{inner}</div>
   }
 
   render () {
     const that = this
-    const { id } = this.props
     const mediaButtons = [
       {icon: 'commenting-o', label: 'add info', id: 'info'},
       {icon: 'photo', label: 'add photo', id: 'photo'},
@@ -108,20 +121,13 @@ class ChoiceMediaPane extends React.Component {
     const paneClasses = {'choice-media-pane': true, 'choice-more-info': true, 'expanded': this.props.choiceExpanded}
     const mediaButtonSection = mediaButtons.map(function (mB) {
       const { id, icon, label } = mB
-      return (
-        <ChoiceMediaButton
-          key={id}
-          iconName={icon}
-          label={label}
-          clickHandler={() => that.expandSection(id)}
-        />
-      )
+      return <ChoiceMediaButton key={id} iconName={icon} label={label} clickHandler={() => that.expandSection(id)} />
     })
     return (
       <span>
-        <div className={classnames(paneClasses)} id={`choice-more-info-choice-${id}`}>
+        <div className={classnames(paneClasses)} id={`choice-more-info-choice-${this.props.id}`}>
           {mediaButtonSection}
-          {this.showExpanded(id)}
+          {this.showExpanded()}
         </div>
         <IncludedMedia included={this.state.included} />
       </span>

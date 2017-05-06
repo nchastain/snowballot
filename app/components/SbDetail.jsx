@@ -68,7 +68,7 @@ export class SbDetail extends Component {
 
   updateSbImages (props) {
     props.sb.choices.forEach(function (choice) {
-      if (choice.hasImage) {
+      if (choice.photo) {
         let imageUrl = imagesRef.child(`${props.sb.privateAlias}/${choice.id}`)
         imageUrl.getDownloadURL().then(function (url) {
           const imageHolder = document.querySelector(`#image-holder-${choice.id}`)
@@ -338,7 +338,7 @@ export class SbDetail extends Component {
   }
 
   shouldDisplayExtra (choice) {
-    return choice.info || choice.hasImage || choice.hasGIF
+    return choice.info || choice.photo || choice.hasGIF
   }
 
   renderSb () {
@@ -375,7 +375,7 @@ export class SbDetail extends Component {
               {this.shouldDisplayExtra(choice) &&
               <div className='more-sb-info'>
                 {choice.info}
-                {choice.hasImage && <img className='choice-image-holder' id={`image-holder-${choice.id}`} src='http://placehold.it/200x200' />}
+                {choice.photo && <img className='choice-image-holder' id={`image-holder-${choice.id}`} src={choice.photo} />}
                 {choice.hasGIF && <img className='choice-gif-holder' id={`gif-holder-${choice.id}`} src={choice.GIF} />}
               </div>}
             </span>

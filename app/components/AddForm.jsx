@@ -98,13 +98,6 @@ class AddForm extends React.Component {
     this.setState({tags: tags})
   }
 
-  addImage (alias, choiceId, file) {
-    let newImageRef = imagesRef.child(`${alias}/${choiceId}`)
-    newImageRef.put(file).then(function(snapshot) {
-      console.log('Uploaded a file!')
-    })
-  }
-
   toggleChoiceOptions (e, choicesExpanded) {
     const infoSection = document.querySelector(`#choice-more-info-${e.target.id}`)
     const expandState = Boolean(!choicesExpanded[e.target.id])
@@ -139,7 +132,7 @@ class AddForm extends React.Component {
   choiceImageUpdate (id, choices, uploadedFile) {
     const updatedChoices = choices.map((choice) => {
       if (choice.id === id) {
-        choice.image = uploadedFile
+        choice.photo = uploadedFile
         choice.hasImage = true
       }
       return choice
@@ -187,10 +180,15 @@ class AddForm extends React.Component {
     ))
   }
 
+  addImage (alias, choiceId, file) {
+    let newImageRef = imagesRef.child(`${alias}/${choiceId}`)
+    newImageRef.put(file).then(() => console.log('Uploaded a file!'))
+  }
+
   addAllImages (alias) {
     const that = this
     this.state.choices.forEach(function (choice) {
-      if (choice.image) that.addImage(alias, choice.id, choice.image)
+      if (choice.photoFile) that.addImage(alias, choice.id, choice.photoFile)
     })
     if (this.state.hasMainImage) this.addImage(alias, 'main', this.state.mainImage)
   }
@@ -203,7 +201,7 @@ class AddForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     this.addAlias()
-    this.choiceExtraUpdate(['info', 'photo'])
+    this.choiceExtraUpdate(['info', 'photo', 'photoFile'])
     const validSb = this.validateSb()
     this.setState(initialState, function () {
       this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
@@ -220,9 +218,9 @@ class AddForm extends React.Component {
     const { createdSb } = this.props
     let updatedChoices = this.state.choices
     properties.forEach((property) => {
-      const extraSections = Object.keys(this.props.createdSb).map(choice => createdSb[choice][property])
+      const extraMedia = Object.keys(createdSb).map(choice => createdSb[choice][property])
       updatedChoices = updatedChoices.map((choice, idx) => {
-        choice[property] = extraSections[idx] || ''
+        choice[property] = extraMedia[idx] || ''
         return choice
       })
     })

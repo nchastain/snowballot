@@ -1,13 +1,13 @@
 #included-media {
   color: white;
   width: calc(100% - $choiceInset);
-  min-width: 150px;
   margin-left: $choiceInset;
 }
 
 .included-media-item {
   background-color: rgba($light-blue, 0.4);
-  display: block;
+  display: table;
+  width: 100%;
   padding: 10px;
   & + .included-media-item {
     border-top: 1px solid rgba($light-blue, 0.4);
@@ -19,7 +19,25 @@
   text-transform: uppercase;
   font-size: 70%;
   font-family: 'FuturaExtraBold';
-  margin-right: 10px;
   padding: 5px; 
   background-color: $light-blue;
+}
+
+.key-container {
+  display: table-cell;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  width: 75px;
+  background-color: $light-blue;
+}
+
+.video-container {
+  display: table-cell;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.included-content {
+  padding-left: 10px;
 }

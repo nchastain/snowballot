@@ -11,10 +11,29 @@
   margin-top: 10px;
 }
 
+.choice-file-input {
+  margin-top: 30px !important;
+}
+
+.gallery-image {
+  &.hidden {
+    display: none;
+  }
+}
+
+.link-input {
+  border-left: 5px solid $light-blue;
+  width: 50%;
+  display: inline-block;
+  margin-top: 30px !important;
+  margin-right: 10px;
+}
+
 .button-save {
   color: white;
   background-color: rgba($light-blue, 0.8);
   border-radius: 5px;
+  margin-top: 10px;
   &:hover {
     opacity: 0.8;
     background-color: rgba($light-blue, 0.8);
