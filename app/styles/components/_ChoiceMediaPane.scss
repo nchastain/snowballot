@@ -39,3 +39,36 @@
     background-color: rgba($light-blue, 0.8);
   }
 }
+
+.selected-GIF {
+  border: 5px solid $light-blue;
+  height: 300px;
+  width: auto;
+  margin: 10px;
+  margin-left: 0;
+}
+
+.bzojac {
+  height: 300px !important;
+  width: 100% !important;
+  background-color: rgba($light-blue, 0.3);
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.ciFBQa {
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align-items: flex-start;
+  -webkit-flex-direction: row;
+  -flex-direction: row;
+  -ms-flex-direction: row;
+}
+
+input.hMDWtc {
+  width: 500px !important;
+  margin-bottom: 0 !important;
+  margin-left: 1rem !important;
+  border-left: 5px solid $light-blue;
+}
+
+

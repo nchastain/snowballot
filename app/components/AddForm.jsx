@@ -12,6 +12,7 @@ import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
 import ReactPlayer from 'react-player'
 import ChoiceMediaPane from './ChoiceMediaPane'
+import omit from 'object.omit'
 
 let createHandlers = function (dispatch) {
   let handleSubmit = function (options, choices) {
@@ -201,7 +202,7 @@ class AddForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     this.addAlias()
-    this.choiceExtraUpdate(['info', 'photo', 'photoFile'])
+    this.choiceExtraUpdate()
     const validSb = this.validateSb()
     this.setState(initialState, function () {
       this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
@@ -214,10 +215,19 @@ class AddForm extends React.Component {
     this.props.history.push(`/sbs/${validSb.options.alias}`)
   }
 
-  choiceExtraUpdate (properties) {
+  choiceExtraUpdate () {
     const { createdSb } = this.props
     let updatedChoices = this.state.choices
-    properties.forEach((property) => {
+    let choices = Object.keys(createdSb)
+    const excluded = ['expanded', 'included', 'id', 'photoFile']
+    let propertyList = []
+    choices.forEach((choice) => {
+      let potentialProperties = Object.keys(createdSb[choice])
+      potentialProperties.forEach((pp) => {
+        if (excluded.indexOf(pp) === -1 && propertyList.indexOf(pp) === -1) propertyList.push(pp)
+      })
+    })
+    propertyList.forEach((property) => {
       const extraMedia = Object.keys(createdSb).map(choice => createdSb[choice][property])
       updatedChoices = updatedChoices.map((choice, idx) => {
         choice[property] = extraMedia[idx] || ''

@@ -8,6 +8,9 @@ import moment from 'moment'
 import classnames from 'classnames'
 import SharePanel from './SharePanel'
 import { imagesRef } from '../firebase/constants'
+import ReactPlayer from 'react-player'
+import IncludedMedia from './IncludedMedia'
+import omit from 'object.omit'
 
 let createHandlers = function (dispatch) {
   let updateSb = function (id, updates, options) {
@@ -338,7 +341,7 @@ export class SbDetail extends Component {
   }
 
   shouldDisplayExtra (choice) {
-    return choice.info || choice.photo || choice.hasGIF
+    return choice.info || choice.photo || choice.hasGIF || choice.youtube || choice.link
   }
 
   renderSb () {
@@ -374,9 +377,7 @@ export class SbDetail extends Component {
               </div>
               {this.shouldDisplayExtra(choice) &&
               <div className='more-sb-info'>
-                {choice.info}
-                {choice.photo && <img className='choice-image-holder' id={`image-holder-${choice.id}`} src={choice.photo} />}
-                {choice.hasGIF && <img className='choice-gif-holder' id={`gif-holder-${choice.id}`} src={choice.GIF} />}
+                <IncludedMedia included={omit(choice, ['votes', 'title', 'id'], (val) => val !== '')} />
               </div>}
             </span>
           )}

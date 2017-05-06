@@ -21,8 +21,6 @@ class ChoiceMediaPane extends React.Component {
     this.setState({ expanded: toExpand, [sectionID]: '' })
   }
 
-  setGIF () { }
-
   saveSection (section) {
     const newIncluded = Object.assign({}, this.state.included, {[section]: this.state[section]})
     const newState = section === 'photoFile' ? {included: newIncluded} : {[section]: '', expanded: '', included: newIncluded}
@@ -43,12 +41,12 @@ class ChoiceMediaPane extends React.Component {
     }
   }
 
-  addLink (url) {
-    this.setState({youtube: url})
-  }
-
   createSection () {
-    const info = (
+    const linkInput = (placeholder, type) => <input type='text' className='link-input' placeholder={placeholder} onChange={(e) => this.setState({[type]: e.target.value})} />
+    const saveButton = (sectionToSave) => <div className='button button-save' onClick={(e) => this.saveSection(sectionToSave)}>Save</div>
+    const sections = {}
+
+    sections.info = (
       <span>
         <div id='choice-info-expanded'>
           <textarea
@@ -59,10 +57,11 @@ class ChoiceMediaPane extends React.Component {
             onChange={(e) => this.setState({info: e.target.value})}
           />
         </div>
-        <div className='button button-save' onClick={(e) => this.saveSection('info')}>Save</div>
+        {saveButton('info')}
       </span>
-      )
-    const photo = (
+    )
+
+    sections.photo = (
       <span>
         <div className='choice-photo-uploader' id={`photo-upload-${this.props.id}`}>
           <input type='file' className='choice-file-input' id={`file-input-${this.props.id}`} onChange={() => this.previewImage()} />
@@ -70,32 +69,35 @@ class ChoiceMediaPane extends React.Component {
             <img className={this.state.photo ? 'gallery-image' : 'gallery-image hidden'} id={`gallery-img-${this.props.id}`} src={this.state.photo} />
           </div>
         </div>
-        {this.state.photo && <div className='button button-save' onClick={() => this.saveSection('photo')}>Save</div>}
+        {this.state.photo && saveButton('photo')}
       </span>
-      )
-    const youtube = (
+    )
+
+    sections.youtube = (
       <div>
-        <input type='text' className='link-input' placeholder='Paste a YouTube link here' onChange={(e) => this.addLink(e.target.value)} />
-        <div className='button button-save' onClick={() => this.saveSection('youtube')}>Save</div>
+        {linkInput('Paste a YouTube link here', 'youtube')}
+        {saveButton('youtube')}
       </div>
-      )
-    const link = (
+    )
+
+    sections.link = (
       <div>
-        Link
-        <div className='button button-save' onClick={() => this.saveSection('link', 'something here')}>Save</div>
+        {linkInput('Paste a link here', 'link')}
+        {saveButton('link')}
       </div>
-      )
-    const GIF = (
+    )
+
+    sections.GIF = (
       <div>
-        <div>GIF</div>
-        <Picker onSelected={this.setGIF.bind(this, this.props.id)} />
+        <Picker onSelected={(e) => this.setState({GIF: e.downsized.url})} />
         <div className='gif-container' id={`gif-container-${this.props.id}`}>
-          <img className='gif' id={`gif-${this.props.id}`} />
+          <img className={this.state.GIF ? 'gallery-image selected-GIF' : 'gallery-image hidden'} id={`gif-${this.props.id}`} src={this.state.GIF} />
         </div>
-        <div className='button button-save' onClick={() => this.saveSection('GIF', 'something here')}>Save</div>
+        {this.state.GIF && saveButton('GIF')}
       </div>
-      )
-    return { info, photo, youtube, link, GIF }
+    )
+
+    return sections
   }
 
   showIncluded () {

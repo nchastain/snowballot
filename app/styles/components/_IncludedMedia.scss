@@ -10,7 +10,7 @@
   width: 100%;
   padding: 10px;
   & + .included-media-item {
-    border-top: 1px solid rgba($light-blue, 0.4);
+    border-top: 1px solid $light-grey;
   }
 }
 
@@ -21,6 +21,11 @@
   font-family: 'FuturaExtraBold';
   padding: 5px; 
   background-color: $light-blue;
+}
+
+.included-GIF {
+  height: 300px;
+  width: auto;
 }
 
 .key-container {
@@ -39,5 +44,12 @@
 }
 
 .included-content {
-  padding-left: 10px;
+  padding: 10px;
+  a {
+    text-decoration: underline;
+    color: $light-blue;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }

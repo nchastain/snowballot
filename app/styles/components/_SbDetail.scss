@@ -59,6 +59,22 @@
   margin-left: 1px;
   width: calc(100% - 2px);
   font-size: 80%;
+  #included-media {
+    margin-left: 0 !important;
+  }
+  .gallery-image {
+    width: 250px;
+    height: 250px;
+  }
+  .key-container, .included-key {
+    background-color: $light-gray !important;
+    color: rgba($light-blue, 0.8);
+  }
+  .included-media-item {
+    background-color: white !important;
+    padding-left: 0 !important;
+    color: rgba($light-blue, 0.8) !important;
+  }
 }
 
 .tag-list {
