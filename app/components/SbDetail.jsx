@@ -389,7 +389,7 @@ export class SbDetail extends Component {
 
   render () {
     return (
-      <div>
+      <div id='sb-detail'>
         <SharePanel />
         <div className='above-sb-container'>
           <div className='other-sb-info'>

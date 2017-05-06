@@ -1,0 +1,18 @@
+#choice {
+
+    .choice-container {
+    height: auto;
+    width: 100%;
+    &:hover {
+      margin-left: 0px;
+      width: 100%;
+      .choice-expand {
+        display: table-cell;
+        opacity: 1;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}

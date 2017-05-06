@@ -52,7 +52,7 @@ class SharePanel extends React.Component {
     const description = 'Please click the link to vote on this.'
 
     return (
-      <div className='share-panel'>
+      <div id='share-panel'>
         <div className='share-icon-container' onMouseEnter={(e) => this.showAlt(e, 'facebook')} onMouseLeave={(e) => this.showAlt(e, 'facebook')}>
           <FacebookShareButton
             children={<FacebookIcon className='share-icon' size={this.props.iconSize === 'small' ? 24 : 32} round />}

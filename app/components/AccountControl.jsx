@@ -55,7 +55,7 @@ class AccountControl extends React.Component {
         </Link>
       </span>
     )
-    return this.props.authed ? userNav : noUserNav
+    return <span id='account-control'>{this.props.authed ? userNav : noUserNav}</span>
   }
 }
 

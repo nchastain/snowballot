@@ -10,13 +10,15 @@ class Tagger extends React.Component {
   render () {
     const { tags, suggestions, handleDelete, handleAdd } = this.props
     return (
-      <ReactTags
-        tags={tags}
-        suggestions={suggestions}
-        handleDelete={handleDelete}
-        handleAddition={handleAdd}
-        placeholder='Add new tag and press &#39;Enter&#39;'
-      />
+      <span id='tagger'>
+        <ReactTags
+          tags={tags}
+          suggestions={suggestions}
+          handleDelete={handleDelete}
+          handleAddition={handleAdd}
+          placeholder='Add new tag and press &#39;Enter&#39;'
+        />
+      </span>
     )
   }
 }

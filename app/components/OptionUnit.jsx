@@ -5,12 +5,14 @@ class OptionUnit extends React.Component {
   render () {
     const { iconName, label, selector, rest } = this.props
     return (
-      <div className='options-unit'>
-        <div className='options-icon'><FA name={iconName} className='fa-2x fa-fw' /></div>
-        <div className='options-unit-text'>{ label }</div>
-        <div className='options-selector'>{ selector }</div>
-        <div className='options-rest'>{ rest }</div>
-      </div>
+      <span id='option-unit'>
+        <div className='options-unit'>
+          <div className='options-icon'><FA name={iconName} className='fa-2x fa-fw' /></div>
+          <div className='options-unit-text'>{ label }</div>
+          <div className='options-selector'>{ selector }</div>
+          <div className='options-rest'>{ rest }</div>
+        </div>
+      </span>
     )
   }
 }

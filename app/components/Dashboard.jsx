@@ -60,7 +60,7 @@ export class Dashboard extends Component {
     const photoLogout = <div id='dashboard-profile-image' ><img className='right' src={this.props.user.photoURL} /></div>
 
     return (
-      <span>
+      <span id='dashboard'>
         <h1 className='create-title'>🌨 Dashboard</h1>
         <div className='dashboard-outer'>
           <div className='snowballots-section'>

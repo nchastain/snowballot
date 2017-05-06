@@ -1,260 +1,262 @@
-.sb-choices {
-  margin-left: 0;
-}
-
-.detail-snowballot-container {
-  background-color: white;
-  padding: 1rem;
-}
-.snowballots-section {
-	text-align: left;
-	background-color: $light-grey;
-	padding-left: 2rem;
-	padding-right: 2rem;
-	padding-top: 2rem;
-	padding-bottom: 2rem;
-	li {
-		display: block;
-	}
-	h4 {
-		margin-bottom: 0;
-		color: $light-blue;
-    font-family: 'FuturaExtraBold';
-	}
-
-}
-
-.sb-title {
-	font-weight: bold;
-}
-
-.error-message {
-  color: #e70f1f;
-  padding: 0.5rem;
-  background-color: rgba(231, 15, 31, 0.3);
-  display: inline-block;
-  margin-left: 10px;
-}
-
-.plus {
-	visibility: hidden;
-	opacity: 0;
-	color: $light-blue;
-	transition: visibility 0s, opacity 0.3s linear;
-	&.selected {
-		color: red;
-	}
-}
-
-.choice-image-holder, #image-holder-main {
-  height: 200px;
-  width: 200px;
-}
-
-.more-sb-info {
-  color: #A7A7A7;
-  background-color: white;
-  padding: 1rem;
-  padding-left: 2rem;
-  margin-left: 1px;
-  width: calc(100% - 2px);
-  font-size: 80%;
-  #included-media {
-    margin-left: 0 !important;
+#sb-detail {
+  .sb-choices {
+    margin-left: 0;
   }
-  .gallery-image {
-    width: 250px;
-    height: 250px;
-  }
-  .key-container, .included-key {
-    display: none;
-    background-color: $light-gray !important;
-    color: rgba($light-blue, 0.8);
-  }
-  .included-media-item {
-    background-color: white !important;
-    padding-left: 0 !important;
-    color: rgba($light-blue, 0.8) !important;
-    width: initial;
-    display: inline-block;
-    & + .included-media-item {
-      border: 0 !important;
-    }
-  }
-}
 
-.tag-list {
-  float: right;
-  .fa {
-    background-color: initial;
-    border: initial;
-    margin: initial;
-    padding: initial;
-    margin-right: 5px;
-  }
-  span {
-    background-color: rgba($light-blue, 0.1);
-    color: rgba($light-blue, 0.8);
-    padding: 5px;
-    border: 1px solid #ddd;
-    font-size: 12px;
-    margin: 3px;
-    border-radius: 2px;
-  }
-}
-
-#detail-add-choice {
-  &:hover {
-    opacity: 0.8;
-  }
-  width: 125px;
-  margin-top: 13px;
-  display: inline-block;
-  margin-right: 0;
-  height: 39px;
-  border: 0px;
-}
-
-#detail-add-input {
-  width: 50%;
-  display: inline-block;
-  height: 40px;
-  border: 0px;
-}
-
-.box-header {
-	text-align: left;
-    display: table;
-    font-family: 'Futura';
-    color: rgba($light-blue, 0.6);
-    vertical-align: middle;
-    margin-top: 10px;
-    border: 1px solid #eee;
-    padding: 0.5rem;
-    width: 100%;
-    text-align: left;
+  .detail-snowballot-container {
     background-color: white;
-    overflow: hidden;
-    .selection-icon {
-		padding-right: 10px;
-		vertical-align: middle;
-		padding-bottom: 2px;
-    }
-    .selection-icon.unselected {
-    	display: inline-block;
-    }
-    .selection-icon.selected {
-    	display: none;
-    	color: $light-blue;
-    }
-    .selection-icon.trophy {
-    	display: none;
-    }
-    &.selected {
-    	background-color: rgba($light-blue, 0.4);
-    	.selection-icon.selected {
-    		display: inline-block;
-    	}
-    	.selection-icon.unselected {
-    		display: none;
-    	}
-    }
-    .button {
-		margin-bottom: 0px !important;
-		margin-top: -2px !important;
-    }
-    &.leader {
-    	background-color: rgba($light-blue, 0.3);
-    	.selection-icon.unselected, .selection-icon.selected {
-    		display: none;
-    	}
-    	.selection-icon.trophy {
-    		display: inline-block;
-    		color: $light-blue;
-    	}
-    }
-}
-
-.left-cell {
-    display: table-cell;
-    vertical-align: middle;
-    padding-right: 0px;
-    width: 1px;
-    white-space: nowrap;
-}
-
-.right-cell {
-    display: table-cell;
-    vertical-align: middle;
+    padding: 1rem;
+  }
+  .snowballots-section {
     text-align: left;
-}
+    background-color: $light-grey;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    li {
+      display: block;
+    }
+    h4 {
+      margin-bottom: 0;
+      color: $light-blue;
+      font-family: 'FuturaExtraBold';
+    }
 
-#sb-description-text {
-  width: 100%;
-  color: #A7A7A7;
-  max-width: 700px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
+  }
 
-.vote-count {
-	font-size: 1rem;
-	display: inline;
-	float: right;
-	display: inline-block;
-	padding-right: 10px;
-	padding-left: 10px;
-	margin-right: -35px;
-	transition: margin-right 0.3s linear;
-}
+  .sb-title {
+    font-weight: bold;
+  }
 
-.expiration-info {
-	float: right;
-	display: inline-block;
-}
-
-.alert-container {
-	display: block;
-	float: right;
-	top: 50px;
-	text-align: center;
-	margin: 0 auto;
-	padding: 0.5rem;
-}
-
-.status-message {
-	text-align: center;
-	margin: 0 auto;
-	opacity: 0;
-	display: block;
-	padding: 0.5rem;
-	color: $light-blue;
-	font-weight: bold;
-	margin-right: -100px;
-	transition: margin-right 1.2s ease, opacity 1.2s ease;
-	&.voted {
-		margin-right: 0px;
-		opacity: 1;
-	}
-}
-
-.above-sb-container {
-	display: inline-block;
-  margin-bottom: -6px;
-	width: 100%;
-	color: rgba($light-blue, 0.3);
-	.login-message-text, .creator-message-text {
-		margin-left: 10px;
-	}
-	a {
-		color: white;
-		text-decoration: underline;
-	}
-	.other-sb-info {
+  .error-message {
+    color: #e70f1f;
+    padding: 0.5rem;
+    background-color: rgba(231, 15, 31, 0.3);
     display: inline-block;
+    margin-left: 10px;
+  }
+
+  .plus {
+    visibility: hidden;
+    opacity: 0;
+    color: $light-blue;
+    transition: visibility 0s, opacity 0.3s linear;
+    &.selected {
+      color: red;
+    }
+  }
+
+  .choice-image-holder, #image-holder-main {
+    height: 200px;
+    width: 200px;
+  }
+
+  .more-sb-info {
+    color: #A7A7A7;
+    background-color: white;
+    padding: 1rem;
+    padding-left: 2rem;
+    margin-left: 1px;
+    width: calc(100% - 2px);
+    font-size: 80%;
+    #included-media {
+      margin-left: 0 !important;
+    }
+    .gallery-image {
+      width: 250px;
+      height: 250px;
+    }
+    .key-container, .included-key {
+      display: none;
+      background-color: $light-gray !important;
+      color: rgba($light-blue, 0.8);
+    }
+    .included-media-item {
+      background-color: white !important;
+      padding-left: 0 !important;
+      color: rgba($light-blue, 0.8) !important;
+      width: initial;
+      display: inline-block;
+      & + .included-media-item {
+        border: 0 !important;
+      }
+    }
+  }
+
+  .tag-list {
+    float: right;
+    .fa {
+      background-color: initial;
+      border: initial;
+      margin: initial;
+      padding: initial;
+      margin-right: 5px;
+    }
+    span {
+      background-color: rgba($light-blue, 0.1);
+      color: rgba($light-blue, 0.8);
+      padding: 5px;
+      border: 1px solid #ddd;
+      font-size: 12px;
+      margin: 3px;
+      border-radius: 2px;
+    }
+  }
+
+  #detail-add-choice {
+    &:hover {
+      opacity: 0.8;
+    }
+    width: 125px;
+    margin-top: 13px;
+    display: inline-block;
+    margin-right: 0;
+    height: 39px;
+    border: 0px;
+  }
+
+  #detail-add-input {
+    width: 50%;
+    display: inline-block;
+    height: 40px;
+    border: 0px;
+  }
+
+  .box-header {
+    text-align: left;
+      display: table;
+      font-family: 'Futura';
+      color: rgba($light-blue, 0.6);
+      vertical-align: middle;
+      margin-top: 10px;
+      border: 1px solid #eee;
+      padding: 0.5rem;
+      width: 100%;
+      text-align: left;
+      background-color: white;
+      overflow: hidden;
+      .selection-icon {
+      padding-right: 10px;
+      vertical-align: middle;
+      padding-bottom: 2px;
+      }
+      .selection-icon.unselected {
+        display: inline-block;
+      }
+      .selection-icon.selected {
+        display: none;
+        color: $light-blue;
+      }
+      .selection-icon.trophy {
+        display: none;
+      }
+      &.selected {
+        background-color: rgba($light-blue, 0.4);
+        .selection-icon.selected {
+          display: inline-block;
+        }
+        .selection-icon.unselected {
+          display: none;
+        }
+      }
+      .button {
+      margin-bottom: 0px !important;
+      margin-top: -2px !important;
+      }
+      &.leader {
+        background-color: rgba($light-blue, 0.3);
+        .selection-icon.unselected, .selection-icon.selected {
+          display: none;
+        }
+        .selection-icon.trophy {
+          display: inline-block;
+          color: $light-blue;
+        }
+      }
+  }
+
+  .left-cell {
+      display: table-cell;
+      vertical-align: middle;
+      padding-right: 0px;
+      width: 1px;
+      white-space: nowrap;
+  }
+
+  .right-cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: left;
+  }
+
+  #sb-description-text {
     width: 100%;
-		background-color: rgba($light-blue, 0.1);
-    color: rgba($light-blue, 0.6);
-	}
+    color: #A7A7A7;
+    max-width: 700px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+  }
+
+  .vote-count {
+    font-size: 1rem;
+    display: inline;
+    float: right;
+    display: inline-block;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right: -35px;
+    transition: margin-right 0.3s linear;
+  }
+
+  .expiration-info {
+    float: right;
+    display: inline-block;
+  }
+
+  .alert-container {
+    display: block;
+    float: right;
+    top: 50px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0.5rem;
+  }
+
+  .status-message {
+    text-align: center;
+    margin: 0 auto;
+    opacity: 0;
+    display: block;
+    padding: 0.5rem;
+    color: $light-blue;
+    font-weight: bold;
+    margin-right: -100px;
+    transition: margin-right 1.2s ease, opacity 1.2s ease;
+    &.voted {
+      margin-right: 0px;
+      opacity: 1;
+    }
+  }
+
+  .above-sb-container {
+    display: inline-block;
+    margin-bottom: -6px;
+    width: 100%;
+    color: rgba($light-blue, 0.3);
+    .login-message-text, .creator-message-text {
+      margin-left: 10px;
+    }
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+    .other-sb-info {
+      display: inline-block;
+      width: 100%;
+      background-color: rgba($light-blue, 0.1);
+      color: rgba($light-blue, 0.6);
+    }
+  }
 }

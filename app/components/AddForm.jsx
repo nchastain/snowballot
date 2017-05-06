@@ -314,7 +314,7 @@ class AddForm extends React.Component {
     )
 
     return (
-      <span>
+      <span id='add-form'>
         <h1 className='create-title'>🌨 Create a Snowballot</h1>
         <div className='newSnowballot-section'>
           <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>

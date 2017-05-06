@@ -119,7 +119,7 @@ class OptionsPanel extends React.Component {
       /* DE */{iconName: 'pencil', label: 'Add a description for this snowballot?', selector: '', rest: description.rest}
     ]
     const optionUnits = OptionsUnitInfo.map(oU => <OptionUnit {...oU} />)
-    return <div className='options-panel'>{ optionUnits }</div>
+    return <div id='options-panel'>{ optionUnits }</div>
   }
 }
 

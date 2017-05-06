@@ -1,446 +1,432 @@
-.create-title {
-	font-family: 'FuturaExtraBold';
-	display: block;
-	color: $light-blue;
-	max-width: 1000px;
-	background-color: rgba($light-blue, 0.1);
-	margin-left: auto;
-	margin-right: auto;
-	text-transform: uppercase;
-	font-size: 125%;
-	padding: 1rem;
-}
-
-.options-unit {
-	width: 100%;
-	color: rgba($light-blue, 0.9);
-	display: inline-block;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	.fa, .fa-2x {
-		color: white;
-	}
-	.disabled-option {
-		color: #A9A9A9 !important;
-	}
-	textarea {
-		color: $light-blue;
-		border: 0;
-		border-left: 5px solid $light-blue;
-		display: inline-block;
-		vertical-align: middle;
-		margin-bottom: 0;
-		box-shadow: none;
-		resize: none;
-		&:focus {
-			pointer-events: none;
-			border: 0;
-			box-shadow: none;
-		}
-	}
-	input {
-		color: $light-blue;
-		border: 0;
-		margin-bottom: 0;
-		box-shadow: none;
-		&:focus {
-			pointer-events: none;
-			border: 0;
-			box-shadow: none;
-		}
-	}
-	input[type='file'] {
-		border: 0;
-		display: inline-block;
-	}
-	.custom-check {
+#add-form {
+	.create-title {
+		font-family: 'FuturaExtraBold';
 		display: block;
-    -moz-border-radius: 100px;
-    -webkit-border-radius: 100px;
-    border-radius: 100px;
-    -moz-box-shadow: 0px 0px 2px #888;
-    line-height: 20px;
-    -webkit-box-shadow: 0px 0px 2px #888;
-    box-shadow: 0px 0px 2px #888;
-    background-color: rgba($light-blue, 0.1);
-    &:hover {
-    	background-color: rgba($light-blue, 0.2);
-    	cursor: pointer;
-    }
+		color: $light-blue;
+		max-width: 1000px;
+		background-color: rgba($light-blue, 0.1);
+		margin-left: auto;
+		margin-right: auto;
+		text-transform: uppercase;
+		font-size: 125%;
+		padding: 1rem;
 	}
-}
 
-.gallery-image {
-	height: 100px;
-	width: 100px;
-}
-
-.choice-expand {
-	display: none;
-	background-color: $light-blue;
-	padding: 0;
-	color: white;
-	opacity: 0;
-}
-
-.choice-container {
-	margin-left: -20px;
-	height: auto;
-	width: calc(100% + 20px);
-	&:hover {
-		margin-left: 0px;
+	.options-unit {
 		width: 100%;
-		.choice-expand {
-			display: table-cell;
+		color: rgba($light-blue, 0.9);
+		display: inline-block;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		.fa, .fa-2x {
+			color: white;
+		}
+		.disabled-option {
+			color: #A9A9A9 !important;
+		}
+		textarea {
+			color: $light-blue;
+			border: 0;
+			border-left: 5px solid $light-blue;
+			display: inline-block;
+			vertical-align: middle;
+			margin-bottom: 0;
+			box-shadow: none;
+			resize: none;
+			&:focus {
+				pointer-events: none;
+				border: 0;
+				box-shadow: none;
+			}
+		}
+		input {
+			color: $light-blue;
+			border: 0;
+			margin-bottom: 0;
+			box-shadow: none;
+			&:focus {
+				pointer-events: none;
+				border: 0;
+				box-shadow: none;
+			}
+		}
+		input[type='file'] {
+			border: 0;
+			display: inline-block;
+		}
+		.custom-check {
+			display: block;
+	    -moz-border-radius: 100px;
+	    -webkit-border-radius: 100px;
+	    border-radius: 100px;
+	    -moz-box-shadow: 0px 0px 2px #888;
+	    line-height: 20px;
+	    -webkit-box-shadow: 0px 0px 2px #888;
+	    box-shadow: 0px 0px 2px #888;
+	    background-color: rgba($light-blue, 0.1);
+	    &:hover {
+	    	background-color: rgba($light-blue, 0.2);
+	    	cursor: pointer;
+	    }
+		}
+	}
+
+	.gallery-image {
+		height: 100px;
+		width: 100px;
+	}
+
+	.choice-expand {
+		display: none;
+		background-color: $light-blue;
+		padding: 0;
+		color: white;
+		opacity: 0;
+	}
+
+	#gallery .imgThumbnail{
+	    width:150px;
+	    height: 150px;
+	    float:left;
+	    margin:2px;
+	}
+
+	#gallery .imgThumbnail img{
+	    width:150px;
+	    height: 150px;
+	}
+
+	.choice-more-info {
+		width: 100%;
+		overflow: hidden;
+		height: 0;
+		opacity: 0;
+		color: rgba($light-blue, 0.9);
+		transition: height 0.3s linear, padding 0.3s linear, opacity 0.3s linear;
+		padding: 0rem;
+		background-color: rgba($light-blue, 0.2);
+		.choice-field {
+			color: rgba(black, 0.6);
 			opacity: 1;
-			padding-left: 10px;
-			padding-right: 10px;
+			display: block;
+			width: 100%;
+			float: right;
+			border: 0;
+			border-left: 5px solid $light-blue;
+			box-shadow: none;
+			&:focus {
+				border: 0;
+				box-shadow: none;
+			}
+		}
+		.field-expanded {
+			opacity: 1;
+			height: 150px;
+			display: block;
+			resize: none;
+		}
+		.photo-uploader {
+			opacity: 0;
+			display: block;
+			overflow: hidden;
+			height: 0;
+			transition: height 0.3s linear, opacity 0.3s linear;
+		}
+		.photo-upload-expanded {
+			opacity: 1;
+			height: 150px;
+		}
+		.more-info-icon {
+			padding-right: 25px;
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+	}
+
+	.gif-container {
+		display: inline-block;
+	}
+
+	.gif {
+		display: inline-block;
+	}
+	.choice-more-info-expanded {
+		padding: 1rem;
+		opacity: 1;
+		height: initial;
+		display: inline-block;
+	}
+
+
+	.delete-choice-button {
+		display: none;
+		opacity: 0;
+		height: 100%;
+		padding: 0;
+		padding-left: 10px;
+		padding-right: 10px;
+	}	
+
+	.choice-container {
+		&:hover {
+			.delete-choice-button {
+				opacity: 1;
+				display: table-cell;
+				height: 100%;
+				background-color: rgba(red, 0.5);
+			}
+		}
+	}
+
+	.options-icon, .options-unit-text, .options-selector, .options-rest {
+		display: inline-block;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	.options-rest {
+		padding-left: 10px;
+	}
+
+	#title-input {
+		color: $light-blue;
+		&:focus {
+			border: 0;
+			box-shadow: none;
+		}
+	}
+
+	#real-options-section {
+		max-height: 0px;
+		transition: max-height 0.3s ease-in;
+		display: block;
+		overflow: hidden;
+		width: 100%;
+		&.expanded {
+			max-height: 500px;
+			padding-bottom: 10rem;
+		}
+	}
+
+	.newSnowballot-section {
+		max-width: 1000px;
+		margin: auto;
+	}
+
+
+
+	input[type='checkbox'] {
+		margin-left: 5px;
+	}
+
+	input[type='checkbox']#expireCheckbox {
+		margin-left: 5px;
+		width: 15px;
+	}
+
+	.newSbSection {
+		text-align: left;
+		background-color: #eee;
+		padding: 0.5rem;
+		margin-bottom: 10px;
+		display: block;
+		.header {
+			float: left;
+			display: inline-block;
+			color: $light-blue;
+			text-transform: uppercase;
+			font-size: 80%;
+			margin-bottom: 10px;
+		}
+	}
+
+	.newSbOptions {
+		.fa-2x {
+			line-height: inherit !important;
+			margin-top: -4px;
+		}
+	}
+
+	#options-top {
+		display: inline-block;
+		width: 100%;
+		&:hover {
 			cursor: pointer;
 		}
 	}
-}
 
-#gallery .imgThumbnail{
-    width:150px;
-    height: 150px;
-    float:left;
-    margin:2px;
-}
-
-#gallery .imgThumbnail img{
-    width:150px;
-    height: 150px;
-}
-
-.choice-more-info {
-	width: 100%;
-	overflow: hidden;
-	height: 0;
-	opacity: 0;
-	color: rgba($light-blue, 0.9);
-	transition: height 0.3s linear, padding 0.3s linear, opacity 0.3s linear;
-	padding: 0rem;
-	background-color: rgba($light-blue, 0.2);
-	.choice-field {
-		color: rgba(black, 0.6);
-		opacity: 1;
-		display: block;
-		width: 100%;
+	#toggleOptionsMenu {
+		font-size: 12px;
 		float: right;
-		border: 0;
-		border-left: 5px solid $light-blue;
-		box-shadow: none;
-		&:focus {
-			border: 0;
+		border-radius: 5px;
+		box-shadow: 1px 1px 3px $dark-grey;
+		display: inline-block;
+		background-color: white;
+		color: $light-blue;
+		padding-left: 10px;
+		padding-top: 5px;
+		.fa {
+			color: $light-blue;
+			margin-left: -5px;
+		}
+		&:hover {
+			cursor: pointer;
+			opacity: 0.8;
+		}
+	}
+
+	.custom-url, .expire-section {
+		input {
+			width: 35%;
+			display: inline-block;
+			margin-left: 10px;
+			margin-bottom: 0;
+		}
+	}
+
+	.expire-section {
+		width: 100%;
+	}
+
+	.newSnowballot-section {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 1rem;
+		padding: 1rem;
+		background-color: white;
+		#addchoice, #newSnowballot {
+			margin-bottom: 0;
+		}
+		input {
+			border: 0px;
+			border-left: 5px solid $light-blue;
 			box-shadow: none;
 		}
 	}
-	.field-expanded {
-		opacity: 1;
-		height: 150px;
-		display: block;
-		resize: none;
+
+	.newSbChoices {
+		.delete-choice-button {
+			display: none;
+			opacity: 0;
+			height: 100%;
+			padding: 0;
+			padding-left: 10px;
+			padding-right: 10px;
+		}	
+		.choice-container {
+			&:hover {
+				.delete-choice-button {
+					opacity: 1;
+					display: table-cell;
+					height: 100%;
+					background-color: rgba(red, 0.5);
+				}
+			}
+		}
+		input {
+			color: $light-blue;
+			border: 0px;
+			box-shadow: none;
+			margin-top: 0;
+			&:focus {
+				border: 0px;
+				box-shadow: none;
+			}
+		}
+		.choice-container {
+			margin-top: 10px;
+			margin-bottom: 0px !important;
+		}
 	}
-	.photo-uploader {
-		opacity: 0;
+
+	#tag-section {
+		display: inline-block;
+	}
+
+
+	#real-options-section {
+		max-height: 0px;
+		transition: max-height 0.3s ease-in;
 		display: block;
 		overflow: hidden;
-		height: 0;
-		transition: height 0.3s linear, opacity 0.3s linear;
+		width: 100%;
+		&.expanded {
+			max-height: 500px;
+			padding-bottom: 10px;
+		}
 	}
-	.photo-upload-expanded {
-		opacity: 1;
-		height: 150px;
+
+	.newSbOptions {
+		display: block;
+		width: 100%;
+		padding-bottom: 0;
+		#expireCheckbox, #privateCheckbox {
+			margin-bottom: 0;
+		}
+		.option-section {
+			margin-top: 5px;
+			margin-bottom: 5px;
+			display: block;
+			width: 100%;
+			textarea {
+				margin-left: 50px;
+				width: calc(100% - 500px);
+				max-width: 50%;
+				min-width: 200px;
+			}
+			.tag-holder {
+				display: inline-block;
+				width: 50%;
+				margin-left: 5px;
+				input[type='checkbox']#tagInput {
+					display: inline-block !important;
+				}
+			}
+		}
+		.date-holder {
+			margin-top: 10px;
+			display: inline;
+		}
+		.date-selector {
+			margin-top: 10px;
+			display: inline;
+			width: 50%;
+		}
 	}
-	.more-info-icon {
-		padding-right: 25px;
+
+	.rdt {
+		display: inline;
+		width: 20%;
+	}
+
+	#newSnowballot {
+		display: block;
+		margin-top: 1rem;
+		margin-bottom: 0;
+	}
+
+	#submitSnowballot {
+		border-radius: 5px;
+		box-shadow: 2px 2px 8px $dark-grey;
+		display: inline-block;
+		width: 100%;
+		margin-bottom: 0;
+		background-color: rgba($light-blue, 0.7);
 		&:hover {
 			opacity: 0.8;
 		}
 	}
-}
 
-.gif-container {
-	display: inline-block;
-}
-
-.gif {
-	display: inline-block;
-}
-.choice-more-info-expanded {
-	padding: 1rem;
-	opacity: 1;
-	height: initial;
-	display: inline-block;
-}
-
-
-	.delete-choice-button {
-		display: none;
-		opacity: 0;
-		height: 100%;
-		padding: 0;
-		padding-left: 10px;
-		padding-right: 10px;
-	}	
-	.choice-container {
-		&:hover {
-			.delete-choice-button {
-				opacity: 1;
-				display: table-cell;
-				height: 100%;
-				background-color: rgba(red, 0.5);
-			}
-		}
-	}
-
-.options-icon, .options-unit-text, .options-selector, .options-rest {
-	display: inline-block;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.options-rest {
-	padding-left: 10px;
-}
-
-#title-input {
-	color: $light-blue;
-	&:focus {
-		border: 0;
-		box-shadow: none;
-	}
-}
-
-#real-options-section {
-	max-height: 0px;
-	transition: max-height 0.3s ease-in;
-	display: block;
-	overflow: hidden;
-	width: 100%;
-	&.expanded {
-		max-height: 500px;
-		padding-bottom: 10rem;
-	}
-}
-
-.newSnowballot-section {
-	max-width: 1000px;
-	margin: auto;
-}
-
-
-
-input[type='checkbox'] {
-	margin-left: 5px;
-}
-
-input[type='checkbox']#expireCheckbox {
-	margin-left: 5px;
-	width: 15px;
-}
-
-.newSbSection {
-	text-align: left;
-	background-color: #eee;
-	padding: 0.5rem;
-	margin-bottom: 10px;
-	display: block;
-	.header {
-		float: left;
+	#addchoice {
+		border-radius: 5px;
+		margin-top: 10px;
 		display: inline-block;
+		background-color: white;
 		color: $light-blue;
-		text-transform: uppercase;
-		font-size: 80%;
-		margin-bottom: 10px;
-	}
-}
-
-.newSbOptions {
-	.fa-2x {
-		line-height: inherit !important;
-		margin-top: -4px;
-	}
-}
-
-#options-top {
-	display: inline-block;
-	width: 100%;
-	&:hover {
-		cursor: pointer;
-	}
-}
-
-#toggleOptionsMenu {
-	font-size: 12px;
-	float: right;
-	border-radius: 5px;
-	box-shadow: 1px 1px 3px $dark-grey;
-	display: inline-block;
-	background-color: white;
-	color: $light-blue;
-	padding-left: 10px;
-	padding-top: 5px;
-	.fa {
-		color: $light-blue;
-		margin-left: -5px;
-	}
-	&:hover {
-		cursor: pointer;
-		opacity: 0.8;
-	}
-}
-
-.custom-url, .expire-section {
-	input {
-		width: 35%;
-		display: inline-block;
-		margin-left: 10px;
-		margin-bottom: 0;
-	}
-}
-
-.expire-section {
-	width: 100%;
-}
-
-.newSnowballot-section {
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 1rem;
-	padding: 1rem;
-	background-color: white;
-	#addchoice, #newSnowballot {
-		margin-bottom: 0;
-	}
-	input {
-		border: 0px;
-		border-left: 5px solid $light-blue;
-		box-shadow: none;
-	}
-}
-
-.newSbChoices {
-	.delete-choice-button {
-		display: none;
-		opacity: 0;
-		height: 100%;
-		padding: 0;
-		padding-left: 10px;
-		padding-right: 10px;
-	}	
-	.choice-container {
+		box-shadow: 1px 1px 3px $dark-grey;
 		&:hover {
-			.delete-choice-button {
-				opacity: 1;
-				display: table-cell;
-				height: 100%;
-				background-color: rgba(red, 0.5);
-			}
+			opacity: 0.8;
 		}
-	}
-	input {
-		color: $light-blue;
-		border: 0px;
-		box-shadow: none;
-		margin-top: 0;
-		&:focus {
-			border: 0px;
-			box-shadow: none;
-		}
-	}
-	.choice-container {
-		margin-top: 10px;
-		margin-bottom: 0px !important;
-	}
-}
-
-#tag-section {
-	display: inline-block;
-}
-
-
-#real-options-section {
-	max-height: 0px;
-	transition: max-height 0.3s ease-in;
-	display: block;
-	overflow: hidden;
-	width: 100%;
-	&.expanded {
-		max-height: 500px;
-		padding-bottom: 10px;
-	}
-}
-
-.newSbOptions {
-	display: block;
-	width: 100%;
-	padding-bottom: 0;
-	#expireCheckbox, #privateCheckbox {
-		margin-bottom: 0;
-	}
-	.option-section {
-		margin-top: 5px;
-		margin-bottom: 5px;
-		display: block;
-		width: 100%;
-		textarea {
-			margin-left: 50px;
-			width: calc(100% - 500px);
-			max-width: 50%;
-			min-width: 200px;
-		}
-		.tag-holder {
-			display: inline-block;
-			width: 50%;
-			margin-left: 5px;
-			input[type='checkbox']#tagInput {
-				display: inline-block !important;
-			}
-		}
-	}
-	.date-holder {
-		margin-top: 10px;
-		display: inline;
-	}
-	.date-selector {
-		margin-top: 10px;
-		display: inline;
-		width: 50%;
-	}
-}
-
-.rdt {
-	display: inline;
-	width: 20%;
-}
-
-#newSnowballot {
-	display: block;
-	margin-top: 1rem;
-	margin-bottom: 0;
-}
-
-#submitSnowballot {
-	border-radius: 5px;
-	box-shadow: 2px 2px 8px $dark-grey;
-	display: inline-block;
-	width: 100%;
-	margin-bottom: 0;
-	background-color: rgba($light-blue, 0.7);
-	&:hover {
-		opacity: 0.8;
-	}
-}
-
-#addchoice {
-	border-radius: 5px;
-	margin-top: 10px;
-	display: inline-block;
-	background-color: white;
-	color: $light-blue;
-	box-shadow: 1px 1px 3px $dark-grey;
-	&:hover {
-		opacity: 0.8;
 	}
 }

@@ -64,7 +64,7 @@ export class Login extends Component {
     )
 
     return (
-      <div className='col-sm-6 col-sm-offset-3'>
+      <div id='login' className='col-sm-6 col-sm-offset-3'>
         <div id='icons-container'>
           <div className='login-page-button' onClick={() => fbLogin()}>
             <div id='fb-button' className='fa-icon-holder'>

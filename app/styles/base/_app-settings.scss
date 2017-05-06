@@ -1,7 +1,27 @@
+@font-face {
+  font-family: 'Futura';
+  src: url('fonts/Futura_Light_BT.ttf'), format('truetype');
+}
+
+@font-face {
+  font-family: 'FuturaExtraBold';
+  src: url('fonts/FuturaLT-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'FuturaItalic';
+  src: url('fonts/FuturaLT-LightOblique.ttf');
+}
+
 .container {
 	padding: 5rem;
 }
 
 .fa:not(.page-arrow), .fa-2x:not(.page-arrow), .fa-3x:not(.page-arrow) {
   vertical-align: middle;
+}
+
+body {
+  background-color: rgba($light-blue, 0.1);
+  font-family: 'Futura';
 }

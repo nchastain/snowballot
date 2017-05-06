@@ -1,10 +1,10 @@
-.share-panel {
-	display: inline-block;
-	color: $light-blue;
-	padding-right: 0.5rem;
-	padding-top: 0.5rem;
-	padding-bottom: 1rem;
-	width: 100%;
+#share-panel {
+  display: inline-block;
+  color: $light-blue;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  width: 100%;
   #alt-container {
     display: inline;
     position: relative;
@@ -30,25 +30,26 @@
     }
   }
   
-	.share-icon {
-		&:hover {
-			cursor: pointer;
-			opacity: 0.8;
-		}
-		float: right;
-		border-radius: 25px;
-	}
+  .share-icon {
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+    float: right;
+    border-radius: 25px;
+  }
   #clipboard {
     display: inline;
   }
-	.share-icon-container {
+  .share-icon-container {
     padding-top: 0.5rem;
-		display: inline-block;
-		float: right;
-		+ .share-icon-container {
-			margin-right: 10px;
-		}
-		border-radius: 25px;
-	}
+    display: inline-block;
+    float: right;
+    + .share-icon-container {
+      margin-right: 10px;
+    }
+    border-radius: 25px;
+  }
 }
+
 

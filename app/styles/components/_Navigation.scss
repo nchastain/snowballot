@@ -1,101 +1,103 @@
-.right {
-	float: right;
-}
-.left {
-	float: left;
-}
-
-.bar {
-	font-weight: bold;
-	text-transform: uppercase;
-	font-size: 110%;
-	background-color: $light-blue !important;
-	color: white !important;
-	display: inline-block;
-	width: 100%;
-	height: 55px;
-	a {
-		color: white;
-		vertical-align: bottom;
-	}
-}
-
-li {
-	display: inline-block;
-	list-style-type: none;
-	vertical-align: bottom;
-}
-
-button {
+#navigation {
 	.right {
 		float: right;
 	}
-}
-
-.logo {
-	float: left;
-	margin-top: -6px;
-	width: $logo-size;
-	height: $logo-size;
-	display: inline-block;
-	transition: width 3s ease-in, height 3s ease-in, transform 3s ease-in;
-	transition-delay: 0.5s;
-	&:hover {
-		opacity: 0.8;
-		cursor: pointer;
+	.left {
+		float: left;
 	}
-}
 
-#login {
-	padding-left: 1.5rem;
-}
-
-.link-container {
-	text-align: center;
-	padding: 15px;
-	&.addLink {
-		padding-left: 5px !important;
-	}
-	&.logo {
-		&:hover {
-			opacity: 0.8;
-			background-color: initial;
+	.bar {
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 110%;
+		background-color: $light-blue !important;
+		color: white !important;
+		display: inline-block;
+		width: 100%;
+		height: 55px;
+		a {
+			color: white;
+			vertical-align: bottom;
 		}
 	}
-	&:hover {
-		background-color: rgba(255,255, 255, 0.1);
-	}
-	& + .link-container {
-		margin-left: 0.5rem;
-		margin-right: 0.5rem;
-	}
-}
 
-.addButton {
-	color: $light-blue-hover !important;
-}
+	li {
+		display: inline-block;
+		list-style-type: none;
+		vertical-align: bottom;
+	}
 
-.active {
-	position: relative;
-	color: $light-blue-hover !important;
-	&:after {
-		content: "";
-		background-color: $light-blue-hover;
-		position: absolute;
-		bottom: 6px;
-		left: 15px;
-		height: 2px;
-		width: calc(100% - 30px);
+	button {
+		.right {
+			float: right;
+		}
 	}
-	&.addLink:after {
-		left: 10px;
-		width: calc(100% - 25px);
+
+	.logo {
+		float: left;
+		margin-top: -6px;
+		width: $logo-size;
+		height: $logo-size;
+		display: inline-block;
+		transition: width 3s ease-in, height 3s ease-in, transform 3s ease-in;
+		transition-delay: 0.5s;
+		&:hover {
+			opacity: 0.8;
+			cursor: pointer;
+		}
 	}
-	&a {
-		cursor: default;
+
+	#login {
+		padding-left: 1.5rem;
 	}
-	&:hover {
-		cursor: default;
-		background-color: initial;
+
+	.link-container {
+		text-align: center;
+		padding: 15px;
+		&.addLink {
+			padding-left: 5px !important;
+		}
+		&.logo {
+			&:hover {
+				opacity: 0.8;
+				background-color: initial;
+			}
+		}
+		&:hover {
+			background-color: rgba(255,255, 255, 0.1);
+		}
+		& + .link-container {
+			margin-left: 0.5rem;
+			margin-right: 0.5rem;
+		}
+	}
+
+	.addButton {
+		color: $light-blue-hover !important;
+	}
+
+	.active {
+		position: relative;
+		color: $light-blue-hover !important;
+		&:after {
+			content: "";
+			background-color: $light-blue-hover;
+			position: absolute;
+			bottom: 6px;
+			left: 15px;
+			height: 2px;
+			width: calc(100% - 30px);
+		}
+		&.addLink:after {
+			left: 10px;
+			width: calc(100% - 25px);
+		}
+		&a {
+			cursor: default;
+		}
+		&:hover {
+			cursor: default;
+			background-color: initial;
+		}
 	}
 }

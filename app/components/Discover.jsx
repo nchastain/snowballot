@@ -7,24 +7,10 @@ import FA from 'react-fontawesome'
 import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
 
-let createHandlers = function (dispatch) {
-  let findPublicSbs = function () {
-    dispatch(actions.findPublicSbs())
-  }
-  let startSearchSbs = function (searchTerm) {
-    dispatch(actions.startSearchSbs(searchTerm))
-  }
-  return {
-    findPublicSbs,
-    startSearchSbs
-  }
-}
-
 class Discover extends React.Component {
   constructor (props) {
     super(props)
     this.itemsPerPage = 16
-    this.handlers = createHandlers(props.dispatch)
     this.state = {
       images: {},
       searchTerm: this.getSearchTermFromURL(props.history.location.search),
@@ -37,7 +23,7 @@ class Discover extends React.Component {
   }
 
   componentWillMount () {
-    this.handlers.findPublicSbs()
+    this.props.dispatch(actions.findPublicSbs())
     this.getSearchResults(this.state.searchTerm)
   }
 
@@ -52,7 +38,7 @@ class Discover extends React.Component {
   }
 
   componentDidMount () {
-    this.handlers.findPublicSbs()
+    this.props.dispatch(actions.findPublicSbs())
   }
 
   getSearchTermFromURL (searchStr) {
@@ -79,14 +65,6 @@ class Discover extends React.Component {
     }
   }
 
-  renderSidebar () {
-    return (
-      <span>
-        <div id='header'>Filters</div>
-      </span>
-    )
-  }
-
   getCurrentPage (fullURL) {
     let queryStr = fullURL.substr(fullURL.lastIndexOf('/') + 1)
     let pageStr = queryStr.substr(queryStr.lastIndexOf('=') + 1)
@@ -103,11 +81,11 @@ class Discover extends React.Component {
             name='search'
             className='fa-2x fa-fw search-icon'
           />
-            <SearchInput
-              className='search-input'
-              value={this.state.searchTerm}
-              onChange={(e) => this.searchUpdated(e)}
-            />
+          <SearchInput
+            className='search-input'
+            value={this.state.searchTerm}
+            onChange={(e) => this.searchUpdated(e)}
+          />
         </div>
         <div id='discover-body-container'>
           <div id='discover-grid'>
@@ -123,8 +101,10 @@ class Discover extends React.Component {
       let imageUrl = imagesRef.child(`${sb.privateAlias}/main`)
       let sbAlias = sb.privateAlias
       const that = this
+      // have to think about a better way to handle this here:
       imageUrl.getDownloadURL().then(function (imageUrl) {
-        that.setState({images: {...that.state.images, [sbAlias]: imageUrl}})
+        console.log(imageUrl)
+        // that.setState({images: {...that.state.images, [sbAlias]: imageUrl}})
       })
     }
     return sb
@@ -136,7 +116,7 @@ class Discover extends React.Component {
     if (document.querySelector('#discover-body-container')) {
       document.querySelector('#discover-body-container').style.paddingBottom =
         sbs.length - startIdx < (this.state.itemsPerPage / 2)
-        ? 'calc(75% + 0.5rem - 12px)' // 4px per row appears to be the inline-block addition
+        ? 'calc(75% + 0.5rem - 12px)'
         : '0.5rem'
     }
     const getBoxClasses = function (sb) {
@@ -178,31 +158,21 @@ class Discover extends React.Component {
         </Link>
       )
     }
-
-    const leftArrowClasses = {
-      'page-arrow': true,
-      'disabled-arrow': this.getCurrentPage(fullPath) === 1
-    }
-
-    const rightArrowClasses = {
-      'page-arrow': true,
-      'disabled-arrow': this.getCurrentPage(fullPath) === this.state.numPages
-    }
-
+    const arrowClasses = (hidden) => { return {'page-arrow': true, 'hidden': hidden} }
     const withPages = (
       <span>
         <div id='search-results-message'>{this.state.searchTerm !== '' ? `${this.getSearchResults(this.state.searchTerm).length} snowballots found` : ''}</div>
         <div className='pagination'>
           <div id='search-results-icons'>
             <Link
-              className={classnames(leftArrowClasses)}
+              className={classnames(arrowClasses(this.getCurrentPage(fullPath) === 1))}
               to={`/discover/page=${this.getCurrentPage(fullPath) - 1}?q=${query}`}
             >
               &lsaquo;
             </Link>
             {pages}
             <Link
-              className={classnames(rightArrowClasses)}
+              className={classnames(arrowClasses(this.getCurrentPage(fullPath) === this.state.numPages))}
               to={`/discover/page=${this.getCurrentPage(fullPath) + 1}?q=${query}`}
             >
               &rsaquo;
@@ -211,25 +181,17 @@ class Discover extends React.Component {
         </div>
       </span>
     )
-
-    return (
-      <span>
-        {pages.length > 1 ? withPages : <div className='pagination' />}
-      </span>
-    )
+    return pages.length > 1 ? withPages : <div className='pagination' />
   }
 
   render () {
     return (
-      <span>
-        <h1 className='create-title'>🌨 Discover</h1>
-        <div className='discover-container'>
-          {this.renderSearch()}
-          <div id='discover-pages'>
-            {this.renderPages()}
-          </div>
+      <div id='discover'>
+        {this.renderSearch()}
+        <div id='discover-pages'>
+          {this.renderPages()}
         </div>
-      </span>
+      </div>
     )
   }
 }

@@ -50,18 +50,20 @@ export class Navigation extends Component {
   render () {
     const navclasses = 'navbar-brand link-container left '
     return (
-      <div className='bar'>
-        <Link className={navclasses} to='/'>
-          <img className='logo' src='.././assets/logo.png' />
-        </Link>
-        <Link to='/' className={navclasses + this.isActive('/')}>
-          Home
-        </Link>
-        <Link to='/discover' className={navclasses + this.isActive('/discover')}>
-          Discover
-        </Link>
-        <AccountControl className='right' active={this.props.active} authed={this.state.authed} />
-      </div>
+      <span id='navigation'>
+        <div className='bar'>
+          <Link className={navclasses} to='/'>
+            <img className='logo' src='.././assets/logo.png' />
+          </Link>
+          <Link to='/' className={navclasses + this.isActive('/')}>
+            Home
+          </Link>
+          <Link to='/discover' className={navclasses + this.isActive('/discover')}>
+            Discover
+          </Link>
+          <AccountControl className='right' active={this.props.active} authed={this.state.authed} />
+        </div>
+      </span>
     )
   }
 }

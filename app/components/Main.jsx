@@ -63,7 +63,7 @@ class Main extends Component {
 
   render () {
     return (
-      <span>
+      <span id='main'>
         <Navigation active={window.location.pathname} />
         <main>
           <Switch>

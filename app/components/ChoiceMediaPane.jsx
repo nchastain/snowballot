@@ -126,7 +126,7 @@ class ChoiceMediaPane extends React.Component {
       return <ChoiceMediaButton key={id} iconName={icon} label={label} clickHandler={() => that.expandSection(id)} />
     })
     return (
-      <span>
+      <span id='choice-media-pane'>
         <div className={classnames(paneClasses)} id={`choice-more-info-choice-${this.props.id}`}>
           {mediaButtonSection}
           {this.showExpanded()}
