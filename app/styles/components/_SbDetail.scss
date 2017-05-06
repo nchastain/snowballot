@@ -67,6 +67,7 @@
     height: 250px;
   }
   .key-container, .included-key {
+    display: none;
     background-color: $light-gray !important;
     color: rgba($light-blue, 0.8);
   }
@@ -74,6 +75,11 @@
     background-color: white !important;
     padding-left: 0 !important;
     color: rgba($light-blue, 0.8) !important;
+    width: initial;
+    display: inline-block;
+    & + .included-media-item {
+      border: 0 !important;
+    }
   }
 }
 
