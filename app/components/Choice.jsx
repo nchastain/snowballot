@@ -27,7 +27,7 @@ class Choice extends React.Component {
           <FA
             key={`delete-${this.props.choice.id}`}
             id={`delete-${this.props.choice.id}`}
-            className='fa fa-fw delete-choice-button button alert input-group-button'
+            className='fa fa-fw delete-choice-button button input-group-button'
             name='close'
             onClick={this.props.deleteChoice}
           />

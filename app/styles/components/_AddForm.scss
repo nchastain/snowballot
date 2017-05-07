@@ -76,6 +76,25 @@
 		width: 100px;
 	}
 
+	#gallery-main {
+		&.hidden {
+			display: none;
+		}
+		.main-image-delete {
+			float: right;
+		}
+		.delete-button {
+	    float: right;
+	    &:hover {
+	      opacity: 0.8;
+	      cursor: pointer;
+	    }
+    }
+    .delete-x {
+      color: $dangerRed;
+    }
+	}
+
 	.choice-expand {
 		display: none;
 		background-color: $light-blue;
@@ -174,7 +193,7 @@
 				opacity: 1;
 				display: table-cell;
 				height: 100%;
-				background-color: rgba(red, 0.5);
+				background-color: $dangerRed;
 			}
 		}
 	}

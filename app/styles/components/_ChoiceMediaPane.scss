@@ -2,7 +2,7 @@
   .choice-media-pane {
     display: block;
     margin-left: $choiceInset;
-    width: calc(100% - 1rem);
+    width: calc(100% - #{$choiceInset});
     &.expanded {
       padding: 10px;
     }

@@ -3,6 +3,9 @@
     .choice-container {
     height: auto;
     width: 100%;
+    .delete-choice-button {
+      background-color: $dangerRed !important;
+    }
     &:hover {
       margin-left: 0px;
       width: 100%;

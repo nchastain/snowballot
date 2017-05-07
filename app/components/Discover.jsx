@@ -28,6 +28,7 @@ class Discover extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    this.getImages(this.props.sbs)
     this.setState({
       currentPage: this.getCurrentPage(nextProps.history.location.pathname),
       searchTerm: this.getSearchTermFromURL(nextProps.history.location.search),
@@ -96,18 +97,17 @@ class Discover extends React.Component {
     )
   }
 
-  applyImageStyles (sb) {
-    if (sb.hasMainImage) {
-      let imageUrl = imagesRef.child(`${sb.privateAlias}/main`)
-      let sbAlias = sb.privateAlias
-      const that = this
-      // have to think about a better way to handle this here:
-      imageUrl.getDownloadURL().then(function (imageUrl) {
-        console.log(imageUrl)
-        // that.setState({images: {...that.state.images, [sbAlias]: imageUrl}})
-      })
-    }
-    return sb
+  getImages (sbs) {
+    const that = this
+    sbs.forEach(function (sb) {
+      if (sb.hasMainImage) {
+        let imageUrl = imagesRef.child(`${sb.privateAlias}/main`)
+        let sbAlias = sb.privateAlias
+        imageUrl.getDownloadURL().then(function (imageUrl) {
+          that.setState({images: {...that.state.images, [sbAlias]: imageUrl}})
+        })
+      }
+    })
   }
 
   renderSbs (sbs) {
@@ -128,7 +128,6 @@ class Discover extends React.Component {
     if (sbs.length === 0) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
     let sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
     const that = this
-    sortedSbs = sortedSbs.map(sb => this.applyImageStyles(sb))
     const getStyleObject = function (sb) {
       const imageUrl = `url('${that.state.images[sb.privateAlias]}')`
       if (sb.hasMainImage && imageUrl !== "url('undefined')") {

@@ -5,6 +5,7 @@ import ChoiceMediaButton from './ChoiceMediaButton'
 import IncludedMedia from './IncludedMedia'
 import * as actions from '.././actions'
 import { connect } from 'react-redux'
+import omit from 'object.omit'
 
 class ChoiceMediaPane extends React.Component {
   constructor (props) {
@@ -100,6 +101,11 @@ class ChoiceMediaPane extends React.Component {
     return sections
   }
 
+  deleteIncluded (type) {
+    const newIncluded = omit(this.state.included, type)
+    this.setState({included: newIncluded}, () => this.props.dispatch(actions.updateCreatedSb(this.props.id, newIncluded)))
+  }
+
   showIncluded () {
     const includedSections = Object.keys(this.state.included)
     return includedSections.map(iS => <div key={iS}>{iS}</div>)
@@ -131,7 +137,7 @@ class ChoiceMediaPane extends React.Component {
           {mediaButtonSection}
           {this.showExpanded()}
         </div>
-        <IncludedMedia included={this.state.included} />
+        <IncludedMedia included={this.state.included} id={this.props.id} onDelete={(type) => this.deleteIncluded(type)} />
       </span>
     )
   }

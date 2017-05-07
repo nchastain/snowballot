@@ -7,11 +7,22 @@
     display: table;
     width: 100%;
     padding: 10px;
+    opacity: 1;
+    transition: opacity 0.3s linear, height 0.3s linear;
     & + .included-media-item {
       border-top: 1px solid $light-grey;
     }
   }
-
+  .delete-button {
+    float: right;
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .delete-x {
+      color: $dangerRed;
+    }
+  }
   .included-key {
     display: inline-block;
     text-transform: uppercase;

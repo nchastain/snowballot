@@ -61,7 +61,6 @@ export class Dashboard extends Component {
 
     return (
       <span id='dashboard'>
-        <h1 className='create-title'>🌨 Dashboard</h1>
         <div className='dashboard-outer'>
           <div className='snowballots-section'>
             {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0 ? this.renderSbs() : this.renderNone() }
