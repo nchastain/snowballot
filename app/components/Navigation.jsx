@@ -24,6 +24,10 @@ export class Navigation extends Component {
   }
 
   isActive (navLink) {
+    if (navLink === '/discover') {
+      let discoverActive = this.props.active.indexOf(navLink) !== -1 ? 'active' : ''
+      return discoverActive
+    }
     return navLink === this.props.active ? 'active' : ''
   }
 

@@ -168,7 +168,7 @@
     margin: 0;
     width: 80%;
 		a {
-	    color: rgba($light-blue, 0.5);
+	    color: white;
 	    float: left;
 	    padding: 8px 10px;
 	    text-decoration: none;
@@ -180,7 +180,7 @@
 	    	color: $light-blue;
 	    	font-family: 'FuturaExtraBold';
 				&:hover {
-					color: rgba($light-blue, 0.6);
+					color: $light-blue;
 					background-color: initial;
 					cursor: default;
 				}
@@ -188,8 +188,8 @@
 	    &.page-arrow {
 				padding: 8px 10px;
 				font-family: 'FuturaExtraBold';
-				background-color: rgba($light-blue, 0.1);
-				color: $light-blue;
+				background-color: rgba($light-blue, 0.4);
+				color: white;
 				&.hidden {
 					pointer-events: none;
 					cursor: default;
