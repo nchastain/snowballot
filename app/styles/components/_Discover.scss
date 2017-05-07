@@ -10,12 +10,17 @@
 		text-align: center;
 		transform: translateY(-50%);
 		overflow: hidden;
-		color: rgba($light-blue, 0.4);
+		color: rgba($light-blue, 0.8);
+		box-shadow: $boxShadow;
 		font-size: 1rem;
 		font-family: 'Futura';
 		width: calc(100% - 2rem);
 		background-color: white;
 		padding: 10px;
+		&:hover {
+			opacity: 0.9;
+			cursor: pointer;
+		}
 	}
 
 	#discover-body-container {

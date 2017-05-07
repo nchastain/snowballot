@@ -52,7 +52,9 @@ class Discover extends React.Component {
     const filteredSbs = term !== ''
       ? this.props.sbs.filter(createFilter(term, KEYS_TO_FILTERS))
       : this.props.sbs
-    return filteredSbs
+    return filteredSbs.sort((a, b) => {
+      return b.createdAt - a.createdAt
+    })
   }
 
   searchUpdated (term) {
