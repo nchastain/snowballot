@@ -301,7 +301,9 @@ class AddForm extends React.Component {
     const privateAlias = <span className='disabled-option'>(Sorry, custom URLs are only available for public snowballots.)</span>
     const optionsClass = { expanded: this.state.optionsExpanded }
     const deleteButton = (
-      <span className='fa-stack fa-md delete-button' onClick={() => this.setState({hasMainImage: false, mainImage: undefined})}>
+      <span className='fa-stack fa-md delete-button' onClick={() => {
+        this.setState({hasMainImage: false, mainImage: undefined}, () => this.setUpEventHandling(this.state.choices))
+      }}>
         <FA name='circle' className='fa fa-stack-2x' />
         <FA name='times-circle' className='fa-stack-2x fa-fw delete-x' />
       </span>
@@ -347,9 +349,10 @@ class AddForm extends React.Component {
           </div>
           <div className='options-rest'>
             {!this.state.hasMainImage && <div className='photo-uploader' id='photo-upload-main'>
-              <input type='file' className='file-input' id={'file-input-main'} />
+              <input type='file' className='file-input' id='file-input-main' style={{display: 'none'}} />
+              <div id='upload-button' onClick={() => document.getElementById('file-input-main').click()}><FA name='upload' className='fa fa-fw' />Upload a file</div>
             </div>}
-            <div id='gallery-main' className={!this.state.hasMainImage && 'hidden'}>
+            <div id='gallery-main' className={!this.state.hasMainImage ? 'hidden' : ''}>
               <img className='gallery-image' id='gallery-img-main' src='' />
               <div className='main-image-delete'>{deleteButton}</div>
             </div>

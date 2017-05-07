@@ -6,6 +6,7 @@ import IncludedMedia from './IncludedMedia'
 import * as actions from '.././actions'
 import { connect } from 'react-redux'
 import omit from 'object.omit'
+import FA from 'react-fontawesome'
 
 class ChoiceMediaPane extends React.Component {
   constructor (props) {
@@ -65,8 +66,9 @@ class ChoiceMediaPane extends React.Component {
     sections.photo = (
       <span>
         <div className='choice-photo-uploader' id={`photo-upload-${this.props.id}`}>
-          <input type='file' className='choice-file-input' id={`file-input-${this.props.id}`} onChange={() => this.previewImage()} />
-          <div id={`gallery-${this.props.id}`}>
+          <input type='file' className='choice-file-input' id={`file-input-${this.props.id}`} onChange={() => this.previewImage()} style={{display: 'none'}} />
+          {!this.state.photo && <div id='upload-button' onClick={() => document.getElementById(`file-input-${this.props.id}`).click()}><FA name='upload' className='fa fa-fw' />Upload a file</div>}
+          <div className='choice-gallery' id={`gallery-${this.props.id}`}>
             <img className={this.state.photo ? 'gallery-image' : 'gallery-image hidden'} id={`gallery-img-${this.props.id}`} src={this.state.photo} />
           </div>
         </div>
