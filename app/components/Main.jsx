@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Dashboard from './Dashboard'
 import Login from './Login'
 import Register from './Register'
-import Home from './Home'
 import SbDetail from './SbDetail'
 import Discover from './Discover'
 import AddForm from './AddForm'
@@ -67,7 +66,7 @@ class Main extends Component {
         <Navigation active={window.location.pathname} />
         <main>
           <Switch>
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' component={Discover} />
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
             <PublicRoute authed={this.state.authed} path='/register' component={Register} />
             <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />

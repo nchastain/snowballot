@@ -76,6 +76,10 @@
 		width: 100px;
 	}
 
+	#gallery-img-main {
+		height: 100px !important;
+		width: auto !important;
+	}
 	#gallery-main {
 		&.hidden {
 			display: none;

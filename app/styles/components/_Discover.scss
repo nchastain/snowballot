@@ -77,7 +77,8 @@
 		top: 0.5rem;
 		left: 0.5rem;
 		&:hover {
-			background-color: rgba(#eee, 0.8);
+			opacity: 0.8;
+			background-color: rgba(#C2C2C2, 0.5);
 			color: white;
 		}
 	}
@@ -140,7 +141,7 @@
 		text-transform: uppercase;
 		width: 100%;
 		text-align: right;
-		background-color: rgba($light-blue, 0.3);
+		background-color: rgba($light-blue, 0.2);
 		.fa-holder {
 			display: inline-block;
 			vertical-align: top !important;
@@ -167,7 +168,7 @@
     margin: 0;
     width: 80%;
 		a {
-	    color: rgba($light-blue, 0.8);
+	    color: rgba($light-blue, 0.5);
 	    float: left;
 	    padding: 8px 10px;
 	    text-decoration: none;
@@ -176,18 +177,19 @@
 	    	background-color: rgba($light-blue, 0.1);
 	    }
 	    &.active-page {
-	    	color: white;
-				text-decoration: underline;
+	    	color: $light-blue;
+	    	font-family: 'FuturaExtraBold';
 				&:hover {
-					color: white;
+					color: rgba($light-blue, 0.6);
 					background-color: initial;
 					cursor: default;
 				}
 	    }
 	    &.page-arrow {
 				padding: 8px 10px;
-				font-weight: bold;
+				font-family: 'FuturaExtraBold';
 				background-color: rgba($light-blue, 0.1);
+				color: $light-blue;
 				&.hidden {
 					pointer-events: none;
 					cursor: default;
