@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { logout } from '../firebase/auth'
 import * as actions from '../actions'
 import SharePanel from './SharePanel'
+import FA from 'react-fontawesome'
 
 let createHandlers = function (dispatch) {
   let findUserSbs = function (userId) {
@@ -28,6 +29,7 @@ export class Dashboard extends Component {
 
   componentDidMount () {
     this.handlers.findUserSbs(this.props.user.uid)
+    this.props.dispatch(actions.findPublicSbs())
   }
 
   getVoteSum (choices) {
@@ -58,12 +60,26 @@ export class Dashboard extends Component {
 
   render () {
     const photoLogout = <div id='dashboard-profile-image' ><img className='right' src={this.props.user.photoURL} /></div>
-
+    let favoriteIDs
+    let favoriteSbs = []
+    if (this.props.user.favorites) {
+      favoriteIDs = Object.keys(this.props.user.favorites)
+      this.props.sbs.forEach(function (sb) {
+        if (favoriteIDs.indexOf(sb.id) !== -1) {
+          favoriteSbs.push(sb)
+        }
+      })
+    }
+    const favorites = favoriteSbs.map((sb) => <span key={sb.id}><FA name='star' className='fa fa-fw' /><Link to={`/sbs/${sb.alias}`}><h5>{sb.title}</h5></Link></span>)
     return (
       <span id='dashboard'>
         <div className='dashboard-outer'>
           <div className='snowballots-section'>
             {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0 ? this.renderSbs() : this.renderNone() }
+          </div>
+          <div className='favorites-section'>
+            <div>Favorites</div>
+            {favorites}
           </div>
           <div
             id='logout-button'

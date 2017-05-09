@@ -54,6 +54,22 @@
 		background-color: white;
 	}
 
+	.favorites-section {
+		margin-top: 30px;
+		background-color: #eee;
+		padding: 10px;
+		.fa {
+			display: inline-block;
+			color: $primary;
+			vertical-align: initial;
+			margin-right: 5px;
+		}
+		h5 {
+			display: inline-block;
+			color: $primary;
+		}
+	}
+
 	#logout-button {
 		display: inline-block !important;
 		background-color: white;
