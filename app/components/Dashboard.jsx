@@ -19,6 +19,9 @@ export class Dashboard extends Component {
   constructor (props) {
     super(props)
     this.handlers = createHandlers(this.props.dispatch)
+    this.state = {
+      favoriteSbs: []
+    }
   }
 
   onLogout (e) {
@@ -30,6 +33,26 @@ export class Dashboard extends Component {
   componentDidMount () {
     this.handlers.findUserSbs(this.props.user.uid)
     this.props.dispatch(actions.findPublicSbs())
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.getFavorites(nextProps)
+  }
+
+  getFavorites (props) {
+    let favoriteIDs = []
+    let favoriteSbs = []
+    if (props.user.favorites) {
+      Object.keys(props.user.favorites).forEach(function (favorite) {
+        if (props.user.favorites[favorite]) favoriteIDs.push(favorite)
+      })
+      props.sbs.forEach(function (sb) {
+        if (favoriteIDs.indexOf(sb.id) !== -1) {
+          favoriteSbs.push(sb)
+        }
+      })
+    }
+    this.setState({ favoriteSbs })
   }
 
   getVoteSum (choices) {
@@ -60,17 +83,7 @@ export class Dashboard extends Component {
 
   render () {
     const photoLogout = <div id='dashboard-profile-image' ><img className='right' src={this.props.user.photoURL} /></div>
-    let favoriteIDs
-    let favoriteSbs = []
-    if (this.props.user.favorites) {
-      favoriteIDs = Object.keys(this.props.user.favorites)
-      this.props.sbs.forEach(function (sb) {
-        if (favoriteIDs.indexOf(sb.id) !== -1) {
-          favoriteSbs.push(sb)
-        }
-      })
-    }
-    const favorites = favoriteSbs.map((sb) => <span key={sb.id}><FA name='star' className='fa fa-fw' /><Link to={`/sbs/${sb.alias}`}><h5>{sb.title}</h5></Link></span>)
+    const favorites = this.state.favoriteSbs.map((sb) => <div className='favorite-row' key={sb.id}><FA name='star' className='fa fa-fw' /><Link to={`/sbs/${sb.alias}`}><h5>{sb.title}</h5></Link></div>)
     return (
       <span id='dashboard'>
         <div className='dashboard-outer'>

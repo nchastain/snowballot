@@ -62,6 +62,7 @@ export class Navigation extends Component {
           <Link to='/discover' className={navclasses + this.isActive('/discover')}>
             Discover
           </Link>
+          <div className={navclasses} id='nav-search'><input placeholder='Search for snowballots' /></div>
           <AccountControl className='right' active={this.props.active} authed={this.state.authed} />
         </div>
       </span>

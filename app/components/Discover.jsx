@@ -28,7 +28,6 @@ class Discover extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.getImages(this.props.sbs)
     this.setState({
       currentPage: this.getCurrentPage(nextProps.history.location.pathname),
       searchTerm: this.getSearchTermFromURL(nextProps.history.location.search),
@@ -36,6 +35,7 @@ class Discover extends React.Component {
         ? 1
         : Math.ceil(this.getSearchResults(this.state.searchTerm).length / this.state.itemsPerPage)
     })
+    this.getImages(this.props.sbs)
   }
 
   componentDidMount () {
