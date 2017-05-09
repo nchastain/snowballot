@@ -38,15 +38,13 @@ export class SbDetail extends Component {
     super(props)
     let voted = props.sb.userChoice
     let votedChoiceId = props.sb.userVoted
-    let favorited = props.user.favorites && props.user.favorites[this.props.sb.id]
     let expired = false
     if (typeof props.sb.expires === 'string') expired = moment(new Date(props.sb.expires)).isBefore(moment(Date.now()))
     this.state = {
       newChoice: '',
       voted: voted,
       votedChoiceId: votedChoiceId,
-      expired: expired,
-      favorited: favorited
+      expired: expired
     }
     this.handlers = createHandlers(props.dispatch)
     this.sbClasses = this.sbClasses.bind(this)
@@ -60,19 +58,21 @@ export class SbDetail extends Component {
     let expired = false
     let voted = false
     let votedChoiceId = ''
-    let favorited = false
     if (nextProps.sb) {
       if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
       if (nextProps.sb.choices && nextProps.sb.choices.length !== 0 && nextProps.sb.privateAlias && nextProps.sb.privateAlias !== '') this.updateSbImages(nextProps)
+    }
+    if (nextProps.user.favorites) {
+      this.setState({favorited: nextProps.user.favorites[nextProps.sb.id]})
     }
     if (nextProps.sb && nextProps.sb.userVoted && nextProps.sb.userChoice) {
       voted = nextProps.sb.userVoted
       votedChoiceId = nextProps.sb.userChoice
     }
-    if (nextProps.user && nextProps.user.favorited && nextProps.sb) {
-      favorited = nextProps.user.favorited[nextProps.sb.id]
+    if (nextProps.sb && nextProps.user && nextProps.user.favorited) {
+      this.setState({'favorited': nextProps.user.favorited[nextProps.sb.id]})
     }
-    this.setState({voted, votedChoiceId, expired, favorited})
+    this.setState({voted, votedChoiceId, expired})
   }
 
   updateSbImages (props) {
@@ -351,7 +351,7 @@ export class SbDetail extends Component {
   }
 
   favoriteSnowballot (id) {
-    this.setState({'favorited': !this.state.favorited}, function () {
+    this.setState({favorited: !this.state.favorited}, function () {
       this.props.dispatch(actions.startUpdateUserAll('favorites', {[id]: this.state.favorited}))
     })
   }

@@ -49,7 +49,8 @@ export var userReducer = (state = {}, action) => {
         uid: action.uid,
         photoURL: action.photoURL,
         displayName: action.displayName,
-        email: action.email
+        email: action.email,
+        favorites: action.favorites
       }
     case 'NEW_UPDATE_USER':
       return {
@@ -60,6 +61,11 @@ export var userReducer = (state = {}, action) => {
       return {
         ...state,
         sbs: action.sbs
+      }
+    case 'SHOW_USER_INFO':
+      return {
+        ...state,
+        ...action.user
       }
     default:
       return state

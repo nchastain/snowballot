@@ -12,6 +12,7 @@ let store = configure()
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(actions.login(user.uid, user.photoURL, user.displayName, user.email))
+    store.dispatch(actions.getUserInfo())
   } else {
     store.dispatch(actions.logout())
   }

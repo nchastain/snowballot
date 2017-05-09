@@ -54,13 +54,14 @@ export var updateSb = (id, updatedSb) => {
   }
 }
 
-export var login = (uid, photoURL, displayName, email) => {
+export var login = (uid, photoURL, displayName, email, favorites) => {
   return {
     type: 'LOGIN',
     uid,
     photoURL,
     displayName,
-    email
+    email,
+    favorites
   }
 }
 
@@ -160,6 +161,25 @@ export var startUpdateUserAll = (section, updates) => {
         dispatch(newUpdateUser(section, updates))
       })
     })
+  }
+}
+
+export var getUserInfo = () => {
+  return (dispatch, getState) => {
+    var userRef = firebaseRef.child(`users/${getState().user.uid}`)
+    return userRef.once('value').then((snapshot) => {
+      var user = snapshot.val() || {}
+      return userRef.update(user).then(() => {
+        dispatch(showUserInfo(user))
+      })
+    })
+  }
+}
+
+export var showUserInfo = (user) => {
+  return {
+    type: 'SHOW_USER_INFO',
+    user
   }
 }
 
