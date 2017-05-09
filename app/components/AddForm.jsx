@@ -77,7 +77,7 @@ class AddForm extends React.Component {
     const isExtensible = this.state.isExtensible || false
     const description = this.state.description || ''
     const tags = this.state.tags || []
-    if (filteredChoices.length < 2) throw new Error('Snowballots must have at least 2 choices.')
+    if (filteredChoices.length < 2 && !isExtensible) throw new Error('Snowballots that cannot by extended by other users must be created with at least 2 choices.')
     const options = {
       title: title,
       alias: alias,

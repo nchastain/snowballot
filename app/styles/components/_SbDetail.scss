@@ -19,7 +19,7 @@
     }
     h4 {
       margin-bottom: 0;
-      color: $light-blue;
+      color: $primary;
       font-family: 'FuturaExtraBold';
     }
 
@@ -27,6 +27,30 @@
 
   .sb-title {
     font-weight: bold;
+  }
+
+  #favorite-panel {
+    
+    #favorite-star {
+      transition: color .1s linear;
+      color: #D3D3D3;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+      &.favorited {
+        color: $primary;
+      }
+    }
+    float: right;
+    display: block;
+    width: 100%;
+    text-align: right;
+    
+    margin-bottom: 20px;
+    .favorited {
+      color: $primary;
+    }
   }
 
   .error-message {
@@ -40,7 +64,7 @@
   .plus {
     visibility: hidden;
     opacity: 0;
-    color: $light-blue;
+    color: $primary;
     transition: visibility 0s, opacity 0.3s linear;
     &.selected {
       color: red;
@@ -70,12 +94,12 @@
     .key-container, .included-key, .delete-button {
       display: none;
       background-color: $light-gray !important;
-      color: rgba($light-blue, 0.8);
+      color: rgba($primary, 0.8);
     }
     .included-media-item {
       background-color: white !important;
       padding-left: 0 !important;
-      color: rgba($light-blue, 0.8) !important;
+      color: rgba($primary, 0.8) !important;
       width: initial;
       display: inline-block;
       & + .included-media-item {
@@ -94,8 +118,8 @@
       margin-right: 5px;
     }
     span {
-      background-color: rgba($light-blue, 0.1);
-      color: rgba($light-blue, 0.8);
+      background-color: rgba($primary, 0.1);
+      color: rgba($primary, 0.8);
       padding: 5px;
       border: 1px solid #ddd;
       font-size: 12px;
@@ -127,7 +151,7 @@
     text-align: left;
       display: table;
       font-family: 'Futura';
-      color: rgba($light-blue, 0.6);
+      color: rgba($primary, 0.6);
       vertical-align: middle;
       margin-top: 10px;
       border: 1px solid #eee;
@@ -146,13 +170,13 @@
       }
       .selection-icon.selected {
         display: none;
-        color: $light-blue;
+        color: $primary;
       }
       .selection-icon.trophy {
         display: none;
       }
       &.selected {
-        background-color: rgba($light-blue, 0.4);
+        background-color: rgba($primary, 0.4);
         .selection-icon.selected {
           display: inline-block;
         }
@@ -165,13 +189,13 @@
       margin-top: -2px !important;
       }
       &.leader {
-        background-color: rgba($light-blue, 0.3);
+        background-color: rgba($primary, 0.3);
         .selection-icon.unselected, .selection-icon.selected {
           display: none;
         }
         .selection-icon.trophy {
           display: inline-block;
-          color: $light-blue;
+          color: $primary;
         }
       }
   }
@@ -230,7 +254,7 @@
     opacity: 0;
     display: block;
     padding: 0.5rem;
-    color: $light-blue;
+    color: $primary;
     font-weight: bold;
     margin-right: -100px;
     transition: margin-right 1.2s ease, opacity 1.2s ease;
@@ -244,7 +268,7 @@
     display: inline-block;
     margin-bottom: -6px;
     width: 100%;
-    color: rgba($light-blue, 0.3);
+    color: rgba($primary, 0.3);
     .login-message-text, .creator-message-text {
       margin-left: 10px;
     }
@@ -255,8 +279,8 @@
     .other-sb-info {
       display: inline-block;
       width: 100%;
-      background-color: rgba($light-blue, 0.1);
-      color: rgba($light-blue, 0.6);
+      background-color: rgba($primary, 0.1);
+      color: rgba($primary, 0.6);
     }
   }
 }

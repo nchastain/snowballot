@@ -150,6 +150,27 @@ export var startAddSb = (options, choices) => {
   }
 }
 
+export var startUpdateUserAll = (section, updates) => {
+  return (dispatch, getState) => {
+    var userRef = firebaseRef.child(`users/${getState().user.uid}`) || null
+    return userRef.once('value').then((snapshot) => {
+      var user = snapshot.val() || {}
+      var updatedUser = Object.assign({}, ...user, {[section]: updates})
+      return userRef.update(updatedUser).then(() => {
+        dispatch(newUpdateUser(section, updates))
+      })
+    })
+  }
+}
+
+export var newUpdateUser = (section, updates) => {
+  return {
+    type: 'NEW_UPDATE_USER',
+    section,
+    updates
+  }
+}
+
 export var startUpdateUser = (sbId, choiceId, fresh) => {
   return (dispatch, getState) => {
     var votedSbRef = firebaseRef.child(`users/${getState().user.uid}/votes/`)
@@ -171,6 +192,12 @@ export var startUpdateSb = (id, updates, options) => {
         dispatch(updateSb(id, updatedSb))
       })
     })
+  }
+}
+
+export var findUser = (id) => {
+  return (dispatch, getState) => {
+    var userRef = firebaseRef.child(`users/${getState().user.uid}`) || null
   }
 }
 

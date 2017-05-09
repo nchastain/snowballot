@@ -23,7 +23,7 @@
   }
 
   .link-input {
-    border-left: 5px solid $light-blue;
+    border-left: 5px solid $primary;
     width: 50%;
     display: inline-block;
     margin-top: 30px !important;
@@ -32,17 +32,17 @@
 
   .button-save {
     color: white;
-    background-color: rgba($light-blue, 0.8);
+    background-color: rgba($primary, 0.8);
     border-radius: 5px;
     margin-top: 10px;
     &:hover {
       opacity: 0.8;
-      background-color: rgba($light-blue, 0.8);
+      background-color: rgba($primary, 0.8);
     }
   }
 
   .selected-GIF {
-    border: 5px solid $light-blue;
+    border: 5px solid $primary;
     height: 300px;
     width: auto;
     margin: 10px;
@@ -57,7 +57,7 @@
   .bzojac {
     height: 300px !important;
     width: 100% !important;
-    background-color: rgba($light-blue, 0.3);
+    background-color: rgba($primary, 0.3);
     border: 0 !important;
     box-shadow: none !important;
   }
@@ -74,12 +74,12 @@
     width: 500px !important;
     margin-bottom: 0 !important;
     margin-left: 1rem !important;
-    border-left: 5px solid $light-blue;
+    border-left: 5px solid $primary;
   }
 
   #upload-button {
     border-radius: 5px;
-    background-color: $light-blue;
+    background-color: $primary;
     color: white;
     margin-right: 10px;
     margin-bottom: 0px;
@@ -92,7 +92,7 @@
     &:hover {
       opacity: 0.8;
       cursor: pointer;
-      background-color: $light-blue;
+      background-color: $primary;
       color: white;
     }
     .fa {

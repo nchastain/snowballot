@@ -10,7 +10,7 @@
 		font-weight: bold;
 		text-transform: uppercase;
 		font-size: 110%;
-		background-color: $light-blue !important;
+		background-color: $primary !important;
 		color: white !important;
 		display: inline-block;
 		width: 100%;
@@ -54,6 +54,7 @@
 	.link-container {
 		text-align: center;
 		padding: 15px;
+		transition: padding-top 0.1s linear;
 		&.addLink {
 			padding-left: 5px !important;
 		}
@@ -64,6 +65,8 @@
 			}
 		}
 		&:hover {
+			padding-top: 10px;
+			padding-bottom: 20px;
 			background-color: rgba(255,255, 255, 0.1);
 		}
 		& + .link-container {
@@ -73,15 +76,15 @@
 	}
 
 	.addButton {
-		color: $light-blue-hover !important;
+		color: $primary-hover !important;
 	}
 
 	.active {
 		position: relative;
-		color: $light-blue-hover !important;
+		color: $primary-hover !important;
 		&:after {
 			content: "";
-			background-color: $light-blue-hover;
+			background-color: $primary-hover;
 			position: absolute;
 			bottom: 10px;
 			left: 15px;

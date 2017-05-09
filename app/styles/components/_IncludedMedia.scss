@@ -3,7 +3,7 @@
   width: calc(100% - $choiceInset);
   margin-left: $choiceInset;
   .included-media-item {
-    background-color: rgba($light-blue, 0.4);
+    background-color: rgba($primary, 0.4);
     display: table;
     width: 100%;
     padding: 10px;
@@ -29,7 +29,7 @@
     font-size: 70%;
     font-family: 'FuturaExtraBold';
     padding: 5px; 
-    background-color: $light-blue;
+    background-color: $primary;
   }
 
   .included-GIF {
@@ -43,7 +43,7 @@
     vertical-align: middle;
     text-align: center;
     width: 75px;
-    background-color: $light-blue;
+    background-color: $primary;
   }
 
   .video-container {
@@ -56,7 +56,7 @@
     padding: 10px;
     a {
       text-decoration: underline;
-      color: $light-blue;
+      color: $primary;
       &:hover {
         opacity: 0.8;
       }

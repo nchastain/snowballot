@@ -36,37 +36,43 @@ let setDOMReferences = function (e) {
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    let voted = this.props.sb.userChoice
-    let votedChoiceId = this.props.sb.userVoted
+    let voted = props.sb.userChoice
+    let votedChoiceId = props.sb.userVoted
+    let favorited = props.user.favorites && props.user.favorites[this.props.sb.id]
     let expired = false
-    if (typeof this.props.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
+    if (typeof props.sb.expires === 'string') expired = moment(new Date(props.sb.expires)).isBefore(moment(Date.now()))
     this.state = {
       newChoice: '',
       voted: voted,
       votedChoiceId: votedChoiceId,
-      expired: expired
+      expired: expired,
+      favorited: favorited
     }
-    this.handlers = createHandlers(this.props.dispatch)
+    this.handlers = createHandlers(props.dispatch)
     this.sbClasses = this.sbClasses.bind(this)
   }
 
   componentDidMount () {
-    this.handlers.findSb(this.props.match.params.alias)
+    this.props.dispatch(actions.findSb(this.props.match.params.alias))
   }
 
   componentWillReceiveProps (nextProps) {
     let expired = false
     let voted = false
     let votedChoiceId = ''
+    let favorited = false
     if (nextProps.sb) {
       if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
       if (nextProps.sb.choices && nextProps.sb.choices.length !== 0 && nextProps.sb.privateAlias && nextProps.sb.privateAlias !== '') this.updateSbImages(nextProps)
     }
     if (nextProps.sb && nextProps.sb.userVoted && nextProps.sb.userChoice) {
-      let voted = nextProps.sb.userVoted
-      let votedChoiceId = nextProps.sb.userChoice
+      voted = nextProps.sb.userVoted
+      votedChoiceId = nextProps.sb.userChoice
     }
-    this.setState({voted: voted, votedChoiceId: votedChoiceId, expired: expired})
+    if (nextProps.user && nextProps.user.favorited && nextProps.sb) {
+      favorited = nextProps.user.favorited[nextProps.sb.id]
+    }
+    this.setState({voted, votedChoiceId, expired, favorited})
   }
 
   updateSbImages (props) {
@@ -344,12 +350,31 @@ export class SbDetail extends Component {
     return choice.info || choice.photo || choice.hasGIF || choice.youtube || choice.link
   }
 
+  favoriteSnowballot (id) {
+    this.setState({'favorited': !this.state.favorited}, function () {
+      this.props.dispatch(actions.startUpdateUserAll('favorites', {[id]: this.state.favorited}))
+    })
+  }
+
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0) return null
     const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
+    const starClasses = {
+      'fa-2x': true,
+      'fa-fw': true,
+      'favorited': this.state.favorited
+    }
     return (
       <div>
-        {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
+        <div id='favorite-panel'>
+          <FA
+            id='favorite-star'
+            name={this.state.favorited ? 'star' : 'star-o'}
+            className={classnames(starClasses)}
+            onClick={() => this.favoriteSnowballot(this.props.sb.id)}
+          />
+        </div>
+          {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         <h4 className='sb-title'>{this.props.sb.title}</h4>
         {this.props.sb.hasMainImage && <img id='image-holder-main' src='http://placehold.it/200/200' />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>

@@ -2,9 +2,9 @@
 	.create-title {
 		font-family: 'FuturaExtraBold';
 		display: block;
-		color: $light-blue;
+		color: $primary;
 		max-width: 1000px;
-		background-color: rgba($light-blue, 0.1);
+		background-color: rgba($primary, 0.1);
 		margin-left: auto;
 		margin-right: auto;
 		text-transform: uppercase;
@@ -14,7 +14,7 @@
 
 	.options-unit {
 		width: 100%;
-		color: rgba($light-blue, 0.9);
+		color: rgba($primary, 0.9);
 		display: inline-block;
 		padding-top: 5px;
 		padding-bottom: 5px;
@@ -25,9 +25,9 @@
 			color: #A9A9A9 !important;
 		}
 		textarea {
-			color: $light-blue;
+			color: $primary;
 			border: 0;
-			border-left: 5px solid $light-blue;
+			border-left: 5px solid $primary;
 			display: inline-block;
 			vertical-align: middle;
 			margin-bottom: 0;
@@ -40,7 +40,7 @@
 			}
 		}
 		input {
-			color: $light-blue;
+			color: $primary;
 			border: 0;
 			margin-bottom: 0;
 			box-shadow: none;
@@ -63,9 +63,9 @@
 	    line-height: 20px;
 	    -webkit-box-shadow: 0px 0px 2px #888;
 	    box-shadow: 0px 0px 2px #888;
-	    background-color: rgba($light-blue, 0.1);
+	    background-color: rgba($primary, 0.1);
 	    &:hover {
-	    	background-color: rgba($light-blue, 0.2);
+	    	background-color: rgba($primary, 0.2);
 	    	cursor: pointer;
 	    }
 		}
@@ -101,7 +101,7 @@
 
 	.choice-expand {
 		display: none;
-		background-color: $light-blue;
+		background-color: $primary;
 		padding: 0;
 		color: white;
 		opacity: 0;
@@ -124,10 +124,10 @@
 		overflow: hidden;
 		height: 0;
 		opacity: 0;
-		color: rgba($light-blue, 0.9);
+		color: rgba($primary, 0.9);
 		transition: height 0.3s linear, padding 0.3s linear, opacity 0.3s linear;
 		padding: 0rem;
-		background-color: rgba($light-blue, 0.2);
+		background-color: rgba($primary, 0.2);
 		.choice-field {
 			color: rgba(black, 0.6);
 			opacity: 1;
@@ -135,7 +135,7 @@
 			width: 100%;
 			float: right;
 			border: 0;
-			border-left: 5px solid $light-blue;
+			border-left: 5px solid $primary;
 			box-shadow: none;
 			&:focus {
 				border: 0;
@@ -213,7 +213,7 @@
 	}
 
 	#title-input {
-		color: $light-blue;
+		color: $primary;
 		&:focus {
 			border: 0;
 			box-shadow: none;
@@ -257,7 +257,7 @@
 		.header {
 			float: left;
 			display: inline-block;
-			color: $light-blue;
+			color: $primary;
 			text-transform: uppercase;
 			font-size: 80%;
 			margin-bottom: 10px;
@@ -286,11 +286,11 @@
 		box-shadow: 1px 1px 3px $dark-grey;
 		display: inline-block;
 		background-color: white;
-		color: $light-blue;
+		color: $primary;
 		padding-left: 10px;
 		padding-top: 5px;
 		.fa {
-			color: $light-blue;
+			color: $primary;
 			margin-left: -5px;
 		}
 		&:hover {
@@ -323,7 +323,7 @@
 		}
 		input {
 			border: 0px;
-			border-left: 5px solid $light-blue;
+			border-left: 5px solid $primary;
 			box-shadow: none;
 		}
 	}
@@ -348,7 +348,7 @@
 			}
 		}
 		input {
-			color: $light-blue;
+			color: $primary;
 			border: 0px;
 			box-shadow: none;
 			margin-top: 0;
@@ -435,7 +435,7 @@
 		display: inline-block;
 		width: 100%;
 		margin-bottom: 0;
-		background-color: rgba($light-blue, 0.7);
+		background-color: rgba($primary, 0.7);
 		&:hover {
 			opacity: 0.8;
 		}
@@ -444,7 +444,7 @@
 	#upload-button {
 	  border-radius: 5px;
 	  background-color: white;
-	  color: $light-blue;
+	  color: $primary;
 	  margin-right: 10px;
 	  margin-bottom: 0px;
 	  padding: 10px;
@@ -455,10 +455,10 @@
 	    background-color: white;
 	    opacity: 0.8;
 	    cursor: pointer;
-	    color: $light-blue;
+	    color: $primary;
 	  }
 	  .fa {
-	  	color: $light-blue;
+	  	color: $primary;
 	  	margin-right: 5px;
 	  }
 	}
@@ -468,7 +468,7 @@
 		margin-top: 10px;
 		display: inline-block;
 		background-color: white;
-		color: $light-blue;
+		color: $primary;
 		box-shadow: 1px 1px 3px $dark-grey;
 		&:hover {
 			opacity: 0.8;

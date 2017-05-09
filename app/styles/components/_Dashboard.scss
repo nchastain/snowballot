@@ -10,10 +10,10 @@
 	}
 
 	.snowballot-container {
-		border-left: 5px solid $light-blue;
-	  color: $light-blue;
+		border-left: 5px solid $primary;
+	  color: $primary;
 	  &:hover {
-	    color: $light-blue;
+	    color: $primary;
 	    opacity: 0.8;
 	  }
 		display: inline-block;
@@ -23,7 +23,7 @@
 		background-color: white;
 		position: relative;
 		&:hover {
-			background-color: rgba($light-blue, 0.1);
+			background-color: rgba($primary, 0.1);
 		}
 		h5 {
 			display: inline-block;
@@ -44,7 +44,7 @@
 			text-align: center;
 			text-transform: uppercase;
 			font-size: 50%;
-			background-color: rgba($light-blue, 0.2);
+			background-color: rgba($primary, 0.2);
 			padding: 10px;
 		}
 	}
@@ -57,7 +57,7 @@
 	#logout-button {
 		display: inline-block !important;
 		background-color: white;
-		color: $light-blue;
+		color: $primary;
 		float: right;
 		margin-top: 25px;
 		border-radius: 5px;
@@ -77,11 +77,11 @@
 		padding: 10px;
 		background-color: #eee;
 		margin-top: 10px;
-		background-color: rgba($light-blue, 0.3);
+		background-color: rgba($primary, 0.3);
 		border-radius: 10px;
 		font-family: 'FuturaExtraBold';
 		padding-right: 20px;
-		color: $light-blue;
+		color: $primary;
 		.no-photo {
 			padding-right: 10px;
 		}
@@ -112,7 +112,7 @@
 		display: inline-block;
 		float: right;
 		height: 55px;
-		background-color: rgba($light-blue, 0.3);
+		background-color: rgba($primary, 0.3);
 		color: white;
 		padding-left: 0.5rem;
 		padding-right: 1rem;

@@ -51,6 +51,11 @@ export var userReducer = (state = {}, action) => {
         displayName: action.displayName,
         email: action.email
       }
+    case 'NEW_UPDATE_USER':
+      return {
+        ...state,
+        [action.section]: action.updates
+      }
     case 'SHOW_USER_SBS':
       return {
         ...state,
