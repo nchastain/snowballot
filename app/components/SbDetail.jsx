@@ -347,7 +347,7 @@ export class SbDetail extends Component {
   }
 
   shouldDisplayExtra (choice) {
-    return choice.info || choice.photo || choice.hasGIF || choice.youtube || choice.link
+    return choice.info || choice.photo || choice.GIF || choice.youtube || choice.link
   }
 
   favoriteSnowballot (id) {

@@ -13,12 +13,12 @@ class Discover extends React.Component {
     this.itemsPerPage = 16
     this.state = {
       images: {},
-      searchTerm: this.getSearchTermFromURL(props.history.location.search),
+      searchTerm: this.getSearchTermFromURL(props.history.location.search) || ' ',
       itemsPerPage: this.itemsPerPage,
       numPages: props.sbs.length === 0
         ? 1
         : Math.ceil(props.sbs.length / this.itemsPerPage),
-      currentPage: this.getCurrentPage(props.history.location.pathname)
+      currentPage: this.getCurrentPage(props.history.location.pathname) || 1
     }
   }
 

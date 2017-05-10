@@ -78,6 +78,58 @@
 		}
 	}
 
+	#new-profile-photo {
+		height: 150px;
+		display: block;
+	}
+
+	#upload-button {
+		padding: 10px;
+		color: white;
+		background-color: rgba($primary, 0.8);
+		display: inline-block;
+		.fa {
+			color: white !important;
+			margin-right: 10px;
+		}
+		&:hover {
+			opacity: 0.8;
+			cursor: pointer;
+		}
+	}
+
+	#save-photo-button {
+		background-color: $primary;
+		display: inline-block;
+		margin-top: 10px;
+	}
+
+	#account-settings {
+		.button {
+			background-color: white !important;
+			border: 1px solid $primary;
+			border-radius: 10px;
+			color: $primary;
+			& + .button {
+				margin-left: 5px;
+			}
+			&:hover {
+				background-color: rgba($primary, 0.3) !important;
+			}
+		}
+	}
+
+	#account-panel {
+		margin-bottom: 30px;
+		.button {
+			background-color: $primary !important;
+		}
+		.fa {
+			vertical-align: initial;
+			color: $primary;
+		}
+	}
+
 	#logout-button {
 		display: inline-block !important;
 		background-color: white;
