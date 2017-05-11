@@ -5,6 +5,8 @@ export const sbsReducer = (state = [], action) => {
         ...state,
         action.sb
       ]
+    case 'DELETE_SB':
+      return state.filter((sb) => sb.id !== action.id)
     case 'ADD_SBS':
       return action.sbs
     default:

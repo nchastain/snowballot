@@ -11,6 +11,13 @@ import { imagesRef } from '../firebase/constants'
 import ReactPlayer from 'react-player'
 import IncludedMedia from './IncludedMedia'
 import omit from 'object.omit'
+import ReactModal from 'react-modal'
+import DateTime from 'react-datetime'
+
+ReactModal.defaultStyles.content.top = '25%'
+ReactModal.defaultStyles.content.bottom = 'calc(75% - 125px)'
+ReactModal.defaultStyles.content.left = '300px'
+ReactModal.defaultStyles.content.right = '300px'
 
 let createHandlers = function (dispatch) {
   let updateSb = function (id, updates, options) {
@@ -44,7 +51,8 @@ export class SbDetail extends Component {
       newChoice: '',
       voted: voted,
       votedChoiceId: votedChoiceId,
-      expired: expired
+      expired: expired,
+      expires: props.sb.expires
     }
     this.handlers = createHandlers(props.dispatch)
     this.sbClasses = this.sbClasses.bind(this)
@@ -356,6 +364,112 @@ export class SbDetail extends Component {
     })
   }
 
+  openModal (type) {
+    if (type === 'delete') this.setState({showModal: true})
+    else if (type === 'options') this.setState({showOptionsModal: true})
+  }
+
+  closeModal (type) {
+    if (type === 'delete') this.setState({showModal: false})
+    else if (type === 'options') this.setState({showOptionsModal: false})
+  }
+
+  reallyDelete () {
+    this.setState({showModal: false})
+    this.props.dispatch(actions.startDeleteSb(this.props.sb.id))
+    document.getElementById('link-following-deletion').click()
+  }
+
+  handleOptionToggle (e) {
+    switch (e.currentTarget.id) {
+      case 'option-expire':
+        this.setState({expires: !this.state.expires})
+        break
+      default:
+        break
+    }
+  }
+
+  renderEditMessage () {
+    const datePicker = (
+      <div>
+        <DateTime
+          id='date-time'
+          inputProps={{placeholder: 'Enter an expiration date'}}
+          value={this.state.expires || ''}
+          onChange={(data) => {
+            this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})
+            this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {expires: this.state.expires}))
+          }}
+          closeOnSelect
+        />
+      </div>
+    )
+    return (
+      <span>
+        <div className='delete-button button' onClick={() => this.openModal('delete')}>
+          <FA name='trash' className='fa fa-fw' />Delete snowballot
+          <ReactModal contentLabel='delete-sb' isOpen={this.state.showModal}>
+            <div id='modal-content'>
+              <div id='modal-top'>
+                <div id='close-modal' onClick={() => this.closeModal('delete')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
+                Delete this snowballot?
+              </div>
+              <div id='delete-choices'>
+                <div id='delete-confirm' className='button' onClick={() => this.reallyDelete()}>Delete</div>
+                <div id='delete-cancel' className='button' onClick={() => this.closeModal('delete')}>Cancel</div>
+                <Link to='/' id='link-following-deletion' style={{display: 'none'}} />
+              </div>
+            </div>
+          </ReactModal>
+        </div>
+        <div className='edit-button button' onClick={() => this.openModal('options')}>
+          <FA name='pencil' className='fa fa-fw' />Edit snowballot options
+          <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay'>
+            <div id='close-modal' onClick={() => this.closeModal('options')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
+            <div id='modal-top'>
+              Edit Snowballot Options
+            </div>
+            <div id='options-panel'>
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA name='calendar-times-o' className='fa-2x fa-fw' />
+                </div>
+                <div className='options-unit-text'>
+                  Lock voting on snowballot after certain time?
+                </div>
+                <div className='options-selector'>
+                  <FA
+                    id='option-expire'
+                    name={this.state.expires ? 'check-circle' : 'circle'}
+                    className='fa fa-fw custom-check'
+                    onClick={(e) => this.handleOptionToggle(e)}
+                  />
+                </div>
+                <div className='options-rest'>
+                  {this.state.expires && datePicker}
+                </div>
+              </div>
+            </div>
+          </ReactModal>
+        </div>
+      </span>
+    )
+  }
+
+  isCreator () {
+    return this.props.user.uid === this.props.sb.creator
+  }
+
+  updateField (field) {
+    !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false})
+  }
+
+  handleSbChange (field) {
+    this.props.dispatch(actions.startUpdateSb(this.props.sb.id, { [field]: this.state[field] }))
+    this.setState({editing: false})
+  }
+
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0) return null
     const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
@@ -363,6 +477,16 @@ export class SbDetail extends Component {
       'fa-2x': true,
       'fa-fw': true,
       'favorited': this.state.favorited
+    }
+    const editor = (field) => <div className='editor' onClick={() => this.updateField(field)}><FA name='pencil' className='fa fa-fw' /></div>
+    const extensibleOrCreated = this.props.sb.isExtensible || this.isCreator()
+    const editForm = (editField) => {
+      return (
+        <span className='edit-form' >
+          <input type='text' id={`edit-${editField}`} placeholder={`Enter new ${editField} here`} value={this.state[editField]} onChange={(e) => this.setState({[editField]: e.currentTarget.value})} />
+          <div className='button' onClick={() => this.handleSbChange(editField)}>Save</div>
+        </span>
+      )
     }
     return (
       <div>
@@ -375,7 +499,8 @@ export class SbDetail extends Component {
           />
         </div>
           {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
-        <h4 className='sb-title'>{this.props.sb.title}</h4>
+        <h4 className='sb-title'>{this.props.sb.title}</h4>{this.isCreator() && editor('title')}
+        {this.state.editing && editForm('title')}
         {this.props.sb.hasMainImage && <img id='image-holder-main' src='http://placehold.it/200/200' />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
         <ul className='sb-choices'>
@@ -407,7 +532,7 @@ export class SbDetail extends Component {
             </span>
           )}
         </ul>
-        {this.props.sb.isExtensible && this.props.user.uid && !this.state.expired && this.showAddChoice()}
+        {extensibleOrCreated && this.props.user.uid && !this.state.expired && this.showAddChoice()}
       </div>
     )
   }
@@ -419,7 +544,8 @@ export class SbDetail extends Component {
         <div className='above-sb-container'>
           <div className='other-sb-info'>
             {this.props.sb.expires && this.renderExpiresMessage()}
-            {this.props.user.uid === this.props.sb.creator && this.renderCreatorMessage()}
+            {this.isCreator() && this.renderCreatorMessage()}
+            {this.isCreator() && this.renderEditMessage()}
             {this.renderAuthMessage()}
           </div>
         </div>

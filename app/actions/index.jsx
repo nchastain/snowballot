@@ -244,7 +244,7 @@ export var startUpdateSb = (id, updates, options) => {
   return (dispatch, getState) => {
     var sbRef = firebaseRef.child(`sbs/${id}`)
     var userRef = firebaseRef.child(`users/${getState().user.uid}`) || null
-    if (userRef && typeof options.choiceId !== 'undefined' && typeof options.freshVote !== 'undefined') {
+    if (userRef && options && typeof options.choiceId !== 'undefined' && typeof options.freshVote !== 'undefined') {
       dispatch(startUpdateUser(id, options.choiceId, options.freshVote))
     }
     return sbRef.once('value').then((snapshot) => {
@@ -254,6 +254,23 @@ export var startUpdateSb = (id, updates, options) => {
         dispatch(updateSb(id, updatedSb))
       })
     })
+  }
+}
+
+export var startDeleteSb = (id) => {
+  return (dispatch, getState) => {
+    firebaseRef.child(`sbs/${id}`).remove().then(function () {
+      dispatch(deleteSb(id))
+    }, function (error) {
+      console.log('error removing sb')
+    })
+  }
+}
+
+export var deleteSb = (id) => {
+  return {
+    type: 'DELETE_SB',
+    id
   }
 }
 

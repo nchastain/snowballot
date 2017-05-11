@@ -152,9 +152,9 @@ export class Dashboard extends Component {
         break
       case 'deleteAccount':
         accountItemToShow = (
-          <div>
-            <div>Delete your account (including your snowballots, favorites, etc.?)</div>
-            <div className='button' onClick={() => this.props.dispatch(actions.deleteAccount)}>Delete account</div>
+          <div id='account-deletion' >
+            <div id='account-delete-text'>Delete your account (including your snowballots, favorites, etc.?)</div>
+            <div id='account-delete-button' className='button' onClick={() => this.props.dispatch(actions.deleteAccount)}>Delete account</div>
           </div>
         )
         break
@@ -174,7 +174,7 @@ export class Dashboard extends Component {
       </div>
     })
     const accountButton = (setting) => {
-      return <div className='button' onClick={() => this.displayAccountPanel(setting.name)}>{setting.label}</div>
+      return <div onClick={() => this.displayAccountPanel(setting.name)}>{setting.label}</div>
     }
     const settings = [
       {name: 'email', label: 'Change email'},
@@ -185,13 +185,21 @@ export class Dashboard extends Component {
     return (
       <span id='dashboard'>
         <div className='dashboard-outer'>
-          <div id='account-settings'>
-            {settings.map(setting => accountButton(setting))}
-          </div>
-          <div id='account-panel'>
-            {this.state.accountPanel}
-            {this.state.photo && <img id='new-profile-photo' src={this.state.photo} />}
-            {this.state.photo && <div id='save-photo-button' className='button' onClick={() => this.changeInfo('photo')}>Save photo</div>}
+          <div id='account-section'>
+            <div id='account-settings'>
+              {settings.map(setting => <span key={setting.name} className='button'>{accountButton(setting)}</span>)}
+              <div id='logout' className='button' onClick={(evt) => {
+                this.onLogout(evt)
+                logout()
+              }}>
+                <span id='logout-text'>Log out?</span>
+              </div>
+            </div>
+            <div id='account-panel'>
+              {this.state.accountPanel}
+              {this.state.photo && <img id='new-profile-photo' src={this.state.photo} />}
+              {this.state.photo && <div id='save-photo-button' className='button' onClick={() => this.changeInfo('photo')}>Save photo</div>}
+            </div>
           </div>
           <div className='snowballots-section'>
             {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0 ? this.renderSbs() : this.renderNone() }
@@ -199,16 +207,6 @@ export class Dashboard extends Component {
           <div className='favorites-section'>
             <div>Favorites</div>
             {favorites}
-          </div>
-          <div
-            id='logout-button'
-            className='button secondary'
-            onClick={(evt) => {
-              this.onLogout(evt)
-              logout()
-            }}
-          >
-            <span id='logout-text'>logout</span>
           </div>
         </div>
       </span>

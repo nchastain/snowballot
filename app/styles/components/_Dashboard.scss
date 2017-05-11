@@ -98,6 +98,12 @@
 		}
 	}
 
+	#account-section {
+		background-color: #eee;
+		padding: 10px;
+		margin-bottom: 10px;
+	}
+
 	#save-photo-button {
 		background-color: $primary;
 		display: inline-block;
@@ -105,11 +111,15 @@
 	}
 
 	#account-settings {
+		#logout {
+			float: right;
+		}
 		.button {
 			background-color: white !important;
 			border: 1px solid $primary;
 			border-radius: 10px;
 			color: $primary;
+			margin-bottom: 0 !important;
 			& + .button {
 				margin-left: 5px;
 			}
@@ -120,13 +130,18 @@
 	}
 
 	#account-panel {
-		margin-bottom: 30px;
 		.button {
 			background-color: $primary !important;
+		}
+		#upload-button, #account-deletion, #account-delete-button {
+			margin-top: 10px;
 		}
 		.fa {
 			vertical-align: initial;
 			color: $primary;
+		}
+		input {
+			margin-top: 10px;
 		}
 	}
 
