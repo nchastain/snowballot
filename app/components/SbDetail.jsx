@@ -13,6 +13,7 @@ import IncludedMedia from './IncludedMedia'
 import omit from 'object.omit'
 import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
+import Tagger from './Tagger'
 
 ReactModal.defaultStyles.content.top = '25%'
 ReactModal.defaultStyles.content.bottom = 'calc(75% - 125px)'
@@ -48,24 +49,43 @@ export class SbDetail extends Component {
     let expired = false
     if (typeof props.sb.expires === 'string') expired = moment(new Date(props.sb.expires)).isBefore(moment(Date.now()))
     this.state = {
+      tags: props.sb.tags || [],
       newChoice: '',
+      isExtensible: props.sb.isExtensible,
       voted: voted,
       votedChoiceId: votedChoiceId,
       expired: expired,
-      expires: props.sb.expires
+      suggestions: [],
+      isPrivate: props.sb.isPrivate,
+      doExpire: Boolean(props.sb.expires),
+      description: props.sb.description,
+      mainImage: props.sb.mainImage
     }
     this.handlers = createHandlers(props.dispatch)
     this.sbClasses = this.sbClasses.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.dispatch(actions.findSb(this.props.match.params.alias))
   }
 
   componentDidMount () {
     this.props.dispatch(actions.findSb(this.props.match.params.alias))
   }
 
+  componentWillUnmount () {
+    this.props.dispatch(actions.showSb({}))
+  }
+
   componentWillReceiveProps (nextProps) {
     let expired = false
     let voted = false
+    let tags = this.state.tags
+    let description = this.state.description
+    let isExtensible = this.state.isExtensible
     let votedChoiceId = ''
+    let mainImage = this.state.mainImage
+    let isPrivate = this.state.isPrivate
     if (nextProps.sb) {
       if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
       if (nextProps.sb.choices && nextProps.sb.choices.length !== 0 && nextProps.sb.privateAlias && nextProps.sb.privateAlias !== '') this.updateSbImages(nextProps)
@@ -80,7 +100,25 @@ export class SbDetail extends Component {
     if (nextProps.sb && nextProps.user && nextProps.user.favorited) {
       this.setState({'favorited': nextProps.user.favorited[nextProps.sb.id]})
     }
-    this.setState({voted, votedChoiceId, expired})
+    if (nextProps.sb.expires) {
+      if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(nextProps.sb.expires)).isBefore(moment(Date.now()))
+    }
+    if (nextProps.sb.isPrivate) {
+      isPrivate = nextProps.sb.isPrivate
+    }
+    if (nextProps.sb.tags) {
+      tags = nextProps.sb.tags
+    }
+    if (nextProps.sb.description) {
+      description = nextProps.sb.description
+    }
+    if (nextProps.sb.mainImage) {
+      mainImage = nextProps.sb.mainImage
+    }
+    if (nextProps.sb.isExtensible) {
+      isExtensible = nextProps.sb.isExtensible
+    }
+    this.setState({voted, votedChoiceId, expired, isPrivate, tags, description, mainImage, isExtensible})
   }
 
   updateSbImages (props) {
@@ -381,9 +419,18 @@ export class SbDetail extends Component {
   }
 
   handleOptionToggle (e) {
+    const that = this
     switch (e.currentTarget.id) {
       case 'option-expire':
-        this.setState({expires: !this.state.expires})
+        this.setState({doExpire: !this.state.doExpire})
+        break
+      case 'option-extensible':
+        this.setState({isExtensible: !this.state.isExtensible})
+        break
+      case 'option-private':
+        this.setState({isPrivate: !this.state.isPrivate}, function () {
+          this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {isPrivate: that.state.isPrivate}))
+        })
         break
       default:
         break
@@ -391,6 +438,9 @@ export class SbDetail extends Component {
   }
 
   renderEditMessage () {
+    const that = this
+    const publicAlias = <span>Add a custom URL?&#58; snowballot.com&#47;sbs&#47;</span>
+    const privateAlias = <span className='disabled-option'>(Sorry, custom URLs are only available for public snowballots.)</span>
     const datePicker = (
       <div>
         <DateTime
@@ -398,12 +448,25 @@ export class SbDetail extends Component {
           inputProps={{placeholder: 'Enter an expiration date'}}
           value={this.state.expires || ''}
           onChange={(data) => {
-            this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})
-            this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {expires: this.state.expires}))
+            this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}, function () {
+              that.props.dispatch(actions.startUpdateSb(this.props.sb.id, {expires: that.state.expires}))
+            })
           }}
           closeOnSelect
         />
       </div>
+    )
+    const deleteButton = (
+      <span className='fa-stack fa-md delete-button' onClick={() => {
+        this.setState({hasMainImage: false, mainImage: undefined}, () => {
+          this.handleSbChange('mainImage')
+          this.handleSbChange('hasMainImage')
+          this.addImage(this.props.sb.privateAlias, 'deleted')
+        })
+      }}>
+        <FA name='circle' className='fa fa-stack-2x' />
+        <FA name='times-circle' className='fa-stack-2x fa-fw delete-x' />
+      </span>
     )
     return (
       <span>
@@ -431,6 +494,7 @@ export class SbDetail extends Component {
               Edit Snowballot Options
             </div>
             <div id='options-panel'>
+              {/* Lock voting */}
               <div className='options-unit'>
                 <div className='options-icon'>
                   <FA name='calendar-times-o' className='fa-2x fa-fw' />
@@ -441,20 +505,193 @@ export class SbDetail extends Component {
                 <div className='options-selector'>
                   <FA
                     id='option-expire'
-                    name={this.state.expires ? 'check-circle' : 'circle'}
-                    className='fa fa-fw custom-check'
+                    name={this.state.doExpire ? 'check-circle' : 'circle'}
+                    className='fa fa-fw custom-check edit-fa'
                     onClick={(e) => this.handleOptionToggle(e)}
                   />
                 </div>
                 <div className='options-rest'>
-                  {this.state.expires && datePicker}
+                  {this.state.doExpire && datePicker}
                 </div>
               </div>
+
+              {/* Private/public */}
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA name='eye-slash' className='fa-2x fa-fw' />
+                </div>
+                <div className='options-unit-text'>
+                  Make snowballot private?
+                </div>
+                <div className='options-selector'>
+                  <FA
+                    id='option-private'
+                    name={this.state.isPrivate ? 'check-circle' : 'circle'}
+                    className='fa fa-fw custom-check edit-fa'
+                    onClick={(e) => this.handleOptionToggle(e)}
+                  />
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA name='tags' className='fa-2x fa-fw' />
+                </div>
+                <div className='options-unit-text'>
+                  Add tags to this snowballot?
+                </div>
+                <div className='options-rest'>
+                  <Tagger
+                    className='tag-holder'
+                    handleAdd={() => this.handleAdd}
+                    handleDelete={() => this.handleDelete}
+                    tags={this.state.tags}
+                    suggestions={this.state.suggestions}
+                  />
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA name='pencil' className='fa-2x fa-fw' />
+                </div>
+                <div className='options-unit-text'>
+                  Edit description for this snowballot?
+                </div>
+                <div className='options-rest'>
+                  <textarea
+                    rows={3}
+                    value={this.state.description}
+                    onChange={(e) => this.setState({description: e.target.value})}
+                  />
+                </div>
+                <div id='description-submit' className='button' onClick={() => {
+                  this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {description: this.state.description}))
+                  this.closeModal('options')
+                }}>
+                  Save
+                </div>
+              </div>
+
+              {/* Photo */}
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA name='photo' className='fa-2x fa-fw' />
+                </div>
+                <div className='options-unit-text'>
+                  Add a new photo for this snowballot?
+                </div>
+                <div className='options-rest'>
+                  {!this.state.hasMainImage && <div className='photo-uploader' id='photo-upload-main'>
+                    <input type='file' className='file-input' id='file-input-main' style={{display: 'none'}} onChange={(e) => this.handleUpload(e)} />
+                    <div id='upload-button' onClick={() => document.getElementById('file-input-main').click()}><FA name='upload' className='fa fa-fw' />Upload a file</div>
+                  </div>}
+                  <div id='gallery-main' className={!this.state.hasMainImage ? 'hidden' : ''}>
+                    <img className='gallery-image' id='gallery-img-main' src={this.state.mainImage} />
+                    <div className='main-image-delete'>{deleteButton}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* URL Alias */}
+              <div className='options-unit'>
+                <div className='options-icon'>
+                  <FA
+                    name='snowflake-o'
+                    className={classnames({'fa-2x': true, 'fa-fw': true, 'disabled-option': this.state.isPrivate})}
+                  />
+                </div>
+                <div className='options-unit-text'>
+                  {this.state.isPrivate ? privateAlias : publicAlias}
+                </div>
+                {!this.state.isPrivate &&
+                <span>
+                  <div className='options-selector'>
+                    <input
+                      type='text'
+                      value={this.state.alias}
+                      onChange={(e) => this.setState({alias: e.target.value})}
+                    />
+                  </div>
+                  <div id='url-submit' className='button' onClick={() => {
+                    this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {alias: this.state.alias}))
+                    this.closeModal('options')
+                  }}>
+                    Save
+                  </div>
+                </span>}
+              </div>
+
+            {/* Extensibility */}
+            <div className='options-unit'>
+              <div className='options-icon'>
+                <FA name='users' className='fa-2x fa-fw' />
+              </div>
+              <div className='options-unit-text'>
+                Allow others to add new choices?
+              </div>
+              <div className='options-selector'>
+                <FA
+                  id='option-extensible'
+                  name={this.state.isExtensible ? 'check-circle' : 'circle'}
+                  className='fa fa-fw custom-check edit-fa'
+                  onClick={(e) => this.handleOptionToggle(e)}
+                />
+              </div>
+            </div>
+
             </div>
           </ReactModal>
         </div>
       </span>
     )
+  }
+
+  handleUpload (e) {
+    let files = e.target.files
+    let that = this
+    this.previewImage(files[0])
+    this.setState({hasMainImage: true, mainImage: files[0]}, function () {
+      that.handleSbChange('mainImage')
+      that.handleSbChange('hasMainImage')
+      that.addImage(that.props.sb.privateAlias, files[0])
+    })
+  }
+
+  addImage (alias, file) {
+    let newImageRef = imagesRef.child(`${alias}/main`)
+    if (file === 'deleted') newImageRef.delete().then(() => console.log('Removed a file!'))
+    else newImageRef.put(file).then(() => console.log('Uploaded a file!'))
+  }
+
+  previewImage (file) {
+    let img = document.querySelector(`#gallery-img-main`)
+    let reader = new FileReader()
+    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result } })(img)
+    reader.readAsDataURL(file)
+  }
+
+  handleDelete (i) {
+    let tags = this.state.tags
+    let that = this
+    tags.splice(i, 1)
+    this.setState({tags: tags}, function () {
+      that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
+    })
+  }
+
+  handleAdd (tag) {
+    let tags = this.state.tags
+    let that = this
+    tags.push({
+      id: tags.length + 1,
+      text: tag
+    })
+    this.setState({tags: tags}, function () {
+      that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
+    })
   }
 
   isCreator () {
@@ -471,7 +708,7 @@ export class SbDetail extends Component {
   }
 
   renderSb () {
-    if (!this.props.sb || this.props.sb.length === 0) return null
+    if (!this.props.sb || this.props.sb.length === 0 || typeof this.props.sb.choices === 'undefined') return null
     const taglist = this.props.sb.tags ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
     const starClasses = {
       'fa-2x': true,

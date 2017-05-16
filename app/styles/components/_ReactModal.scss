@@ -12,6 +12,12 @@
       vertical-align: bottom;
       margin-right: 0px;
     }
+    .edit-fa {
+      color: white !important;
+    }
+    &:focus {
+      outline: none;
+    }
   }
 
   .Overlay {
@@ -21,6 +27,19 @@
     right: 0;
     bottom: 0;
     background-color: rgba(black, 0.5);
+  }
+
+  #description-submit, #url-submit {
+    display: inline-block;
+    background-color: $primary;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+  }
+
+  textarea {
+    border: 1px solid #C2C2C2 !important;
+    width: 400px;
   }
 
   #close-modal {
@@ -52,6 +71,8 @@
   .ReactModal__Content {
     padding: 0px !important;
     border: 0 !important;
+    display: inline-block !important; 
+    min-height: 500px;
   }
 
   #modal-top {
@@ -66,11 +87,17 @@
 
   #options-panel {
     padding: 10px;
+    min-height: 400px;
     .option-unit {
       & + .option-unit {
         margin-top: 10px;
       }
     }
+  }
+
+  input {
+    border: 1px solid #C2C2C2 !important;
+    border-left: 5px solid $primary !important;
   }
 
   #delete-choices {
