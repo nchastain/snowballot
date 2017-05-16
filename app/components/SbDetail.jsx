@@ -59,7 +59,7 @@ export class SbDetail extends Component {
       isPrivate: props.sb.isPrivate,
       doExpire: Boolean(props.sb.expires),
       description: props.sb.description,
-      mainImage: props.sb.mainImage
+      mainImage: props.sb.mainImage,
     }
     this.handlers = createHandlers(props.dispatch)
     this.sbClasses = this.sbClasses.bind(this)
@@ -544,8 +544,8 @@ export class SbDetail extends Component {
                 <div className='options-rest'>
                   <Tagger
                     className='tag-holder'
-                    handleAdd={() => this.handleAdd}
-                    handleDelete={() => this.handleDelete}
+                    handleAdd={(tag) => this.handleAdd(tag)}
+                    handleDelete={(i) => this.handleDelete(i)}
                     tags={this.state.tags}
                     suggestions={this.state.suggestions}
                   />
@@ -584,15 +584,21 @@ export class SbDetail extends Component {
                   Add a new photo for this snowballot?
                 </div>
                 <div className='options-rest'>
-                  {!this.state.hasMainImage && <div className='photo-uploader' id='photo-upload-main'>
+                  {!this.state.mainImage && <div className='photo-uploader' id='photo-upload-main'>
                     <input type='file' className='file-input' id='file-input-main' style={{display: 'none'}} onChange={(e) => this.handleUpload(e)} />
                     <div id='upload-button' onClick={() => document.getElementById('file-input-main').click()}><FA name='upload' className='fa fa-fw' />Upload a file</div>
                   </div>}
                   <div id='gallery-main' className={!this.state.hasMainImage ? 'hidden' : ''}>
                     <img className='gallery-image' id='gallery-img-main' src={this.state.mainImage} />
-                    <div className='main-image-delete'>{deleteButton}</div>
+                    <div id='main-image-delete-button' className='main-image-delete'>{deleteButton}</div>
                   </div>
                 </div>
+                {this.state.mainImage && <div id='photo-submit' className='button' onClick={() => {
+                  this.props.dispatch(actions.startUpdateSb(this.props.sb.privateAlias, {mainImage: this.state.mainImage}))
+                  this.closeModal('options')
+                }}>
+                  Save
+                </div>}
               </div>
 
               {/* URL Alias */}
@@ -645,7 +651,7 @@ export class SbDetail extends Component {
             </div>
           </ReactModal>
         </div>
-      </span>
+      </span>    
     )
   }
 
@@ -662,6 +668,7 @@ export class SbDetail extends Component {
 
   addImage (alias, file) {
     let newImageRef = imagesRef.child(`${alias}/main`)
+    this.startUpdateSb(this.props.sb.privateAlias, {mainImage: file})
     if (file === 'deleted') newImageRef.delete().then(() => console.log('Removed a file!'))
     else newImageRef.put(file).then(() => console.log('Uploaded a file!'))
   }
@@ -735,10 +742,10 @@ export class SbDetail extends Component {
             onClick={() => this.favoriteSnowballot(this.props.sb.id)}
           />
         </div>
-          {taglist && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
+          {this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         <h4 className='sb-title'>{this.props.sb.title}</h4>{this.isCreator() && editor('title')}
         {this.state.editing && editForm('title')}
-        {this.props.sb.hasMainImage && <img id='image-holder-main' src='http://placehold.it/200/200' />}
+        {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
         <ul className='sb-choices'>
           {this.props.sb.choices.map((choice, idx) =>

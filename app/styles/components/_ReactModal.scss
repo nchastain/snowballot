@@ -29,7 +29,7 @@
     background-color: rgba(black, 0.5);
   }
 
-  #description-submit, #url-submit {
+  #description-submit, #url-submit, #photo-submit {
     display: inline-block;
     background-color: $primary;
     border-radius: 5px;
@@ -100,6 +100,12 @@
     border-left: 5px solid $primary !important;
   }
 
+  #main-image-delete-button {
+    .delete-x {
+      background-color: white !important;
+    }
+  }
+
   #delete-choices {
     width: 100%;
     margin-top: 10px;
@@ -129,5 +135,6 @@
     #delete-cancel {
       float: right;
     }
+
   }
 }
