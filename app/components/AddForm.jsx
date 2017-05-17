@@ -8,7 +8,8 @@ import Choice from './Choice'
 import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
 import ChoiceMediaPane from './ChoiceMediaPane'
-import OptionUnit from './OptionUnit'
+import OptionPanel from './OptionPanel'
+import { previewImage } from '.././utilities/sbUtils'
 
 let contextForComponent
 
@@ -121,13 +122,6 @@ class AddForm extends React.Component {
     return updatedChoices
   }
 
-  previewImage (file, choiceId) {
-    let img = document.querySelector(`#gallery-img-${choiceId}`)
-    let reader = new FileReader()
-    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result } })(img)
-    reader.readAsDataURL(file)
-  }
-
   setUpEventHandling (choices) {
     if (!document.querySelector('.file-input')) return
     let uploaders = [...document.getElementsByClassName('file-input')]
@@ -136,7 +130,7 @@ class AddForm extends React.Component {
       elem.addEventListener('change', function () {
         let files = this.files
         const choiceId = elem.id === 'file-input-main' ? 'main' : parseInt(elem.id.match(/\d+$/).join(''))
-        that.previewImage(files[0], choiceId)
+        previewImage(files[0], `#gallery-img-${choiceId}`)
         if (choiceId === 'main') that.setState({hasMainImage: true, mainImage: files[0]})
         else that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
       }, false)
@@ -294,47 +288,25 @@ class AddForm extends React.Component {
                 <div id='toggleOptionsMenu' onClick={() => this.toggleOptionsMenu()}>{this.state.optionsExpanded ? hideToggleText : showToggleText}</div>
               </div>
               <div id='real-options-section' className={classnames(optionsClass)}>
-                <OptionUnit
-                  name='expire'
+                <OptionPanel
                   doesExpire={this.state.doesExpire}
-                  toggle={(e) => this.handleOptionToggle(e)}
-                  setDate={(data) =>
-                    this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})
-                  }
-                />
-                <OptionUnit
-                  name='private'
-                  isPrivate={this.state.isPrivate}
-                  toggle={(e) => this.handleOptionToggle(e)}
-                />
-                <OptionUnit
-                  name='alias'
+                  handleOptionToggle={(e) => this.handleOptionToggle(e)}
+                  setDate={data => this.setState(
+                    {expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}
+                  )}
                   isPrivate={this.state.isPrivate}
                   alias={this.state.alias}
-                  toggle={(e) => this.setState({alias: e.target.value})}
-                />
-                <OptionUnit
-                  name='extend'
+                  toggleAlias={(e) => this.setState({alias: e.target.value})}
                   extensible={this.state.isExtensible}
-                  toggle={(e) => this.handleOptionToggle(e)}
-                />
-                <OptionUnit
-                  name='photo'
                   hasMainImage={this.state.hasMainImage}
                   deletion={() => {
                     this.setState({hasMainImage: false, mainImage: undefined}, () =>
                       this.setUpEventHandling(this.state.choices))
                   }}
-                />
-                <OptionUnit
-                  name='description'
                   description={this.state.description}
-                  toggle={(e) => this.setState({description: e.target.value})}
-                />
-                <OptionUnit
-                  name='tags'
-                  tagAdd={this.handleAdd}
-                  tagDelete={this.handleDelete}
+                  toggleDescription={(e) => this.setState({description: e.target.value})}
+                  handleAdd={this.handleAdd}
+                  handleDelete={this.handleDelete}
                   tags={this.state.tags}
                   suggestions={this.state.suggestions}
                 />
