@@ -613,7 +613,7 @@ export class SbDetail extends Component {
 
   addImage (alias, file) {
     let newImageRef = imagesRef.child(`${alias}/main`)
-    this.startUpdateSb(this.props.sb.privateAlias, {mainImage: file})
+    this.props.dispatch(actions.startUpdateSb(this.props.sb.privateAlias, {mainImage: file}))
     if (file === 'deleted') newImageRef.delete().then(() => console.log('Removed a file!'))
     else newImageRef.put(file).then(() => console.log('Uploaded a file!'))
   }

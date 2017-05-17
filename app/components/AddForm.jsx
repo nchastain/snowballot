@@ -130,7 +130,6 @@ class AddForm extends React.Component {
 
   setUpEventHandling (choices) {
     if (!document.querySelector('.file-input')) return
-
     let uploaders = [...document.getElementsByClassName('file-input')]
     const that = this
     uploaders.forEach(function (elem) {
