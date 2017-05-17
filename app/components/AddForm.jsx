@@ -3,98 +3,20 @@ import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import * as actions from '.././actions'
 import DateTime from 'react-datetime'
-import uuid from 'uuid'
-import Choice from './Choice'
-import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
-import ChoiceMediaPane from './ChoiceMediaPane'
 import OptionPanel from './OptionPanel'
-import { previewImage } from '.././utilities/sbUtils'
-
-let contextForComponent
-
-const initialState = {
-  optionsExpanded: false,
-  title: '',
-  alias: '',
-  choicesExpanded: {},
-  description: '',
-  doesExpire: false,
-  isPrivate: false,
-  isExtensible: false,
-  choices: [
-    {title: '', votes: 0, id: 1, info: ''},
-    {title: '', votes: 0, id: 2, info: ''}
-  ],
-  tags: [],
-  suggestions: []
-}
+import ChoicePanel from './ChoicePanel'
+import { previewImage, initialState, validateSb } from '.././utilities/sbUtils'
 
 class AddForm extends React.Component {
   constructor (props) {
     super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.addChoice = this.addChoice.bind(this)
-    this.choiceUpdate = this.choiceUpdate.bind(this)
-    this.validateSb = this.validateSb.bind(this)
-    this.deleteChoice = this.deleteChoice.bind(this)
-    this.checkTab = this.checkTab.bind(this)
-    this.handleAdd = this.handleAdd.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
     this.state = initialState
-    contextForComponent = this
   }
 
-  validateSb () {
-    if (this.state.title.length === 0) throw new Error('Snowballots must have a title.')
-    const privateAlias = this.state.privateAlias || uuid.v4().replace(/-/g, '').substring(0, 10)
-    const publicAlias = this.state.alias.length > 0 ? this.state.alias : title.replace(/\s+/g, '').substring(0, 10)
-    const alias = this.state.isPrivate ? privateAlias : publicAlias
-    const dupesObj = {}
-    const filteredChoices = this.state.choices.filter(function (choice) {
-      let duplicate = false
-      dupesObj[choice.title.toLowerCase()] ? duplicate = true : dupesObj[choice.title.toLowerCase()] = choice
-      return choice.title.length > 0 && !duplicate
-    })
-    if (filteredChoices.length < 2 && !this.state.isExtensible) {
-      throw new Error('Snowballots that cannot by extended by other users must be created with at least 2 choices.')
-    }
-    const options = {
-      title: this.state.title,
-      alias: alias,
-      privateAlias: privateAlias,
-      isPrivate: this.state.isPrivate,
-      expires: this.state.expires || null,
-      isExtensible: this.state.isExtensible || false,
-      tags: this.state.tags || [],
-      description: this.state.description || '',
-      mainImage: this.state.mainImage || '',
-      hasMainImage: this.state.hasMainImage || false
-    }
-    return {options, filteredChoices}
-  }
+  handleDelete (i) { this.setState({tags: this.state.tags.splice(i, 1)}) }
 
-  handleDelete (i) {
-    let tags = this.state.tags
-    tags.splice(i, 1)
-    this.setState({tags: tags})
-  }
-
-  toggleChoiceOptions (e, choicesExpanded) {
-    const infoSection = document.querySelector(`#choice-more-info-${e.target.id}`)
-    const expandState = Boolean(!choicesExpanded[e.target.id])
-    infoSection.classList.toggle('choice-more-info-expanded')
-    contextForComponent.setState({choicesExpanded: {...choicesExpanded, [e.target.id]: expandState}})
-  }
-
-  handleAdd (tag) {
-    let tags = this.state.tags
-    tags.push({
-      id: tags.length + 1,
-      text: tag
-    })
-    this.setState({tags: tags})
-  }
+  handleAdd (tag) { this.setState({tags: this.state.tags.push({id: this.state.tags.length + 1, text: tag})}) }
 
   setGIF (id, gif) {
     const that = this
@@ -112,14 +34,13 @@ class AddForm extends React.Component {
   }
 
   choiceImageUpdate (id, choices, uploadedFile) {
-    const updatedChoices = choices.map((choice) => {
+    return choices.map((choice) => {
       if (choice.id === id) {
         choice.photo = uploadedFile
         choice.hasImage = true
       }
       return choice
     })
-    return updatedChoices
   }
 
   setUpEventHandling (choices) {
@@ -137,23 +58,6 @@ class AddForm extends React.Component {
     })
   }
 
-  renderChoices () {
-    let that = this
-    return this.state.choices.map((choice) => (
-      <span key={`choice-container-${choice.id}`}>
-        <Choice
-          choice={choice}
-          choicesExpanded={that.state.choicesExpanded}
-          toggleChoiceOptions={that.toggleChoiceOptions}
-          checkTab={that.checkTab}
-          choiceUpdate={that.choiceUpdate}
-          deleteChoice={that.deleteChoice}
-        />
-        <ChoiceMediaPane id={choice.id} choices={this.state.choices} />
-      </span>
-    ))
-  }
-
   addImage (alias, choiceId, file) {
     let newImageRef = imagesRef.child(`${alias}/${choiceId}`)
     newImageRef.put(file).then(() => console.log('Uploaded a file!'))
@@ -161,28 +65,15 @@ class AddForm extends React.Component {
 
   addAllImages (alias) {
     const that = this
-    this.state.choices.forEach(function (choice) {
-      if (choice.photoFile) that.addImage(alias, choice.id, choice.photoFile)
-    })
+    this.state.choices.forEach(function (choice) { if (choice.photoFile) that.addImage(alias, choice.id, choice.photoFile) })
     if (this.state.hasMainImage) this.addImage(alias, 'main', this.state.mainImage)
-  }
-
-  addAlias () {
-    const pAlias = uuid.v4().replace(/-/g, '').substring(0, 10)
-    this.setState({privateAlias: pAlias})
   }
 
   handleSubmit (e) {
     e.preventDefault()
-    this.addAlias()
     this.choiceExtraUpdate()
-    const validSb = this.validateSb()
-    this.setState(initialState, function () {
-      this.setState({choices: [
-        {title: '', votes: 0, id: 1, info: ''},
-        {title: '', votes: 0, id: 2, info: ''}
-      ]})
-    })
+    const validSb = validateSb(this.state)
+    this.setState({...initialState})
     this.props.dispatch(actions.startAddSb(validSb.options, validSb.filteredChoices))
     this.addAllImages(validSb.options.privateAlias)
     this.props.history.push(`/sbs/${validSb.options.alias}`)
@@ -210,114 +101,38 @@ class AddForm extends React.Component {
     this.setState({ choices: updatedChoices })
   }
 
-  choiceUpdate (e, property) {
-    const position = parseInt(e.target.id.match(/\d+$/).join(''))
-    const updatedChoices = this.state.choices.map((choice) => {
-      if (choice.id === position) choice[property] = e.target.value
-      return choice
-    })
-    this.setState({ choices: updatedChoices })
-  }
-
-  checkTab (e) {
-    const idx = parseInt(e.target.id.match(/\d+$/).join(''))
-    if (e.keyCode === 9 && idx === this.state.choices.length) {
-      this.addChoice()
-    }
-  }
-
-  addChoice () {
-    const newChoice = {
-      title: '',
-      votes: 0,
-      id: this.state.choices.length + 1
-    }
-    this.setState({
-      choices: [...this.state.choices, newChoice]
-    })
-  }
-
-  deleteChoice (e) {
-    const idx = parseInt(e.target.id.match(/\d+$/).join(''))
-    const updatedChoices = this.state.choices.filter((choice) => {
-      return choice.id !== idx
-    })
-    this.setState({choices: updatedChoices})
-  }
-
-  toggleOptionsMenu () {
-    this.setState({optionsExpanded: !this.state.optionsExpanded})
-  }
-
-  handleOptionToggle (e) {
-    switch (e.target.id) {
-      case 'option-expire':
-        this.setState({doesExpire: !this.state.doesExpire})
-        break
-      case 'option-private':
-        this.setState({isPrivate: !this.state.isPrivate})
-        break
-      case 'option-extensible':
-        this.setState({isExtensible: !this.state.isExtensible})
-        break
-      default:
-        break
-    }
+  buildOptionPanel () {
+    const stateProps = {...this.state}
+    return (
+      <OptionPanel
+        handleOptionToggle={(e) => this.setState({[e.target.id]: !this.state[e.target.id]})}
+        setDate={data => this.setState(
+          {expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}
+        )}
+        toggleAlias={(e) => this.setState({alias: e.target.value})}
+        deletion={() => {
+          this.setState({hasMainImage: false, mainImage: undefined}, () =>
+            this.setUpEventHandling(this.state.choices))
+        }}
+        toggleDescription={(e) => this.setState({description: e.target.value})}
+        handleAdd={(tag) => this.handleAdd(tag)}
+        handleDelete={(i) => this.handleDelete(i)}
+        toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
+        {...stateProps}
+      />
+    )
   }
 
   render () {
-    this.setUpEventHandling(this.state.choices)
-    const showToggleText = <div style={{fontSize: '80%'}}>SHOW OPTIONS<FA name='caret-right' className='fa-2x fa-fw' /></div>
-    const hideToggleText = <div style={{fontSize: '80%'}}>HIDE OPTIONS<FA name='caret-down' className='fa-2x fa-fw' /></div>
-    const optionsClass = { expanded: this.state.optionsExpanded }
     return (
       <span id='add-form'>
         <h1 className='create-title'>🌨 Create a Snowballot</h1>
         <div className='newSnowballot-section'>
-          <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={this.handleSubmit}>
-            <input
-              id='title-input'
-              type='text'
-              value={this.state.title}
-              placeholder='Enter title of new snowballot'
-              onChange={(e) => this.setState({title: e.target.value})}
-            />
-            <div className='newSbOptions newSbSection'>
-              <div id='options-top' onClick={() => this.toggleOptionsMenu()}>
-                <div className='header'>Options</div>
-                <div id='toggleOptionsMenu' onClick={() => this.toggleOptionsMenu()}>{this.state.optionsExpanded ? hideToggleText : showToggleText}</div>
-              </div>
-              <div id='real-options-section' className={classnames(optionsClass)}>
-                <OptionPanel
-                  doesExpire={this.state.doesExpire}
-                  handleOptionToggle={(e) => this.handleOptionToggle(e)}
-                  setDate={data => this.setState(
-                    {expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}
-                  )}
-                  isPrivate={this.state.isPrivate}
-                  alias={this.state.alias}
-                  toggleAlias={(e) => this.setState({alias: e.target.value})}
-                  extensible={this.state.isExtensible}
-                  hasMainImage={this.state.hasMainImage}
-                  deletion={() => {
-                    this.setState({hasMainImage: false, mainImage: undefined}, () =>
-                      this.setUpEventHandling(this.state.choices))
-                  }}
-                  description={this.state.description}
-                  toggleDescription={(e) => this.setState({description: e.target.value})}
-                  handleAdd={this.handleAdd}
-                  handleDelete={this.handleDelete}
-                  tags={this.state.tags}
-                  suggestions={this.state.suggestions}
-                />
-              </div>
-            </div>
-            <div className='newSbSection newSbChoices'>
-              <div className='header'>Choices</div>
-              {this.renderChoices()}
-              <div id='addchoice' className='button secondary' onClick={this.addChoice}><FA name='plus' className='fa fa-fw' /> add choice</div>
-            </div>
-            <div id='submitSnowballot' className='button primary' onClick={this.handleSubmit}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
+          <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
+            <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
+            {this.buildOptionPanel()}
+            <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />
+            <div id='submitSnowballot' className='button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
           </form>
         </div>
       </span>

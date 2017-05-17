@@ -11,7 +11,7 @@ const OptionUnit = function (props) {
       text: 'Lock voting on snowballot after certain time?',
       selector: (
         <FA
-          id='option-expire'
+          id='doesExpire'
           name={doesExpire ? 'check-circle' : 'circle'}
           className='fa fa-fw custom-check'
           onClick={(e) => toggle(e)}
@@ -26,7 +26,7 @@ const OptionUnit = function (props) {
       text: 'Make snowballot private?',
       selector: (
         <FA
-          id='option-private'
+          id='isPrivate'
           name={isPrivate ? 'check-circle' : 'circle'}
           className='fa fa-fw custom-check'
           onClick={(e) => toggle(e)}
@@ -60,7 +60,7 @@ const OptionUnit = function (props) {
       text: 'Allow voters to add new choices?',
       selector: (
         <FA
-          id='option-extensible'
+          id='isExtensible'
           name={extensible ? 'check-circle' : 'circle'}
           className='fa fa-fw custom-check'
           onClick={(e) => toggle(e)}

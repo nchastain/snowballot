@@ -1,5 +1,6 @@
 import React from 'react'
 import OptionUnit from './OptionUnit'
+import FA from 'react-fontawesome'
 
 const OptionPanel = (props) => {
   const {
@@ -9,7 +10,7 @@ const OptionPanel = (props) => {
     isPrivate,
     alias,
     toggleAlias,
-    extensible,
+    isExtensible,
     hasMainImage,
     deletion,
     description,
@@ -17,49 +18,68 @@ const OptionPanel = (props) => {
     handleAdd,
     handleDelete,
     tags,
-    suggestions
+    suggestions,
+    toggleMenu,
+    optionsExpanded
   } = props
+  const label = (type) => {
+    const hidden = type === 'hidden'
+    return (
+      <div style={{fontSize: '80%'}}>
+        {hidden ? 'SHOW' : 'HIDE'} OPTIONS
+        <FA name={hidden ? 'caret-right' : 'caret-down'} className='fa-2x fa-fw' />
+      </div>
+    )
+  }
   return (
-    <span>
-      <OptionUnit
-        name='expire'
-        doesExpire={doesExpire}
-        toggle={(e) => handleOptionToggle(e)}
-        setDate={(data) => setDate(data)}
-      />
-      <OptionUnit
-        name='private'
-        isPrivate={isPrivate}
-        toggle={(e) => handleOptionToggle(e)}
-      />
-      <OptionUnit
-        name='alias'
-        isPrivate={isPrivate}
-        alias={alias}
-        toggle={(e) => toggleAlias(e)}
-      />
-      <OptionUnit
-        name='extend'
-        extensible={extensible}
-        toggle={(e) => handleOptionToggle(e)}
-      />
-      <OptionUnit
-        name='photo'
-        hasMainImage={hasMainImage}
-        deletion={() => deletion()}
-      />
-      <OptionUnit
-        name='description'
-        description={description}
-        toggle={(e) => toggleDescription(e)}
-      />
-      <OptionUnit
-        name='tags'
-        tagAdd={handleAdd}
-        tagDelete={handleDelete}
-        tags={tags}
-        suggestions={suggestions}
-      />
+    <span id='options-panel' className='newSbOptions newSbSection'>
+      <div id='options-top' onClick={() => toggleMenu()}>
+        <div className='header'>Options</div>
+        <div id='toggleOptionsMenu' onClick={() => toggleMenu()}>
+          {optionsExpanded ? label() : label('hidden') }
+        </div>
+      </div>
+      <div id='real-options-section' className={optionsExpanded ? 'expanded' : ''}>
+        <OptionUnit
+          name='expire'
+          doesExpire={doesExpire}
+          toggle={(e) => handleOptionToggle(e)}
+          setDate={(data) => setDate(data)}
+        />
+        <OptionUnit
+          name='private'
+          isPrivate={isPrivate}
+          toggle={(e) => handleOptionToggle(e)}
+        />
+        <OptionUnit
+          name='alias'
+          isPrivate={isPrivate}
+          alias={alias}
+          toggle={(e) => toggleAlias(e)}
+        />
+        <OptionUnit
+          name='extend'
+          extensible={isExtensible}
+          toggle={(e) => handleOptionToggle(e)}
+        />
+        <OptionUnit
+          name='photo'
+          hasMainImage={hasMainImage}
+          deletion={() => deletion()}
+        />
+        <OptionUnit
+          name='description'
+          description={description}
+          toggle={(e) => toggleDescription(e)}
+        />
+        <OptionUnit
+          name='tags'
+          tagAdd={handleAdd}
+          tagDelete={handleDelete}
+          tags={tags}
+          suggestions={suggestions}
+        />
+      </div>
     </span>
   )
 }

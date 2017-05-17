@@ -1,3 +1,70 @@
 #options-panel {
-  
+  &.newSbOptions.newSbSection {
+    .fa-2x {
+      line-height: inherit !important;
+      margin-top: -4px;
+    }
+    text-align: left;
+    background-color: #eee;
+    padding: 0.5rem;
+    margin-bottom: 10px;
+    display: block;
+    .header {
+      float: left;
+      display: inline-block;
+      color: $primary;
+      text-transform: uppercase;
+      font-size: 80%;
+      margin-bottom: 10px;
+    }
+  }
+
+  #options-top {
+    display: inline-block;
+    width: 100%;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .header {
+    float: left;
+    display: inline-block;
+    color: $primary;
+    text-transform: uppercase;
+    font-size: 80%;
+    margin-bottom: 10px;
+  }
+
+  #toggleOptionsMenu {
+    font-size: 12px;
+    float: right;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px $dark-grey;
+    display: inline-block;
+    background-color: white;
+    color: $primary;
+    padding-left: 10px;
+    padding-top: 5px;
+    .fa {
+      color: $primary;
+      margin-left: -5px;
+    }
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
+
+  #real-options-section {
+    max-height: 0px;
+    transition: max-height 0.3s ease-in;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    &.expanded {
+      max-height: 500px;
+      padding-bottom: 10px;
+    }
+  }
 }
