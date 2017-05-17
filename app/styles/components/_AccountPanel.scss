@@ -1,0 +1,24 @@
+#account-panel {
+  #account-settings {
+    .button {
+      background-color: white !important;
+    }
+  }
+
+  input {
+    margin-top: 20px !important;
+  }
+
+  .button {
+    background-color: $primary !important;
+  }
+
+  #upload-button, #account-deletion, #account-delete-button {
+    margin-top: 20px !important;
+  }
+
+  .fa {
+    vertical-align: initial;
+    color: $primary;
+  }
+}

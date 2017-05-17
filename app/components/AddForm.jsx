@@ -1,27 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import * as actions from '.././actions'
-import Redux from 'redux'
 import DateTime from 'react-datetime'
 import uuid from 'uuid'
 import Tagger from './Tagger'
 import Choice from './Choice'
 import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
-import ReactPlayer from 'react-player'
 import ChoiceMediaPane from './ChoiceMediaPane'
-import omit from 'object.omit'
-
-let createHandlers = function (dispatch) {
-  let handleSubmit = function (options, choices) {
-    dispatch(actions.startAddSb(options, choices))
-  }
-  return {
-    handleSubmit
-  }
-}
 
 let contextForComponent
 
@@ -53,16 +40,12 @@ class AddForm extends React.Component {
     this.checkTab = this.checkTab.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.handlers = createHandlers(props.dispatch)
     this.state = initialState
     contextForComponent = this
   }
 
   validateSb () {
     if (this.state.title.length === 0) throw new Error('Snowballots must have a title.')
-    const title = this.state.title
-    const hasMainImage = this.state.hasMainImage || false
-    const mainImage = this.state.mainImage || ''
     const privateAlias = this.state.privateAlias || uuid.v4().replace(/-/g, '').substring(0, 10)
     const publicAlias = this.state.alias.length > 0 ? this.state.alias : title.replace(/\s+/g, '').substring(0, 10)
     const alias = this.state.isPrivate ? privateAlias : publicAlias
@@ -72,23 +55,20 @@ class AddForm extends React.Component {
       dupesObj[choice.title.toLowerCase()] ? duplicate = true : dupesObj[choice.title.toLowerCase()] = choice
       return choice.title.length > 0 && !duplicate
     })
-    const isPrivate = this.state.isPrivate
-    const expires = this.state.expires || null
-    const isExtensible = this.state.isExtensible || false
-    const description = this.state.description || ''
-    const tags = this.state.tags || []
-    if (filteredChoices.length < 2 && !isExtensible) throw new Error('Snowballots that cannot by extended by other users must be created with at least 2 choices.')
+    if (filteredChoices.length < 2 && !this.state.isExtensible) {
+      throw new Error('Snowballots that cannot by extended by other users must be created with at least 2 choices.')
+    }
     const options = {
-      title: title,
+      title: this.state.title,
       alias: alias,
       privateAlias: privateAlias,
-      isPrivate: isPrivate,
-      expires: expires,
-      isExtensible: isExtensible,
-      tags: tags,
-      description: description,
-      mainImage: mainImage,
-      hasMainImage: hasMainImage
+      isPrivate: this.state.isPrivate,
+      expires: this.state.expires || null,
+      isExtensible: this.state.isExtensible || false,
+      tags: this.state.tags || [],
+      description: this.state.description || '',
+      mainImage: this.state.mainImage || '',
+      hasMainImage: this.state.hasMainImage || false
     }
     return {options, filteredChoices}
   }
@@ -205,12 +185,12 @@ class AddForm extends React.Component {
     this.choiceExtraUpdate()
     const validSb = this.validateSb()
     this.setState(initialState, function () {
-      this.setState({choices: [ //  not only do I have to inexplicably use a callback here, but I have to specify this piece of state.
+      this.setState({choices: [
         {title: '', votes: 0, id: 1, info: ''},
         {title: '', votes: 0, id: 2, info: ''}
       ]})
     })
-    this.handlers.handleSubmit(validSb.options, validSb.filteredChoices)
+    this.props.dispatch(actions.startAddSb(validSb.options, validSb.filteredChoices))
     this.addAllImages(validSb.options.privateAlias)
     this.props.history.push(`/sbs/${validSb.options.alias}`)
   }
@@ -247,7 +227,6 @@ class AddForm extends React.Component {
   }
 
   checkTab (e) {
-    // checks if user pressed tab key and on last input
     const idx = parseInt(e.target.id.match(/\d+$/).join(''))
     if (e.keyCode === 9 && idx === this.state.choices.length) {
       this.addChoice()

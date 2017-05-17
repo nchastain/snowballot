@@ -128,23 +128,7 @@
 			}
 		}
 	}
-
-	#account-panel {
-		.button {
-			background-color: $primary !important;
-		}
-		#upload-button, #account-deletion, #account-delete-button {
-			margin-top: 10px;
-		}
-		.fa {
-			vertical-align: initial;
-			color: $primary;
-		}
-		input {
-			margin-top: 10px;
-		}
-	}
-
+	
 	#logout-button {
 		display: inline-block !important;
 		background-color: white;

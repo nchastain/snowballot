@@ -2,10 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as actions from '../actions'
-import SearchInput, {createFilter} from 'react-search-input'
+import SearchInput from 'react-search-input'
 import FA from 'react-fontawesome'
 import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
+import PageList from './PageList'
+import { getCurrentPage } from '.././utilities/generalUtils'
+import { getSearchResults } from '.././utilities/sbUtils'
 
 class Discover extends React.Component {
   constructor (props) {
@@ -18,22 +21,22 @@ class Discover extends React.Component {
       numPages: props.sbs.length === 0
         ? 1
         : Math.ceil(props.sbs.length / this.itemsPerPage),
-      currentPage: this.getCurrentPage(props.history.location.pathname) || 1
+      currentPage: getCurrentPage(props.history.location.pathname) || 1
     }
   }
 
   componentWillMount () {
     this.props.dispatch(actions.findPublicSbs())
-    this.getSearchResults(this.state.searchTerm)
+    getSearchResults(this.state.searchTerm, this.props.sbs)
   }
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      currentPage: this.getCurrentPage(nextProps.history.location.pathname),
+      currentPage: getCurrentPage(nextProps.history.location.pathname),
       searchTerm: this.getSearchTermFromURL(nextProps.history.location.search),
       numPages: nextProps.sbs.length === 0
         ? 1
-        : Math.ceil(this.getSearchResults(this.state.searchTerm).length / this.state.itemsPerPage)
+        : Math.ceil(getSearchResults(this.state.searchTerm, this.props.sbs).length / this.state.itemsPerPage)
     })
     this.getImages(this.props.sbs)
   }
@@ -47,33 +50,15 @@ class Discover extends React.Component {
     return pageStr
   }
 
-  getSearchResults (term) {
-    const KEYS_TO_FILTERS = ['title']
-    const filteredSbs = term !== ''
-      ? this.props.sbs.filter(createFilter(term, KEYS_TO_FILTERS))
-      : this.props.sbs
-    return filteredSbs.sort((a, b) => {
-      return b.createdAt - a.createdAt
-    })
-  }
-
   searchUpdated (term) {
     if (this.state.currentPage !== 1) this.props.history.push(`/discover/page=1?q=${term}`)
     else {
       this.props.history.push(`/discover/page=1?q=${term}`)
-      const filteredSbs = this.getSearchResults(term)
+      const filteredSbs = getSearchResults(term, this.props.sbs)
       const newNumPages = Math.ceil(filteredSbs.length / this.state.itemsPerPage)
       const parsedNumPages = newNumPages !== 0 ? newNumPages : 1
       this.setState({currentPage: 1, searchTerm: term || '', numPages: parsedNumPages || 1})
     }
-  }
-
-  getCurrentPage (fullURL) {
-    let queryStr = fullURL.substr(fullURL.lastIndexOf('/') + 1)
-    let pageStr = queryStr.substr(queryStr.lastIndexOf('=') + 1)
-    if (pageStr === 'discover') return 1
-    let pageNum = parseInt(pageStr)
-    return pageNum
   }
 
   renderSearch () {
@@ -92,7 +77,7 @@ class Discover extends React.Component {
         </div>
         <div id='discover-body-container'>
           <div id='discover-grid'>
-            {this.renderSbs(this.getSearchResults(this.state.searchTerm))}
+            {this.renderSbs(getSearchResults(this.state.searchTerm, this.props.sbs))}
           </div>
         </div>
       </span>
@@ -121,7 +106,7 @@ class Discover extends React.Component {
         ? 'calc(75% + 0.5rem - 12px)'
         : '0.5rem'
     }
-    const getBoxClasses = function (sb) {
+    const getBoxClasses = (sb) => {
       return {
         'sb-inner-container': true,
         'sb-with-image': sb.hasMainImage || false
@@ -145,53 +130,11 @@ class Discover extends React.Component {
     ))
   }
 
-  renderPages () {
-    const pages = []
-    const fullPath = this.props.history.location.pathname
-    const query = this.state.searchTerm !== '' ? `q=${this.state.searchTerm}` : ''
-    for (let i = 1; i < this.state.numPages + 1; i++) {
-      pages.push(
-        <Link
-          className={i === this.getCurrentPage(fullPath) ? 'active-page' : ''}
-          key={i}
-          id={`page-${i}`}
-          to={`/discover/page=${i}?${query}`}>{i}
-        </Link>
-      )
-    }
-    const arrowClasses = (hidden) => { return {'page-arrow': true, 'hidden': hidden} }
-    const withPages = (
-      <span>
-        <div id='search-results-message'>{this.state.searchTerm !== '' ? `${this.getSearchResults(this.state.searchTerm).length} snowballots found` : ''}</div>
-        <div className='pagination'>
-          <div id='search-results-icons'>
-            <Link
-              className={classnames(arrowClasses(this.getCurrentPage(fullPath) === 1))}
-              to={`/discover/page=${this.getCurrentPage(fullPath) - 1}?q=${query}`}
-            >
-              &lsaquo;
-            </Link>
-            {pages}
-            <Link
-              className={classnames(arrowClasses(this.getCurrentPage(fullPath) === this.state.numPages))}
-              to={`/discover/page=${this.getCurrentPage(fullPath) + 1}?q=${query}`}
-            >
-              &rsaquo;
-            </Link>
-          </div>
-        </div>
-      </span>
-    )
-    return pages.length > 1 ? withPages : <div className='pagination' />
-  }
-
   render () {
     return (
       <div id='discover'>
         {this.renderSearch()}
-        <div id='discover-pages'>
-          {this.renderPages()}
-        </div>
+        <PageList history={this.props.history.location.pathname} searchTerm={this.state.searchTerm} numPages={this.state.numPages} sbs={this.props.sbs} />
       </div>
     )
   }

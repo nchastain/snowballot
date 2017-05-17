@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import * as actions from '.././actions'
-import Redux from 'redux'
 import moment from 'moment'
 import classnames from 'classnames'
 import SharePanel from './SharePanel'
 import { imagesRef } from '../firebase/constants'
-import ReactPlayer from 'react-player'
 import IncludedMedia from './IncludedMedia'
 import omit from 'object.omit'
 import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
 import Tagger from './Tagger'
+import { doesExpire, isCreator, previewImage, findLeader } from '.././utilities/sbUtils'
 
 ReactModal.defaultStyles.content.top = '25%'
 ReactModal.defaultStyles.content.bottom = 'calc(75% - 125px)'
@@ -44,22 +43,18 @@ let setDOMReferences = function (e) {
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    let voted = props.sb.userChoice
-    let votedChoiceId = props.sb.userVoted
-    let expired = false
-    if (typeof props.sb.expires === 'string') expired = moment(new Date(props.sb.expires)).isBefore(moment(Date.now()))
     this.state = {
       tags: props.sb.tags || [],
       newChoice: '',
       isExtensible: props.sb.isExtensible,
-      voted: voted,
-      votedChoiceId: votedChoiceId,
-      expired: expired,
+      voted: props.sb.userChoice,
+      votedChoiceId: props.sb.userVoted,
       suggestions: [],
+      expires: props.sb.expires,
       isPrivate: props.sb.isPrivate,
       doExpire: Boolean(props.sb.expires),
       description: props.sb.description,
-      mainImage: props.sb.mainImage,
+      mainImage: props.sb.mainImage
     }
     this.handlers = createHandlers(props.dispatch)
     this.sbClasses = this.sbClasses.bind(this)
@@ -78,47 +73,14 @@ export class SbDetail extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    let expired = false
-    let voted = false
-    let tags = this.state.tags
-    let description = this.state.description
-    let isExtensible = this.state.isExtensible
-    let votedChoiceId = ''
-    let mainImage = this.state.mainImage
-    let isPrivate = this.state.isPrivate
-    if (nextProps.sb) {
-      if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
-      if (nextProps.sb.choices && nextProps.sb.choices.length !== 0 && nextProps.sb.privateAlias && nextProps.sb.privateAlias !== '') this.updateSbImages(nextProps)
+    let newState = {}
+    for (const prop in nextProps) {
+      if (nextProps[prop] !== this.props[prop]) newState[prop] = nextProps[prop]
     }
-    if (nextProps.user.favorites) {
-      this.setState({favorited: nextProps.user.favorites[nextProps.sb.id]})
+    if (nextProps.sb.choices > 1) {
+      this.setState(newState)
+      this.updateSbImages(nextProps)
     }
-    if (nextProps.sb && nextProps.sb.userVoted && nextProps.sb.userChoice) {
-      voted = nextProps.sb.userVoted
-      votedChoiceId = nextProps.sb.userChoice
-    }
-    if (nextProps.sb && nextProps.user && nextProps.user.favorited) {
-      this.setState({'favorited': nextProps.user.favorited[nextProps.sb.id]})
-    }
-    if (nextProps.sb.expires) {
-      if (typeof nextProps.sb.expires === 'string') expired = moment(new Date(nextProps.sb.expires)).isBefore(moment(Date.now()))
-    }
-    if (nextProps.sb.isPrivate) {
-      isPrivate = nextProps.sb.isPrivate
-    }
-    if (nextProps.sb.tags) {
-      tags = nextProps.sb.tags
-    }
-    if (nextProps.sb.description) {
-      description = nextProps.sb.description
-    }
-    if (nextProps.sb.mainImage) {
-      mainImage = nextProps.sb.mainImage
-    }
-    if (nextProps.sb.isExtensible) {
-      isExtensible = nextProps.sb.isExtensible
-    }
-    this.setState({voted, votedChoiceId, expired, isPrivate, tags, description, mainImage, isExtensible})
   }
 
   updateSbImages (props) {
@@ -163,14 +125,9 @@ export class SbDetail extends Component {
   }
 
   vote (e, choiceId) {
-    let expired = false
     let oldDOMRefs = setDOMReferences(e)
     const {selected, votedBox, plusText, voteCount} = oldDOMRefs
-    if (typeof this.props.sb.expires === 'string') expired = moment(new Date(this.props.sb.expires)).isBefore(moment(Date.now()))
-    if (expired) {
-      this.setState({expired: true})
-      return
-    }
+    if (doesExpire(this.state.expires)) return
     if (!selected) {
       e.currentTarget.querySelector('.selection-icon.selected').style.display = 'inline-block'
       e.currentTarget.querySelector('.selection-icon.unselected').style.display = 'none'
@@ -230,8 +187,8 @@ export class SbDetail extends Component {
     return classnames({
       'box-header': true,
       'clearfix': true,
-      'selected': !this.state.expired && choice.id === this.props.sb.userChoice,
-      'leader': this.state.expired && this.isTouched(choices) && choice.id === this.findLeader(choices).id
+      'selected': !doesExpire(this.state.expires) && choice.id === this.props.sb.userChoice,
+      'leader': doesExpire(this.state.expires) && this.isTouched(choices) && choice.id === findLeader(choices).id
     })
   }
 
@@ -264,7 +221,7 @@ export class SbDetail extends Component {
   }
 
   hoverVote (e) {
-    if (!this.props.user.uid || this.state.expired) return
+    if (!this.props.user.uid || doesExpire(this.state.expires)) return
     let DOMRefs = setDOMReferences(e)
     const {selected, plusText, voteCount} = DOMRefs
     const offset = 10
@@ -298,18 +255,6 @@ export class SbDetail extends Component {
     }
   }
 
-  findLeader (choices) {
-    let most = 0
-    let leader = null
-    choices.forEach(function (choice) {
-      if (choice.votes > most) {
-        most = choice.votes
-        leader = choice
-      }
-    })
-    return leader
-  }
-
   renderCreatorMessage () {
     return moment.unix(this.props.sb.createdAt).subtract(1, 'hours').isBefore(moment().unix())
     ? <div className='creator-message'>
@@ -337,13 +282,13 @@ export class SbDetail extends Component {
   renderExpiresMessage () {
     return (
       <span className='expiration-info'>
-        <FA name='clock-o' className='fa fa-fw' />This snowballot {this.state.expired ? 'has expired.' : `expires after ${this.props.sb.expires}` }
+        <FA name='clock-o' className='fa fa-fw' />This snowballot {doesExpire(this.state.expires) ? 'has expired.' : `expires after ${this.props.sb.expires}` }
       </span>
     )
   }
 
   addChoice () {
-    if (this.state.expired) this.setState({error: 'Sorry, this snowballot has expired!'})
+    if (doesExpire(this.state.expires)) this.setState({error: 'Sorry, this snowballot has expired!'})
     const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
     if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
     else {
@@ -658,7 +603,7 @@ export class SbDetail extends Component {
   handleUpload (e) {
     let files = e.target.files
     let that = this
-    this.previewImage(files[0])
+    previewImage(files[0], `#gallery-img-main`)
     this.setState({hasMainImage: true, mainImage: files[0]}, function () {
       that.handleSbChange('mainImage')
       that.handleSbChange('hasMainImage')
@@ -671,13 +616,6 @@ export class SbDetail extends Component {
     this.startUpdateSb(this.props.sb.privateAlias, {mainImage: file})
     if (file === 'deleted') newImageRef.delete().then(() => console.log('Removed a file!'))
     else newImageRef.put(file).then(() => console.log('Uploaded a file!'))
-  }
-
-  previewImage (file) {
-    let img = document.querySelector(`#gallery-img-main`)
-    let reader = new FileReader()
-    reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result } })(img)
-    reader.readAsDataURL(file)
   }
 
   handleDelete (i) {
@@ -701,10 +639,6 @@ export class SbDetail extends Component {
     })
   }
 
-  isCreator () {
-    return this.props.user.uid === this.props.sb.creator
-  }
-
   updateField (field) {
     !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false})
   }
@@ -723,7 +657,7 @@ export class SbDetail extends Component {
       'favorited': this.state.favorited
     }
     const editor = (field) => <div className='editor' onClick={() => this.updateField(field)}><FA name='pencil' className='fa fa-fw' /></div>
-    const extensibleOrCreated = this.props.sb.isExtensible || this.isCreator()
+    const extensibleOrCreated = this.props.sb.isExtensible || isCreator(this.props.user.uid, this.props.sb.creator)
     const editForm = (editField) => {
       return (
         <span className='edit-form' >
@@ -743,7 +677,7 @@ export class SbDetail extends Component {
           />
         </div>
           {this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
-        <h4 className='sb-title'>{this.props.sb.title}</h4>{this.isCreator() && editor('title')}
+        <h4 className='sb-title'>{this.props.sb.title}</h4>{isCreator(this.props.user.uid, this.props.sb.creator) && editor('title')}
         {this.state.editing && editForm('title')}
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
@@ -776,7 +710,7 @@ export class SbDetail extends Component {
             </span>
           )}
         </ul>
-        {extensibleOrCreated && this.props.user.uid && !this.state.expired && this.showAddChoice()}
+        {extensibleOrCreated && this.props.user.uid && !doesExpire(this.state.expires) && this.showAddChoice()}
       </div>
     )
   }
@@ -788,8 +722,8 @@ export class SbDetail extends Component {
         <div className='above-sb-container'>
           <div className='other-sb-info'>
             {this.props.sb.expires && this.renderExpiresMessage()}
-            {this.isCreator() && this.renderCreatorMessage()}
-            {this.isCreator() && this.renderEditMessage()}
+            {isCreator(this.props.user.uid, this.props.sb.creator) && this.renderCreatorMessage()}
+            {isCreator(this.props.user.uid, this.props.sb.creator) && this.renderEditMessage()}
             {this.renderAuthMessage()}
           </div>
         </div>
