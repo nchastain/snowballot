@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { isCreator, doesExpire } from './sbUtils'
+import { isCreator, doesExpire } from 'utilities/sbUtils'
 import FA from 'react-fontawesome'
 import { Link } from 'react-router-dom'
 
@@ -42,4 +42,12 @@ export const authMessage = function (userID) {
     </div>
   )
   return userID ? null : loginMessage
+}
+
+export const setDOMReferences = function (e) {
+  const plusText = document.querySelector('.box-header.selected .plus')
+  const voteCount = document.querySelector('.box-header.selected .vote-count')
+  const selected = e.currentTarget.className.indexOf('selected') !== -1
+  const votedBox = document.querySelector('.box-header.selected')
+  return {selected, votedBox, plusText, voteCount}
 }

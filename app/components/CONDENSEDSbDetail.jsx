@@ -7,17 +7,18 @@ import * as actions from '.././actions'
 import { imagesRef } from '../firebase/constants'
 import OptionPanel from './OptionPanel'
 import FavoritePanel from './FavoritePanel'
+import FormInput from './FormInput'
 import DeleteModal from './DeleteModal'
-import SharePanel from './SharePanel'
 import SbChoices from './SbChoices'
-import { manipulateDOMonVote, createStateFromProps } from 'utilities/generalUtils'
-import { doesExpire, isCreator, previewImage, updateImage } from 'utilities/sbUtils'
+import SharePanel from './SharePanel'
+import { modalStyles, createStateFromProps } from 'utilities/generalUtils'
+import { isCreator, previewImage, updateImage } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUtils'
 
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {tags: []}
+    this.state = {}
   }
 
   componentWillMount () { this.props.dispatch(actions.findSb(this.props.match.params.alias)) }
@@ -35,65 +36,6 @@ export class SbDetail extends Component {
     props.sb.choices.forEach(function (choice) { if (choice.photo) updateImage(props.sb.privateAlias, choice.id) })
     if (props.sb.hasMainImage) updateImage(props.sb.privateAlias, 'main')
   }
-
-  vote (e, choiceId) {
-    const DOM = manipulateDOMonVote(e, choiceId, this.state.expires, this.props.sb.choices, this.props.sb.userChoice)
-    this.props.dispatch(actions.startUpdateSb(this.props.sb.id, DOM.updates, DOM.options))
-    this.setState({voted: DOM.freshVote, votedChoiceId: DOM.freshVote ? choiceId : ''})
-  }
-
-  addChoice () {
-    if (doesExpire(this.state.expires)) this.setState({error: 'Sorry, this snowballot has expired!'})
-    const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
-    if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
-    else {
-      const choice = {
-        title: this.state.newChoice,
-        votes: 0,
-        id: this.props.sb.choices.length + 1
-      }
-      const options = {}
-      this.props.dispatch(actions.startUpdateSb((this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)))
-      this.setState({newChoice: ''})
-    }
-  }
-
-  handleAddChoiceChange (e) {
-    const code = (e.keyCode ? e.keyCode : e.which)
-    this.setState({error: ''})
-    if (code === 13) {  // Enter
-      const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
-      if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
-      else this.addChoice()
-    }
-    this.setState({newChoice: e.target.value})
-  }
-
-  showAddChoice (expires) {
-    const extensibleOrCreated = this.props.sb.isExtensible || isCreator(this.props.user.uid, this.props.sb.creator)
-    if (extensibleOrCreated && this.props.user.uid && !doesExpire(expires)) return
-    return (
-      <span>
-        <input
-          id='detail-add-input'
-          type='text' placeholder='Start typing a new choice here.'
-          onChange={(e) => this.handleAddChoiceChange(e)}
-          onKeyDown={(e) => this.handleAddChoiceChange(e)}
-          value={this.state.newChoice}
-        />
-        <div
-          id='detail-add-choice'
-          className='button secondary'
-          onClick={() => this.addChoice()}
-        >
-          <FA name='plus' className='fa fa-fw' />add choice
-        </div>
-        {this.state.error ? <div className='error-message'>{this.state.error}</div> : null}
-      </span>
-    )
-  }
-
-  hasExtra ({info, photo, GIF, youtube, link}) { return info || photo || GIF || youtube || link }
 
   favoriteSnowballot (id) {
     this.setState({favorited: !this.state.favorited}, function () {
@@ -116,7 +58,7 @@ export class SbDetail extends Component {
         <DeleteModal toggle={() => this.toggleModal('showModal')} showModal={this.state.showModal} deleteConfirm={() => this.reallyDelete()} />
         <div className='edit-button button' onClick={() => this.toggleModal('showOptionsModal')}>
           <FA name='pencil' className='fa fa-fw' />Edit snowballot options
-          <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay'>
+          <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay' style={modalStyles}>
             <div id='close-modal' onClick={() => this.toggleModal('showOptionsModal')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top'>Edit Snowballot Options</div>
             <OptionPanel
@@ -125,8 +67,8 @@ export class SbDetail extends Component {
               toggleAlias={(e) => this.setState({alias: e.target.value})}
               deletion={() => { this.setState({hasMainImage: false, mainImage: undefined}, () => this.setUpEventHandling(this.state.choices)) }}
               toggleDescription={(e) => this.setState({description: e.target.value})}
-              handleAdd={(tag) => this.handleAdd(tag, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
-              handleDelete={(i) => this.handleDelete(i, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
+              handleAdd={(tag) => this.handleAddTag(tag, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
+              handleDelete={(i) => this.handleDeleteTag(i, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
               toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
               optionsExpanded
               showButton={false}
@@ -156,26 +98,9 @@ export class SbDetail extends Component {
     else newImageRef.put(file).then(() => console.log('Uploaded a file!'))
   }
 
-  handleDelete (i) {
-    let tags = this.state.tags
-    let that = this
-    tags.splice(i, 1)
-    this.setState({tags: tags}, function () {
-      that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
-    })
-  }
+  handleDeleteTag (i, cb) { this.setState({tags: this.state.tags.splice(i, 1)}, cb) }
 
-  handleAdd (tag) {
-    let tags = this.state.tags
-    let that = this
-    tags.push({
-      id: tags.length + 1,
-      text: tag
-    })
-    this.setState({tags: tags}, function () {
-      that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
-    })
-  }
+  handleAddTag (tag, cb) { this.setState({tags: this.state.tags.push({id: this.state.tags.length + 1, text: tag})}, cb) }
 
   updateField (field) { !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false}) }
 
@@ -188,26 +113,18 @@ export class SbDetail extends Component {
 
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0 || typeof this.props.sb.choices === 'undefined') return null
-    const taglist = this.props.sb.tags && this.props.sb.tags.length > 0 ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
+    const taglist = this.state.tags && this.state.tags.length > 0 ? this.state.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
     const editor = (field) => <div className='editor' onClick={() => this.updateField(field)}><FA name='pencil' className='fa fa-fw' /></div>
-    const editForm = (editField) => {
-      return (
-        <span className='edit-form' >
-          <input type='text' id={`edit-${editField}`} placeholder={`Enter new ${editField} here`} value={this.state[editField]} onChange={(e) => this.setState({[editField]: e.currentTarget.value})} />
-          <div className='button' onClick={() => this.handleSbChange(editField)}>Save</div>
-        </span>
-      )
-    }
+    const label = 'title'
     return (
       <div className='snowballots-section'>
         <FavoritePanel favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id)} />
         {this.state.tags && this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         <h4 className='sb-title'>{this.props.sb.title}</h4>{isCreator(this.props.user.uid, this.props.sb.creator) && editor('title')}
-        {this.state.editing && editForm('title')}
+        {this.state.editing && <FormInput label={label} value={this.state[label]} onClick={(e) => this.setState({[label]: e.currentTarget.value})} onChange={() => this.handleSbChange(label)} /> }
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
-        <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} vote={(e) => this.vote(e)} />
-        {this.showAddChoice(this.state.expires)}
+        <SbChoices choices={this.state.choices} expires={this.state.expires} userChoice={this.state.userChoice} userID={this.props.user.uid} />
       </div>
     )
   }

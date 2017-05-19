@@ -1,16 +1,9 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 import { connect } from 'react-redux'
-import * as redux from 'redux'
 import * as actions from '../actions'
 import { login, fbLogin, googleLogin, resetPassword } from '../firebase/auth'
 import FA from 'react-fontawesome'
-
-function setErrorMsg (err) {
-  return {
-    loginMessage: err
-  }
-}
 
 export class Login extends Component {
   constructor (props) {
@@ -21,7 +14,9 @@ export class Login extends Component {
       emailLogin: false
     }
   }
-
+  
+  setErrorMsg (err) { return { loginMessage: err } }
+  
   handleSubmit (e) {
     e.preventDefault()
     login(this.email.value, this.pw.value)
@@ -30,14 +25,14 @@ export class Login extends Component {
         actions.login(user.uid)
       })
       .catch((err) => {
-        this.setState(setErrorMsg('Invalid username/password.'))
+        this.setState(this.setErrorMsg('Invalid username/password.'))
       })
   }
 
   resetPassword () {
     resetPassword(this.email.value)
-      .then(() => this.setState(setErrorMsg(`Password reset email sent to ${this.email.value}.`)))
-      .catch((err) => this.setState(setErrorMsg(`Email address not found.`)))
+      .then(() => this.setState(this.setErrorMsg(`Password reset email sent to ${this.email.value}.`)))
+      .catch((err) => this.setState(this.setErrorMsg(`Email address not found.`)))
   }
 
   render () {

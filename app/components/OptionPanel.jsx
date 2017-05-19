@@ -20,8 +20,8 @@ const OptionPanel = (props) => {
     tags,
     suggestions,
     toggleMenu,
-    optionsExpanded,
-    showButton
+    optionsExpanded = true,
+    showButton = true
   } = props
   const label = (type) => {
     const hidden = type === 'hidden'

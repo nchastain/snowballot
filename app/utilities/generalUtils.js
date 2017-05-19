@@ -1,15 +1,7 @@
 import React from 'react'
 import DateTime from 'react-datetime'
-import { doesExpire } from '.././utilities/sbUtils'
-
-export const getCurrentPage = function (fullURL = '/discover') {
-  console.log(fullURL)
-  let queryStr = fullURL.substr(fullURL.lastIndexOf('/') + 1)
-  let pageStr = queryStr.substr(queryStr.lastIndexOf('=') + 1)
-  if (pageStr === 'discover') return 1
-  let pageNum = parseInt(pageStr)
-  return pageNum
-}
+import { doesExpire } from 'utilities/sbUtils'
+import { setDOMReferences } from 'utilities/markupUtils'
 
 export const DatePicker = ({setDate, expires}) => {
   return (
@@ -31,14 +23,6 @@ export const modalStyles = {
     left: '300px',
     right: '300px'
   }
-}
-
-export const setDOMReferences = function (e) {
-  const plusText = document.querySelector('.box-header.selected .plus')
-  const voteCount = document.querySelector('.box-header.selected .vote-count')
-  const selected = e.currentTarget.className.indexOf('selected') !== -1
-  const votedBox = document.querySelector('.box-header.selected')
-  return {selected, votedBox, plusText, voteCount}
 }
 
 export const manipulateDOMonVote = (e, choiceId, expires, choices, userChoice) => {
@@ -78,6 +62,7 @@ export const manipulateDOMonVote = (e, choiceId, expires, choices, userChoice) =
         freshVote = true
       }
     }
+    else if (choice.id === userChoice) choice.votes--
     return choice
   })
   var updates = {
@@ -92,7 +77,8 @@ export const manipulateDOMonVote = (e, choiceId, expires, choices, userChoice) =
   return {updates, options}
 }
 
-export const handleVoteHover = function (e) {
+export const handleVoteHover = function (e, userID, expires) {
+  if (!userID || doesExpire(expires)) return
   let DOMRefs = setDOMReferences(e)
   const {selected, plusText, voteCount} = DOMRefs
   const offset = 10

@@ -6,8 +6,6 @@ import SearchInput from 'react-search-input'
 import FA from 'react-fontawesome'
 import classnames from 'classnames'
 import { imagesRef } from '../firebase/constants'
-import PageList from './PageList'
-import { getCurrentPage } from '.././utilities/generalUtils'
 import { getSearchResults } from '.././utilities/sbUtils'
 
 class Discover extends React.Component {
@@ -16,12 +14,7 @@ class Discover extends React.Component {
     this.itemsPerPage = 16
     this.state = {
       images: {},
-      searchTerm: this.getSearchTermFromURL(props.history.location.search) || ' ',
-      itemsPerPage: this.itemsPerPage,
-      numPages: props.sbs.length === 0
-        ? 1
-        : Math.ceil(props.sbs.length / this.itemsPerPage),
-      currentPage: getCurrentPage(props.history.location.pathname) || 1
+      searchTerm: this.getSearchTermFromURL(props.history.location.search) || ''
     }
   }
 
@@ -32,11 +25,7 @@ class Discover extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      currentPage: getCurrentPage(nextProps.history.location.pathname),
-      searchTerm: this.getSearchTermFromURL(nextProps.history.location.search),
-      numPages: nextProps.sbs.length === 0
-        ? 1
-        : Math.ceil(getSearchResults(this.state.searchTerm, this.props.sbs).length / this.state.itemsPerPage)
+      searchTerm: this.getSearchTermFromURL(nextProps.history.location.search)
     })
     this.getImages(this.props.sbs)
   }
@@ -51,14 +40,8 @@ class Discover extends React.Component {
   }
 
   searchUpdated (term) {
-    if (this.state.currentPage !== 1) this.props.history.push(`/discover/page=1?q=${term}`)
-    else {
-      this.props.history.push(`/discover/page=1?q=${term}`)
-      const filteredSbs = getSearchResults(term, this.props.sbs)
-      const newNumPages = Math.ceil(filteredSbs.length / this.state.itemsPerPage)
-      const parsedNumPages = newNumPages !== 0 ? newNumPages : 1
-      this.setState({currentPage: 1, searchTerm: term || '', numPages: parsedNumPages || 1})
-    }
+    this.props.history.push(`/discover?q=${term}`)
+    this.setState({searchTerm: term || ''})
   }
 
   renderSearch () {
@@ -99,7 +82,6 @@ class Discover extends React.Component {
 
   renderSbs (sbs) {
     let startIdx = this.state.currentPage === 1 ? 0 : (this.state.currentPage - 1) * this.state.itemsPerPage
-    let endIdx = startIdx + this.state.itemsPerPage
     if (document.querySelector('#discover-body-container')) {
       document.querySelector('#discover-body-container').style.paddingBottom =
         sbs.length - startIdx < (this.state.itemsPerPage / 2)
@@ -112,8 +94,8 @@ class Discover extends React.Component {
         'sb-with-image': sb.hasMainImage || false
       }
     }
-    if (sbs.length === 0) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
-    let sortedSbs = sbs.slice(startIdx, endIdx).sort((a, b) => b.createdAt - a.createdAt)
+    if (sbs.length === 0 && this.state.searchTerm) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
+    let sortedSbs = sbs.sort((a, b) => b.createdAt - a.createdAt)
     const that = this
     const getStyleObject = function (sb) {
       const imageUrl = `url('${that.state.images[sb.privateAlias]}')`
@@ -131,12 +113,7 @@ class Discover extends React.Component {
   }
 
   render () {
-    return (
-      <div id='discover'>
-        {this.renderSearch()}
-        <PageList history={this.props.history.location.pathname} searchTerm={this.state.searchTerm} numPages={this.state.numPages} sbs={this.props.sbs} />
-      </div>
-    )
+    return <div id='discover'>{this.renderSearch()}</div>
   }
 }
 

@@ -8,8 +8,7 @@ import { getAccountItem } from '.././utilities/userUtils'
 class AccountPanel extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-    }
+    this.state = {}
   }
 
   changeInfo (type) {
