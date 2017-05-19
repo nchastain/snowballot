@@ -20,7 +20,8 @@ const OptionPanel = (props) => {
     tags,
     suggestions,
     toggleMenu,
-    optionsExpanded
+    optionsExpanded,
+    showButton
   } = props
   const label = (type) => {
     const hidden = type === 'hidden'
@@ -33,12 +34,12 @@ const OptionPanel = (props) => {
   }
   return (
     <span id='options-panel' className='newSbOptions newSbSection'>
-      <div id='options-top' onClick={() => toggleMenu()}>
+      {showButton && <div id='options-top' onClick={() => toggleMenu()}>
         <div className='header'>Options</div>
         <div id='toggleOptionsMenu' onClick={() => toggleMenu()}>
           {optionsExpanded ? label() : label('hidden') }
         </div>
-      </div>
+      </div>}
       <div id='real-options-section' className={optionsExpanded ? 'expanded' : ''}>
         <OptionUnit
           name='expire'

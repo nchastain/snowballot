@@ -56,7 +56,8 @@ module.exports = {
       actions: 'app/actions/index.jsx',
       store: 'app/store/configureStore.jsx',
       reducers: 'app/reducers/reducers.jsx',
-      applicationStyles: 'app/styles/app.scss'
+      applicationStyles: 'app/styles/app.scss',
+      utilities: 'app/utilities'
     },
     extensions: ['', '.js', '.jsx']
   },

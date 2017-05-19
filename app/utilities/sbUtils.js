@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { createFilter } from 'react-search-input'
 import uuid from 'uuid'
+import { imagesRef } from '../firebase/constants'
 
 export const doesExpire = function (expires) {
   if (typeof expires !== 'string') return false
@@ -30,11 +31,7 @@ export const findLeader = function (choices) {
   return leader
 }
 
-export const getVoteSum = function (choices) {
-  let voteTotal = 0
-  choices.forEach(function (choice) { voteTotal += choice.votes })
-  return voteTotal
-}
+export const getVoteSum = choices => choices.reduce((prev, next) => prev.votes + next.votes)
 
 export const getSearchResults = function (term, sbs) {
   const KEYS_TO_FILTERS = ['title']
@@ -94,3 +91,22 @@ export const validateSb = function (sbOptions) {
 }
 
 export const getChoiceNumber = e => parseInt(e.target.id.match(/\d+$/).join(''))
+
+export const updateImage = (alias, selector) => {
+  let imageUrl = imagesRef.child(`${alias}/${selector}`)
+  imageUrl.getDownloadURL().then(function (url) {
+    const imageHolder = document.querySelector(`#image-holder-${selector}`)
+    imageHolder.src = imageHolder === null ? 'http://placehold.it/200x200' : url
+  }).catch(function (error) {
+    switch (error.code) {
+      case 'storage/object_not_found':
+        break
+      case 'storage/unauthorized':
+        break
+      case 'storage/canceled':
+        break
+      case 'storage/unknown':
+        break
+    }
+  })
+}
