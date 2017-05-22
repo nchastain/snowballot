@@ -31,7 +31,7 @@ export const findLeader = function (choices) {
   return leader
 }
 
-export const getVoteSum = choices => choices.reduce((prev, next) => prev.votes + next.votes)
+export const getVoteSum = choices => choices.reduce((prev, next) => prev + next.votes, 0)
 
 export const getSearchResults = function (term, sbs) {
   const KEYS_TO_FILTERS = ['title']
