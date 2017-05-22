@@ -59,7 +59,7 @@ export class Dashboard extends Component {
         </Link>
         <span className='share-panel-outer-container'>
           <span className='dashboard-share-panel-outer-container'>
-            <SharePanel altText={false} iconSize='small' />
+            <SharePanel altText={false} iconSize='small' sb={sb} alias={sb.alias} />
           </span>
         </span>
       </span>
