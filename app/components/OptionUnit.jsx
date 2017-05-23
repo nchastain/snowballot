@@ -111,6 +111,7 @@ const OptionUnit = function (props) {
       text: 'Add tags to this snowballot?',
       etc: (
         <Tagger
+          id='tagger'
           className='tag-holder'
           handleAdd={tagAdd}
           handleDelete={tagDelete}

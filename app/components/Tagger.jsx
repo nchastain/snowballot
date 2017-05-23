@@ -8,7 +8,7 @@ const Tagger = ({ tags, suggestions, handleDelete, handleAdd }) => (
     suggestions={suggestions}
     handleDelete={handleDelete}
     handleAddition={handleAdd}
-    placeholder='Add new tag and press &#39;Enter&#39;'
+    placeholder='Add tag, press &#39;Enter&#39;'
   />
 )
 

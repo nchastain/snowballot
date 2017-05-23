@@ -2,10 +2,9 @@
 
    .Modal {
     position: absolute;
-    top: 200px;
+    top: 10%;
     left: 200px;
     right: 200px;
-    bottom: 200px;
     background-color: white;
     .fa {
       color: $primary;
@@ -64,7 +63,7 @@
 
   #edit-options-modal {
     .ReactModal__Content--after-open {
-      bottom: calc(75% - 600px) !important;
+      bottom: calc(75% - 100px) !important;
     }
   }
 
@@ -72,7 +71,6 @@
     padding: 0px !important;
     border: 0 !important;
     display: inline-block !important; 
-    min-height: 500px;
   }
 
   #modal-top {
@@ -87,7 +85,6 @@
 
   #options-panel {
     padding: 10px;
-    min-height: 400px;
     .option-unit {
       & + .option-unit {
         margin-top: 10px;

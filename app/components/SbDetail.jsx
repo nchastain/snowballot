@@ -10,7 +10,7 @@ import FavoritePanel from './FavoritePanel'
 import DeleteModal from './DeleteModal'
 import SharePanel from './SharePanel'
 import SbChoices from './SbChoices'
-import { manipulateDOMonVote, createStateFromProps } from 'utilities/generalUtils'
+import { createStateFromProps } from 'utilities/generalUtils'
 import { doesExpire, isCreator, previewImage, updateImage } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUtils'
 
@@ -34,12 +34,6 @@ export class SbDetail extends Component {
   updateSbImages (props) {
     props.sb.choices.forEach(function (choice) { if (choice.photo) updateImage(props.sb.privateAlias, choice.id) })
     if (props.sb.hasMainImage) updateImage(props.sb.privateAlias, 'main')
-  }
-
-  vote (e, choiceId) {
-    const DOM = manipulateDOMonVote(e, choiceId, this.state.expires, this.props.sb.choices, this.props.sb.userChoice)
-    this.props.dispatch(actions.startUpdateSb(this.props.sb.id, DOM.updates, DOM.options))
-    this.setState({voted: DOM.freshVote, votedChoiceId: DOM.freshVote ? choiceId : ''})
   }
 
   addChoice () {
@@ -206,7 +200,7 @@ export class SbDetail extends Component {
         {this.state.editing && editForm('title')}
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
-        <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} vote={(e) => this.vote(e)} />
+        <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} />
         {this.showAddChoice(this.state.expires)}
       </div>
     )
@@ -217,7 +211,7 @@ export class SbDetail extends Component {
     const userID = this.props.user.uid
     return (
       <div id='sb-detail'>
-        <SharePanel />
+        <SharePanel alias={alias} />
         <div className='above-sb-container'>{this.buildMessages(this.state.expires, userID, creator, createdAt, alias)}</div>
         <div className='detail-snowballot-container'>{this.renderSb()}</div>
       </div>

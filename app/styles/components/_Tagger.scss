@@ -4,20 +4,22 @@
         position: relative;
         display: inline-block;
         margin-left: 5px;
+        width: 100% !important;
     }
 
     /* Styles for the input */
     div.ReactTags__tagInput {
-        width: 200px;
         border-radius: 2px;
         display: inline-block;
+        &input {
+            width: 300px !important;
+        }
     }
     div.ReactTags__tagInput input.ReactTags__tagInputField,
     div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
         height: 31px;
         margin: 0;
         font-size: 12px;
-        width: 100%;
         border: 1px solid #eee;
     }
 

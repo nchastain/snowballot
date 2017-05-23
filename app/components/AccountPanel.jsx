@@ -75,7 +75,7 @@ class AccountPanel extends React.Component {
 
   render () {
     const accountButton = (setting) => {
-      return <div onClick={() => this.displayAccountPanel(setting.name)}>{setting.label}</div>
+      return <div></div>
     }
     const settings = [
       {name: 'email', label: 'Change email'},
@@ -87,7 +87,7 @@ class AccountPanel extends React.Component {
       <div id='account-panel'>
         <div id='account-section'>
           <div id='account-settings'>
-            {settings.map(setting => <span key={setting.name} className='button'>{accountButton(setting)}</span>)}
+            {settings.map(setting => <span key={setting.name} className='button' onClick={() => this.displayAccountPanel(setting.name)}>{setting.label}</span>)}
             <div id='logout' className='button' onClick={(evt) => {
               this.onLogout(evt)
               logout()
