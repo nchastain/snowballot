@@ -38,7 +38,7 @@ class SbChoices extends React.Component {
     const hasExtra = ({info, photo, GIF, youtube, link}) => info || photo || GIF || youtube || link
     const iconInfo = [{class: 'unselected', name: 'circle-o'}, {class: 'selected', name: 'check-circle'}, {class: 'trophy', name: 'trophy'}]
     return (
-      <ul className='sb-choices'>
+      <ul id='sb-choices' className='sb-choices'>
         {this.props.choices && this.props.choices.map((choice, idx) =>
           <span key={choice.id}>
             <div

@@ -1,0 +1,20 @@
+#register {
+  h1 {
+    font-family: 'FuturaExtraBold';
+  }
+  background-color: white;
+  margin: 2rem;
+  margin-top: 150px;
+  padding: 1rem;
+  font-family: 'Futura';
+  color: $primary;
+  input {
+    width: 25%;
+  }
+  button {
+    background-color: $primary;
+    color: white;
+    border-radius: 5px;
+    padding: 1rem;
+  }
+}

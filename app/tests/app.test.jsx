@@ -1,14 +1,19 @@
-import expect from 'expect';
-import SbList from '.././components/SbList.jsx'
+import expect from 'expect'
+import SbChoices from '.././components/SbChoices'
+import AccountControl from '.././components/AccountControl'
+import TestUtils from 'react-addons-test-utils'
+import shallowTestUtils from 'react-shallow-testutils'
+import chai from 'chai'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
+import Main from '.././components/Main'
+import configure from '.././store/configureStore'
 
 describe('App', () => {
-	it('should properly run tests', () => {
-		expect(1).toBe(1);
-	});
-});
-
-describe('SBList', () => {
-  it('should have the class "snowballot-container"', () => {
-    expect(2).toBe(2)
+  it('should be true', () => {
+    expect(3).toBe(3)
   })
 })
