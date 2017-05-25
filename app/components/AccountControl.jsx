@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 
-const AccountControl = props => {
+export const AccountControl = props => {
   const isActive = navLink => navLink === props.active ? 'active' : ''
   const navclasses = 'navbar-brand link-container right '
   const photoURL = props.user.photoURL

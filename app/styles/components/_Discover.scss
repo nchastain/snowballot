@@ -71,7 +71,7 @@
 		text-align: center;
 		padding: 1rem;
 		/*background-color: rgba(#eee, 0.5);*/
-		background:
+/*		background:
 	linear-gradient(
 		limegreen,
 		transparent
@@ -86,8 +86,9 @@
 		coral,
 		transparent
 	);
-	
+	*/
 background-blend-mode: screen;
+		background-color: rgba(#eee, 0.5);
 		position: absolute;
 		height: calc(100% - 1rem);
 		width: calc(100% - 1rem);

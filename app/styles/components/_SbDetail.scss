@@ -119,16 +119,6 @@
     margin-left: 10px;
   }
 
-  .plus {
-    visibility: hidden;
-    opacity: 0;
-    color: $primary;
-    transition: visibility 0s, opacity 0.3s linear;
-    &.selected {
-      color: red;
-    }
-  }
-
   .choice-image-holder, #image-holder-main {
     height: 200px;
     width: auto;
@@ -210,73 +200,6 @@
     border: 0px;
   }
 
-  .box-header {
-    text-align: left;
-      display: table;
-      font-family: 'Futura';
-      color: rgba($primary, 0.6);
-      vertical-align: middle;
-      margin-top: 10px;
-      border: 1px solid #eee;
-      padding: 0.5rem;
-      width: 100%;
-      text-align: left;
-      background-color: white;
-      overflow: hidden;
-      .selection-icon {
-      padding-right: 10px;
-      vertical-align: middle;
-      padding-bottom: 2px;
-      }
-      .selection-icon.unselected {
-        display: inline-block;
-      }
-      .selection-icon.selected {
-        display: none;
-        color: $primary;
-      }
-      .selection-icon.trophy {
-        display: none;
-      }
-      &.selected {
-        background-color: rgba($primary, 0.4);
-        .selection-icon.selected {
-          display: inline-block;
-        }
-        .selection-icon.unselected {
-          display: none;
-        }
-      }
-      .button {
-      margin-bottom: 0px !important;
-      margin-top: -2px !important;
-      }
-      &.leader {
-        background-color: rgba($primary, 0.3);
-        .selection-icon.unselected, .selection-icon.selected {
-          display: none;
-        }
-        .selection-icon.trophy {
-          display: inline-block;
-          color: $primary;
-        }
-      }
-  }
-
-  .left-cell {
-      display: table-cell;
-      vertical-align: middle;
-      padding-right: 0px;
-      width: 1px;
-      white-space: nowrap;
-  }
-
-  .right-cell {
-      display: table-cell;
-      vertical-align: middle;
-      text-align: left;
-  }
-
   #sb-description-text {
     width: 100%;
     color: #A7A7A7;
@@ -284,17 +207,6 @@
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 5px;
-  }
-
-  .vote-count {
-    font-size: 1rem;
-    display: inline;
-    float: right;
-    display: inline-block;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-right: -35px;
-    transition: margin-right 0.3s linear;
   }
 
   .expiration-info {
