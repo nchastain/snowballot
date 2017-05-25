@@ -29,7 +29,6 @@ class SbChoices extends React.Component {
       'box-header': true,
       'clearfix': true,
       'selected': !doesExpire(this.props.expires) && choice.id === this.props.userChoice,
-      'leader': doesExpire(this.props.expires) && getVoteSum(this.props.choices) && choice.id === findLeader(this.props.choices).id
     })
   }
 
@@ -41,10 +40,8 @@ class SbChoices extends React.Component {
 
   render () {
     const hasExtra = ({info, photo, GIF, youtube, link}) => info || photo || GIF || youtube || link
-    const trophyIcon = <FA name='trophy' className='fa fa-fw' />
-    const checkIcon = <FA name='check' className='fa fa-fw' />
     const that = this
-    const isLeader = function (choice) { return doesExpire(that.props.expires) && getVoteSum(that.props.choices) && choice.id === findLeader(that.props.choices).id }
+    const isLeader = function (choice) { return doesExpire(that.state.expires) && getVoteSum(that.props.choices) > 0 && choice.id === findLeader(that.props.choices).id }
     const backgrounds = ['#54D19F', '#5192E8', '#AB4DFF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
     return (
       <div id='sb-choices' className='sb-choices'>
@@ -59,13 +56,12 @@ class SbChoices extends React.Component {
               <div className='title'>{choice.title}</div>
               <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{choice.votes}</span>
               <div className='top-cell left-cell'>
-                {choice.id === this.state.userChoice && checkIcon}
+                {choice.id === this.state.userChoice && <FA name='check' className='fa fa-fw' />}
               </div>
               <div className='top-cell right-cell'>
-                {isLeader(choice) && trophyIcon}
+                {isLeader(choice) && <FA name='trophy' className='fa fa-fw' />}
               </div>
               {/*
-              <div className='right-cell' />
               <div className='right-cell' />
             </div>
             {hasExtra(choice) &&
