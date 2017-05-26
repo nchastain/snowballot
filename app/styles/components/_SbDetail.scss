@@ -9,7 +9,7 @@
   }
   .snowballots-section {
     text-align: left;
-    background-color: $light-grey;
+    background-color: white;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 2rem;
@@ -188,9 +188,11 @@
     width: 125px;
     margin-top: 13px;
     display: inline-block;
-    margin-right: 0;
     height: 39px;
     border: 0px;
+    color: white;
+    background-color: $primary;
+    margin-right: 50px;
   }
 
   #detail-add-input {

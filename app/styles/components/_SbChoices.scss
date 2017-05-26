@@ -4,6 +4,32 @@
     text-align: center;
   }
 
+  #add-tile {
+    position: relative;
+    border: 5px solid white;
+    background:
+      linear-gradient(
+        limegreen,
+        transparent
+      ),
+      linear-gradient(
+        90deg,
+        #5192e8,
+        transparent
+      ),
+      linear-gradient(
+        -90deg,
+        #ff7f50,
+        transparent
+      );
+    background-blend-mode: screen;
+    .fa {
+      font-size: 10vw;
+      height: 90%;
+      width: 100%;
+    }
+  }
+
   .box-header {
     text-align: left;
     display: inline-block;
@@ -12,13 +38,18 @@
     position: relative;
     vertical-align: middle;
     width: 25%;
-    border: 5px solid #eee;
+    border: 5px solid white;
     text-align: left;
     background-color: white;
     overflow: hidden;
     &:hover {
       .title {
         top: 45%;
+      }
+      &#add-tile {
+        .title {
+          top: 50%;
+        }
       }
       cursor: pointer;
       filter: brightness(105%);

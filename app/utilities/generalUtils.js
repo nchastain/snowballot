@@ -25,6 +25,8 @@ export const modalStyles = {
   }
 }
 
+export const addCommas = (num) => (num + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+
 export const manipulateDOMonVote = (e, choiceId, expires, choices, userChoice) => {
   let freshVote
   var updatedChoices = choices.map((choice) => {

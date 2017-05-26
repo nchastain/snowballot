@@ -14,6 +14,9 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
   }
   const checkTab = (e) => {
     if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice()
+    if (e.keyCode === 13 && getChoiceNumber(e) === choices.length) {
+      addChoice()
+    }
   }
   const addChoice = () => {
     const newChoice = {title: '', votes: 0, id: choices.length + 1}
@@ -31,7 +34,9 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
   }
   const choiceList = choices.map(choice => (
     <span key={`choice-container-${choice.id}`}>
+      <div className='gutter-indexes'>{choice.id}</div>
       <Choice
+        id={`choice-${choice.id}`}
         choice={choice}
         choicesExpanded={choicesExpanded}
         toggleChoiceOptions={(e) => toggleChoiceOptions(e, choicesExpanded)}
@@ -46,7 +51,11 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     <span id='choice-panel'>
       <div className='newSbSection newSbChoices'>
         <div className='header'>Choices</div>
-        {choiceList}
+        <div id='choices-area'>
+          <div id='choice-containers'>
+            {choiceList}
+          </div>
+        </div>
         <div id='add-choice' className='button secondary' onClick={() => addChoice()}>
           <FA name='plus' className='fa fa-fw' /> add choice
         </div>

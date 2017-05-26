@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import * as actions from '.././actions'
 import classnames from 'classnames'
 import { doesExpire, getVoteSum, findLeader } from 'utilities/sbUtils'
-import { manipulateDOMonVote, createStateFromProps } from 'utilities/generalUtils'
+import { manipulateDOMonVote, createStateFromProps, addCommas } from 'utilities/generalUtils'
 
 class SbChoices extends React.Component {
   constructor (props) {
@@ -37,40 +37,46 @@ class SbChoices extends React.Component {
     this.props.dispatch(actions.startUpdateSb(this.props.sb.id, DOM.updates, DOM.options))
     this.setState({voted: DOM.freshVote, userChoice: choiceId === this.state.userChoice ? '' : choiceId})
   }
-
+  
   render () {
     const hasExtra = ({info, photo, GIF, youtube, link}) => info || photo || GIF || youtube || link
     const that = this
     const isLeader = function (choice) { return doesExpire(that.state.expires) && getVoteSum(that.props.choices) > 0 && choice.id === findLeader(that.props.choices).id }
     const backgrounds = ['#54D19F', '#5192E8', '#AB4DFF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
     return (
-      <div id='sb-choices' className='sb-choices'>
-        {this.props.choices && this.props.choices.map((choice, idx) =>
-          <span key={choice.id}>
-            <div
-              key={choice.title + idx}
-              className={this.sbClasses(choice)}
-              onClick={(e) => !this.props.userID ? null : this.vote(choice.id, e)}
-              style={{backgroundColor: backgrounds[choice.id % backgrounds.length]}}
-            >
-              <div className='title'>{choice.title}</div>
-              <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{choice.votes}</span>
-              <div className='top-cell left-cell'>
-                {choice.id === this.state.userChoice && <FA name='check' className='fa fa-fw' />}
+        <div id='sb-choices' className='sb-choices'>
+          {this.props.choices && this.props.choices.map((choice, idx) =>
+            <span key={choice.id}>
+              <div
+                key={choice.title + idx}
+                className={this.sbClasses(choice)}
+                onClick={(e) => !this.props.userID ? null : this.vote(choice.id, e)}
+                style={{backgroundColor: backgrounds[choice.id % backgrounds.length]}}
+              >
+                <div className='title'>{choice.title}</div>
+                <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{addCommas(choice.votes)}</span>
+                <div className='top-cell left-cell'>
+                  {choice.id === this.state.userChoice && <FA name='check' className='fa fa-fw' />}
+                </div>
+                <div className='top-cell right-cell'>
+                  {isLeader(choice) && <FA name='trophy' className='fa fa-fw' />}
+                </div>
+                {/*
+                <div className='right-cell' />
               </div>
-              <div className='top-cell right-cell'>
-                {isLeader(choice) && <FA name='trophy' className='fa fa-fw' />}
-              </div>
-              {/*
-              <div className='right-cell' />
+              {hasExtra(choice) &&
+              <div className='more-sb-info'>
+                <IncludedMedia included={omit(choice, ['votes', 'title', 'id'], (val) => val !== '')} />
+              */}</div>
+            </span>
+          )}
+          <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >
+            <div className='title'>
+              <FA name='plus' className='fa fa-fw' />
+              Add a choice
             </div>
-            {hasExtra(choice) &&
-            <div className='more-sb-info'>
-              <IncludedMedia included={omit(choice, ['votes', 'title', 'id'], (val) => val !== '')} />
-            */}</div>
-          </span>
-        )}
-      </div>
+          </div>
+        </div>
     )
   }
 }

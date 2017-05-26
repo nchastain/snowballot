@@ -47,8 +47,9 @@ export class SbDetail extends Component {
         id: this.props.sb.choices.length + 1
       }
       const options = {}
-      this.props.dispatch(actions.startUpdateSb((this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options)))
-      this.setState({newChoice: ''})
+      this.setState({newChoice: '', showAddForm: false}, function() {
+        this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options))
+      })
     }
   }
 
@@ -58,14 +59,16 @@ export class SbDetail extends Component {
     if (code === 13) {  // Enter
       const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
       if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
-      else this.addChoice()
-    }
-    this.setState({newChoice: e.target.value})
+      else {
+        this.addChoice()
+        this.setState({newChoice: '', showAddForm: false})
+      }
+    } else this.setState({newChoice: e.target.value})
   }
 
   showAddChoice (expires) {
     const extensibleOrCreated = this.props.sb.isExtensible || isCreator(this.props.user.uid, this.props.sb.creator)
-    if (extensibleOrCreated && this.props.user.uid && !doesExpire(expires)) return
+    if (extensibleOrCreated && this.props.user.uid && doesExpire(expires)) return
     return (
       <span>
         <input
@@ -200,8 +203,8 @@ export class SbDetail extends Component {
         {this.state.editing && editForm('title')}
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
-        <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} />
-        {this.showAddChoice(this.state.expires)}
+        <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+        {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>
     )
   }
