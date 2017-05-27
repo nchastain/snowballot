@@ -53,15 +53,15 @@ export const initialState = {
   isPrivate: false,
   isExtensible: false,
   choices: [
-    {title: '', votes: 0, id: 1, info: '', added: 0},
-    {title: '', votes: 0, id: 2, info: '', added: 1}
+    {title: '', votes: 0, id: 1, info: '', added: 1495860030876},
+    {title: '', votes: 0, id: 2, info: '', added: 1495860030877}
   ],
   tags: [],
   suggestions: []
 }
 
 export const validateSb = function (sbOptions) {
-  const { title, alias, isPrivate, choices, isExtensible, expires, tags, description, mainImage, hasMainImage } = sbOptions
+  const { title, alias, isPrivate, choices, isExtensible, expires, tags, description } = sbOptions
   if (title.length === 0) throw new Error('Snowballots must have a title.')
   const privateURL = uuid.v4().replace(/-/g, '').substring(0, 10)
   const publicURL = alias.length > 0 ? alias : title.replace(/\s+/g, '').substring(0, 10)
@@ -84,8 +84,6 @@ export const validateSb = function (sbOptions) {
     isExtensible: isExtensible || false,
     tags: tags || [],
     description: description || '',
-    mainImage: mainImage || '',
-    hasMainImage: hasMainImage || false
   }
   return {options, filteredChoices}
 }

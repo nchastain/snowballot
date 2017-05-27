@@ -10,26 +10,24 @@
 	}
 
 	.snowballot-container {
-		border-left: 5px solid $primary;
+		display: inline-block;
 	  color: $primary;
-	  &:hover {
-	    color: $primary;
-	    opacity: 0.8;
-	  }
 		display: inline-block;
 		font-family: 'Futura' !important;
 		width: 100%;
 		padding: 1rem;
 		background-color: white;
 		position: relative;
-		&:hover {
-			background-color: rgba($primary, 0.1);
-		}
 		h5 {
+			position: absolute;
 			display: inline-block;
-			float: left;
-			position: relative;
+			top: 30px;
+			left: 75px;
 			font-family: 'Futura' !important;
+			&:hover {
+				cursor: pointer;
+				opacity: 0.8;
+			}
 		}
 		.vote-total {
 			.number {
@@ -39,8 +37,7 @@
 				font-weight: bold;
 			}
 			display: inline-block;
-			position: relative;
-			float: right;
+			position: absolute;
 			text-align: center;
 			text-transform: uppercase;
 			font-size: 50%;
@@ -178,6 +175,9 @@
 
 	.total-sb-container {
 	  display: inline-block;
+	  border: 1px solid #eee;
+	  margin-bottom: 10px;
+	  border-radius: 5px;
 	  position: relative;
 	  width: 100%;
 	  font-family: 'Futura';

@@ -10,7 +10,7 @@
     }
     textarea {
       color: $primary;
-      border: 0;
+      border: 1px solid #eee;
       border-left: 5px solid $primary;
       display: inline-block;
       vertical-align: middle;
@@ -19,18 +19,19 @@
       resize: none;
       &:focus {
         pointer-events: none;
-        border: 0;
+        border: 1px solid #eee;
         box-shadow: none;
       }
     }
     input {
       color: $primary;
-      border: 0;
+      border: 1px solid #eee;
+      border-left: 5px solid $primary;
       margin-bottom: 0;
       box-shadow: none;
       &:focus {
         pointer-events: none;
-        border: 0;
+        border: 1px solid #eee;
         box-shadow: none;
       }
     }

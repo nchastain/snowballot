@@ -5,7 +5,6 @@ import * as actions from '../actions'
 import SearchInput from 'react-search-input'
 import FA from 'react-fontawesome'
 import classnames from 'classnames'
-import { imagesRef } from '../firebase/constants'
 import { getSearchResults } from '.././utilities/sbUtils'
 
 class Discover extends React.Component {
@@ -24,10 +23,7 @@ class Discover extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({
-      searchTerm: this.getSearchTermFromURL(nextProps.history.location.search)
-    })
-    this.getImages(this.props.sbs)
+    this.setState({searchTerm: this.getSearchTermFromURL(nextProps.history.location.search)})
   }
 
   componentDidMount () {
@@ -65,19 +61,6 @@ class Discover extends React.Component {
         </div>
       </span>
     )
-  }
-
-  getImages (sbs) {
-    const that = this
-    sbs.forEach(function (sb) {
-      if (sb.hasMainImage) {
-        let imageUrl = imagesRef.child(`${sb.privateAlias}/main`)
-        let sbAlias = sb.privateAlias
-        imageUrl.getDownloadURL().then(function (imageUrl) {
-          that.setState({images: {...that.state.images, [sbAlias]: imageUrl}})
-        })
-      }
-    })
   }
 
   renderSbs (sbs) {

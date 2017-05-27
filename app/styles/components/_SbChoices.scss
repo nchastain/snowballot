@@ -82,7 +82,6 @@
       font-size: 2.5vw;
       top: 2.5vw;
       right: 0.5vw;
-
     }
     .photo-title {
       text-align: left;
@@ -158,5 +157,59 @@
     content: " ";
     display: block;
     padding-bottom: 100%;
+  }
+
+  @media (max-width: 800px) {
+    #sb-detail {
+      .snowballots-section {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+      }
+    }
+    .box-header {
+      width: 50%;
+    }
+    .title, .add-title {
+      font-size: 4vw !important;
+    }
+    .top-cell {
+      .fa {
+        font-size: 30vw !important;
+        transform: translateY(10vw);
+      }
+    }
+    .vote-count {
+      font-size: 3vw !important;
+      border-radius: 3vw !important;
+      padding-left: 1.33vw !important;
+      padding-right: 1.33vw !important;
+      bottom: 1.5vw !important;
+      right: 1.5vw !important;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .box-header {
+      width: 100%;
+      border-left: 0px;
+      border-right: 0px;
+    }
+    .title, .add-title {
+      font-size: 8vw !important;
+    }
+    .top-cell {
+      .fa {
+        font-size: 38vw !important;
+        transform: translateY(20vw);
+      }
+    }
+    .vote-count {
+      font-size: 6vw !important;
+      border-radius: 6vw !important;
+      padding-left: 2.67vw !important;
+      padding-right: 2.67vw !important;
+      bottom: 2vw !important;
+      right: 2vw !important;
+    }
   }
 }

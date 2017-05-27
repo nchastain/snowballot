@@ -6,14 +6,13 @@ import DateTime from 'react-datetime'
 import classnames from 'classnames'
 import moment from 'moment'
 import * as actions from '.././actions'
-import { imagesRef } from '../firebase/constants'
 import OptionPanel from './OptionPanel'
 import FavoritePanel from './FavoritePanel'
 import DeleteModal from './DeleteModal'
 import SharePanel from './SharePanel'
 import SbChoices from './SbChoices'
 import { createStateFromProps } from 'utilities/generalUtils'
-import { doesExpire, isCreator, previewImage, updateImage } from 'utilities/sbUtils'
+import { doesExpire, isCreator, updateImage } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUtils'
 
 export class SbDetail extends Component {
@@ -29,13 +28,14 @@ export class SbDetail extends Component {
   componentWillUnmount () { this.props.dispatch(actions.showSb({})) }
 
   componentWillReceiveProps (nextProps) {
+    console.log(nextProps)
     let newState = createStateFromProps(this.props, nextProps)
-    if (nextProps.sb.choices > 1) this.setState(newState, () => this.updateSbImages(nextProps))
+    if (nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
+    this.setState({title: nextProps.sb.title, description: nextProps.sb.description})
   }
 
   updateSbImages (props) {
     props.sb.choices.forEach(function (choice) { if (choice.photo) updateImage(props.sb.privateAlias, choice.id) })
-    if (props.sb.hasMainImage) updateImage(props.sb.privateAlias, 'main')
   }
 
   addChoice () {
@@ -123,7 +123,7 @@ export class SbDetail extends Component {
               handleOptionToggle={(e) => this.setState({[e.target.id]: !this.state[e.target.id]})}
               setDate={data => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
               toggleAlias={(e) => this.setState({alias: e.target.value})}
-              deletion={() => { this.setState({hasMainImage: false, mainImage: undefined}, () => this.setUpEventHandling(this.state.choices)) }}
+              deletion={() => this.setUpEventHandling(this.state.choices)}
               toggleDescription={(e) => this.setState({description: e.target.value})}
               handleAdd={(tag) => this.handleAdd(tag, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
               handleDelete={(i) => this.handleDelete(i, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
@@ -136,24 +136,6 @@ export class SbDetail extends Component {
         </div>
       </span>
     )
-  }
-
-  handleUpload (e) {
-    let files = e.target.files
-    let that = this
-    previewImage(files[0], `#gallery-img-main`)
-    this.setState({hasMainImage: true, mainImage: files[0]}, function () {
-      that.handleSbChange('mainImage')
-      that.handleSbChange('hasMainImage')
-      that.addImage(that.props.sb.privateAlias, files[0])
-    })
-  }
-
-  addImage (alias, file) {
-    let newImageRef = imagesRef.child(`${alias}/main`)
-    this.props.dispatch(actions.startUpdateSb(this.props.sb.privateAlias, {mainImage: file}))
-    if (file === 'deleted') newImageRef.delete().then(() => console.log('Removed a file!'))
-    else newImageRef.put(file).then(() => console.log('Uploaded a file!'))
   }
 
   handleDelete (i) {
@@ -177,7 +159,9 @@ export class SbDetail extends Component {
     })
   }
 
-  updateField (field) { !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false}) }
+  updateField (field) {
+    !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false}) 
+  }
 
   handleSbChange (field) {
     this.props.dispatch(actions.startUpdateSb(this.props.sb.id, { [field]: this.state[field] }))
@@ -199,7 +183,8 @@ export class SbDetail extends Component {
     const editForm = (editField) => {
       return (
         <span className='edit-form' >
-          <input type='text' id={`edit-${editField}`} placeholder={`Enter new ${editField} here`} value={this.state[editField]} onChange={(e) => this.setState({[editField]: e.currentTarget.value})} />
+          {this.state.editing === 'description' && <textarea rows={5} id='edit-description' value={this.state.description} onChange={(e) => this.setState({description: e.currentTarget.value})} />}
+          {this.state.editing !== 'description' && <input type='text' id={`edit-${editField}`} value={this.state[editField]} onChange={(e) => this.setState({[editField]: e.currentTarget.value})} />}
           <div className='button' onClick={() => this.handleSbChange(editField)}>Save</div>
         </span>
       )
@@ -213,11 +198,21 @@ export class SbDetail extends Component {
       }
       const sortActive = (sortType) => sortType === this.state.sortType
       return (
-        <div id='sort-options'>
-          sort by:&nbsp;&nbsp;
-          <div className={classnames(sortClasses('votes'))} onClick={() => this.setState({sortType: 'votes'})}>votes</div>
-          <div className={classnames(sortClasses('AZ'))} onClick={() => this.setState({sortType: 'AZ'})}>A→Z</div>
-          <div className={classnames(sortClasses('date'))} onClick={() => this.setState({sortType: 'date'})}>date added</div>
+        <div id='top-info'>
+          <div id='main-info'>
+            {this.state.editing !== 'title' && <h4 className='sb-title' onClick={() => this.setState({editing: 'title'})}>{this.props.sb.title}</h4>}
+            {this.state.editing === 'title' && isCreator(this.props.user.uid, this.props.sb.creator) && editForm('title')}
+            {this.state.editing !== 'description' && <div id='sb-description-text' onClick={() => this.setState({editing: 'description'})}>{this.props.sb.description || null}</div>}
+            {this.state.editing === 'description' && isCreator(this.props.user.uid, this.props.sb.creator) && editForm('description')}
+          </div>
+          <div id='sort-option-content'>
+            <div id='sort-option-key'>
+              Choices, sorted by:&nbsp;&nbsp;
+              <div className={classnames(sortClasses('votes'))} onClick={() => this.setState({sortType: 'votes'})}>votes</div>
+              <div className={classnames(sortClasses('AZ'))} onClick={() => this.setState({sortType: 'AZ'})}>A→Z</div>
+              <div className={classnames(sortClasses('date'))} onClick={() => this.setState({sortType: 'date'})}>date added</div>
+            </div>
+          </div>
         </div>
       )
     }
@@ -226,10 +221,6 @@ export class SbDetail extends Component {
       <div className='snowballots-section'>
         <FavoritePanel favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id)} />
         {this.state.tags && this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
-        <h4 className='sb-title'>{this.props.sb.title}</h4>{isCreator(this.props.user.uid, this.props.sb.creator) && editor('title')}
-        {this.state.editing && editForm('title')}
-        {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
-        <div id='sb-description-text'>{this.props.sb.description || null}</div>
         {sortOptions()}
         <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}

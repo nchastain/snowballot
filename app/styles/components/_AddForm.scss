@@ -1,15 +1,17 @@
 #add-form, .ReactModalPortal {
 	.create-title {
 		font-family: 'FuturaExtraBold';
+		background-color: white;
 		display: block;
 		color: $primary;
 		max-width: 1000px;
-		background-color: rgba($primary, 0.1);
 		margin-left: auto;
 		margin-right: auto;
+		margin-bottom: 0;
 		text-transform: uppercase;
 		font-size: 125%;
 		padding: 1rem;
+		text-align: center;
 	}
 
 	.options-unit {
@@ -189,8 +191,9 @@
 
 	#title-input {
 		color: $primary;
+		border: 1px solid #eee;
 		&:focus {
-			border: 0;
+			border: 1px solid #eee;
 			box-shadow: none;
 		}
 	}
@@ -208,9 +211,18 @@
 		}
 	}
 
-	.newSnowballot-section {
+	#outer-add-form-container {
 		max-width: 1000px;
 		margin: auto;
+		margin-top: 100px;
+		background: #eee;
+	}
+
+	.newSnowballot-section {
+		max-width: 950px;
+		margin: auto;
+		margin-top: 25px;
+		background-color: #eee;
 	}
 
 
@@ -226,7 +238,8 @@
 
 	.newSbSection {
 		text-align: left;
-		background-color: #eee;
+		background-color: white;
+		border: 1px solid #eee;
 		padding: 0.5rem;
 		display: block;
 		.header {
@@ -235,11 +248,11 @@
 			color: $primary;
 			text-transform: uppercase;
 			font-size: 80%;
-			margin-bottom: 10px;
 		}
 	}
 
 	.newSbOptions {
+		position: relative;
 		.fa-2x {
 			line-height: inherit !important;
 			margin-top: -4px;
@@ -255,19 +268,19 @@
 	}
 
 	#toggleOptionsMenu {
+		position: absolute;
+		right: 0%;
+		top: 0;
 		font-size: 12px;
+		height: 33px;
+		background-color: #eee;
+		line-height: 33px;
 		float: right;
-		border-radius: 5px;
-		box-shadow: 1px 1px 3px $dark-grey;
+		border-left: 1px solid #eee;
 		display: inline-block;
-		background-color: white;
 		color: $primary;
 		padding-left: 10px;
-		padding-top: 5px;
-		.fa {
-			color: $primary;
-			margin-left: -5px;
-		}
+		padding-right: 10px;
 		&:hover {
 			cursor: pointer;
 			opacity: 0.8;
@@ -290,7 +303,6 @@
 	.newSnowballot-section {
 		margin-left: auto;
 		margin-right: auto;
-		margin-top: 1rem;
 		padding: 1rem;
 		background-color: white;
 		#addchoice, #newSnowballot {
@@ -333,6 +345,10 @@
 		display: block;
 		overflow: hidden;
 		width: 100%;
+		margin-bottom: 0px;
+		.fa {
+			color: rgba($primary, 0.3);
+		}
 		&.expanded {
 			max-height: 500px;
 			padding-bottom: 10px;
@@ -389,15 +405,32 @@
 	}
 
 	#submitSnowballot {
-		border-radius: 5px;
-		box-shadow: 2px 2px 8px $dark-grey;
 		display: inline-block;
 		width: 100%;
 		margin-bottom: 0;
-		background-color: rgba($primary, 0.7);
+		background-color: rgba($primary, 0.9);
+		color: white;
+		margin-top: 25px;
+		padding: 16px;
 		&:hover {
-			opacity: 0.8;
+			color: rgba(white, 0.5);
 		}
+		/*background:
+      linear-gradient(
+        limegreen,
+        transparent
+      ),
+      linear-gradient(
+        90deg,
+        #5192e8,
+        transparent
+      ),
+      linear-gradient(
+        -90deg,
+        #ff7f50,
+        transparent
+      );
+    background-blend-mode: screen;*/
 	}
 
 	#upload-button {

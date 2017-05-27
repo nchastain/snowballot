@@ -5,15 +5,18 @@
 
   .detail-snowballot-container {
     background-color: white;
+    position: relative;
     padding: 1rem;
   }
   .snowballots-section {
     text-align: left;
     background-color: white;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    margin-left: auto;
+    margin-right: auto;
     li {
       display: block;
     }
@@ -23,20 +26,46 @@
       font-family: 'FuturaExtraBold';
       display: inline-block;
     }
-
   }
 
   .sb-title {
     font-weight: bold;
+    border: 1px solid white;
+    &:hover {
+      border: 1px solid #eee;
+    }
   }
 
-  #sort-options {
-    display: block;
+  #top-info {
     color: rgba($primary, 0.4);
-    width: calc(100% - 10px);
-    text-align: right;
     margin-right: 10px;
+    margin-left: 5px;
     margin-bottom: 10px;
+    margin-top: 25px;
+    padding-right: 4px;
+    width: calc(100% - 5px);
+    display: block;
+    #main-info {
+      display: inline-block;
+      text-align: left;
+      width: 50%;
+      vertical-align: bottom;
+    }
+    #sort-option-content {
+      text-align: right;
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      vertical-align: bottom;
+      font-size: 90%;
+    }
+    #sort-option-key {
+      display: inline-block;
+      border-radius: 5px;
+      border: 1px solid #eee;
+      padding-left: 10px;
+    }
     .sort-option {
       display: inline-block;
       padding-left: 10px;
@@ -52,20 +81,30 @@
       }
       &.active {
         color: rgba($primary, 1);
+        &:hover {
+          cursor: initial;
+          background-color: white;
+        }
       }
     }
   }
 
   .edit-form {
-    width: 250px;
-    display: block;
-    margin-top: 10px;
+    width: 100%;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: -1px;
     input {
       display: inline-block;
       width: 75%;
-      margin-bottom: 0;
+      margin-bottom: 0 !important;
       vertical-align: bottom;
-      border: 0;
+      border: 1px solid #eee;
+      border-right: 0px;
+      box-shadow: none;
+      font-size: 1.5625rem;
+      font-family: 'FuturaExtraBold';
+      color: $primary;
     }
     .button {
       margin-bottom: 0;
@@ -76,6 +115,12 @@
       padding-top: 12px;
       display: inline-block;
       vertical-align: bottom;
+      background-color: rgba($primary, 0.2);
+      color: $primary;
+      border: 1px solid #eee;
+      &:hover {
+        background-color: rgba($primary, 0.3);
+      }
     }
   }
 
@@ -94,10 +139,12 @@
   }
 
   #favorite-panel {
-    
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
     #favorite-star {
       transition: color .1s linear;
-      color: #D3D3D3;
+      color: #eee;
       &:hover {
         cursor: pointer;
         opacity: 0.8;
@@ -188,7 +235,10 @@
   }
 
   .tag-list {
-    float: right;
+    text-align: left;
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
     .fa {
       background-color: initial;
       border: initial;
@@ -221,6 +271,19 @@
     margin-right: 50px;
   }
 
+  #edit-description {
+    color: #A7A7A7 !important;
+    font-size: 100% !important;
+    font-family: 'Futura' !important;
+    resize: none;
+    box-shadow: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #eee;
+    max-width: 700px;
+  }
+
   #detail-add-input {
     width: 50%;
     display: inline-block;
@@ -234,7 +297,12 @@
     max-width: 700px;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 5px;
+    border: 1px solid white;
+    padding: 5px;
+    padding-left: 0px;
+    &:hover {
+      border: 1px solid #eee;
+    }
   }
 
   .expiration-info {

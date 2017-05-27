@@ -50,10 +50,9 @@ class AddForm extends React.Component {
     uploaders.forEach(function (elem) {
       elem.addEventListener('change', function () {
         let files = this.files
-        const choiceId = elem.id === 'file-input-main' ? 'main' : parseInt(elem.id.match(/\d+$/).join(''))
+        const choiceId = parseInt(elem.id.match(/\d+$/).join(''))
         previewImage(files[0], `#gallery-img-${choiceId}`)
-        if (choiceId === 'main') that.setState({hasMainImage: true, mainImage: files[0]})
-        else that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
+        that.setState(that.choiceImageUpdate(choiceId, choices, files[0]))
       }, false)
     })
   }
@@ -66,7 +65,6 @@ class AddForm extends React.Component {
   addAllImages (alias) {
     const that = this
     this.state.choices.forEach(function (choice) { if (choice.photoFile) that.addImage(alias, choice.id, choice.photoFile) })
-    if (this.state.hasMainImage) this.addImage(alias, 'main', this.state.mainImage)
   }
 
   handleSubmit (e) {
@@ -110,10 +108,7 @@ class AddForm extends React.Component {
           {expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}
         )}
         toggleAlias={(e) => this.setState({alias: e.target.value})}
-        deletion={() => {
-          this.setState({hasMainImage: false, mainImage: undefined}, () =>
-            this.setUpEventHandling(this.state.choices))
-        }}
+        deletion={() => this.setUpEventHandling(this.state.choices)}
         toggleDescription={(e) => this.setState({description: e.target.value})}
         handleAdd={(tag) => this.handleAdd(tag)}
         handleDelete={(i) => this.handleDelete(i)}
@@ -126,14 +121,16 @@ class AddForm extends React.Component {
   render () {
     return (
       <span id='add-form'>
-        <h1 className='create-title'>🌨 Create a Snowballot</h1>
-        <div className='newSnowballot-section'>
-          <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
-            <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
-            <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />
-            {this.buildOptionPanel()}
-            <div id='submitSnowballot' className='button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
-          </form>
+        <div id='outer-add-form-container'>
+          <h1 className='create-title'>Create a Snowballot</h1>
+          <div className='newSnowballot-section'>
+            <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
+              <input id='title-input' type='text'value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
+              <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />
+              {this.buildOptionPanel()}
+            </form>
+          </div>
+          <div id='submitSnowballot' className='button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
         </div>
       </span>
     )

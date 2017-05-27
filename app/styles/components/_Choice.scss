@@ -7,7 +7,7 @@
     .choice-expand {
       display: none;
       position: absolute;
-      left: calc(94% - 36px);
+      left: calc(92% - 32px);
       z-index: 500;
       float: right;
       height: 40px;
@@ -28,7 +28,7 @@
     .delete-choice-button {
       display: none;
       position: absolute;
-      left: calc(94% + 4px);
+      left: calc(92% + 10px);
       width: 40px;
       background-color: $dangerRed;
       height: 40px;

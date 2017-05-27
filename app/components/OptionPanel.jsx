@@ -11,8 +11,6 @@ const OptionPanel = (props) => {
     alias,
     toggleAlias,
     isExtensible,
-    hasMainImage,
-    deletion,
     description,
     toggleDescription,
     handleAdd,
@@ -26,9 +24,8 @@ const OptionPanel = (props) => {
   const label = (type) => {
     const hidden = type === 'hidden'
     return (
-      <div style={{fontSize: '80%'}}>
-        {hidden ? 'SHOW' : 'HIDE'} OPTIONS
-        <FA name={hidden ? 'caret-right' : 'caret-down'} className='fa-2x fa-fw' />
+      <div style={{fontSize: '80%', verticalAlign: 'middle'}}>
+        {hidden ? 'SHOW' : 'HIDE'}
       </div>
     )
   }
@@ -53,20 +50,15 @@ const OptionPanel = (props) => {
           toggle={(e) => handleOptionToggle(e)}
         />
         <OptionUnit
-          name='alias'
-          isPrivate={isPrivate}
-          alias={alias}
-          toggle={(e) => toggleAlias(e)}
-        />
-        <OptionUnit
           name='extend'
           extensible={isExtensible}
           toggle={(e) => handleOptionToggle(e)}
         />
         <OptionUnit
-          name='photo'
-          hasMainImage={hasMainImage}
-          deletion={() => deletion()}
+          name='alias'
+          isPrivate={isPrivate}
+          alias={alias}
+          toggle={(e) => toggleAlias(e)}
         />
         <OptionUnit
           name='description'

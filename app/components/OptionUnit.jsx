@@ -4,7 +4,7 @@ import Tagger from './Tagger'
 import { DatePicker } from '.././utilities/generalUtils'
 
 const OptionUnit = function (props) {
-  const { name, doesExpire, isPrivate, description, alias, hasMainImage, expires, extensible, deletion, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
+  const { name, doesExpire, isPrivate, description, alias, expires, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
   const optionUnits = {
     expire: {
       icon: 'calendar-times-o',
@@ -33,6 +33,18 @@ const OptionUnit = function (props) {
         />
       )
     },
+    extend: {
+      icon: 'users',
+      text: 'Allow voters to add new choices?',
+      selector: (
+        <FA
+          id='isExtensible'
+          name={extensible ? 'check-circle' : 'circle'}
+          className='fa fa-fw custom-check'
+          onClick={(e) => toggle(e)}
+        />
+      )
+    },
     alias: {
       icon: 'snowflake-o',
       text: (
@@ -52,43 +64,6 @@ const OptionUnit = function (props) {
             value={alias}
             onChange={(e) => toggle(e)}
           />}
-        </span>
-      )
-    },
-    extend: {
-      icon: 'users',
-      text: 'Allow voters to add new choices?',
-      selector: (
-        <FA
-          id='isExtensible'
-          name={extensible ? 'check-circle' : 'circle'}
-          className='fa fa-fw custom-check'
-          onClick={(e) => toggle(e)}
-        />
-      )
-    },
-    photo: {
-      icon: 'photo',
-      text: 'Add a photo for this snowballot?',
-      etc: (
-        <span>
-          {!hasMainImage && <div className='photo-uploader' id='photo-upload-main'>
-            <input type='file' className='file-input' id='file-input-main' style={{display: 'none'}} />
-            <div id='upload-button' onClick={() => document.getElementById('file-input-main').click()}>
-              <FA name='upload' className='fa fa-fw' />
-              Upload a file
-            </div>
-          </div>
-          }
-          <div id='gallery-main' className={!hasMainImage ? 'hidden' : ''}>
-            <img className='gallery-image' id='gallery-img-main' src='' />
-            <div className='main-image-delete'>
-              <span className='fa-stack fa-md delete-button' onClick={() => deletion()}>
-                <FA name='circle' className='fa fa-stack-2x' />
-                <FA name='times-circle' className='fa-stack-2x fa-fw delete-x' />
-              </span>
-            </div>
-          </div>
         </span>
       )
     },
