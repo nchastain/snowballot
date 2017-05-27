@@ -4,6 +4,7 @@ import FA from 'react-fontawesome'
 import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
 import classnames from 'classnames'
+import moment from 'moment'
 import * as actions from '.././actions'
 import { imagesRef } from '../firebase/constants'
 import OptionPanel from './OptionPanel'
@@ -45,7 +46,7 @@ export class SbDetail extends Component {
       const choice = {
         title: this.state.newChoice,
         votes: 0,
-        id: this.props.sb.choices.length + 1
+        id: this.props.sb.choices.length + 1,
       }
       const options = {}
       this.setState({newChoice: '', showAddForm: false}, function() {
@@ -184,6 +185,11 @@ export class SbDetail extends Component {
 
   buildMessages (expires, userID, creator, createdAt, alias) { return <div className='other-sb-info'>{expiresMessage(expires)}{creatorMessage(userID, creator, createdAt, alias)}{this.editMessage()}{authMessage(userID)}</div> }
 
+  sortChoices (a, b) {
+    if (this.state.sortType === 'AZ') return b.title > a.title ? -1 : 1
+    if (this.state.sortType === 'votes') return b.votes - a.votes
+  }
+
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0 || typeof this.props.sb.choices === 'undefined') return null
     const taglist = this.props.sb.tags && this.props.sb.tags.length > 0 ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
@@ -223,7 +229,7 @@ export class SbDetail extends Component {
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
         {sortOptions()}
-        <SbChoices sortType={this.state.sortType} choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+        <SbChoices choices={this.state.sortType === 'date' ? this.props.sb.choices : this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>
     )

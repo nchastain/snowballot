@@ -38,12 +38,6 @@ class SbChoices extends React.Component {
     this.setState({voted: DOM.freshVote, userChoice: choiceId === this.state.userChoice ? '' : choiceId})
   }
 
-  sortChoices (a, b) {
-    if (this.props.sortType === 'date') return
-    if (this.props.sortType === 'AZ') return b.title > a.title ? -1 : 1
-    if (this.props.sortType === 'votes') return b.votes - a.votes
-  }
-
   render () {
     const hasExtra = ({info, photo, GIF, youtube, link}) => info || photo || GIF || youtube || link
     const that = this
@@ -51,7 +45,7 @@ class SbChoices extends React.Component {
     const backgrounds = ['#54D19F', '#5192E8', '#AB4DFF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
     return (
         <div id='sb-choices' className='sb-choices'>
-          {this.props.choices && this.props.choices.sort((a, b) => this.sortChoices(a, b)).map((choice, idx) =>
+          {this.props.choices && this.props.choices.map((choice, idx) =>
             <span key={choice.id}>
               <div
                 key={choice.title + idx}
