@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
+import classnames from 'classnames'
 import * as actions from '.././actions'
 import { imagesRef } from '../firebase/constants'
 import OptionPanel from './OptionPanel'
@@ -17,7 +18,7 @@ import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUti
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {tags: []}
+    this.state = {tags: [], sortType: 'date'}
   }
 
   componentWillMount () { this.props.dispatch(actions.findSb(this.props.match.params.alias)) }
@@ -195,13 +196,24 @@ export class SbDetail extends Component {
         </span>
       )
     }
-    const sortOptions = (
-      <div className='sort-options'>
-        <div>votes</div>
-        <div>A→Z</div>
-        <div>date added</div>
-      </div>
-    )
+    const sortOptions = () => {
+      const sortClasses = (sortType) => {
+        return {
+          'sort-option': true,
+          'active': sortActive(sortType)
+        }
+      }
+      const sortActive = (sortType) => sortType === this.state.sortType
+      return (
+        <div id='sort-options'>
+          sort by:&nbsp;&nbsp;
+          <div className={classnames(sortClasses('votes'))} onClick={() => this.setState({sortType: 'votes'})}>votes</div>
+          <div className={classnames(sortClasses('AZ'))} onClick={() => this.setState({sortType: 'AZ'})}>A→Z</div>
+          <div className={classnames(sortClasses('date'))} onClick={() => this.setState({sortType: 'date'})}>date added</div>
+        </div>
+      )
+    }
+
     return (
       <div className='snowballots-section'>
         <FavoritePanel favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id)} />
@@ -210,8 +222,8 @@ export class SbDetail extends Component {
         {this.state.editing && editForm('title')}
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
-        <div id='sort-by'>sort by: {sortOptions}</div>
-        <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+        {sortOptions()}
+        <SbChoices sortType={this.state.sortType} choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>
     )
