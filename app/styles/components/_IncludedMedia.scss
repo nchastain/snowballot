@@ -7,6 +7,7 @@
     display: table;
     width: 100%;
     padding: 10px;
+    text-align: left;
     opacity: 1;
     transition: opacity 0.3s linear, height 0.3s linear;
     & + .included-media-item {

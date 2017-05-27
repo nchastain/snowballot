@@ -1,6 +1,7 @@
 #choice-media-pane {
   .choice-media-pane {
     display: block;
+    text-align: left;
     margin-left: $choiceInset;
     width: calc(100% - #{$choiceInset});
     &.expanded {

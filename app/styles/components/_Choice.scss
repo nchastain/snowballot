@@ -1,21 +1,53 @@
 #choice {
-
     .choice-container {
     height: auto;
     width: 100%;
+    margin-top: 25px;
+    position: relative;
+    .choice-expand {
+      display: none;
+      position: absolute;
+      left: calc(94% - 36px);
+      z-index: 500;
+      float: right;
+      height: 40px;
+      padding: 0;
+      padding-right: 2px;
+      margin: 0;
+      width: 40px;
+      color: white;
+      background-color: $primary;
+      line-height: 45px;
+      font-size: 2vw;
+      text-align: center;
+      border: 0;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
     .delete-choice-button {
-      background-color: $dangerRed !important;
+      display: none;
+      position: absolute;
+      left: calc(94% + 4px);
+      width: 40px;
+      background-color: $dangerRed;
+      height: 40px;
+      color: white;
+      z-index: 500;
+      padding: 0;
+      margin: 0;
+      line-height: 40px;
+      font-size: 1.5vw;
+      float: right;
+      text-align: center;
+      border: 0;
+      &:hover {
+        opacity: 0.8;
+      }
     }
     &:hover {
       margin-left: 0px;
       width: 100%;
-      .choice-expand {
-        display: table-cell;
-        opacity: 1;
-        padding-left: 10px;
-        padding-right: 10px;
-        cursor: pointer;
-      }
     }
   }
 }

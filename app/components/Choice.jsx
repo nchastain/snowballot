@@ -1,7 +1,7 @@
 import React from 'react'
 import FA from 'react-fontawesome'
 
-const Choice = ({ choice, toggleChoiceOptions, checkTab, choicesExpanded, choiceUpdate, deleteChoice }) => (
+const Choice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choiceUpdate, deleteChoice }) => (
   <span id='choice'>
     <div
       id={`choice-container-choice-${choice.id}`}
@@ -13,21 +13,22 @@ const Choice = ({ choice, toggleChoiceOptions, checkTab, choicesExpanded, choice
         className='input-group-button fa fa-fw choice-expand'
         onClick={(e) => toggleChoiceOptions(e, choicesExpanded)}
       />
-      <input
-        className='choice-input input-group-field'
-        id={`choice-${choice.id}`}
-        value={choice.title}
-        type='text'
-        placeholder={`Enter name of Choice ${choice.id}`}
-        onKeyDown={checkTab}
-        onChange={(e) => choiceUpdate(e, 'title')}
-      />
       <FA
         key={`delete-${choice.id}`}
         id={`delete-${choice.id}`}
         className='fa fa-fw delete-choice-button button input-group-button'
         name='close'
         onClick={deleteChoice}
+      />
+      <input
+        className='choice-input input-group-field'
+        id={choice.id}
+        value={choice.title}
+        placeholder={choice.id === 1 ? 'Press "Tab" to add a new choice. Minimum of two choices per snowballot.' : ''}
+        type='text'
+        onKeyDown={checkKey}
+        onChange={(e) => choiceUpdate(e)}
+        maxLength={140}
       />
     </div>
   </span>

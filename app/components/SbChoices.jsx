@@ -51,9 +51,9 @@ class SbChoices extends React.Component {
                 key={choice.title + idx}
                 className={this.sbClasses(choice)}
                 onClick={(e) => !this.props.userID ? null : this.vote(choice.id, e)}
-                style={{backgroundColor: backgrounds[choice.id % backgrounds.length]}}
+                style={{background: `${choice.photo ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${choice.photo})` : ''}`, backgroundSize: '40%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundColor: backgrounds[choice.id % backgrounds.length]}}
               >
-                <div className='title'>{choice.title}</div>
+                <div className={choice.photo ? 'photo-title' : 'title'} style={{backgroundColor: `${choice.photo ? backgrounds[choice.id % backgrounds.length] : ''}`}}>{choice.title}</div>
                 <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{addCommas(choice.votes)}</span>
                 <div className='top-cell left-cell'>
                   {choice.id === this.state.userChoice && <FA name='check' className='fa fa-fw' />}
@@ -71,7 +71,7 @@ class SbChoices extends React.Component {
             </span>
           )}
           <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >
-            <div className='title'>
+            <div className='add-title'>
               <FA name='plus' className='fa fa-fw' />
               Add a choice
             </div>

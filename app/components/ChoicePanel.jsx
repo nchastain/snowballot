@@ -12,12 +12,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     })
     update('choices', updatedChoices)
   }
-  const checkTab = (e) => {
-    if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice()
-    if (e.keyCode === 13 && getChoiceNumber(e) === choices.length) {
-      addChoice()
-    }
-  }
+  const checkKey = (e) => { if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice() }
   const addChoice = () => {
     const newChoice = {title: '', votes: 0, id: choices.length + 1}
     update('choices', [...choices, newChoice])
@@ -33,14 +28,14 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     update('choicesExpanded', {...choicesExpanded, [e.target.id]: expandState})
   }
   const choiceList = choices.map(choice => (
-    <span key={`choice-container-${choice.id}`}>
+    <span key={`choice-container-${choice.id}`} className='individual-choice'>
       <div className='gutter-indexes'>{choice.id}</div>
       <Choice
-        id={`choice-${choice.id}`}
+        id={choice.id}
         choice={choice}
         choicesExpanded={choicesExpanded}
         toggleChoiceOptions={(e) => toggleChoiceOptions(e, choicesExpanded)}
-        checkTab={(e) => checkTab(e)}
+        checkKey={(e) => checkKey(e)}
         choiceUpdate={(e) => choiceUpdate(e)}
         deleteChoice={(e) => deleteChoice(e)}
       />

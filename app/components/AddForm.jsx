@@ -130,8 +130,8 @@ class AddForm extends React.Component {
         <div className='newSnowballot-section'>
           <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
             <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
-            {this.buildOptionPanel()}
             <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />
+            {this.buildOptionPanel()}
             <div id='submitSnowballot' className='button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
           </form>
         </div>

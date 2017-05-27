@@ -100,14 +100,6 @@
     }
 	}
 
-	.choice-expand {
-		display: none;
-		background-color: $primary;
-		padding: 0;
-		color: white;
-		opacity: 0;
-	}
-
 	#gallery .imgThumbnail{
 	    width:150px;
 	    height: 150px;
@@ -182,25 +174,7 @@
 		display: inline-block;
 	}
 
-
-	.delete-choice-button {
-		display: none;
-		opacity: 0;
-		height: 100%;
-		padding: 0;
-		padding-left: 10px;
-		padding-right: 10px;
-	}	
-
 	.choice-container {
-		&:hover {
-			.delete-choice-button {
-				opacity: 1;
-				display: table-cell;
-				height: 100%;
-				background-color: $dangerRed;
-			}
-		}
 	}
 
 	.options-icon, .options-unit-text, .options-selector, .options-rest {
@@ -227,6 +201,7 @@
 		display: block;
 		overflow: hidden;
 		width: 100%;
+		margin-bottom: 10px;
 		&.expanded {
 			max-height: 500px;
 			padding-bottom: 10rem;
@@ -329,23 +304,7 @@
 	}
 
 	.newSbChoices {
-		.delete-choice-button {
-			display: none;
-			opacity: 0;
-			height: 100%;
-			padding: 0;
-			padding-left: 10px;
-			padding-right: 10px;
-		}	
 		.choice-container {
-			&:hover {
-				.delete-choice-button {
-					opacity: 1;
-					display: table-cell;
-					height: 100%;
-					background-color: rgba(red, 0.5);
-				}
-			}
 		}
 		input {
 			color: $primary;

@@ -1,35 +1,54 @@
 #choice-panel {
   #choices-area {
     position: relative;
-    min-width: 150px;
-    min-height: 200px;
-    margin-top: 25px;
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 25px;
+    margin-right: 25px;
     margin-bottom: 30px;
     background-color: white;
+    display: inline-block;
+    background-color: #eee;
+    text-align: center;
     .gutter-indexes {
       display: inline-block;
-      color: $primary;
+      color: rgba($primary, 0.2);
       height: 40px;
       line-height: 40px;
-      text-align: center;
-      width: 25px;
+      text-align: right;
+      background-color: #eee;
     }
     #choice-containers {
-      position: absolute;
       height: 100%;
-      width: 100%;
+      background-color: #eee;
+      width: calc(100% - 100px);
       top: 0px;
-      min-height: 200px;
+    }
+  }
+  .individual-choice {
+    margin-bottom: 0px !important;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+    &:hover {
+      .choice-expand {
+        display: inline-block;
+        cursor: pointer;
+      }
+      .delete-choice-button {
+        display: inline-block;
+        cursor: pointer;
+      }
     }
   }
   .newSbSection.newSbChoices {
     text-align: left;
     background-color: #eee;
     padding: 0.5rem;
+    padding-top: 1rem;
     margin-bottom: 10px;
-    display: block;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
     .header {
       /*float: left;*/
       display: inline-block;
@@ -40,31 +59,24 @@
       text-align: center;
       width: 100%;
     }
-    .delete-choice-button {
-      display: none;
-      opacity: 0;
-      height: 100%;
-      padding: 0;
-      padding-left: 10px;
-      padding-right: 10px;
-    } 
     .choice-container {
-      width: calc(100% - 25px);
+      width: calc(100% - 75px);
       float: right;
       display: inline-block;
-      &:hover {
+      /*&:hover {
         .delete-choice-button {
           opacity: 1;
           height: 100%;
           background-color: rgba(red, 0.5);
         }
-      }
+      }*/
     }
     input {
       color: $primary;
       border: 0px;
       box-shadow: none;
       margin-top: 0;
+      margin-bottom: 0;
       &:focus {
         border: 0px;
         box-shadow: none;

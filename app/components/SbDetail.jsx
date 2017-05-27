@@ -195,6 +195,13 @@ export class SbDetail extends Component {
         </span>
       )
     }
+    const sortOptions = (
+      <div className='sort-options'>
+        <div>votes</div>
+        <div>A→Z</div>
+        <div>date added</div>
+      </div>
+    )
     return (
       <div className='snowballots-section'>
         <FavoritePanel favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id)} />
@@ -203,6 +210,7 @@ export class SbDetail extends Component {
         {this.state.editing && editForm('title')}
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
+        <div id='sort-by'>sort by: {sortOptions}</div>
         <SbChoices choices={this.props.sb.choices} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>
