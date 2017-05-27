@@ -53,8 +53,8 @@ export const initialState = {
   isPrivate: false,
   isExtensible: false,
   choices: [
-    {title: '', votes: 0, id: 1, info: ''},
-    {title: '', votes: 0, id: 2, info: ''}
+    {title: '', votes: 0, id: 1, info: '', added: 0},
+    {title: '', votes: 0, id: 2, info: '', added: 1}
   ],
   tags: [],
   suggestions: []

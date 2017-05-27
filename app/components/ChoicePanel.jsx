@@ -14,7 +14,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
   }
   const checkKey = (e) => { if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice() }
   const addChoice = () => {
-    const newChoice = {title: '', votes: 0, id: choices.length + 1}
+    const newChoice = {title: '', votes: 0, id: choices.length + 1, added: Date.now()}
     update('choices', [...choices, newChoice])
   }
   const deleteChoice = (e) => {

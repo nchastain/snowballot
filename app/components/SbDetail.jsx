@@ -47,6 +47,7 @@ export class SbDetail extends Component {
         title: this.state.newChoice,
         votes: 0,
         id: this.props.sb.choices.length + 1,
+        added: Date.now()
       }
       const options = {}
       this.setState({newChoice: '', showAddForm: false}, function() {
@@ -186,6 +187,7 @@ export class SbDetail extends Component {
   buildMessages (expires, userID, creator, createdAt, alias) { return <div className='other-sb-info'>{expiresMessage(expires)}{creatorMessage(userID, creator, createdAt, alias)}{this.editMessage()}{authMessage(userID)}</div> }
 
   sortChoices (a, b) {
+    if (this.state.sortType === 'date') return moment.unix(a.added).isBefore(moment.unix(b.added)) ? -1 : 1
     if (this.state.sortType === 'AZ') return b.title > a.title ? -1 : 1
     if (this.state.sortType === 'votes') return b.votes - a.votes
   }
@@ -229,7 +231,7 @@ export class SbDetail extends Component {
         {this.state.mainImage && <img id='image-holder-main' src={this.state.mainImage} />}
         <div id='sb-description-text'>{this.props.sb.description || null}</div>
         {sortOptions()}
-        <SbChoices choices={this.state.sortType === 'date' ? this.props.sb.choices : this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+        <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>
     )
