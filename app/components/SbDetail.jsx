@@ -104,10 +104,8 @@ export class SbDetail extends Component {
   favoriteSnowballot (id, favorites) {
     this.setState({'favorited': !this.state.favorited}, function () {
       const addition = this.state.favorited ? 1 : -1
-      console.log(addition)
-      // if (!favorites) favorites = 0
-      // this.props.dispatch(actions.startUpdateSb(id, {favorites: favorites + addition}))
-      // console.log(this.state.favorited, 'right before dispatch to updateUser')
+      if (!favorites) favorites = 0
+      this.props.dispatch(actions.startUpdateSb(id, {favorites: favorites + addition}))
       this.props.dispatch(actions.startUpdateUserAll('favorites', {...favorites, [id]: this.state.favorited}))
     })
   }
@@ -238,7 +236,7 @@ export class SbDetail extends Component {
 
     return (
       <div className='snowballots-section'>
-        <FavoritePanel favorites={this.state.favorites} favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id, this.props.sb.favorites)} />
+        <FavoritePanel favorites={this.state.favorites} favorited={this.state.favorited} />
         {this.state.tags && this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         {sortOptions()}
         <div id='separator' />
