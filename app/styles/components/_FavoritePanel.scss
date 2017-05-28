@@ -1,0 +1,37 @@
+#favorite-panel {
+  text-align: right;
+  width: 50%;
+  color: rgba($primary, 0.8);
+  position: absolute;
+  right: 1vw;
+  top: 1vw;
+  #favorite-panel-content {
+    display: inline-block;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+    &.favorited {
+      background-color: rgba($primary, 0.2);
+    }
+    .fa {
+      line-height: 30px;
+      margin-top: -6px;
+      color: rgba($primary, 0.8);
+      transition: color .1s linear;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+      &.favorited {
+        color: $primary;
+      }
+    }
+  }
+}

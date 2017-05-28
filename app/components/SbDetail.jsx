@@ -12,26 +12,32 @@ import DeleteModal from './DeleteModal'
 import SharePanel from './SharePanel'
 import SbChoices from './SbChoices'
 import { createStateFromProps } from 'utilities/generalUtils'
-import { doesExpire, isCreator, updateImage } from 'utilities/sbUtils'
+import { doesExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUtils'
 
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
     this.state = {tags: [], sortType: 'date'}
+    this.addEventListening = this.addEventListening.bind(this)
   }
 
   componentWillMount () { this.props.dispatch(actions.findSb(this.props.match.params.alias)) }
 
-  componentDidMount () { this.props.dispatch(actions.findSb(this.props.match.params.alias)) }
+  componentDidMount () {
+    this.props.dispatch(actions.findSb(this.props.match.params.alias))
+    window.addEventListener('click', this.addEventListening, false)
+  }
 
-  componentWillUnmount () { this.props.dispatch(actions.showSb({})) }
+  componentWillUnmount () {
+    this.props.dispatch(actions.showSb({}))
+    window.removeEventListener('click', this.addEventListening, false)
+  }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps)
     let newState = createStateFromProps(this.props, nextProps)
-    if (nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
-    this.setState({title: nextProps.sb.title, description: nextProps.sb.description})
+    if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
+    this.setState({title: nextProps.sb.title, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
 
   updateSbImages (props) {
@@ -95,9 +101,14 @@ export class SbDetail extends Component {
 
   hasExtra ({info, photo, GIF, youtube, link}) { return info || photo || GIF || youtube || link }
 
-  favoriteSnowballot (id) {
-    this.setState({favorited: !this.state.favorited}, function () {
-      this.props.dispatch(actions.startUpdateUserAll('favorites', {[id]: this.state.favorited}))
+  favoriteSnowballot (id, favorites) {
+    this.setState({'favorited': !this.state.favorited}, function () {
+      const addition = this.state.favorited ? 1 : -1
+      console.log(addition)
+      // if (!favorites) favorites = 0
+      // this.props.dispatch(actions.startUpdateSb(id, {favorites: favorites + addition}))
+      // console.log(this.state.favorited, 'right before dispatch to updateUser')
+      this.props.dispatch(actions.startUpdateUserAll('favorites', {...favorites, [id]: this.state.favorited}))
     })
   }
 
@@ -115,7 +126,7 @@ export class SbDetail extends Component {
       <span>
         <DeleteModal toggle={() => this.toggleModal('showModal')} showModal={this.state.showModal} deleteConfirm={() => this.reallyDelete()} />
         <div className='edit-button button' onClick={() => this.toggleModal('showOptionsModal')}>
-          <FA name='pencil' className='fa fa-fw' />Edit snowballot options
+          <FA name='gear' className='fa fa-fw' />
           <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay'>
             <div id='close-modal' onClick={() => this.toggleModal('showOptionsModal')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top'>Edit Snowballot Options</div>
@@ -176,16 +187,24 @@ export class SbDetail extends Component {
     if (this.state.sortType === 'votes') return b.votes - a.votes
   }
 
+  addEventListening () {
+    const editElems = ['edit-description', 'edit-title', 'edit-save-button', 'sb-title', 'sb-description-text', 'detail-add-choice', 'detail-add-input', 'add-tile']
+    if (editElems.indexOf(event.target.id) === -1 && document.getElementById('add-tile')) this.setState({editing: false})
+  }
+
+  checkEnter (e, editField) {
+    if (e.keyCode === 13) this.handleSbChange(editField)
+  }
+
   renderSb () {
     if (!this.props.sb || this.props.sb.length === 0 || typeof this.props.sb.choices === 'undefined') return null
     const taglist = this.props.sb.tags && this.props.sb.tags.length > 0 ? this.props.sb.tags.map((tag) => <span key={tag.text}>{tag.text}</span>) : null
-    const editor = (field) => <div className='editor' onClick={() => this.updateField(field)}><FA name='pencil' className='fa fa-fw' /></div>
     const editForm = (editField) => {
       return (
         <span className='edit-form' >
-          {this.state.editing === 'description' && <textarea rows={5} id='edit-description' value={this.state.description} onChange={(e) => this.setState({description: e.currentTarget.value})} />}
-          {this.state.editing !== 'description' && <input type='text' id={`edit-${editField}`} value={this.state[editField]} onChange={(e) => this.setState({[editField]: e.currentTarget.value})} />}
-          <div className='button' onClick={() => this.handleSbChange(editField)}>Save</div>
+          {this.state.editing === 'description' && <textarea rows={5} id='edit-description' value={this.state.description} onChange={(e) => this.setState({description: e.currentTarget.value})} onKeyDown={(e) => this.checkEnter(e, 'description')} />}
+          {this.state.editing !== 'description' && <input type='text' id={`edit-${editField}`} value={this.state[editField]} onChange={(e) => this.setState({[editField]: e.currentTarget.value})} onKeyDown={(e) => this.checkEnter(e, 'title')} />}
+          <div id='edit-save-button' className='button' onClick={() => this.handleSbChange(editField)}>Save</div>
         </span>
       )
     }
@@ -200,9 +219,9 @@ export class SbDetail extends Component {
       return (
         <div id='top-info'>
           <div id='main-info'>
-            {this.state.editing !== 'title' && <h4 className='sb-title' onClick={() => this.setState({editing: 'title'})}>{this.props.sb.title}</h4>}
+            {this.state.editing !== 'title' && <h4 id='sb-title' className='sb-title' onClick={() => this.setState({editing: 'title'})}>{this.props.sb.title}</h4>}
             {this.state.editing === 'title' && isCreator(this.props.user.uid, this.props.sb.creator) && editForm('title')}
-            {this.state.editing !== 'description' && <div id='sb-description-text' onClick={() => this.setState({editing: 'description'})}>{this.props.sb.description || null}</div>}
+            {this.state.description && this.state.editing !== 'description' && <div id='sb-description-text' onClick={() => this.setState({editing: 'description'})}>{this.props.sb.description || null}</div>}
             {this.state.editing === 'description' && isCreator(this.props.user.uid, this.props.sb.creator) && editForm('description')}
           </div>
           <div id='sort-option-content'>
@@ -219,9 +238,10 @@ export class SbDetail extends Component {
 
     return (
       <div className='snowballots-section'>
-        <FavoritePanel favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id)} />
+        <FavoritePanel favorites={this.state.favorites} favorited={this.state.favorited} onClick={() => this.favoriteSnowballot(this.props.sb.id, this.props.sb.favorites)} />
         {this.state.tags && this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         {sortOptions()}
+        <div id='separator' />
         <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>

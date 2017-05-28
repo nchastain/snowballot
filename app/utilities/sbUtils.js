@@ -90,6 +90,15 @@ export const validateSb = function (sbOptions) {
 
 export const getChoiceNumber = e => parseInt(e.target.id.match(/\d+$/).join(''))
 
+export const favoritedSb = function (sbId, favorites) {
+  if (!favorites) return false
+  if (Object.keys(favorites).indexOf(sbId) !== -1) {
+    Object.keys(favorites).forEach(function (sb) {
+      if (sb === sbId) return favorites[sb]
+    })
+  } else return false
+}
+
 export const updateImage = (alias, selector) => {
   let imageUrl = imagesRef.child(`${alias}/${selector}`)
   imageUrl.getDownloadURL().then(function (url) {
