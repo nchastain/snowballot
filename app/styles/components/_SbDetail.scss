@@ -1,4 +1,6 @@
 #sb-detail {
+  padding-top: 50px;
+  padding-bottom: 50px;
   .sb-choices {
     margin-left: 0;
   }
@@ -6,15 +8,12 @@
   .detail-snowballot-container {
     background-color: white;
     position: relative;
-    padding: 1rem;
+    padding: 5px;
   }
   .snowballots-section {
     text-align: left;
     background-color: white;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    padding-top: 2vw;
-    padding-bottom: 2vw;
+    padding-top: 5px;
     margin-left: auto;
     margin-right: auto;
     li {
@@ -38,12 +37,10 @@
 
   #top-info {
     color: rgba($primary, 0.4);
-    margin-right: 10px;
-    margin-left: 5px;
-    margin-bottom: 20px;
-    margin-top: 25px;
-    padding-right: 4px;
-    width: calc(100% - 5px);
+    margin-top: 75px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    width: calc(100% - 25px);
     display: block;
     position: relative;
     #main-info {
@@ -57,6 +54,7 @@
       display: inline-block;
       margin-left: auto;
       margin-right: auto;
+      margin-bottom: 10px;
       width: 50%;
       vertical-align: bottom;
       font-size: 90%;
@@ -145,12 +143,18 @@
     }
   }
 
-  .delete-button, .edit-button {
+  .action-button {
     background-color: white;
     color: rgba($primary, 0.7);
-    font-size: 1.25vw;
+    font-size: 18px;
+    margin-bottom: 0px !important;
+    margin-left: 10px;
     border-radius: 10px;
     padding: 5px !important;
+    border: 2px solid rgba($primary, 0);
+    &:hover {
+      border: 2px solid rgba($primary, 0.8);
+    }
     .fa {
       vertical-align: initial;
       padding: 0px !important;
@@ -158,13 +162,9 @@
     &:hover {
       opacity: 0.8;
     }
-    margin-top: 10px;
     float: right;
-  }
-
-  .button {
-    & + .button {
-      margin-right: 10px;
+    & + .action-button {
+      margin-left: 10px;
     }
   }
 
@@ -221,8 +221,8 @@
   .tag-list {
     text-align: left;
     position: absolute;
-    top: 1vw;
-    left: 1vw;
+    top: 10px;
+    left: 10px;
     .fa {
       background-color: initial;
       border: initial;
@@ -295,8 +295,6 @@
     width: 100%;
     color: #A7A7A7;
     max-width: 700px;
-    margin-top: 10px;
-    margin-bottom: 10px;
     border: 1px solid white;
     padding: 5px;
     padding-left: 0px;
@@ -337,19 +335,82 @@
 
   .above-sb-container {
     display: inline-block;
-    margin-bottom: -6px;
     width: 100%;
     color: rgba($primary, 0.3);
+    background-color: rgba($primary, 0.1);
+    min-height: 80px;
     a {
       color: white;
       text-decoration: underline;
     }
-    .other-sb-info {
+    #sb-info {
       padding: 10px;
       display: inline-block;
-      width: 100%;
-      background-color: rgba($primary, 0.1);
+      width: 50%;
       color: rgba($primary, 0.6);
+      min-height: 80px;
+      vertical-align: top;
+      ul {
+        margin: 0;
+        margin-left: 1.25rem;
+        display: inline-block;
+      }
+    }
+    #sb-actions {
+      padding-top: 10px;
+      padding-right: 10px;
+      display: inline-block;
+      width: 50%;
+      color: rgba($primary, 0.6);
+      min-height: 80px;
+      vertical-align: top;
+    }
+  }
+  @media (max-width: 800px) {
+    #main-info, #sort-option-content, #sb-info, #sb-actions {
+      width: 100% !important;
+    }
+    .above-sb-container {
+      min-height: 30px !important;
+    }
+    #sb-title {
+      text-align: center !important;
+      width: 100%;
+    }
+    .edit-form input {
+      font-size: 1.125rem !important;
+    }
+    #sb-description-text {
+      width: 100% !important;
+    }
+    #sb-actions, #sb-info {
+      min-height: 0px !important;
+    }
+    #sb-info {
+      font-size: 80% !important;
+      ul {
+        text-indent: 0px !important;
+      }
+    }
+    .photo-title {
+      font-size: 5vw !important;
+    }
+    #sb-actions {
+      padding-bottom: 10px !important;
+      text-align: center !important;
+      width: 75% !important;
+      margin-left: 12.5% !important;
+      margin-right: 12.5% !important;
+    }
+    #sort-option-content {
+      font-size: 75% !important;
+      margin-top: 10px !important;
+      text-align: center !important;
+      width: 100% !important;
+    }
+    .sort-option-key {
+      padding-left: 0px !important;
+      width: 100% !important;
     }
   }
 }

@@ -6,30 +6,21 @@ import { Link } from 'react-router-dom'
 
 export const creatorMessage = function (userID, creator, createdAt, alias) {
   if (!isCreator(userID, creator)) return
-  const justCreated = moment.unix(createdAt).subtract(1, 'hours').isBefore(moment().unix())
-  const newMsg = (
-    <div className='creator-message'>
-      <span className='creator-message-text'>
-      You just created this snowballot! Now <a href={`/sbs/${alias}`}>send it to people</a> and bask in the wisdom of crowds.
-      </span>
-    </div>
-  )
-  const oldMsg = (
-    <div className='creator-message'>
+  return (
+    <li className='creator-message'>
       <span className='creator-message-text'>
       You created this snowballot on {moment.unix(createdAt).format('dddd, MMMM Do, YYYY')}
       </span>
-    </div>
+    </li>
   )
-  return justCreated ? newMsg : oldMsg
 }
 
 export const expiresMessage = function (expiration) {
   if (!expiration) return
   return (
-    <span className='expiration-info'>
-      <FA name='clock-o' className='fa fa-fw' />This snowballot {didExpire(expiration) ? 'has expired.' : `expires after ${expiration}` }
-    </span>
+    <li>
+      This snowballot {didExpire(expiration) ? 'has expired.' : `expires after ${expiration}` }
+    </li>
   )
 }
 

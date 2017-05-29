@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
+import { ShareButtons, generateShareIcon } from 'react-share'
 import classnames from 'classnames'
 import moment from 'moment'
 import * as actions from '.././actions'
@@ -37,7 +38,7 @@ export class SbDetail extends Component {
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
     if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
-    this.setState({title: nextProps.sb.title, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
+    this.setState({title: nextProps.sb.title, isExtensible: nextProps.sb.isExtensible, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
 
   updateSbImages (props) {
@@ -123,7 +124,7 @@ export class SbDetail extends Component {
     return (
       <span>
         <DeleteModal toggle={() => this.toggleModal('showModal')} showModal={this.state.showModal} deleteConfirm={() => this.reallyDelete()} />
-        <div className='edit-button button' onClick={() => this.toggleModal('showOptionsModal')}>
+        <div className='edit-button button action-button' onClick={() => this.toggleModal('showOptionsModal')}>
           <FA name='gear' className='fa fa-fw' />
           <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay'>
             <div id='close-modal' onClick={() => this.toggleModal('showOptionsModal')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
@@ -177,7 +178,51 @@ export class SbDetail extends Component {
     this.setState({editing: false})
   }
 
-  buildMessages (expires, userID, creator, createdAt, alias) { return <div className='other-sb-info'>{expiresMessage(expires)}{creatorMessage(userID, creator, createdAt, alias)}{this.editMessage()}{authMessage(userID)}</div> }
+  buildInfoPanel (expires, userID, creator, createdAt, alias) {
+    const pageUrl = `http://www.snowballot.com/sbs/${alias}`
+    const pageTitle = this.props.sb.title
+    const description = 'Please click the link to vote on this.'
+    const { FacebookShareButton, TwitterShareButton } = ShareButtons
+    const copyToClipboard = function () {
+      var aux = document.createElement('input')
+      aux.setAttribute('value', `http://localhost:3003/sbs/${alias}`)
+      document.body.appendChild(aux)
+      aux.select()
+      document.execCommand('copy')
+      document.body.removeChild(aux)
+    }
+    return (
+      <div className='above-sb-container'>
+        <div id='sb-info'>
+          <ul>
+            {creatorMessage(userID, creator, createdAt, alias)}
+            {expiresMessage(expires)}
+          </ul>
+          {authMessage(userID)}
+        </div>
+        <div id='sb-actions'>
+          {this.editMessage()}
+          <span className='button action-button'>
+            <TwitterShareButton
+              children={<FA name='twitter' className='fa fa-fw' />}
+              url={pageUrl}
+              title={pageTitle}
+              description={description}
+            />
+          </span>
+          <span className='button action-button'>
+            <FacebookShareButton
+              children={<FA name='facebook' className='fa fa-fw' />}
+              url={pageUrl}
+              title={pageTitle}
+              description={description}
+            />
+          </span>
+          <div className='button action-button' onClick={() => copyToClipboard()}><FA name='clipboard' className='fa fa-fw' /></div>
+        </div>
+      </div>
+    )
+  }
 
   sortChoices (a, b) {
     if (this.state.sortType === 'date') return moment.unix(a.added).isBefore(moment.unix(b.added)) ? -1 : 1
@@ -224,7 +269,7 @@ export class SbDetail extends Component {
           </div>
           <div id='sort-option-content'>
             <div id='sort-option-key'>
-              Choices, sorted by:&nbsp;&nbsp;
+              sort choices by:&nbsp;&nbsp;
               <div className={classnames(sortClasses('votes'))} onClick={() => this.setState({sortType: 'votes'})}>votes</div>
               <div className={classnames(sortClasses('AZ'))} onClick={() => this.setState({sortType: 'AZ'})}>A→Z</div>
               <div className={classnames(sortClasses('date'))} onClick={() => this.setState({sortType: 'date'})}>date added</div>
@@ -240,7 +285,7 @@ export class SbDetail extends Component {
         {this.state.tags && this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         {sortOptions()}
         <div id='separator' />
-        <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+        <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
         {this.state.showAddForm && this.showAddChoice(this.state.expires)}
       </div>
     )
@@ -251,8 +296,7 @@ export class SbDetail extends Component {
     const userID = this.props.user.uid
     return (
       <div id='sb-detail'>
-        <SharePanel alias={alias} />
-        <div className='above-sb-container'>{this.buildMessages(this.state.expires, userID, creator, createdAt, alias)}</div>
+        {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias)}
         <div className='detail-snowballot-container'>{this.renderSb()}</div>
       </div>
     )

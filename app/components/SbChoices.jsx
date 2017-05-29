@@ -14,7 +14,7 @@ class SbChoices extends React.Component {
     this.state = {
       choices: [],
       userID: props.userID,
-      expires: '05/30/2017 12:00 a.m.',
+      expires: undefined,
       userVote: null
     }
   }
@@ -81,12 +81,12 @@ class SbChoices extends React.Component {
               */}</div>
             </span>
           )}
-          <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >
+          {this.props.isExtensible && <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >
             <div className='add-title'>
               <FA name='plus' className='fa fa-fw' />
               Add a choice
             </div>
-          </div>
+          </div>}
         </div>
     )
   }

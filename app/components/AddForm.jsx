@@ -112,6 +112,7 @@ class AddForm extends React.Component {
         toggleDescription={(e) => this.setState({description: e.target.value})}
         handleAdd={(tag) => this.handleAdd(tag)}
         handleDelete={(i) => this.handleDelete(i)}
+        tags={this.state.tags}
         toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
         {...stateProps}
       />

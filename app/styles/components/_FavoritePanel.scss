@@ -3,23 +3,24 @@
   width: 50%;
   color: rgba($primary, 0.8);
   position: absolute;
-  right: 1vw;
-  top: 1vw;
+  right: 10px;
+  top: 10px;
   #favorite-panel-content {
     display: inline-block;
     border: 1px solid #eee;
     border-radius: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
-    height: 30px;
-    line-height: 30px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
     transition: background-color .1s linear;
     &:hover {
       cursor: pointer;
       opacity: 0.8;
+      border: 1px solid rgba($primary, 0.8);
     }
     &.favorited {
       background-color: rgba($primary, 0.2);
+      border: 1px solid rgba($primary, 0);
     }
     .fa {
       line-height: 30px;
