@@ -74,7 +74,28 @@
       font-size: 19vw;
       opacity: 0.3;
     }
-    .left-cell {
+    .bottom-left-cell {
+      text-align: left;
+      position: absolute;
+      bottom: 1.25vw;
+      left: calc(1vw - 10px);
+      width: 70%;
+      display: inline-block;
+      z-index: 100;
+    }
+    .extra-media-button {
+      z-index: 101;
+      border-radius: 5px;
+      padding: 5px 10px;
+      padding-top: 0px;
+      color: white;
+      margin-left: 10px;
+      font-size: 1.5vw;
+      margin-top: 10px;
+      display: inline-block;
+      &:hover {
+        opacity: 0.8;
+      }
     }
     .right-cell {
       height: 1vw;

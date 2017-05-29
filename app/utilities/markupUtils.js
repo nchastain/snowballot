@@ -40,7 +40,7 @@ export const linkMessage = function (alias) {
 }
 
 export const votesMessage = function (choices, id, user, expires) {
-  if (didExpire(expires) || typeof choices === 'undefined' || typeof id === 'undefined' || typeof user === 'undefined' || !user.votes || !choices[user.votes[id] - 1]) return
+  if (didExpire(expires) || typeof choices === 'undefined' || typeof id === 'undefined' || typeof user === 'undefined' || !user.votes || !choices[user.votes[id] - 1] || user.votes[id] !== null) return
   const leader = findLeader(choices)
   return (
     <li>{addFA('line-chart')} You voted for <span style={{fontWeight: 'bold'}}>{choices[user.votes[id] - 1].title} </span>

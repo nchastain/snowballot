@@ -1,6 +1,7 @@
 import React from 'react'
 import IncludedMedia from './IncludedMedia'
 import FA from 'react-fontawesome'
+import ReactTooltip from 'react-tooltip'
 import omit from 'object.omit'
 import { connect } from 'react-redux'
 import * as actions from '.././actions'
@@ -15,7 +16,8 @@ class SbChoices extends React.Component {
       choices: [],
       userID: props.userID,
       expires: undefined,
-      userVote: null
+      userVote: null,
+      viewingMedia: false
     }
   }
 
@@ -33,6 +35,7 @@ class SbChoices extends React.Component {
   }
 
   vote (choiceId, e) {
+    if (e.target.className === 'extra-media-button' || e.target.className.indexOf('fa') !== -1) return
     const previousVote = this.props.user.votes && this.props.user.votes[this.props.sb.id] !== undefined && this.props.user.votes[this.props.sb.id] !== null ? this.props.user.votes[this.props.sb.id] : null
     this.setState({userVote: previousVote === choiceId ? null : choiceId}, function () {
       const updatedChoices = this.updateChoicesOnVote(this.props.sb.choices, choiceId, previousVote)
@@ -50,15 +53,35 @@ class SbChoices extends React.Component {
   }
 
   render () {
-    const hasExtra = ({info, photo, GIF, youtube, link}) => info || photo || GIF || youtube || link
+    const backgrounds = ['#54D19F', '#5192E8', '#DE80FF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
+    const lightBackgrounds = ['#87FFD2', '#84C5FF', '#FFD1FF', '#FF6775', '#FFDF8C', '#FFB283', '#FFCED4']
+    const mediaIcon = (name, icon, choice) => {
+      return (
+        <span id={`icon-${name}-${choice.id}`} onClick={() => console.log(name)}>
+          <span>{choice[name] && <span className='extra-media-button' style={{color: 'white', backgroundColor: lightBackgrounds[choice.id % lightBackgrounds.length]}} data-tip data-for={`${name}-tooltip-${choice.id}`}><FA name={icon} className='fa fa-fw' /></span>}</span>
+          <ReactTooltip id={`${name}-tooltip-${choice.id}`} effect='solid'><span>View {name === 'youtube' ? 'YouTube link' : name}</span></ReactTooltip>
+        </span>
+      )
+    }
+    const addExtraMedia = (choice) => {
+      return (
+        <span>
+          {mediaIcon('info', 'file-text-o', choice)}
+          {mediaIcon('photo', 'picture-o', choice)}
+          {mediaIcon('youtube', 'youtube', choice)}
+          {mediaIcon('link', 'link', choice)}
+          {mediaIcon('GIF', 'film', choice)}
+        </span>
+      )
+    }
     const that = this
     const isLeader = function (choice) { return didExpire(that.state.expires) && getVoteSum(that.props.choices) > 0 && choice.id === findLeader(that.props.choices).id }
-    const backgrounds = ['#54D19F', '#5192E8', '#AB4DFF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
     return (
         <div id='sb-choices' className='sb-choices'>
           {this.state.choices && this.state.choices.map((choice, idx) =>
             <span key={choice.id}>
               <div
+                id={`choice-container-${choice.id}`}
                 key={choice.title + idx}
                 className={this.sbClasses(choice)}
                 onClick={(e) => !this.props.userID || didExpire(this.state.expires) ? null : this.vote(choice.id, e)}
@@ -72,13 +95,10 @@ class SbChoices extends React.Component {
                 <div className='top-cell right-cell'>
                   {isLeader(choice) && <FA name='trophy' className='fa fa-fw' />}
                 </div>
-                {/*
-                <div className='right-cell' />
+                <div className='bottom-left-cell'>
+                  {addExtraMedia(choice)}
+                </div>
               </div>
-              {hasExtra(choice) &&
-              <div className='more-sb-info'>
-                <IncludedMedia included={omit(choice, ['votes', 'title', 'id'], (val) => val !== '')} />
-              */}</div>
             </span>
           )}
           {this.props.isExtensible && <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >

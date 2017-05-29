@@ -122,7 +122,7 @@ class ChoiceMediaPane extends React.Component {
   render () {
     const that = this
     const mediaButtons = [
-      {icon: 'commenting-o', label: 'add info', id: 'info'},
+      {icon: 'file-text-o', label: 'add info', id: 'info'},
       {icon: 'photo', label: 'add photo', id: 'photo'},
       {icon: 'youtube', label: 'add YouTube video', id: 'youtube'},
       {icon: 'link', label: 'add link', id: 'link'},
