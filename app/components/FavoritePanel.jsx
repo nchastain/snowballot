@@ -1,6 +1,7 @@
 import React from 'react'
 import FA from 'react-fontawesome'
 import classnames from 'classnames'
+import ReactTooltip from 'react-tooltip'
 import * as actions from '.././actions'
 import { connect } from 'react-redux'
 import { addCommas } from '.././utilities/generalUtils'
@@ -29,12 +30,15 @@ class FavoritePanel extends React.Component {
   render () {
     const { favorited, favorites } = this.state
     return (
-      <div id='favorite-panel'>
-        <div id='favorite-panel-content' className={favorited ? 'favorited' : ''} onClick={() => this.toggleFavorite()}>
-          <FA id='favorite-star' name={favorited ? 'star' : 'star-o'} className={classnames({'fa-fw': true, 'favorited': favorited})} style={{verticalAlign: 'middle'}} />
-          <span className='favorite-text'>{addCommas(favorites)}</span>
+      <span>
+        <div id='favorite-panel'>
+          <div id='favorite-panel-content' className={favorited ? 'favorited' : ''} onClick={() => this.toggleFavorite()} data-tip data-for='favorite-tooltip'>
+            <FA id='favorite-star' name={favorited ? 'star' : 'star-o'} className={classnames({'fa-fw': true, 'favorited': favorited})} style={{verticalAlign: 'middle'}} />
+            <span className='favorite-text'>{addCommas(favorites)}</span>
+          </div>
         </div>
-      </div>
+        <ReactTooltip id='favorite-tooltip' effect='solid'><span>Mark as favorite</span></ReactTooltip>
+      </span>
     )
   }
 }

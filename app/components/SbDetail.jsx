@@ -3,18 +3,18 @@ import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
 import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
-import { ShareButtons, generateShareIcon } from 'react-share'
+import { ShareButtons } from 'react-share'
+import ReactTooltip from 'react-tooltip'
 import classnames from 'classnames'
 import moment from 'moment'
 import * as actions from '.././actions'
 import OptionPanel from './OptionPanel'
 import FavoritePanel from './FavoritePanel'
 import DeleteModal from './DeleteModal'
-import SharePanel from './SharePanel'
 import SbChoices from './SbChoices'
 import { createStateFromProps } from 'utilities/generalUtils'
 import { didExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
-import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUtils'
+import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage, winnerMessage } from 'utilities/markupUtils'
 
 export class SbDetail extends Component {
   constructor (props) {
@@ -124,7 +124,8 @@ export class SbDetail extends Component {
     return (
       <span>
         <DeleteModal toggle={() => this.toggleModal('showModal')} showModal={this.state.showModal} deleteConfirm={() => this.reallyDelete()} />
-        <div className='edit-button button action-button' onClick={() => this.toggleModal('showOptionsModal')}>
+        <ReactTooltip id='delete-tooltip' effect='solid'><span>Delete snowballot</span></ReactTooltip>
+        <div className='edit-button button action-button' onClick={() => this.toggleModal('showOptionsModal')} data-tip data-for='settings-tooltip'>
           <FA name='gear' className='fa fa-fw' />
           <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay'>
             <div id='close-modal' onClick={() => this.toggleModal('showOptionsModal')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
@@ -144,6 +145,7 @@ export class SbDetail extends Component {
             />
           </ReactModal>
         </div>
+        <ReactTooltip id='settings-tooltip' effect='solid'><span>Edit snowballot settings</span></ReactTooltip>
       </span>
     )
   }
@@ -178,31 +180,26 @@ export class SbDetail extends Component {
     this.setState({editing: false})
   }
 
-  buildInfoPanel (expires, userID, creator, createdAt, alias) {
+  buildInfoPanel (expires, userID, creator, createdAt, alias, choices, id, user) {
     const pageUrl = `http://www.snowballot.com/sbs/${alias}`
     const pageTitle = this.props.sb.title
     const description = 'Please click the link to vote on this.'
     const { FacebookShareButton, TwitterShareButton } = ShareButtons
-    const copyToClipboard = function () {
-      var aux = document.createElement('input')
-      aux.setAttribute('value', `http://localhost:3003/sbs/${alias}`)
-      document.body.appendChild(aux)
-      aux.select()
-      document.execCommand('copy')
-      document.body.removeChild(aux)
-    }
     return (
       <div className='above-sb-container'>
         <div id='sb-info'>
           <ul>
             {creatorMessage(userID, creator, createdAt, alias)}
             {expiresMessage(expires)}
+            {votesMessage(choices, id, user, expires)}
+            {winnerMessage(expires, choices)}
+            {linkMessage(alias)}
+            {authMessage(userID)}
           </ul>
-          {authMessage(userID)}
         </div>
         <div id='sb-actions'>
           {this.editMessage()}
-          <span className='button action-button'>
+          <span className='button action-button' data-tip data-for='twitter-share-tooltip'>
             <TwitterShareButton
               children={<FA name='twitter' className='fa fa-fw' />}
               url={pageUrl}
@@ -210,7 +207,8 @@ export class SbDetail extends Component {
               description={description}
             />
           </span>
-          <span className='button action-button'>
+          <ReactTooltip id='twitter-share-tooltip' effect='solid'><span>Share on Twitter</span></ReactTooltip>
+          <span className='button action-button' data-tip data-for='facebook-share-tooltip'>
             <FacebookShareButton
               children={<FA name='facebook' className='fa fa-fw' />}
               url={pageUrl}
@@ -218,7 +216,7 @@ export class SbDetail extends Component {
               description={description}
             />
           </span>
-          <div className='button action-button' onClick={() => copyToClipboard()}><FA name='clipboard' className='fa fa-fw' /></div>
+          <ReactTooltip id='facebook-share-tooltip' effect='solid'><span>Share on Facebook</span></ReactTooltip>
         </div>
       </div>
     )
@@ -292,11 +290,11 @@ export class SbDetail extends Component {
   }
 
   render () {
-    const { creator, createdAt, alias } = this.props.sb
+    const { creator, createdAt, alias, choices, id } = this.props.sb
     const userID = this.props.user.uid
     return (
       <div id='sb-detail'>
-        {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias)}
+        {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias, choices, id, this.props.user)}
         <div className='detail-snowballot-container'>{this.renderSb()}</div>
       </div>
     )

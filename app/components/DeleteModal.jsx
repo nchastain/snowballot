@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const DeleteModal = (props) => {
   const { toggle, showModal, deleteConfirm } = props
   return (
-    <div id='delete-modal' className='action-button delete-button button' onClick={() => toggle()}>
+    <div id='delete-modal' className='action-button delete-button button' data-tip data-for='delete-tooltip' onClick={() => toggle()}>
       <FA name='trash' className='fa fa-fw' />
       <ReactModal contentLabel='delete-sb' isOpen={showModal} style={modalStyles} >
         <div id='modal-content'>

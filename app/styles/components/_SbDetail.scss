@@ -247,7 +247,7 @@
   }
   #detail-add-choice {
     width: 125px;
-    margin-top: 13px;
+    margin-top: 5px;
     height: 40px;
     margin-right: 50px;
     margin-bottom: 0;
@@ -339,28 +339,29 @@
     color: rgba($primary, 0.3);
     background-color: rgba($primary, 0.1);
     min-height: 80px;
+    font-size: 80%;
     a {
-      color: white;
+      color: rgba($primary, 0.6);
       text-decoration: underline;
     }
     #sb-info {
       padding: 10px;
       display: inline-block;
-      width: 50%;
+      width: 65%;
       color: rgba($primary, 0.6);
       min-height: 80px;
       vertical-align: top;
       ul {
         margin: 0;
-        margin-left: 1.25rem;
         display: inline-block;
+        list-style: none;
       }
     }
     #sb-actions {
       padding-top: 10px;
       padding-right: 10px;
       display: inline-block;
-      width: 50%;
+      width: 35%;
       color: rgba($primary, 0.6);
       min-height: 80px;
       vertical-align: top;
