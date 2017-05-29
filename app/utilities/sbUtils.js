@@ -3,9 +3,9 @@ import { createFilter } from 'react-search-input'
 import uuid from 'uuid'
 import { imagesRef } from '../firebase/constants'
 
-export const doesExpire = function (expires) {
+export const didExpire = function (expires) {
   if (typeof expires !== 'string') return false
-  return moment(new Date(expires)).isBefore(moment(Date.now()))
+  return moment(expires, 'MM/DD/YYYY h:mm a').isBefore(moment(Date.now()))
 }
 
 export const isCreator = function (user, creator) {
@@ -49,7 +49,7 @@ export const initialState = {
   alias: '',
   choicesExpanded: {},
   description: '',
-  doesExpire: false,
+  didExpire: false,
   isPrivate: false,
   isExtensible: false,
   choices: [

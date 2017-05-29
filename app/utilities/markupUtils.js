@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { isCreator, doesExpire } from 'utilities/sbUtils'
+import { isCreator, didExpire } from 'utilities/sbUtils'
 import FA from 'react-fontawesome'
 import { Link } from 'react-router-dom'
 
@@ -28,7 +28,7 @@ export const expiresMessage = function (expiration) {
   if (!expiration) return
   return (
     <span className='expiration-info'>
-      <FA name='clock-o' className='fa fa-fw' />This snowballot {doesExpire(expiration) ? 'has expired.' : `expires after ${expiration}` }
+      <FA name='clock-o' className='fa fa-fw' />This snowballot {didExpire(expiration) ? 'has expired.' : `expires after ${expiration}` }
     </span>
   )
 }

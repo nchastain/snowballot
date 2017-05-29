@@ -4,7 +4,7 @@ import FA from 'react-fontawesome'
 
 const OptionPanel = (props) => {
   const {
-    doesExpire,
+    didExpire,
     handleOptionToggle,
     setDate,
     isPrivate,
@@ -40,7 +40,7 @@ const OptionPanel = (props) => {
       <div id='real-options-section' className={optionsExpanded ? 'expanded' : ''}>
         <OptionUnit
           name='expire'
-          doesExpire={doesExpire}
+          didExpire={didExpire}
           toggle={(e) => handleOptionToggle(e)}
           setDate={(data) => setDate(data)}
         />

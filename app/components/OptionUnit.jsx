@@ -4,21 +4,21 @@ import Tagger from './Tagger'
 import { DatePicker } from '.././utilities/generalUtils'
 
 const OptionUnit = function (props) {
-  const { name, doesExpire, isPrivate, description, alias, expires, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
+  const { name, didExpire, isPrivate, description, alias, expires, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
   const optionUnits = {
     expire: {
       icon: 'calendar-times-o',
       text: 'Lock voting on snowballot after certain time?',
       selector: (
         <FA
-          id='doesExpire'
-          name={doesExpire ? 'check-circle' : 'circle'}
+          id='didExpire'
+          name={didExpire ? 'check-circle' : 'circle'}
           className='fa fa-fw custom-check'
           onClick={(e) => toggle(e)}
         />
       ),
       etc: (
-        <span>{doesExpire && <DatePicker expires={expires} setDate={setDate} {...props} />}</span>
+        <span>{didExpire && <DatePicker expires={expires} setDate={setDate} {...props} />}</span>
       )
     },
     private: {

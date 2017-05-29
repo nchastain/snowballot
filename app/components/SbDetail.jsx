@@ -12,7 +12,7 @@ import DeleteModal from './DeleteModal'
 import SharePanel from './SharePanel'
 import SbChoices from './SbChoices'
 import { createStateFromProps } from 'utilities/generalUtils'
-import { doesExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
+import { didExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage } from 'utilities/markupUtils'
 
 export class SbDetail extends Component {
@@ -45,7 +45,7 @@ export class SbDetail extends Component {
   }
 
   addChoice () {
-    if (doesExpire(this.state.expires)) this.setState({error: 'Sorry, this snowballot has expired!'})
+    if (didExpire(this.state.expires)) this.setState({error: 'Sorry, this snowballot has expired!'})
     const choiceNames = this.props.sb.choices.map(choice => choice.title.toLowerCase())
     if (choiceNames.indexOf(this.state.newChoice.toLowerCase()) !== -1) this.setState({error: 'Sorry, that choice already exists!'})
     else {
@@ -77,7 +77,7 @@ export class SbDetail extends Component {
 
   showAddChoice (expires) {
     const extensibleOrCreated = this.props.sb.isExtensible || isCreator(this.props.user.uid, this.props.sb.creator)
-    if (extensibleOrCreated && this.props.user.uid && doesExpire(expires)) return
+    if (extensibleOrCreated && this.props.user.uid && didExpire(expires)) return
     return (
       <span>
         <input
