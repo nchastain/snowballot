@@ -181,6 +181,7 @@
 	  position: relative;
 	  width: 100%;
 	  font-family: 'Futura';
+	  min-height: 100px;
 	}
 
 	.dashboard-share-panel {
@@ -199,26 +200,53 @@
 
 	.share-panel-outer-container {
 		background-color: white;
-		width: 125px;
+		width: 250px;
 		display: inline-block;
-		float: right;
-		height: 92px;
+		position: absolute;
+		top: 5px;
+		right: 5px;
 		padding-right: 0.5rem;
 		margin-top: 16 !important;
 	}
 
 	.choice-container {
 		width: 100%;
-		display: table;
+		display: inline-block;
 		input {
 			width: 100%;
-			display: table-cell;
+			display: inline-block;
 			border-right: 0px;
 		}
 		.delete-choice-button {
-			display: table-cell;
+			display: inline-block;
 		}
 	}
+
+	.action-button {
+		margin-top: 10px;
+    background-color: white;
+    color: rgba($primary, 0.7);
+    font-size: 18px;
+    margin-bottom: 0px !important;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 5px !important;
+    border: 2px solid rgba($primary,0.4);
+    &:hover {
+      border: 2px solid rgba($primary, 0.8);
+    }
+    .fa {
+      vertical-align: initial;
+      padding: 0px !important;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+    float: right;
+    & + .action-button {
+      margin-left: 10px;
+    }
+  }
 
 	@media (max-width: 500px) {
 		.share-panel-outer-container, .vote-total {

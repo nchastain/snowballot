@@ -6,12 +6,15 @@ import SharePanel from './SharePanel'
 import AccountPanel from './AccountPanel'
 import FA from 'react-fontawesome'
 import { getVoteSum } from '.././utilities/sbUtils'
+import ReactTooltip from 'react-tooltip'
+import { ShareButtons } from 'react-share'
 
 export class Dashboard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      favoriteSbs: []
+      favoriteSbs: [],
+      linkCopied: ''
     }
   }
 
@@ -49,6 +52,18 @@ export class Dashboard extends Component {
   renderSbs () {
     if (!this.props.user.sbs || Object.keys(this.props.user.sbs).length === 0) return
     const sortedSbs = this.props.user.sbs.sort((a, b) => b.createdAt - a.createdAt)
+    const { FacebookShareButton, TwitterShareButton } = ShareButtons
+    const description = 'Please click the link to vote on this.'
+    const copyToClipboard = (alias) => {
+      var aux = document.createElement('input')
+      aux.setAttribute('value', `http://localhost:3003/sbs/${alias}`)
+      document.body.appendChild(aux)
+      aux.select()
+      document.execCommand('copy')
+      document.body.removeChild(aux)
+      this.setState({linkCopied: alias})
+    }
+    const linkCopied = alias => this.state.linkCopied === alias
     return sortedSbs.map((sb, idx) => (
       <span key={`sb-${sb.createdAt}`} className='total-sb-container'>
         <Link to={`/sbs/${sb.alias}`} className='snowballot-container'>
@@ -59,7 +74,28 @@ export class Dashboard extends Component {
         </Link>
         <span className='share-panel-outer-container'>
           <span className='dashboard-share-panel-outer-container'>
-            <SharePanel altText={false} iconSize='small' sb={sb} alias={sb.alias} />
+          <span className='button action-button' data-tip data-for='copy-tooltip' onClick={() => copyToClipboard(sb.alias)}>
+            <FA name={linkCopied(sb.alias) ? 'check-circle' : 'clipboard'} className='fa fa-fw' />
+          </span>
+          <ReactTooltip id='copy-tooltip' effect='solid'><span>Copy snowballot link</span></ReactTooltip>
+          <span className='button action-button' data-tip data-for='twitter-share-tooltip'>
+            <TwitterShareButton
+              children={<FA name='twitter' className='fa fa-fw' />}
+              url={`http://www.snowballot.com/sbs/${sb.alias}`}
+              title={sb.title}
+              description={description}
+            />
+          </span>
+          <ReactTooltip id='twitter-share-tooltip' effect='solid'><span>Share on Twitter</span></ReactTooltip>
+          <span className='button action-button' data-tip data-for='facebook-share-tooltip'>
+            <FacebookShareButton
+              children={<FA name='facebook' className='fa fa-fw' />}
+              url={`http://www.snowballot.com/sbs/${sb.alias}`}
+              title={sb.title}
+              description={description}
+            />
+          </span>
+          <ReactTooltip id='facebook-share-tooltip' effect='solid'><span>Share on Facebook</span></ReactTooltip>
           </span>
         </span>
       </span>

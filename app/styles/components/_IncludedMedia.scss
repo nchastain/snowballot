@@ -1,7 +1,7 @@
 #included-media {
   color: white;
-  width: calc(100% - $choiceInset);
-  margin-left: $choiceInset;
+  width: 100%;
+  text-align: center;
   .included-media-item {
     background-color: rgba($primary, 0.4);
     display: table;

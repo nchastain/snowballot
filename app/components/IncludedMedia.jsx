@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import FA from 'react-fontawesome'
 import { connect } from 'react-redux'
 
-const IncludedMedia = ({included, onDelete}) => {
+const IncludedMedia = ({included, onDelete, showDelete}) => {
   const imgClasses = (type) => { return {'included-GIF': type === 'GIF', 'gallery-image': true, 'included-content': true} }
   const deleteButton = (type) => (
     <span className='fa-stack fa-md delete-button' id={type} onClick={() => onDelete(type)}>
@@ -15,13 +15,15 @@ const IncludedMedia = ({included, onDelete}) => {
   const container = (type) => <div className='included-content'>{included[type]}</div>
   const img = (type) => <img className={classnames(imgClasses(type))} src={included[type]} />
   const link = <div className='included-content'><a href={included.link}>{included.link}</a></div>
-  const youtube = <div className='video-container'><ReactPlayer url={included.youtube} height={270} width={480} controls /></div>
+  const youtube = <div className='video-container'><ReactPlayer url={included.youtube} controls /></div>
+  const more = <div className='included-content'>Click on an icon below to view additional media for this choice.</div>
   const displayMedia = (mediaType) => {
     switch (mediaType) {
       case 'photo':
       case 'GIF': return img(mediaType)
       case 'youtube': return youtube
       case 'link': return link
+      case 'more': return more
       default: return container(mediaType)
     }
   }
@@ -32,7 +34,7 @@ const IncludedMedia = ({included, onDelete}) => {
           return (
             <div className='included-media-item' key={mediaType} id={mediaType}>
               <div className='key-container'><div className='included-key'>{mediaType}</div></div>
-              {deleteButton(mediaType)}
+              {showDelete && deleteButton(mediaType)}
               {displayMedia(mediaType)}
             </div>
           )
