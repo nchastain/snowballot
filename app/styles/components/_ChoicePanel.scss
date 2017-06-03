@@ -1,8 +1,8 @@
 #choice-panel {
   #choices-area {
     position: relative;
-    margin-left: 25px;
-    margin-right: 25px;
+    margin-left: 50px;
+    margin-right: 0px;
     margin-bottom: 30px;
     background-color: white;
     display: inline-block;
@@ -10,11 +10,14 @@
     text-align: center;
     .gutter-indexes {
       display: inline-block;
-      color: rgba($primary, 0.2);
+      color: white;
       height: 40px;
       line-height: 40px;
       text-align: right;
-      background-color: white;
+      background-color: rgba($primary, 0.5);
+      padding-left: 15px;
+      padding-right: 15px;
+      border-radius: 25px;
     }
     #choice-containers {
       height: 100%;
@@ -38,6 +41,9 @@
         display: inline-block;
         cursor: pointer;
       }
+    }
+    & + .individual-choice {
+      margin-top: 15px;
     }
   }
   .newSbSection.newSbChoices {

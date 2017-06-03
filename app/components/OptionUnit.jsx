@@ -76,7 +76,6 @@ const OptionUnit = function (props) {
             rows={3}
             value={description}
             onChange={(e) => toggle(e)}
-            style={{width: '500px'}}
           />
         </span>
       )

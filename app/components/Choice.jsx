@@ -7,12 +7,11 @@ const Choice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choice
       id={`choice-container-choice-${choice.id}`}
       className='choice-container input-group'
     >
-      <FA
+      <div
         id={`choice-${choice.id}`}
-        name={choicesExpanded[`choice-${choice.id}`] ? 'compress' : 'ellipsis-h'}
-        className='input-group-button fa fa-fw choice-expand'
+        className='options-button input-group-button choice-expand'
         onClick={(e) => toggleChoiceOptions(e, choicesExpanded)}
-      />
+      >Options</div>
       <FA
         key={`delete-${choice.id}`}
         id={`delete-${choice.id}`}

@@ -1,5 +1,6 @@
 #options-panel {
   margin-bottom: 10px !important;
+  background-color: rgba(#eee, 0.7) !important;
   &.newSbOptions.newSbSection {
     .fa-2x {
       line-height: inherit !important;
@@ -13,7 +14,6 @@
       }
     }
     text-align: left;
-    background-color: #eee;
     padding: 0.5rem;
     padding-bottom: 10px;
     display: block;
@@ -43,33 +43,5 @@
     font-size: 80%;
     margin-bottom: 10px;
     text-align: center;
-  }
-
-  #toggleOptionsMenu {
-    font-size: 12px;
-    float: right;
-    border-radius: 5px;
-    display: inline-block;
-    background-color: white;
-    color: $primary;
-    padding-left: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    &:hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-  }
-
-  #real-options-section {
-    max-height: 0px;
-    transition: max-height 0.3s ease-in;
-    display: block;
-    overflow: hidden;
-    width: 100%;
-    &.expanded {
-      max-height: 500px;
-      padding-bottom: 10px;
-    }
   }
 }

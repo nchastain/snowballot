@@ -4,6 +4,13 @@
     width: 100%;
     margin-top: 25px;
     position: relative;
+    .input-group-button {
+      &.options-button {
+        width: 80px !important;
+        text-transform: uppercase;
+        font-size: 11px;
+      }
+    }
     .choice-expand {
       display: none;
       position: absolute;
@@ -28,7 +35,7 @@
     .delete-choice-button {
       display: none;
       position: absolute;
-      left: calc(92% + 10px);
+      left: calc(92% + 50px);
       width: 40px;
       background-color: $dangerRed;
       height: 40px;

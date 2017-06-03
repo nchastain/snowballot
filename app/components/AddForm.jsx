@@ -123,11 +123,12 @@ class AddForm extends React.Component {
 
   showButtonForStep () {
     const choicesValid = () => this.state.choices && this.state.choices.length >= 2 && this.state.choices[0].title !== '' && this.state.choices[1].title !== ''
-    const submitButton = <div className='sbCreationButton button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
+    const noTitleButton = <div className='sbCreationButton action-required button primary'>Enter a title above</div>
+    const submitButton = <div className='sbCreationButton button primary' onClick={(e) => this.handleSubmit(e)}><FA name='arrow-right' className='fa fa-fw' /> submit snowballot</div>
     const showChoicesButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showChoices: true})}><FA name='arrow-right' className='fa fa-fw' /> next: choices</div>
-    const choicesInvalidButton = <div className='sbCreationButton button primary'>minimum of two choices per snowballot</div>
+    const choicesInvalidButton = <div className='sbCreationButton action-required button primary'>minimum of two choices per snowballot</div>
     const toOptionsButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showOptions: true})}><FA name='arrow-right' className='fa fa-fw' /> next: options</div>
-    if (!this.state.title || this.state.title.length === 0) return null
+    if (!this.state.title || this.state.title.length === 0) return noTitleButton
     else if (this.state.showChoices && this.state.showOptions) return submitButton
     else if (this.state.showChoices) return choicesValid() ? toOptionsButton : choicesInvalidButton
     return showChoicesButton

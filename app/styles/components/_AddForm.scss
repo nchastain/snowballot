@@ -14,6 +14,10 @@
 		text-align: center;
 	}
 
+	.options-panel {
+		background-color: rgba($primary, 0.1) !important;
+	}
+
 	.options-unit {
 		width: 100%;
 		color: rgba($primary, 0.9);
@@ -217,6 +221,7 @@
 		max-width: 1000px;
 		margin: auto;
 		margin-top: 100px;
+		margin-bottom: 11rem;
 		padding-bottom: 1rem;
 		background: #eee;
 	}
@@ -348,13 +353,14 @@
 		transition: max-height 0.3s ease-in;
 		display: block;
 		overflow: hidden;
+		margin-top: 15px;
 		width: 100%;
-		margin-bottom: 0px;
+		margin-bottom: 15px;
 		.fa {
 			color: rgba($primary, 0.3);
 		}
 		&.expanded {
-			max-height: 500px;
+			max-height: 1500px;
 			padding-bottom: 10px;
 		}
 	}
@@ -417,9 +423,18 @@
 		padding: 3rem;
 		font-size: 25px;
 		margin-bottom: 0;
-		background-color: rgba($primary, 0.9);
+		background-color: $primary;
 		color: white;
 		margin-top: 25px;
+		&.action-required {
+			border-top: 5px solid rgba($primary, 0.8);
+			background-color: white !important;
+			color: rgba($primary, 0.8);
+			&:hover {
+				color: rgba($primary, 0.8);
+				cursor: initial;
+			}
+		}
 		&:hover {
 			color: rgba(white, 0.5);
 		}
