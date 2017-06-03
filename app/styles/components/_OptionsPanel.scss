@@ -36,12 +36,13 @@
   }
 
   .header {
-    float: left;
     display: inline-block;
+    width: 100%;
     color: $primary;
     text-transform: uppercase;
     font-size: 80%;
     margin-bottom: 10px;
+    text-align: center;
   }
 
   #toggleOptionsMenu {

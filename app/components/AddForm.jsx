@@ -11,7 +11,7 @@ import { previewImage, initialState, validateSb } from '.././utilities/sbUtils'
 class AddForm extends React.Component {
   constructor (props) {
     super(props)
-    this.state = initialState
+    this.state = {...initialState, showOptions: false, showChoices: false}
   }
 
   handleDelete (i) { this.setState({tags: this.state.tags.splice(i, 1)}) }
@@ -115,8 +115,22 @@ class AddForm extends React.Component {
         tags={this.state.tags}
         toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
         {...stateProps}
+        showButton={true}
+        optionsExpanded={true}
       />
     )
+  }
+
+  showButtonForStep () {
+    const choicesValid = () => this.state.choices && this.state.choices.length >= 2 && this.state.choices[0].title !== '' && this.state.choices[1].title !== ''
+    const submitButton = <div className='sbCreationButton button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
+    const showChoicesButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showChoices: true})}><FA name='arrow-right' className='fa fa-fw' /> next: choices</div>
+    const choicesInvalidButton = <div className='sbCreationButton button primary'>minimum of two choices per snowballot</div>
+    const toOptionsButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showOptions: true})}><FA name='arrow-right' className='fa fa-fw' /> next: options</div>
+    if (!this.state.title || this.state.title.length === 0) return null
+    else if (this.state.showChoices && this.state.showOptions) return submitButton
+    else if (this.state.showChoices) return choicesValid() ? toOptionsButton : choicesInvalidButton
+    return showChoicesButton
   }
 
   render () {
@@ -126,12 +140,12 @@ class AddForm extends React.Component {
           <h1 className='create-title'>Create a Snowballot</h1>
           <div className='newSnowballot-section'>
             <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
-              <input id='title-input' type='text'value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
-              <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />
-              {this.buildOptionPanel()}
+              <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
+              {this.state.showChoices && <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />}
+              {this.state.showOptions && this.buildOptionPanel()}
             </form>
           </div>
-          <div id='submitSnowballot' className='button primary' onClick={(e) => this.handleSubmit(e)}><FA name='plus' className='fa fa-fw' /> create snowballot</div>
+          {this.showButtonForStep()}
         </div>
       </span>
     )

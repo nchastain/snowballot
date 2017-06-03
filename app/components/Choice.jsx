@@ -24,7 +24,7 @@ const Choice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choice
         className='choice-input input-group-field'
         id={choice.id}
         value={choice.title}
-        placeholder={choice.id === 1 ? 'Press "Tab" to add a new choice. Minimum of two choices per snowballot.' : ''}
+        placeholder={choice.id === 1 ? 'enter first choice here' : choice.id === 2 ? 'press "tab" to add more choices' : ''}
         type='text'
         onKeyDown={checkKey}
         onChange={(e) => choiceUpdate(e)}

@@ -39,22 +39,21 @@
 
 	.logo {
 		float: left;
-		margin-top: -6px;
+		margin-top: 7px;
+		margin-left: 12px;
+		margin-right: 12px;
 		width: $logo-size;
 		height: $logo-size;
 		display: inline-block;
 		transition: width 3s ease-in, height 3s ease-in, transform 3s ease-in;
 		transition-delay: 0.5s;
-		&:hover {
-			opacity: 0.8;
-			cursor: pointer;
-		}
 	}
 
 	#nav-search {
 		color: $primary;
 		font-size: 14px;
 		margin-top: 8px;
+		margin-left: 12px;
 		width: 35%;
 		&:hover {
 			input {

@@ -191,9 +191,11 @@
 
 	#title-input {
 		color: $primary;
-		border: 1px solid #eee;
+		margin-bottom: 0px;
+		font-size: 24px;
+		border-left: 0px;
 		&:focus {
-			border: 1px solid #eee;
+			border-left: 0px;
 			box-shadow: none;
 		}
 	}
@@ -215,6 +217,7 @@
 		max-width: 1000px;
 		margin: auto;
 		margin-top: 100px;
+		padding-bottom: 1rem;
 		background: #eee;
 	}
 
@@ -243,7 +246,8 @@
 		padding: 0.5rem;
 		display: block;
 		.header {
-			float: left;
+			width: 100%;
+			text-align: center;
 			display: inline-block;
 			color: $primary;
 			text-transform: uppercase;
@@ -358,6 +362,7 @@
 	.newSbOptions {
 		display: block;
 		width: 100%;
+		margin-top: 15px;
 		padding-bottom: 0;
 		#expireCheckbox, #privateCheckbox {
 			margin-bottom: 0;
@@ -404,14 +409,17 @@
 		margin-bottom: 0;
 	}
 
-	#submitSnowballot {
-		display: inline-block;
+	.sbCreationButton {
+		position: fixed;
+		left: 0;
+		bottom: 0;
 		width: 100%;
+		padding: 3rem;
+		font-size: 25px;
 		margin-bottom: 0;
 		background-color: rgba($primary, 0.9);
 		color: white;
 		margin-top: 25px;
-		padding: 16px;
 		&:hover {
 			color: rgba(white, 0.5);
 		}

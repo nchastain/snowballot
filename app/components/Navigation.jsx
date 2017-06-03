@@ -52,9 +52,7 @@ export class Navigation extends Component {
     return (
       <span id='navigation'>
         <div className='bar'>
-          <Link className={navclasses} to='/discover'>
-            <img className='logo' src='.././assets/logo.png' />
-          </Link>
+          <img className='logo' src='.././assets/logo.png' />
           <Link to='/discover' className={navclasses + this.isActive('/discover')}>
             Discover
           </Link>

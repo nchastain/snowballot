@@ -7,77 +7,107 @@
 		max-width: 1000px;
 		margin-left: auto;
 		margin-right: auto;
-	}
-
-	.snowballot-container {
-		display: inline-block;
-	  color: $primary;
-		display: inline-block;
-		font-family: 'Futura' !important;
-		width: 100%;
-		padding: 1rem;
-		background-color: white;
+		margin-bottom: 2rem;
 		position: relative;
-		h5 {
-			position: absolute;
-			display: inline-block;
-			top: 30px;
-			left: 75px;
-			font-family: 'Futura' !important;
-			&:hover {
-				cursor: pointer;
-				opacity: 0.8;
-			}
-		}
-		.vote-total {
-			.number {
-				display: block;
-				font-size: 200%;
-				padding-top: 3px;
-				font-weight: bold;
-			}
-			display: inline-block;
-			position: absolute;
-			text-align: center;
-			text-transform: uppercase;
-			font-size: 50%;
-			background-color: rgba($primary, 0.2);
-			padding: 10px;
-		}
 	}
 
 	.dashboard-outer {
 		padding: 1rem;
+		padding-bottom: 10px;
 		background-color: white;
 	}
 
-	.favorites-section {
-		margin-top: 30px;
-		background-color: #eee;
-		padding: 10px;
-		font-family: 'Futura';
-		a {
-			h5 {
-				font-family: 'Futura' !important;
-				display: inline-block;
-				color: $primary;
+	#dashboard-view-filter {
+		#filter-header {
+			text-transform: uppercase;
+			font-size: 12px;
+			text-align: left;
+			display: inline-block;
+			margin-right: 20px;
+			display: none;
+		}
+		width: 100%;
+		display: inline-block;
+		text-align: center;
+		color: $primary;
+		position: relative;
+		margin-bottom: 20px;
+		padding: 15px;
+		.sb-filter {
+			&.active {
+				background-color: rgba($primary, 0.8);
+				border: 1px solid white;
+				color: white;
+				&:hover {
+					border: 1px solid white;
+					cursor: initial;
+				}
 			}
+			font-size: 15px;
+			padding: 5px 10px;
+			border: 1px solid white;
+			border-radius: 5px;
 			&:hover {
-				opacity: 0.8;
 				cursor: pointer;
+				border: 1px solid rgba($primary, 0.8);
 			}
 		}
+		.sb-filter + .sb-filter {
+			margin-left: 10px;
+		}
+	}
+
+	#account-settings-button-outer {
+		width: 200px;
+		text-align: right;
+		position: absolute;
+		top: 16px;
+		right: 16px;
+		z-index: 2;
+		&.active {
+			left: 1rem;
+			right: 1rem;
+			width: calc(100% - 2rem);
+			border: 1px solid #eee;
+			#account-settings-button {
+				width: 100%;
+			}
+			&:hover {
+				background-color: rgba($primary, 0.1);
+			}
+		}
+
+	}
+
+	#account-settings-button {
+		padding: 10px;
+		display: inline-block;
+		text-align: right;
+		font-size: 12px;
+		color: rgba($primary, 0.8);
+		background-color: white;
+		border: 1px solid white;
 		.fa {
-			display: inline-block;
-			color: $primary;
-			vertical-align: initial;
 			margin-right: 5px;
+			color: rgba($primary, 0.8);
+		}
+		&:hover {
+			cursor: pointer;
+			border: 1px solid #eee;
 		}
 	}
 
 	#new-profile-photo {
 		height: 150px;
 		display: block;
+	}
+
+	#favorites-header {
+		margin-top: 30px;
+		padding-bottom: 10px;
+		color: rgba($primary, 0.8);
+		width: 100%;
+		text-align: center;
 	}
 
 	#upload-button {
@@ -164,51 +194,6 @@
 		display: inline-block;
 	}
 
-	.snowballot-container + .snowballot-container {
-		margin-top: 1.5rem;
-	}
-
-	.snowballot-container {
-		width: calc(100% - 125px);
-		display: inline-block;
-	}
-
-	.total-sb-container {
-	  display: inline-block;
-	  border: 1px solid #eee;
-	  margin-bottom: 10px;
-	  border-radius: 5px;
-	  position: relative;
-	  width: 100%;
-	  font-family: 'Futura';
-	  min-height: 100px;
-	}
-
-	.dashboard-share-panel {
-		display: inline-block;
-		float: right;
-		height: 55px;
-		background-color: rgba($primary, 0.3);
-		color: white;
-		padding-left: 0.5rem;
-		padding-right: 1rem;
-		text-align: center;
-		top: 50%;
-		position: absolute;
-		transform: translateY(-50%);
-	}
-
-	.share-panel-outer-container {
-		background-color: white;
-		width: 250px;
-		display: inline-block;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		padding-right: 0.5rem;
-		margin-top: 16 !important;
-	}
-
 	.choice-container {
 		width: 100%;
 		display: inline-block;
@@ -219,41 +204,6 @@
 		}
 		.delete-choice-button {
 			display: inline-block;
-		}
-	}
-
-	.action-button {
-		margin-top: 10px;
-    background-color: white;
-    color: rgba($primary, 0.7);
-    font-size: 18px;
-    margin-bottom: 0px !important;
-    margin-left: 10px;
-    border-radius: 10px;
-    padding: 5px !important;
-    border: 2px solid rgba($primary,0.4);
-    &:hover {
-      border: 2px solid rgba($primary, 0.8);
-    }
-    .fa {
-      vertical-align: initial;
-      padding: 0px !important;
-    }
-    &:hover {
-      opacity: 0.8;
-    }
-    float: right;
-    & + .action-button {
-      margin-left: 10px;
-    }
-  }
-
-	@media (max-width: 500px) {
-		.share-panel-outer-container, .vote-total {
-			display: none;
-		}
-		.snowballot-container {
-			width: 100%;
 		}
 	}
 }

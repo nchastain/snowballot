@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import classnames from 'classnames'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import SharePanel from './SharePanel'
 import AccountPanel from './AccountPanel'
+import ListItem from './ListItem'
 import FA from 'react-fontawesome'
-import { getVoteSum } from '.././utilities/sbUtils'
-import ReactTooltip from 'react-tooltip'
-import { ShareButtons } from 'react-share'
 
 export class Dashboard extends Component {
   constructor (props) {
     super(props)
     this.state = {
       favoriteSbs: [],
-      linkCopied: ''
+      linkCopied: '',
+      showCreated: false,
+      showFavorited: false,
+      showAll: true,
+      showAccountPanel: false
     }
   }
 
@@ -52,52 +54,11 @@ export class Dashboard extends Component {
   renderSbs () {
     if (!this.props.user.sbs || Object.keys(this.props.user.sbs).length === 0) return
     const sortedSbs = this.props.user.sbs.sort((a, b) => b.createdAt - a.createdAt)
-    const { FacebookShareButton, TwitterShareButton } = ShareButtons
-    const description = 'Please click the link to vote on this.'
-    const copyToClipboard = (alias) => {
-      var aux = document.createElement('input')
-      aux.setAttribute('value', `http://localhost:3003/sbs/${alias}`)
-      document.body.appendChild(aux)
-      aux.select()
-      document.execCommand('copy')
-      document.body.removeChild(aux)
-      this.setState({linkCopied: alias})
-    }
-    const linkCopied = alias => this.state.linkCopied === alias
     return sortedSbs.map((sb, idx) => (
       <span key={`sb-${sb.createdAt}`} className='total-sb-container'>
         <Link to={`/sbs/${sb.alias}`} className='snowballot-container'>
-          <h5>{sb.title}</h5>
-          <span className='vote-total'>
-            <span className='number'>{getVoteSum(sb.choices)}</span> votes
-          </span>
+          <ListItem sb={sb} sharePanel />
         </Link>
-        <span className='share-panel-outer-container'>
-          <span className='dashboard-share-panel-outer-container'>
-          <span className='button action-button' data-tip data-for='copy-tooltip' onClick={() => copyToClipboard(sb.alias)}>
-            <FA name={linkCopied(sb.alias) ? 'check-circle' : 'clipboard'} className='fa fa-fw' />
-          </span>
-          <ReactTooltip id='copy-tooltip' effect='solid'><span>Copy snowballot link</span></ReactTooltip>
-          <span className='button action-button' data-tip data-for='twitter-share-tooltip'>
-            <TwitterShareButton
-              children={<FA name='twitter' className='fa fa-fw' />}
-              url={`http://www.snowballot.com/sbs/${sb.alias}`}
-              title={sb.title}
-              description={description}
-            />
-          </span>
-          <ReactTooltip id='twitter-share-tooltip' effect='solid'><span>Share on Twitter</span></ReactTooltip>
-          <span className='button action-button' data-tip data-for='facebook-share-tooltip'>
-            <FacebookShareButton
-              children={<FA name='facebook' className='fa fa-fw' />}
-              url={`http://www.snowballot.com/sbs/${sb.alias}`}
-              title={sb.title}
-              description={description}
-            />
-          </span>
-          <ReactTooltip id='facebook-share-tooltip' effect='solid'><span>Share on Facebook</span></ReactTooltip>
-          </span>
-        </span>
       </span>
     ))
   }
@@ -121,25 +82,51 @@ export class Dashboard extends Component {
   }
 
   render () {
+    const that = this
     const favorites = this.state.favoriteSbs.map((sb) => {
-      return <div className='favorite-row' key={sb.id}>
-        <FA name='star' className='fa fa-fw' />
-        <Link to={`/sbs/${sb.alias}`}><h5>{sb.title}</h5></Link>
+      return <div key={sb.id}>
+        <Link to={`/sbs/${sb.alias}`}><ListItem type='favorite' sb={sb} sharePanel={false} /></Link>
       </div>
     })
+    const filterClasses = (filterName) => {
+      if (filterName === 'showAll') {
+        return {
+          'sb-filter': true,
+          'active': this.state.showAll
+        }
+      }
+      return {
+        'sb-filter': true,
+        'active': this.state[filterName] && !this.state.showAll
+      }
+    }
+    const sbContent = function () {
+      if (!that.state.showCreated && !that.state.showAll) return null
+      return typeof that.props.user.sbs !== 'undefined' && that.props.user.sbs.length > 0 ? that.renderSbs() : that.renderNone()
+    }
+    const showFavoritedContent = () => that.state.showFavorited || that.state.showAll
     return (
       <span id='dashboard'>
         <div className='dashboard-outer'>
-          <AccountPanel />
+          <div id='account-settings-button-outer' className={this.state.showAccountPanel ? 'active' : ''}>
+            <div id='account-settings-button' onClick={() => this.setState({showAccountPanel: !this.state.showAccountPanel})}>
+              <FA name='gear' className='fa fa-fw' />{this.state.showAccountPanel ? 'Hide ' : ''}Account Settings
+            </div>
+          </div>
+          {this.state.showAccountPanel && <AccountPanel />}
+          <div id='dashboard-view-filter'><div id='filter-header'>Show</div>
+            <span className={classnames(filterClasses('showCreated'))} onClick={() => this.setState({showCreated: true, showFavorited: false, showAll: false})}>My Snowballots</span>
+            <span className={classnames(filterClasses('showFavorited'))} onClick={() => this.setState({showCreated: false, showFavorited: true, showAll: false})}>Favorites</span>
+            <span className={classnames(filterClasses('showAll'))} onClick={() => this.setState({showCreated: true, showFavorited: true, showAll: true})}>All</span>
+          </div>
           <div className='snowballots-section'>
-            {typeof this.props.user.sbs !== 'undefined' && this.props.user.sbs.length > 0
-            ? this.renderSbs()
-            : this.renderNone() }
+            {sbContent()}
           </div>
-          <div className='favorites-section'>
-            <div>Favorites</div>
-            {favorites}
-          </div>
+          {showFavoritedContent() && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
+            <div className='favorites-section'>
+              {favorites}
+            </div>
+          </span>}
         </div>
       </span>
     )
