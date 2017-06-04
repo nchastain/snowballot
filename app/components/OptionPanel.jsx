@@ -32,7 +32,6 @@ const OptionPanel = (props) => {
   return (
     <span id='options-panel' className='newSbOptions newSbSection'>
       {showButton && <div id='options-top' onClick={() => toggleMenu()}>
-        <div className='header'>Options</div>
         <div id='toggleOptionsMenu' onClick={() => toggleMenu()}>
           {optionsExpanded ? label() : label('hidden') }
         </div>

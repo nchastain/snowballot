@@ -1,9 +1,7 @@
 #choice-panel {
   #choices-area {
     position: relative;
-    margin-left: 50px;
     margin-right: 0px;
-    margin-bottom: 30px;
     background-color: white;
     display: inline-block;
     background-color: white;
@@ -14,7 +12,10 @@
       height: 40px;
       line-height: 40px;
       text-align: right;
-      background-color: rgba($primary, 0.5);
+      /*background-color: rgba($primary, 0.5);*/
+      background: $gradientBackground;
+      background-blend-mode: screen;
+      font-weight: bold;
       padding-left: 15px;
       padding-right: 15px;
       border-radius: 25px;
@@ -49,7 +50,7 @@
   .newSbSection.newSbChoices {
     text-align: left;
     background-color: white;
-    padding: 0.5rem;
+    padding: 1rem;
     margin-top: 15px;
     display: inline-block;
     width: 100%;

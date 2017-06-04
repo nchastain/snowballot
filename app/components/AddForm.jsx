@@ -126,7 +126,7 @@ class AddForm extends React.Component {
     const noTitleButton = <div className='sbCreationButton action-required button primary'>Enter a title above</div>
     const submitButton = <div className='sbCreationButton button primary' onClick={(e) => this.handleSubmit(e)}><FA name='arrow-right' className='fa fa-fw' /> submit snowballot</div>
     const showChoicesButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showChoices: true})}><FA name='arrow-right' className='fa fa-fw' /> next: choices</div>
-    const choicesInvalidButton = <div className='sbCreationButton action-required button primary'>minimum of two choices per snowballot</div>
+    const choicesInvalidButton = <div className='sbCreationButton action-required button primary'>Enter at least two choices</div>
     const toOptionsButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showOptions: true})}><FA name='arrow-right' className='fa fa-fw' /> next: options</div>
     if (!this.state.title || this.state.title.length === 0) return noTitleButton
     else if (this.state.showChoices && this.state.showOptions) return submitButton
@@ -137,8 +137,8 @@ class AddForm extends React.Component {
   render () {
     return (
       <span id='add-form'>
+        <h1 className='create-title'>Create a Snowballot</h1>
         <div id='outer-add-form-container'>
-          <h1 className='create-title'>Create a Snowballot</h1>
           <div className='newSnowballot-section'>
             <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
               <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />

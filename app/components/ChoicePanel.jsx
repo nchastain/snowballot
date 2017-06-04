@@ -45,7 +45,6 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
   return (
     <span id='choice-panel'>
       <div className='newSbSection newSbChoices'>
-        <div className='header'>Choices</div>
         <div id='choices-area'>
           <div id='choice-containers'>
             {choiceList}

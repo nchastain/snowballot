@@ -2,16 +2,21 @@
 	.create-title {
 		font-family: 'FuturaExtraBold';
 		background-color: white;
-		display: block;
+		position: fixed;
+		top: 55px;
+		width: 100%;
+		left: 0px;
 		color: $primary;
-		max-width: 1000px;
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 0;
 		text-transform: uppercase;
 		font-size: 125%;
 		padding: 1rem;
+		z-index: 101;
 		text-align: center;
+		border-bottom: 5px solid rgba($primary, 0.8);
+		display: none;
 	}
 
 	.options-panel {
@@ -198,6 +203,10 @@
 		margin-bottom: 0px;
 		font-size: 24px;
 		border-left: 0px;
+		border-radius: 5px;
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+		text-align: center;
 		&:focus {
 			border-left: 0px;
 			box-shadow: none;
@@ -220,17 +229,29 @@
 	#outer-add-form-container {
 		max-width: 1000px;
 		margin: auto;
-		margin-top: 100px;
+		margin-top: 250px;
 		margin-bottom: 11rem;
-		padding-bottom: 1rem;
-		background: #eee;
+		background:
+      linear-gradient(
+        limegreen,
+        transparent
+      ),
+      linear-gradient(
+        90deg,
+        #5192e8,
+        transparent
+      ),
+      linear-gradient(
+        -90deg,
+        #ff7f50,
+        transparent
+      );
+    background-blend-mode: screen;
+		padding: 4px;
 	}
 
 	.newSnowballot-section {
-		max-width: 950px;
 		margin: auto;
-		margin-top: 25px;
-		background-color: #eee;
 	}
 
 
@@ -421,11 +442,14 @@
 		bottom: 0;
 		width: 100%;
 		padding: 3rem;
+		padding-left: 0;
+		padding-right: 0;
 		font-size: 25px;
 		margin-bottom: 0;
 		background-color: $primary;
 		color: white;
 		margin-top: 25px;
+		text-align: center;
 		&.action-required {
 			border-top: 5px solid rgba($primary, 0.8);
 			background-color: white !important;

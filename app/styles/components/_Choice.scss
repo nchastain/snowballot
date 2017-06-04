@@ -37,9 +37,11 @@
       position: absolute;
       left: calc(92% + 50px);
       width: 40px;
-      background-color: $dangerRed;
+      background-color: rgba($primary, 0.1);
       height: 40px;
-      color: white;
+      color: $primary;
+      border: 1px solid #eee !important;
+      border-left: 0;
       z-index: 500;
       padding: 0;
       margin: 0;
