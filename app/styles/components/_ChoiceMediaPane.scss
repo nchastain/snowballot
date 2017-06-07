@@ -3,8 +3,9 @@
     display: block;
     text-align: left;
     margin-left: 2rem;
+    margin-right: 2rem;
     margin-top: 10px;
-    width: calc(100% - 2rem - 4px);
+    width: calc(100% - 2rem);
     &.expanded {
       padding: 10px;
     }

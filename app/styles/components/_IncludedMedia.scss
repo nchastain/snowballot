@@ -5,7 +5,9 @@
   .included-media-item {
     background-color: rgba($primary, 0.4);
     display: table;
-    width: 100%;
+    width: calc(100% - 2rem);
+    margin-left: 2rem;
+    margin-right: 2rem;
     padding: 10px;
     text-align: left;
     opacity: 1;

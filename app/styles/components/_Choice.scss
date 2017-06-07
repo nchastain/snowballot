@@ -1,5 +1,6 @@
 #choice {
     .choice-container {
+    padding-left: 10px;
     height: auto;
     width: 100%;
     margin-top: 25px;
@@ -14,7 +15,7 @@
     .choice-expand {
       display: none;
       position: absolute;
-      left: calc(92% - 32px);
+      left: calc(90% - 17px);
       z-index: 500;
       float: right;
       height: 40px;
@@ -35,7 +36,7 @@
     .delete-choice-button {
       display: none;
       position: absolute;
-      left: calc(92% + 50px);
+      left: calc(90% + 65px);
       width: 40px;
       background-color: rgba($primary, 0.1);
       height: 40px;

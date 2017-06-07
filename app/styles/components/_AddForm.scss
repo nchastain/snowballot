@@ -268,8 +268,10 @@
 	.newSbSection {
 		text-align: left;
 		background-color: white;
-		border: 1px solid #eee;
 		padding: 0.5rem;
+		border: 1px solid #eee;
+		padding-top: 10px !important;
+		padding-left: 5px !important;
 		display: block;
 		.header {
 			width: 100%;
@@ -451,12 +453,13 @@
 		margin-top: 25px;
 		text-align: center;
 		&.action-required {
-			border-top: 5px solid rgba($primary, 0.8);
-			background-color: white !important;
-			color: rgba($primary, 0.8);
+			/*border-top: 5px solid rgba($primary, 0.8);*/
+			/*background-color: white !important;*/
+			/*color: rgba($primary, 0.8);*/
 			&:hover {
-				color: rgba($primary, 0.8);
+				/*color: rgba($primary, 0.8);*/
 				cursor: initial;
+				color: white;
 			}
 		}
 		&:hover {
@@ -513,4 +516,11 @@
 			opacity: 0.8;
 		}
 	}
+}
+
+@media (max-width: 600px) {
+	#add-form #title-input {
+		font-size: 15px;
+		padding: 5px;
+	} 
 }

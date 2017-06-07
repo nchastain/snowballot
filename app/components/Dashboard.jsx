@@ -114,7 +114,7 @@ export class Dashboard extends Component {
             </div>
           </div>
           {this.state.showAccountPanel && <AccountPanel />}
-          <div id='dashboard-view-filter'><div id='filter-header'>Show</div>
+          <div id='dashboard-view-filter'>
             <span className={classnames(filterClasses('showCreated'))} onClick={() => this.setState({showCreated: true, showFavorited: false, showAll: false})}>My Snowballots</span>
             <span className={classnames(filterClasses('showFavorited'))} onClick={() => this.setState({showCreated: false, showFavorited: true, showAll: false})}>Favorites</span>
             <span className={classnames(filterClasses('showAll'))} onClick={() => this.setState({showCreated: true, showFavorited: true, showAll: true})}>All</span>

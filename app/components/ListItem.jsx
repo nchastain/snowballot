@@ -28,7 +28,8 @@ class ListItem extends React.Component {
     }
     const sharePanelClasses = {
       hasFavorites: sb.favorites && sb.favorites > 0,
-      hasTags: taglist !== null
+      hasTags: taglist !== null,
+      'hide-for-mobile': true
     }
     return (
       <span className={this.props.type === 'favorite' ? 'favorite-item' : ''} id='discover-list-item'>
@@ -45,7 +46,7 @@ class ListItem extends React.Component {
             {sb.description && <div id='discover-list-item-description' className={classnames(taglist !== null ? {hasTags: true} : {})}>{sb.description}</div>}
           </div>
           {sb.favorites && <div id='discover-list-item-favorites'>
-            <FA name='star' className='fa fa-fw' />{sb.favorites} favorite{sb.favorites > 1 ? 's' : ''}
+            <FA name='star' className='fa fa-fw' />{sb.favorites} <span className='hide-for-mobile'>favorite{sb.favorites > 1 ? 's' : ''}</span>
           </div>}
           {sb.tags && <div id='discover-list-item-tags'>
             <FA name='tags' className='fa fa-fw' />{taglist}

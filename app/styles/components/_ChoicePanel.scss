@@ -12,6 +12,7 @@
       height: 40px;
       line-height: 40px;
       text-align: right;
+      margin-right: 0px;
       /*background-color: rgba($primary, 0.5);*/
       background: $gradientBackground;
       background-blend-mode: screen;
@@ -23,7 +24,7 @@
     #choice-containers {
       height: 100%;
       background-color: white;
-      width: calc(100% - 100px);
+      width: 100%;
       top: 0px;
     }
   }
@@ -51,6 +52,9 @@
     text-align: left;
     background-color: white;
     padding: 1rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     margin-top: 15px;
     display: inline-block;
     width: 100%;
@@ -66,8 +70,7 @@
       width: 100%;
     }
     .choice-container {
-      width: calc(100% - 75px);
-      float: right;
+      width: calc(100% - 60px);
       display: inline-block;
       /*&:hover {
         .delete-choice-button {
@@ -105,5 +108,11 @@
     &:hover {
       opacity: 0.8;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  #choice-panel #choices-area .gutter-indexes {
+    display: none;
   }
 }

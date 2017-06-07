@@ -25,3 +25,26 @@
     color: $primary;
   }
 }
+
+@media (max-width: 800px) {
+  #dashboard #account-settings-button-outer, #dashboard #account-settings-button {
+    text-align: center !important;
+    width: 100%;
+    top: 0px !important;
+    right: 0px !important;
+    margin: 0 !important;
+    margin-bottom: 0px !important;
+  }
+  #account-panel #account-settings .button {
+    width: 100%;
+    text-align: center;
+    margin: auto !important;
+    + .button {
+      margin-top: 10px !important;
+    }
+  }
+  #account-panel {
+    padding-top: 10px;
+    padding-bottom: 15px;
+  }
+}

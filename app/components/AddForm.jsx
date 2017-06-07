@@ -14,6 +14,15 @@ class AddForm extends React.Component {
     this.state = {...initialState, showOptions: false, showChoices: false}
   }
 
+  componentWillMount () {
+    this.setState({choices: [
+      {title: '', votes: 0, id: 1, info: '', added: 1495860030876},
+      {title: '', votes: 0, id: 2, info: '', added: 1495860030877}
+    ]}, function () {
+      console.log('updated choices')
+    })
+  }
+
   handleDelete (i) { this.setState({tags: this.state.tags.splice(i, 1)}) }
 
   handleAdd (tag) { this.setState({tags: this.state.tags.push({id: this.state.tags.length + 1, text: tag})}) }
@@ -115,8 +124,8 @@ class AddForm extends React.Component {
         tags={this.state.tags}
         toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
         {...stateProps}
-        showButton={true}
-        optionsExpanded={true}
+        showButton
+        optionsExpanded
       />
     )
   }

@@ -60,6 +60,7 @@
     padding: 10px;
     text-align: left;
     padding-left: 15px;
+    font-size: 14px;
   }
   #discover-list-item-vote-label {
     border-top: 1px solid #eee;
@@ -143,6 +144,12 @@
         margin-left: 10px;
       }
     }
+  }
+}
+
+@media(max-width: 500px) {
+  .hide-for-mobile {
+    display: none !important;
   }
 }
 
