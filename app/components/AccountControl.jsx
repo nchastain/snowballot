@@ -13,7 +13,7 @@ export const AccountControl = props => {
     </Link>
   )
   const userNav = (
-    <span className='right'>
+    <span className='right hide-for-mobile'>
       {photoURL && photoLink}
       <Link className={navclasses + isActive('/dashboard')} to='/dashboard'>
         Dashboard
@@ -24,7 +24,7 @@ export const AccountControl = props => {
     </span>
   )
   const noUserNav = (
-    <span className='right'>
+    <span className='right hide-for-mobile'>
       <Link to='/login' className={navclasses + isActive('/login')}>
         <li>Login</li>
       </Link>

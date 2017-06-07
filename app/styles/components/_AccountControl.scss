@@ -18,3 +18,9 @@
     display: inline-block;
   }
 }
+
+@media (max-width: 800px) {
+  #account-control .hide-for-mobile {
+    display: none !important;
+  }
+}

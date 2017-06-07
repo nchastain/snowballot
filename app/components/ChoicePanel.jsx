@@ -17,7 +17,8 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     const newChoice = {title: '', votes: 0, id: choices.length + 1, added: Date.now()}
     update('choices', [...choices, newChoice])
   }
-  const deleteChoice = (e) => {
+  const deleteChoice = (e, choice) => {
+    if (choice.id === 1 || choice.id === 2) return
     const updatedChoices = choices.filter(choice => choice.id !== getChoiceNumber(e))
     update('choices', updatedChoices)
   }
@@ -36,7 +37,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
         choicesExpanded={choicesExpanded}
         toggleChoiceOptions={(e) => toggleChoiceOptions(e, choicesExpanded)}
         checkKey={(e) => checkKey(e)}
-        choiceUpdate={(e) => choiceUpdate(e)}
+        choiceUpdate={(e) => choiceUpdate(e, choice)}
         deleteChoice={(e) => deleteChoice(e)}
       />
       <ChoiceMediaPane id={choice.id} choices={choices} />

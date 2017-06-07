@@ -90,8 +90,8 @@
 
   #separator {
     border-bottom: 1px solid #eee;
-    margin-left: calc(-2vw - 1rem);
-    width: calc(100% + 4vw + 2rem);
+    margin-left: -5px;
+    width: calc(100% + 10px);
   }
 
   .edit-form {
@@ -337,7 +337,7 @@
     display: inline-block;
     width: 100%;
     color: rgba($primary, 0.3);
-    background-color: rgba($primary, 0.1);
+    background-color: white;
     min-height: 80px;
     font-size: 90%;
     a {
@@ -349,6 +349,7 @@
       display: inline-block;
       width: 65%;
       color: rgba($primary, 0.6);
+      background-color: rgba($primary, 0.1);
       min-height: 80px;
       vertical-align: top;
       ul {
@@ -358,6 +359,7 @@
       }
     }
     #sb-actions {
+      background-color: rgba($primary, 0.1);
       padding-top: 10px;
       padding-right: 10px;
       display: inline-block;

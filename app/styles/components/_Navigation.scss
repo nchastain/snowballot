@@ -55,6 +55,7 @@
 		margin-top: 8px;
 		margin-left: 12px;
 		width: 35%;
+		min-width: 250px;
 		&:hover {
 			input {
 				outline: none;
@@ -97,6 +98,7 @@
 	.link-container {
 		text-align: center;
 		padding: 15px;
+		padding-bottom: 14px;
 		transition: padding-top 0.1s linear;
 		&.addLink {
 			padding-left: 5px !important;
@@ -108,9 +110,7 @@
 			}
 		}
 		&:hover {
-			padding-top: 13px;
-			padding-bottom: 17px;
-			background-color: rgba(255,255, 255, 0.1);
+			background-color: rgba(255,255, 255, 0.2);
 		}
 		& + .link-container {
 			margin-left: 0.5rem;
@@ -118,8 +118,63 @@
 		}
 	}
 
+	.display-for-mobile {
+		display: none;
+	}
+
 	.addButton {
 		color: $primary-hover !important;
+	}
+
+	#open-nav-menu {
+		display: none;
+		&.hidden {
+			display: none;
+		}
+		background-color: white;
+		padding: 15px;
+		min-width: 200px;
+		background:
+      linear-gradient(
+        limegreen,
+        transparent
+      ),
+      linear-gradient(
+        90deg,
+        #5192e8,
+        transparent
+      ),
+      linear-gradient(
+        -90deg,
+        #ff7f50,
+        transparent
+      );
+    background-blend-mode: screen;
+		a {
+			color: $primary !important;
+		}
+		color: $primary !important;
+		position: absolute;
+		border-radius: 5px;
+		top: 65px;
+		z-index: 10000;
+		right: 10px;
+		text-align: center;
+		.open-nav-menu-item {
+			width: 100%;
+			border-radius: 5px;
+			display: inline-block;
+			background-color: white;
+			padding: 5px;
+			font-size: 12px;
+			+ .open-nav-menu-item {
+				margin-top: 10px;
+			}
+			&:hover {
+				background-color: rgba(#fff, 0.8);
+				cursor: pointer;
+			}
+		}
 	}
 
 	.active {
@@ -144,6 +199,28 @@
 		&:hover {
 			cursor: default;
 			background-color: initial;
+		}
+	}
+}
+
+@media (max-width: 800px) {
+	#navigation #open-nav-menu {
+		display: inline-block;
+	}
+	#navigation .bar {
+		min-width: 400px;
+	}
+	#navigation .hide-for-mobile {
+		display: none;
+	}
+	#navigation .display-for-mobile {
+		display: inline-block;
+		color: white !important;
+		&#nav-menu-hamburger {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			font-size: 35px;
 		}
 	}
 }

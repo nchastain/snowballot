@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { WindowResizeListener } from 'react-window-resize-listener'
 import AccountControl from './AccountControl'
 import { firebaseAuth } from '../firebase/constants'
 import FA from 'react-fontawesome'
@@ -11,7 +12,8 @@ export class Navigation extends Component {
     this.state = {
       authed: false,
       loading: true,
-      searchTerm: ''
+      searchTerm: '',
+      hamburgerOpen: false
     }
   }
 
@@ -47,10 +49,15 @@ export class Navigation extends Component {
     if (e.keyCode === 13) document.getElementById('search-link').click()
   }
 
+  checkForLargeScreen () {
+    if (window.innerWidth > 800) this.setState({hamburgerOpen: false})
+  }
+
   render () {
-    const navclasses = 'navbar-brand link-container left '
+    const navclasses = 'navbar-brand link-container left hide-for-mobile '
     return (
       <span id='navigation'>
+        <WindowResizeListener onResize={() => this.checkForLargeScreen()} />
         <div className='bar'>
           <img className='logo' src='.././assets/logo.png' />
           <Link to='/discover' className={navclasses + this.isActive('/discover')}>
@@ -67,7 +74,27 @@ export class Navigation extends Component {
               <div id='nav-magnifying-glass'><FA name='search' className='fa fa-fw' /></div>
             </Link>
           </div>
-          <AccountControl className='right' active={this.props.active} authed={this.state.authed} />
+          <FA name={this.state.hamburgerOpen ? 'window-close' : 'bars'} id='nav-menu-hamburger' className='right display-for-mobile' onClick={() => this.setState({hamburgerOpen: !this.state.hamburgerOpen})} />
+          <AccountControl className='right hide-for-mobile' active={this.props.active} authed={this.state.authed} />
+          <div id='open-nav-menu' className={this.state.hamburgerOpen ? '' : 'hidden'}>
+            <Link to='/discover' className='open-nav-menu-item'>
+              Discover
+            </Link>
+            {this.state.authed &&
+            <Link to='/dashboard' className='open-nav-menu-item'>
+              Dashboard
+            </Link>}
+            {this.state.authed &&
+            <Link to='/sbs/add' className='open-nav-menu-item'>
+              <FA className='addButton fa fa-fw' name='plus' />Add
+            </Link>}
+            {!this.state.authed && <Link to='/login' className='open-nav-menu-item'>
+              Login
+            </Link>}
+            {!this.state.authed && <Link to='/register' className='open-nav-menu-item'>
+              Register
+            </Link>}
+          </div>
         </div>
       </span>
     )

@@ -19,16 +19,16 @@ const Choice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choice
       />
       <div
         id={`choice-${choice.id}`}
-        className='options-button input-group-button choice-expand'
+        className={`options-button input-group-button choice-expand ${choice.id !== 1 && choice.id !== 2 ? '' : 'no-delete'}`}
         onClick={(e) => toggleChoiceOptions(e, choicesExpanded)}
       >Options</div>
-      <FA
+      {choice.id !== 1 && choice.id !== 2 && <FA
         key={`delete-${choice.id}`}
         id={`delete-${choice.id}`}
         className='fa fa-fw delete-choice-button button input-group-button'
         name='close'
         onClick={deleteChoice}
-      />
+      />}
     </div>
   </span>
 )

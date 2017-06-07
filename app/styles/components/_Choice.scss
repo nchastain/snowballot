@@ -15,7 +15,11 @@
     .choice-expand {
       display: none;
       position: absolute;
-      left: calc(90% - 17px);
+      right: 30px;
+      &.no-delete {
+        right: -10px;
+      }
+      top: 0px;
       z-index: 500;
       float: right;
       height: 40px;
@@ -36,7 +40,8 @@
     .delete-choice-button {
       display: none;
       position: absolute;
-      left: calc(90% + 65px);
+      right: -10px;
+      top: 0px;
       width: 40px;
       background-color: rgba($primary, 0.1);
       height: 40px;
@@ -59,5 +64,11 @@
       margin-left: 0px;
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 800px) {
+  #add-form .choice-input  {
+    font-size: 13px;
   }
 }
