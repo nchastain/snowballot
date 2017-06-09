@@ -6,8 +6,7 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 
 const OptionUnit = function (props) {
-  const { name, didExpire, save, isPrivate, description, alias, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
-  let expires = props.expires ? props.expires : moment().add(1, 'week')
+  const { name, didExpire, showSave, expires, save, isPrivate, description, alias, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
   const optionUnits = {
     private: {
       icon: 'eye-slash',
@@ -47,7 +46,7 @@ const OptionUnit = function (props) {
       ),
       etc: (
         <span>
-          {didExpire && <DatePicker selected={moment(expires)} onChange={setDate} minDate={moment()} placeholderText='Select a deadline for voting' />}
+          {didExpire && <DatePicker selected={expires ? moment(expires) : moment().add(1, 'week')} onChange={setDate} minDate={moment()} placeholderText='Select a deadline for voting' />}
         </span>
       )
     },
@@ -69,9 +68,9 @@ const OptionUnit = function (props) {
             type='text'
             value={alias}
             onChange={(e) => {
-              document.querySelector('.save-option-button#alias').style.display = 'inline-block'
-              document.querySelector('.save-option-button#alias').innerHTML = 'save'
-              document.querySelector('.save-option-button#alias').classList.remove('saved')
+              if (showSave) document.querySelector('.save-option-button#alias').style.display = 'inline-block'
+              if (showSave) document.querySelector('.save-option-button#alias').innerHTML = 'save'
+              if (showSave) document.querySelector('.save-option-button#alias').classList.remove('saved')
               toggle(e)
             }}
           />}
@@ -79,10 +78,10 @@ const OptionUnit = function (props) {
       ),
       etc: (
         <span>
-          {!isPrivate && <div className='save-option-button' id='alias' onClick={(e) => {
-            document.querySelector('.save-option-button#alias').innerHTML = 'saved!'
-            document.querySelector('.save-option-button#alias').classList.add('saved')
-            save(e)
+          {showSave && !isPrivate && <div className='save-option-button' id='alias' onClick={(e) => {
+            if (showSave) document.querySelector('.save-option-button#alias').innerHTML = 'saved!'
+            if (showSave) document.querySelector('.save-option-button#alias').classList.add('saved')
+            if (showSave) save(e)
           }
           }>save</div>}
         </span>
@@ -97,20 +96,24 @@ const OptionUnit = function (props) {
             rows={3}
             value={description}
             onChange={(e) => {
-              document.querySelector('.save-option-button#description').style.display = 'inline-block'
-              document.querySelector('.save-option-button#description').innerHTML = 'save'
-              document.querySelector('.save-option-button#description').classList.remove('saved')
+              if (showSave) {
+                document.querySelector('.save-option-button#description').style.display = 'inline-block'
+                document.querySelector('.save-option-button#description').innerHTML = 'save'
+                document.querySelector('.save-option-button#description').classList.remove('saved')
+              }
               toggle(e)
             }}
           />
-          <div className='save-option-button' id='description' onClick={(e) => {
-            document.querySelector('.save-option-button#description').classList.add('saved')
-            document.querySelector('.save-option-button#description').innerHTML = 'saved!'
-            save(e)
+          {showSave && <div className='save-option-button' id='description' onClick={(e) => {
+            if (showSave) {
+              document.querySelector('.save-option-button#description').classList.add('saved')
+              document.querySelector('.save-option-button#description').innerHTML = 'saved!'
+              save(e)
+            }
           }}
           >
             save
-          </div>
+          </div>}
         </span>
       )
     },

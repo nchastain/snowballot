@@ -18,6 +18,10 @@ class ChoiceMediaPane extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.props.dispatch(actions.updateCreatedSb(this.props.id, {}))
+  }
+
   expandSection (sectionID) {
     const toExpand = this.state.expanded === sectionID ? '' : sectionID
     this.setState({ expanded: toExpand, [sectionID]: '' })
@@ -48,7 +52,7 @@ class ChoiceMediaPane extends React.Component {
 
   createSection () {
     const linkInput = (placeholder, type) => <input type='text' className='link-input' placeholder={placeholder} onChange={(e) => this.setState({[type]: e.target.value})} />
-    const saveButton = (sectionToSave) => <div className='button button-save' onClick={(e) => this.saveSection(sectionToSave)}>Save</div>
+    const saveButton = (sectionToSave) => <div className='button button-save' onClick={() => this.saveSection(sectionToSave)}>Save</div>
     const sections = {}
 
     sections.info = (

@@ -93,23 +93,13 @@ class AddForm extends React.Component {
   }
 
   choiceExtraUpdate () {
-    const { createdSb } = this.props
-    let updatedChoices = this.state.choices
-    let choices = Object.keys(createdSb)
-    const excluded = ['expanded', 'included', 'id', 'photoFile']
-    let propertyList = []
-    choices.forEach((choice) => {
-      let potentialProperties = Object.keys(createdSb[choice])
-      potentialProperties.forEach((pp) => {
-        if (excluded.indexOf(pp) === -1 && propertyList.indexOf(pp) === -1) propertyList.push(pp)
-      })
-    })
-    propertyList.forEach((property) => {
-      const extraMedia = Object.keys(createdSb).map(choice => createdSb[choice][property])
-      updatedChoices = updatedChoices.map((choice, idx) => {
-        choice[property] = extraMedia[idx] || ''
-        return choice
-      })
+    const that = this
+    const updatedChoices = this.state.choices.map(function (choice) {
+      choice.info = that.props.createdSb[choice.id].info || ''
+      choice.GIF = that.props.createdSb[choice.id].GIF || ''
+      choice.youtube = that.props.createdSb[choice.id].youtube || ''
+      choice.link = that.props.createdSb[choice.id].link || ''
+      choice.photo = that.props.createdSb[choice.id].photo || ''
     })
     this.setState({ choices: updatedChoices })
   }

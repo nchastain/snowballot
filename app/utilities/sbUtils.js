@@ -5,7 +5,7 @@ import { imagesRef } from '../firebase/constants'
 
 export const didExpire = function (expires) {
   if (typeof expires !== 'string') return false
-  return moment(expires, 'MM/DD/YYYY h:mm a').isBefore(moment(Date.now()))
+  return moment(expires, 'MM/DD/YYYY').isBefore(moment(Date.now()))
 }
 
 export const isCreator = function (user, creator) {

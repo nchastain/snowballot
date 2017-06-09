@@ -21,7 +21,7 @@ export const expiresMessage = function (expiration) {
   if (!expiration) return
   return (
     <li>
-      {addFA('calendar')} This snowballot {didExpire(expiration) ? 'has expired.' : `expires after ${expiration}` }
+      {addFA('calendar')} This snowballot {didExpire(expiration) ? 'has expired.' : `expires on ${moment(expiration).format('dddd, MMMM Do, YYYY')}` }
     </li>
   )
 }

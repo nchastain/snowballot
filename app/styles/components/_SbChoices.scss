@@ -73,6 +73,37 @@
       font-size: 19vw;
       opacity: 0.3;
     }
+
+    .center-cell {
+      text-align: center;
+      display: inline-block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      font-size: 19vw;
+      vertical-align: middle;
+      .check {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.2;
+      }
+      .add-tile-image {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 1;
+        filter: brightness(105%);
+      }
+      /*background-color: green !important;*/
+    }
     .bottom-left-cell {
       text-align: left;
       position: absolute;
@@ -103,11 +134,17 @@
     .right-cell {
       height: 1vw;
       width: 100%;
-      font-size: 2.5vw;
       top: -0.5vw;
       right: 0.25vw;
       text-align: right;
       display: inline-block;
+    }
+    .top-right-cell {
+      position: absolute;
+      top: 0px;
+      right: 5px;
+      z-index: 10;
+      font-size: 36px;
     }
     .photo-title {
       text-align: left;
@@ -149,6 +186,7 @@
       overflow: hidden;
       font-size: 2vw;
       transition: top 0.2s ease-out;
+
     }
     .vote-count {
       font-size: 1.5vw;

@@ -20,6 +20,7 @@ const OptionPanel = (props) => {
     suggestions,
     toggleMenu,
     save,
+    showSave = false,
     optionsExpanded = true,
     showButton = true
   } = props
@@ -49,12 +50,14 @@ const OptionPanel = (props) => {
           alias={alias}
           toggle={(e) => toggleAlias(e)}
           save={(e) => save(e)}
+          showSave={showSave}
         />
         <OptionUnit
           name='description'
           description={description}
           toggle={(e) => toggleDescription(e)}
           save={(e) => save(e)}
+          showSave={showSave}
         />
         <OptionUnit
           name='tags'

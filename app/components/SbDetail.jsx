@@ -38,7 +38,7 @@ export class SbDetail extends Component {
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
     if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
-    this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, didExpire: Boolean(nextProps.sb.expires), isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags, alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
+    this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags, alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
 
   updateSbImages (props) {
@@ -153,6 +153,7 @@ export class SbDetail extends Component {
               handleDelete={(i) => this.handleDelete(i, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
               toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
               optionsExpanded
+              didExpire={Boolean(this.state.expires)}
               showButton={false}
               save={(e) => {
                 console.log(e)
@@ -160,6 +161,7 @@ export class SbDetail extends Component {
               }}
               tags={this.props.sb.tags}
               {...this.state}
+              showSave
             />
           </ReactModal>
         </div>
@@ -177,6 +179,7 @@ export class SbDetail extends Component {
   }
 
   handleAdd (tag) {
+    if (!this.state.tags || this.state.tags.length >= 7) return
     const that = this
     const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
     this.setState({tags: newTags}, function () {

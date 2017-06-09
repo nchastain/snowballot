@@ -7,8 +7,8 @@ const Tagger = ({ tags, suggestions, handleDelete, handleAdd }) => (
     tags={tags}
     suggestions={suggestions}
     handleDelete={handleDelete}
-    handleAddition={tags.length <= 6 && handleAdd}
-    placeholder={tags.length <= 6 ? 'Add tag, press Enter' : 'Maximum of 7 tags'}
+    handleAddition={handleAdd}
+    placeholder={(!tags || tags.length <= 6) ? 'Add tag, press Enter' : 'Maximum of 7 tags'}
   />
 )
 
