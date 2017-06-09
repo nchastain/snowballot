@@ -293,9 +293,11 @@ export class SbDetail extends Component {
     const { creator, createdAt, alias, choices, id } = this.props.sb
     const userID = this.props.user.uid
     return (
-      <div id='sb-detail'>
-        {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias, choices, id, this.props.user)}
-        <div className='detail-snowballot-container'>{this.renderSb()}</div>
+      <div id='accent-container' className='sb-detail-accent'>
+        <div id='sb-detail'>
+          {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias, choices, id, this.props.user)}
+          <div className='detail-snowballot-container'>{this.renderSb()}</div>
+        </div>
       </div>
     )
   }

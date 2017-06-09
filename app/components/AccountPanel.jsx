@@ -35,7 +35,7 @@ class AccountPanel extends React.Component {
         accountItemToShow = (
           <div>
             <input type='text' placeholder='Enter a new email' value={this.state.newEmail} onChange={(e) => this.setState({newEmail: e.currentTarget.value})} />
-            <div className='button' onClick={() => this.changeInfo('email')}>Save e-mail address</div>
+            <div className='button full-width-button' onClick={() => this.changeInfo('email')}>Save e-mail address</div>
           </div>
         )
         break
@@ -43,7 +43,7 @@ class AccountPanel extends React.Component {
         accountItemToShow = (
           <div>
             <input type='password' id='newPassword' placeholder='Enter a new password' />
-            <div className='button' onClick={() => this.changeInfo('password')}>Save new password</div>
+            <div className='button full-width-button' onClick={() => this.changeInfo('password')}>Save new password</div>
           </div>
         )
         break
@@ -51,15 +51,15 @@ class AccountPanel extends React.Component {
         accountItemToShow = (
           <div>
             <input type='file' className='photo-file-input' id='photo-file-input' onChange={() => this.previewImage()} style={{display: 'none'}} />
-            {!this.state.photo && <div id='upload-button' onClick={() => document.getElementById('photo-file-input').click()}><FA name='upload' className='fa fa-fw' />Upload a photo</div>}
+            {!this.state.photo && <div className='full-width-button' id='upload-button' onClick={() => document.getElementById('photo-file-input').click()}><FA name='upload' className='fa fa-fw' />Upload a photo</div>}
           </div>
         )
         break
       case 'deleteAccount':
         accountItemToShow = (
           <div id='account-deletion' >
-            <div id='account-delete-text'>Delete your account (including your snowballots, favorites, etc.?)</div>
-            <div id='account-delete-button' className='button' onClick={() => this.props.dispatch(actions.deleteAccount)}>Delete account</div>
+            <div id='account-delete-text'>are you sure you want to delete your account? (including your snowballots, favorites, etc.)</div>
+            <div id='account-delete-button' className='button full-width-button' onClick={() => this.props.dispatch(actions.deleteAccount)}>Delete account</div>
           </div>
         )
         break
@@ -84,7 +84,7 @@ class AccountPanel extends React.Component {
       {name: 'deleteAccount', label: 'Delete account'}
     ]
     return (
-      <div id='account-panel'>
+      <div id='account-panel' >
         <div id='account-section'>
           <div id='account-settings'>
             {settings.map(setting => <span key={setting.name} className='button' onClick={() => this.displayAccountPanel(setting.name)}>{setting.label}</span>)}

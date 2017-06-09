@@ -1,8 +1,8 @@
-#choice-media-button {
+.choice-media-button {
   border-radius: 5px;
   background-color: white;
   color: $primary;
-  & + #choice-media-button {
+  & + .choice-media-button {
     margin-left: 10px;
   }
   margin-bottom: 0px;
@@ -15,11 +15,14 @@
 }
 
 @media (max-width: 860px) {
-  #choice-media-button {
+  .choice-media-button {
     width: 100%;
     margin: auto !important;
   }
-  #choice-media-button + #choice-media-button {
+  .choice-media-button + .choice-media-button {
     margin-top: 10px !important;
+  }
+  #choice-media-button-film {
+    display: none;
   }
 }

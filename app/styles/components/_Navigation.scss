@@ -110,7 +110,7 @@
 			}
 		}
 		&:hover {
-			background-color: rgba(255,255, 255, 0.2);
+			background-color: #6785c1;
 		}
 		& + .link-container {
 			margin-left: 0.5rem;
@@ -219,7 +219,7 @@
 		&#nav-menu-hamburger {
 			position: absolute;
 			top: 10px;
-			right: 10px;
+			right: 15px;
 			font-size: 35px;
 		}
 	}

@@ -33,6 +33,9 @@ class ChoiceMediaPane extends React.Component {
   previewImage () {
     const that = this
     const file = document.querySelector(`#file-input-${this.props.id}`).files[0]
+    const gallery = document.querySelector('.choice-gallery')
+    gallery.style.marginTop = '30px'
+    gallery.style.marginBottom = '15px'
     this.setState({photoFile: file}, function () {
       that.saveSection('photoFile')
     })
@@ -67,7 +70,7 @@ class ChoiceMediaPane extends React.Component {
       <span>
         <div className='choice-photo-uploader' id={`photo-upload-${this.props.id}`}>
           <input type='file' className='choice-file-input' id={`file-input-${this.props.id}`} onChange={() => this.previewImage()} style={{display: 'none'}} />
-          {!this.state.photo && <div id='upload-button' onClick={() => document.getElementById(`file-input-${this.props.id}`).click()}><FA name='upload' className='fa fa-fw' />Upload a file</div>}
+          {!this.state.photo && <div id='upload-button' onClick={() => document.getElementById(`file-input-${this.props.id}`).click()}><FA name='upload' className='fa fa-fw' />Upload an image</div>}
           <div className='choice-gallery' id={`gallery-${this.props.id}`}>
             <img className={this.state.photo ? 'gallery-image' : 'gallery-image hidden'} id={`gallery-img-${this.props.id}`} src={this.state.photo} />
           </div>
@@ -91,7 +94,7 @@ class ChoiceMediaPane extends React.Component {
     )
 
     sections.GIF = (
-      <div>
+      <div id='gif-selector'>
         <Picker onSelected={(e) => this.setState({GIF: e.downsized.url})} />
         <div className='gif-container' id={`gif-container-${this.props.id}`}>
           <img className={this.state.GIF ? 'gallery-image selected-GIF' : 'gallery-image hidden'} id={`gif-${this.props.id}`} src={this.state.GIF} />

@@ -27,7 +27,8 @@
 
   .link-input {
     border-left: 5px solid $primary;
-    width: 50%;
+    width: 100%;
+    text-align: center;
     display: inline-block;
     margin-top: 30px !important;
     margin-right: 10px;
@@ -38,6 +39,8 @@
     background-color: rgba($primary, 0.8);
     border-radius: 5px;
     margin-top: 10px;
+    width: 100%;
+    text-transform: lowercase;
     &:hover {
       opacity: 0.8;
       background-color: rgba($primary, 0.8);
@@ -53,8 +56,6 @@
   }
 
   .choice-gallery {
-    margin-top: 30px;
-    margin-bottom: 15px;
   }
 
   .bzojac {
@@ -80,15 +81,21 @@
     border-left: 5px solid $primary;
   }
 
+  #media-container {
+    padding-top: 15px;
+  }
+
   #upload-button {
     border-radius: 5px;
-    background-color: $primary;
+    background-color: rgba($primary, 0.8);
     color: white;
     margin-right: 10px;
     margin-bottom: 0px;
     padding: 10px;
     font-size: 90%;
     display: inline-block;
+    width: 100%;
+    text-align: center;
     margin-top: 30px;
     text-transform: lowercase;
     box-shadow: 1px 1px 3px $dark-grey;
@@ -105,6 +112,12 @@
     &.hidden {
       display: none;
     }
+  }
+}
+
+@media (max-width: 800px) {
+  #choice-media-pane #gif-selector {
+    display: none;
   }
 }
 

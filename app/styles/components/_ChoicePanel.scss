@@ -26,10 +26,11 @@
       background-color: white;
       width: 100%;
       top: 0px;
+      margin-top: 15px;
     }
   }
   .individual-choice {
-    margin-bottom: 0px !important;
+    margin-bottom: 10px !important;
     display: inline-block;
     height: 100%;
     width: 100%;
@@ -45,7 +46,7 @@
       }
     }
     & + .individual-choice {
-      margin-top: 15px;
+      margin-top: 10px;
     }
   }
   .newSbSection.newSbChoices {

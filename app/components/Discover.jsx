@@ -83,7 +83,7 @@ class Discover extends React.Component {
   }
 
   render () {
-    return <div id='discover'>{this.renderSearch()}</div>
+    return <div id='accent-container'><div id='discover'>{this.renderSearch()}</div></div>
   }
 }
 

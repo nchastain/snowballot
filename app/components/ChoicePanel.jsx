@@ -38,7 +38,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
         toggleChoiceOptions={(e) => toggleChoiceOptions(e, choicesExpanded)}
         checkKey={(e) => checkKey(e)}
         choiceUpdate={(e) => choiceUpdate(e, choice)}
-        deleteChoice={(e) => deleteChoice(e)}
+        deleteChoice={(e) => deleteChoice(e, choice)}
       />
       <ChoiceMediaPane id={choice.id} choices={choices} />
     </span>

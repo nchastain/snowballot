@@ -7,7 +7,6 @@
 		max-width: 1000px;
 		margin-left: auto;
 		margin-right: auto;
-		margin-bottom: 2rem;
 		position: relative;
 	}
 
@@ -50,16 +49,11 @@
 	}
 
 	#account-settings-button-outer {
-		width: 200px;
+		width: 100%;
 		text-align: right;
-		position: absolute;
-		top: 16px;
-		right: 16px;
 		z-index: 2;
 		&.active {
-			left: 1rem;
-			right: 1rem;
-			width: calc(100% - 2rem);
+			width: 100%;
 			border: 1px solid #eee;
 			#account-settings-button {
 				width: 100%;
@@ -127,6 +121,25 @@
 		background-color: $primary;
 		display: inline-block;
 		margin-top: 10px;
+	}
+
+	#create-first-sb-text {
+		color: $primary;
+		background-color: rgba($primary, 0.2);
+		padding: 20px;
+		a {
+			color: white;
+			border-radius: 5px;
+			float: right;
+			margin-top: -5px;
+			background-color: rgba($primary, 0.8);
+			border: 1px solid #eee;
+			padding: 5px;
+			padding-right: 10px;
+		}
+		a:hover {
+			background-color: rgba($primary, 0.7);
+		}
 	}
 
 	#account-settings {
@@ -200,11 +213,28 @@
 	}
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 	#dashboard #account-settings-button-outer {
-		width: 100%;
+		width: 100% !important;
 		position: relative;
 		display: block;
 		margin-bottom: 15px;
+		left: 0 !important;
+	}
+}
+
+@media (max-width: 800px) {
+	#dashboard #create-first-sb-text {
+		width: 100%;
+		text-align: center;
+		display: inline-block;
+		font-size: 14px;
+		a {
+			margin-top: 10px;
+			width: 100%;
+			text-align: center;
+			float: initial;
+			display: inline-block;
+		}
 	}
 }

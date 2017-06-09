@@ -25,3 +25,48 @@ body {
   background-color: rgba($primary, 0.8);
   font-family: 'Futura';
 }
+
+#accent-container {
+  padding: 4px;
+  max-width: 1000px;
+  min-width: 380px;
+  width: 80%;
+  margin-bottom: 2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 1px 1px 2px #555;
+  &.accent-under {
+    margin-bottom: 0px;
+    padding: 5px;
+    padding-top: 0px;
+  }
+  &.sb-detail-accent {
+    max-width: 1500px;
+    width: 100%;
+    min-width: initial;
+    left: initial;
+    position: relative;
+    transform: initial;
+    margin: auto;
+    margin-bottom: 0px;
+    margin-top: 100px;
+  }
+  background-color: #eee;
+  /*background:
+    linear-gradient(
+      limegreen,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      #5192e8,
+      transparent
+    ),
+    linear-gradient(
+      -90deg,
+      #ff7f50,
+      transparent
+    );
+  background-blend-mode: screen;*/
+}

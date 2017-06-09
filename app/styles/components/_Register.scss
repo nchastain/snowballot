@@ -1,20 +1,61 @@
 #register {
+  text-align: center;
   h1 {
     font-family: 'FuturaExtraBold';
   }
   background-color: white;
-  margin: 2rem;
-  margin-top: 150px;
-  padding: 1rem;
+  padding: 1rem !important;
   font-family: 'Futura';
   color: $primary;
-  input {
-    width: 25%;
+  label {
+    color: $primary;
+    text-align: left;
+  }
+  input, input[type='password'] {
+    width: 100%;
+    color: $primary;
+    padding: 15px !important;
+    font-size: 18px;
+    margin-bottom: 30px;
+    height: auto !important;
+    border: 1px solid #eee;
+    box-shadow: none;
+  }
+  input:focus, input[type='password']:focus {
+    border: 1px solid #eee;
+    outline: none;
   }
   button {
     background-color: $primary;
     color: white;
     border-radius: 5px;
     padding: 1rem;
+    width: 100%;
   }
+}
+
+#register-accent {
+  padding: 4px;
+  display: block;
+  margin: auto;
+  max-width: 500px;
+  background-color: red;
+  margin-top: 150px;
+  background:
+    linear-gradient(
+      limegreen,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      #5192e8,
+      transparent
+    ),
+    linear-gradient(
+      -90deg,
+      #ff7f50,
+      transparent
+    );
+  background-blend-mode: screen;
+  box-shadow: 1px 1px 2px #555;
 }

@@ -1,11 +1,21 @@
 #account-panel {
-  padding-top: 50px;
   background-color: #eee;
   border: 1px solid #eee;
+  width: 100%;
   #account-settings {
     .button {
       background-color: white !important;
     }
+  }
+
+  #account-section {
+    margin-bottom: 0px;
+    display: inline-block;
+    width: 100%;
+  }
+
+  #account-section {
+    display: inline-block;
   }
 
   input {
@@ -13,11 +23,26 @@
   }
 
   .button {
-    background-color: $primary !important;
+    text-transform: lowercase;
   }
 
-  #upload-button, #account-deletion, #account-delete-button {
+  .full-width-button {
+    width: 100%;
+    text-align: center;
+    background-color: rgba($primary, 0.8);
+  }
+
+  #account-delete-text {
+    color: $primary;
+    padding: 15px;
+    background-color: rgba($primary, 0.3);
+  }
+
+  #upload-button, #account-deletion {
     margin-top: 20px !important;
+    text-transform: lowercase;
+    width: 100%;
+    text-align: center;
   }
 
   .fa {
@@ -26,7 +51,7 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 905px) {
   #dashboard #account-settings-button-outer, #dashboard #account-settings-button {
     text-align: center !important;
     width: 100%;
@@ -45,6 +70,8 @@
   }
   #account-panel {
     padding-top: 10px;
-    padding-bottom: 15px;
+  }
+  #account-panel #account-section {
+    padding-top: 0px;
   }
 }

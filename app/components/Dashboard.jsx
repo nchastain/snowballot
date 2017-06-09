@@ -75,8 +75,8 @@ export class Dashboard extends Component {
 
   renderNone () {
     return (
-      <div>You have not yet created any snowballots. To create one,
-        <Link to='/sbs/add' authed={this.props.user.uid}> click here</Link>
+      <div id='create-first-sb-text'>You have not yet created any snowballots.
+        <Link to='/sbs/add' authed={this.props.user.uid}><FA name='plus' className='fa fa-fw' /> add a snowballot</Link>
       </div>
     )
   }
@@ -106,29 +106,31 @@ export class Dashboard extends Component {
     }
     const showFavoritedContent = () => that.state.showFavorited || that.state.showAll
     return (
-      <span id='dashboard'>
-        <div className='dashboard-outer'>
-          <div id='account-settings-button-outer' className={this.state.showAccountPanel ? 'active' : ''}>
-            <div id='account-settings-button' onClick={() => this.setState({showAccountPanel: !this.state.showAccountPanel})}>
-              <FA name='gear' className='fa fa-fw' />{this.state.showAccountPanel ? 'Hide ' : ''}Account Settings
+      <div id='accent-container'>
+        <span id='dashboard'>
+          <div className='dashboard-outer'>
+            <div id='account-settings-button-outer' className={this.state.showAccountPanel ? 'active' : ''}>
+              <div id='account-settings-button' onClick={() => this.setState({showAccountPanel: !this.state.showAccountPanel})}>
+                <FA name='gear' className='fa fa-fw' />{this.state.showAccountPanel ? 'Hide ' : ''}Account Settings
+              </div>
             </div>
-          </div>
-          {this.state.showAccountPanel && <AccountPanel />}
-          <div id='dashboard-view-filter'>
-            <span className={classnames(filterClasses('showCreated'))} onClick={() => this.setState({showCreated: true, showFavorited: false, showAll: false})}>My Snowballots</span>
-            <span className={classnames(filterClasses('showFavorited'))} onClick={() => this.setState({showCreated: false, showFavorited: true, showAll: false})}>Favorites</span>
-            <span className={classnames(filterClasses('showAll'))} onClick={() => this.setState({showCreated: true, showFavorited: true, showAll: true})}>All</span>
-          </div>
-          <div className='snowballots-section'>
-            {sbContent()}
-          </div>
-          {showFavoritedContent() && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
-            <div className='favorites-section'>
-              {favorites}
+            {this.state.showAccountPanel && <AccountPanel />}
+            {typeof that.props.user.sbs !== 'undefined' && that.props.user.sbs.length > 0 && <div id='dashboard-view-filter'>
+              <span className={classnames(filterClasses('showCreated'))} onClick={() => this.setState({showCreated: true, showFavorited: false, showAll: false})}>My Snowballots</span>
+              <span className={classnames(filterClasses('showFavorited'))} onClick={() => this.setState({showCreated: false, showFavorited: true, showAll: false})}>Favorites</span>
+              <span className={classnames(filterClasses('showAll'))} onClick={() => this.setState({showCreated: true, showFavorited: true, showAll: true})}>All</span>
+            </div>}
+            <div className='snowballots-section'>
+              {sbContent()}
             </div>
-          </span>}
-        </div>
-      </span>
+            {showFavoritedContent() && this.state.favoritedSbs && this.state.favoritedSbs.length > 0 && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
+              <div className='favorites-section'>
+                {favorites}
+              </div>
+            </span>}
+          </div>
+        </span>
+      </div>
     )
   }
 }

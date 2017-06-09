@@ -13,7 +13,7 @@ export const AccountControl = props => {
     </Link>
   )
   const userNav = (
-    <span className='right hide-for-mobile'>
+    <span className='right'>
       {photoURL && photoLink}
       <Link className={navclasses + isActive('/dashboard')} to='/dashboard'>
         Dashboard
@@ -24,7 +24,7 @@ export const AccountControl = props => {
     </span>
   )
   const noUserNav = (
-    <span className='right hide-for-mobile'>
+    <span className='right'>
       <Link to='/login' className={navclasses + isActive('/login')}>
         <li>Login</li>
       </Link>
@@ -33,7 +33,11 @@ export const AccountControl = props => {
       </Link>
     </span>
   )
-  return <span id='account-control'>{props.authed ? userNav : noUserNav}</span>
+  return (
+    <span id='account-control'>
+      <span className='hide-for-mobile'>{props.authed ? userNav : noUserNav}</span>
+    </span>
+  )
 }
 
 export default connect(state => state)(AccountControl)
