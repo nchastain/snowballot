@@ -109,7 +109,10 @@ class AddForm extends React.Component {
     console.log(stateProps)
     return (
       <OptionPanel
-        handleOptionToggle={(e) => this.setState({[e.target.id]: !this.state[e.target.id]})}
+        handleOptionToggle={(e, specifier) => {
+          if (!specifier) this.setState({[e.target.id]: !this.state[e.target.id]})
+          else this.setState({[e.currentTarget.id]: !this.state[e.currentTarget.id]})
+        }}
         setDate={data => this.setState(
           {expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}
         )}

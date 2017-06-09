@@ -11,16 +11,21 @@
     div.ReactTags__tagInput {
         border-radius: 2px;
         display: inline-block;
-        &input {
-            width: 300px !important;
-        }
+        width: 100%;
+        margin: 0;
+        margin-top: 0px;
     }
     div.ReactTags__tagInput input.ReactTags__tagInputField,
     div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
-        height: 31px;
-        margin: 0;
+        margin: 0 !important;
+        margin-top: 0px !important;
         font-size: 12px;
         border: 1px solid #eee;
+    }
+
+    div.ReactTags__tagInputField#tagger {
+        margin: 0px !important;
+        margin-top: 0px !important;
     }
 
     /* Styles for selected tags */
@@ -66,13 +71,11 @@
     } 
 }
 
-#option-unit {
+#option-unit, #options-panel {
         div.ReactTags__tags {
         position: relative;
         display: inline-block;
-        margin-left: 5px;
-        margin-bottom: 5px;
-        width: 100% !important;
+        width: 100%;
     }
         /* Styles for selected tags */
     div.ReactTags__selected span.ReactTags__tag {

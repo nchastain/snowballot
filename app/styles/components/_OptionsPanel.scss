@@ -1,5 +1,4 @@
 #options-panel {
-  margin-bottom: 10px !important;
   background-color: rgba(#eee, 0.7) !important;
   &.newSbOptions.newSbSection {
     .fa-2x {
@@ -27,6 +26,220 @@
     }
   }
 
+  .option-unit-small-container {
+    width: calc(100% / 3);
+    height: 100%;
+    padding: 0px 10px 5px 10px;
+    display: inline-block;
+    position: relative;
+    margin-bottom: 10px;
+    text-align: center !important;
+  }
+
+  .option-unit-medium-container {
+    width: 50%;
+    height: 100%;
+    padding: 0px 5px 5px 5px;
+    display: inline-block;
+    position: relative;
+    margin-bottom: 0px;
+    text-align: left !important;
+    .option-unit-item {
+      background-color: white;
+      border: 0px;
+    }
+    .option-unit-item:hover {
+      cursor: initial;
+      border: 0px;
+      background-color: initial;
+    };
+  }
+
+  .option-unit-large-container {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+    padding: 0px 5px 5px 5px;
+    display: inline-block;
+    position: relative;
+    text-align: left !important;
+    .option-unit-item {
+      background-color: white;
+      border: 0px;
+    }
+    .option-unit-item:hover {
+      cursor: initial;
+      border: 0px;
+      background-color: initial;
+    };
+  }
+
+  #deadline-header {
+    color: $primary !important;
+    text-align: center;
+    font-size: 12px;
+    text-transform: lowercase;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .option-unit-item {
+    font-size: 14px;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba($primary, 0.5);
+    padding: 15px 10px;
+    color: $primary;
+    text-transform: lowercase;
+    display: inline-block;
+    &#alias {
+      .option-unit-text:before {
+        content: "\f2dc";
+        font-family: FontAwesome;
+        margin-right: 5px;
+        font-size: 110%;
+      }
+      &:hover {
+        cursor: initial;
+        border: 0px;
+        background-color: white;
+      };
+    }
+    &#description {
+      .option-unit-text:before {
+        content: "\f040";
+        font-family: FontAwesome;
+        margin-right: 5px;
+        font-size: 110%;
+      }
+      &:hover {
+        cursor: initial;
+        border: 0px;
+        background-color: white;
+      };
+    }
+    &#tags {
+      .option-unit-text:before {
+        content: "\f02c";
+        font-family: FontAwesome;
+        margin-right: 5px;
+        font-size: 110%;
+      }
+      &:hover {
+        cursor: initial;
+        border: 0px;
+        background-color: white;
+      };
+    }
+    &:hover {
+      cursor: pointer;
+      border: 1px solid $primary;
+      background-color: rgba(white, 0.2);
+    }
+    &.active {
+      background-color: rgba($primary, 0.3);
+      color: rgba($primary, 0.8);
+      border: 1px solid rgba($primary, 0.3);
+      .option-unit-text:before {
+        content: "\f00c";
+        font-family: FontAwesome;
+        margin-right: 5px;
+        font-size: 110%;
+      }
+    }
+  }
+
+  textarea {
+    color: $primary;
+    border: 1px solid #eee;
+    border-left: 5px solid $primary;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0;
+    margin-top: 10px;
+    box-shadow: none;
+    resize: none;
+    &:focus {
+      pointer-events: none;
+      border: 1px solid #eee;
+      box-shadow: none;
+    }
+  }
+
+  .save-option-button {
+    display: none;
+    padding: 5px;
+    background-color: $primary;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    width: 100px;
+    &.saved {
+      background-color: white;
+      color: $primary;
+      &:hover {
+        opacity: initial;
+        cursor: initial;
+      }
+    }
+    .fa {
+      color: $primary;
+      font-size: 10px;
+    }
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    &#description {
+      margin-top: 10px;
+      width: 100%;
+    }
+  }
+
+  #tagger {
+    margin: 0px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    border-left: 5px solid $primary;
+    color: $primary;
+    width: 100%;
+  }
+
+  #option-date-picker {
+    display: inline-block;
+    color: $primary;
+    text-align: right;
+    input {
+      width: 100% !important;
+    }
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .option-unit-text {
+    font-size: 14px;
+  }
+
+  .disabled-option {
+    color: #A9A9A9 !important;
+  }
+
+  #tag-input {
+    display: inline-block;
+    width: 100%;
+    color: $primary;
+  }
+
+  #alias-input {
+    border: 1px solid #eee;
+    border-left: 5px solid $primary;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: $primary;
+  }
+
   #options-top {
     display: inline-block;
     width: 100%;
@@ -43,5 +256,22 @@
     font-size: 80%;
     margin-bottom: 10px;
     text-align: center;
+  }
+}
+
+@media (max-width: 690px) {
+  #options-panel .option-unit-small-container#didExpire, #options-panel .option-unit-medium-container {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #options-panel .option-unit-small-container:not(#didExpire) {
+    width: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+  #options-panel .option-unit-small-container:not(#didExpire) {
+    width: 100%;
   }
 }

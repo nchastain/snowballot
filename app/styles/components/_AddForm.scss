@@ -214,16 +214,11 @@
 	}
 
 	#real-options-section {
-		max-height: 0px;
-		transition: max-height 0.3s ease-in;
 		display: block;
 		overflow: hidden;
 		width: 100%;
-		margin-bottom: 10px;
-		&.expanded {
-			max-height: 500px;
-			padding-bottom: 10rem;
-		}
+		margin-bottom: 0px !important;
+		padding-bottom: 0px !important;
 	}
 
 	#outer-add-form-container {
@@ -376,7 +371,6 @@
 		transition: max-height 0.3s ease-in;
 		display: block;
 		overflow: hidden;
-		margin-top: 15px;
 		width: 100%;
 		margin-bottom: 15px;
 		.fa {
@@ -391,7 +385,6 @@
 	.newSbOptions {
 		display: block;
 		width: 100%;
-		margin-top: 15px;
 		padding-bottom: 0;
 		#expireCheckbox, #privateCheckbox {
 			margin-bottom: 0;

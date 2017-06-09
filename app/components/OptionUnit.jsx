@@ -51,11 +51,10 @@ const OptionUnit = function (props) {
       )
     },
     alias: {
-      icon: 'snowflake-o',
       text: (
         <span>
           {!isPrivate
-          ? <span>Add a custom URL?&#58; snowballot.com&#47;sbs&#47;</span>
+          ? null
           : <span className='disabled-option'>
               (Sorry, custom URLs are only available for public snowballots.)
             </span>
