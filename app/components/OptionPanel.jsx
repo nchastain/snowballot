@@ -5,6 +5,7 @@ import FA from 'react-fontawesome'
 const OptionPanel = (props) => {
   const {
     didExpire,
+    expires,
     handleOptionToggle,
     setDate,
     isPrivate,
@@ -18,31 +19,13 @@ const OptionPanel = (props) => {
     tags,
     suggestions,
     toggleMenu,
+    save,
     optionsExpanded = true,
     showButton = true
   } = props
-  const label = (type) => {
-    const hidden = type === 'hidden'
-    return (
-      <div style={{fontSize: '80%', verticalAlign: 'middle'}}>
-        {hidden ? 'SHOW' : 'HIDE'}
-      </div>
-    )
-  }
   return (
     <span id='options-panel' className='newSbOptions newSbSection'>
-      {showButton && <div id='options-top' onClick={() => toggleMenu()}>
-        <div id='toggleOptionsMenu' onClick={() => toggleMenu()}>
-          {optionsExpanded ? label() : label('hidden') }
-        </div>
-      </div>}
       <div id='real-options-section' className={optionsExpanded ? 'expanded' : ''}>
-        <OptionUnit
-          name='expire'
-          didExpire={didExpire}
-          toggle={(e) => handleOptionToggle(e)}
-          setDate={(data) => setDate(data)}
-        />
         <OptionUnit
           name='private'
           isPrivate={isPrivate}
@@ -54,15 +37,24 @@ const OptionPanel = (props) => {
           toggle={(e) => handleOptionToggle(e)}
         />
         <OptionUnit
+          name='expire'
+          didExpire={didExpire}
+          expires={expires}
+          toggle={(e) => handleOptionToggle(e)}
+          setDate={(data) => setDate(data)}
+        />
+        <OptionUnit
           name='alias'
           isPrivate={isPrivate}
           alias={alias}
           toggle={(e) => toggleAlias(e)}
+          save={(e) => save(e)}
         />
         <OptionUnit
           name='description'
           description={description}
           toggle={(e) => toggleDescription(e)}
+          save={(e) => save(e)}
         />
         <OptionUnit
           name='tags'

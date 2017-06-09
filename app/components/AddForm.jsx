@@ -23,9 +23,15 @@ class AddForm extends React.Component {
     })
   }
 
-  handleDelete (i) { this.setState({tags: this.state.tags.splice(i, 1)}) }
+  handleDelete (i) {
+    const newTags = [...this.state.tags.slice(0, i), ...this.state.tags.slice(i + 1)]
+    this.setState({tags: newTags})
+  }
 
-  handleAdd (tag) { this.setState({tags: this.state.tags.push({id: this.state.tags.length + 1, text: tag})}) }
+  handleAdd (tag) {
+    const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
+    this.setState({tags: newTags})
+  }
 
   setGIF (id, gif) {
     const that = this
@@ -110,6 +116,7 @@ class AddForm extends React.Component {
 
   buildOptionPanel () {
     const stateProps = {...this.state}
+    console.log(stateProps)
     return (
       <OptionPanel
         handleOptionToggle={(e) => this.setState({[e.target.id]: !this.state[e.target.id]})}
@@ -143,6 +150,13 @@ class AddForm extends React.Component {
     return showChoicesButton
   }
 
+  handleTitleChange (e) {
+    if (e.keyCode === 13 || e.keyCode === 9) {
+      if (e.keyCode === 13) e.preventDefault()
+      if (this.state.title.length > 0) document.querySelector('.sbCreationButton').click()
+    }
+  }
+
   render () {
     return (
       <span id='add-form'>
@@ -150,7 +164,7 @@ class AddForm extends React.Component {
         <div id='outer-add-form-container'>
           <div className='newSnowballot-section'>
             <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
-              <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} />
+              <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} onKeyDown={(e) => this.handleTitleChange(e)} />
               {this.state.showChoices && <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />}
               {this.state.showOptions && this.buildOptionPanel()}
             </form>

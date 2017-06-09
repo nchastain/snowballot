@@ -38,7 +38,6 @@
         color: $primary;
         margin-left: 5px;
         cursor: pointer;
-
     }
 
     /* Styles for suggestions */
@@ -65,5 +64,35 @@
         background: #b7cfe0;
         cursor: pointer;
     } 
+}
+
+#option-unit {
+        div.ReactTags__tags {
+        position: relative;
+        display: inline-block;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        width: 100% !important;
+    }
+        /* Styles for selected tags */
+    div.ReactTags__selected span.ReactTags__tag {
+        border: 1px solid #ddd;
+        background-color: white;
+        font-size: 12px;
+        display: inline-block;
+        padding: 5px;
+        margin: 3px 3px;
+        margin-bottom: 10px !important;
+        border-radius: 2px;
+        display: inline-block;
+    }
+
+    div.ReactTags__selected a.ReactTags__remove {
+        color: $primary;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+
 }
 

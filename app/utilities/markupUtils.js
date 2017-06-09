@@ -51,6 +51,7 @@ export const votesMessage = function (choices, id, user, expires) {
 export const winnerMessage = function (expires, choices) {
   if (!expires || !choices) return
   const winner = findLeader(choices)
+  if (winner === null) return
   return didExpire(expires) ? <li>{addFA('trophy')} {winner.title} won with {winner.votes} votes</li> : null
 }
 

@@ -218,15 +218,16 @@
 
   .tag-list {
     text-align: left;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    display: inline-block;
+    max-width: 400px;
+    width: 50%;
     .fa {
       background-color: initial;
       border: initial;
       margin: initial;
       padding: initial;
       margin-right: 5px;
+      display: inline-block;
     }
     span {
       background-color: rgba($primary, 0.1);
@@ -236,6 +237,7 @@
       font-size: 12px;
       margin: 3px;
       border-radius: 2px;
+      display: inline-block;
     }
   }
 
@@ -335,7 +337,7 @@
     display: inline-block;
     width: 100%;
     color: rgba($primary, 0.3);
-    background-color: white;
+    background-color: rgba($primary, 0.1);
     min-height: 80px;
     font-size: 90%;
     a {
@@ -347,7 +349,7 @@
       display: inline-block;
       width: 65%;
       color: rgba($primary, 0.6);
-      background-color: rgba($primary, 0.1);
+      background-color: rgba(0,0,0,0);
       min-height: 80px;
       vertical-align: top;
       ul {
@@ -357,7 +359,7 @@
       }
     }
     #sb-actions {
-      background-color: rgba($primary, 0.1);
+      background-color: rgba(0,0,0,0);
       padding-top: 10px;
       padding-right: 10px;
       display: inline-block;
@@ -393,6 +395,10 @@
         text-indent: 0px !important;
       }
     }
+    .tag-list {
+      width: 100%;
+      margin-top: 10px;
+    }
     .photo-title {
       font-size: 5vw !important;
     }
@@ -407,7 +413,7 @@
       text-align: center !important;
       width: 100% !important;
     }
-    .sort-option-key {
+    #sort-option-key {
       padding-left: 0px !important;
       width: 100% !important;
     }

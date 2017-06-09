@@ -12,6 +12,16 @@
         font-size: 11px;
       }
     }
+    .choice-input {
+      width: calc(100% - 120px);
+      border-bottom: 2px dotted white !important;
+    }
+    .choice-input[id='1'], .choice-input[id='2'] {
+      width: calc(100% - 80px);
+    }
+    .choice-input::placeholder {
+      color: rgba($primary, 0.3);
+    }
     .choice-expand {
       display: none;
       position: absolute;
@@ -63,12 +73,22 @@
     &:hover {
       margin-left: 0px;
       width: 100%;
+      .choice-input {
+        border-bottom: 2px dotted rgba($primary, 0.2) !important;
+      }
+
     }
   }
 }
 
 @media (max-width: 800px) {
-  #add-form .choice-input  {
+  #choice .choice-input  {
     font-size: 13px;
+    width: 100% !important;
+  }
+  #choice .choice-container:hover {
+    .choice-input {
+      border-bottom: 2px dotted white !important;
+    }
   }
 }

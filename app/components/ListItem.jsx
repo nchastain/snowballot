@@ -48,9 +48,6 @@ class ListItem extends React.Component {
           {sb.favorites && <div id='discover-list-item-favorites'>
             <FA name='star' className='fa fa-fw' />{sb.favorites} <span className='hide-for-mobile'>favorite{sb.favorites > 1 ? 's' : ''}</span>
           </div>}
-          {sb.tags && <div id='discover-list-item-tags'>
-            <FA name='tags' className='fa fa-fw' />{taglist}
-          </div>}
           {this.props.sharePanel && <div id='share-panel' className={classnames(sharePanelClasses)}>
             <span className='button action-button' data-tip data-for='copy-tooltip' onClick={() => copyToClipboard(sb.alias)}>
               <FA name={linkCopied(sb.alias) ? 'check-circle' : 'clipboard'} className='fa fa-fw' />
@@ -76,6 +73,9 @@ class ListItem extends React.Component {
             <ReactTooltip id='facebook-share-tooltip' effect='solid'><span>Share on Facebook</span></ReactTooltip>
           </div>}
         </div>
+        {sb.tags && <div id='discover-list-item-tags'>
+          <FA name='tags' className='fa fa-fw' />{taglist}
+        </div>}
       </span>
     )
   }

@@ -29,6 +29,35 @@
         box-shadow: none;
       }
     }
+    .save-option-button {
+      display: none;
+      padding: 5px;
+      background-color: $primary;
+      color: white;
+      border-radius: 5px;
+      text-align: center;
+      width: 100px;
+      &.saved {
+        background-color: white;
+        color: $primary;
+        &:hover {
+          opacity: initial;
+          cursor: initial;
+        }
+      }
+      .fa {
+        color: $primary;
+        font-size: 10px;
+      }
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+      &#description {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
     input {
       color: $primary;
       border: 1px solid #eee;

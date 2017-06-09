@@ -19,7 +19,7 @@ import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage,
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {tags: [], sortType: 'date'}
+    this.state = {sortType: 'date'}
     this.addEventListening = this.addEventListening.bind(this)
   }
 
@@ -38,7 +38,7 @@ export class SbDetail extends Component {
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
     if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
-    this.setState({title: nextProps.sb.title, isExtensible: nextProps.sb.isExtensible, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
+    this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, didExpire: Boolean(nextProps.sb.expires), isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags, alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
 
   updateSbImages (props) {
@@ -119,6 +119,14 @@ export class SbDetail extends Component {
     document.getElementById('link-following-deletion').click()
   }
 
+  handleOptionToggle (e) {
+    const option = e.target.id
+    const that = this
+    this.setState({[option]: !this.state[option]}, function () {
+      this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {[option]: this.state[option]}))
+    })
+  }
+
   editMessage () {
     if (!isCreator(this.props.user.uid, this.props.sb.creator)) return
     return (
@@ -131,8 +139,13 @@ export class SbDetail extends Component {
             <div id='close-modal' onClick={() => this.toggleModal('showOptionsModal')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top'>Edit Snowballot Options</div>
             <OptionPanel
-              handleOptionToggle={(e) => this.setState({[e.target.id]: !this.state[e.target.id]})}
-              setDate={data => this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')})}
+              handleOptionToggle={(e) => this.handleOptionToggle(e)}
+              setDate={data => {
+                const that = this
+                this.setState({expires: DateTime.moment(data).format('MM/DD/YYYY')}, function () {
+                  that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {expires: that.state.expires}))
+                })
+              }}
               toggleAlias={(e) => this.setState({alias: e.target.value})}
               deletion={() => this.setUpEventHandling(this.state.choices)}
               toggleDescription={(e) => this.setState({description: e.target.value})}
@@ -141,6 +154,11 @@ export class SbDetail extends Component {
               toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
               optionsExpanded
               showButton={false}
+              save={(e) => {
+                console.log(e)
+                this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {[e.target.id]: this.state[e.target.id]}))
+              }}
+              tags={this.props.sb.tags}
               {...this.state}
             />
           </ReactModal>
@@ -151,22 +169,17 @@ export class SbDetail extends Component {
   }
 
   handleDelete (i) {
-    let tags = this.state.tags
-    let that = this
-    tags.splice(i, 1)
-    this.setState({tags: tags}, function () {
-      that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
+    const that = this
+    const newTags = [...this.state.tags.slice(0, i), ...this.state.tags.slice(i + 1)]
+    this.setState({tags: newTags}, function () {
+       that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
     })
   }
 
   handleAdd (tag) {
-    let tags = this.state.tags
-    let that = this
-    tags.push({
-      id: tags.length + 1,
-      text: tag
-    })
-    this.setState({tags: tags}, function () {
+    const that = this
+    const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
+    this.setState({tags: newTags}, function () {
       that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
     })
   }
@@ -280,7 +293,7 @@ export class SbDetail extends Component {
     return (
       <div className='snowballots-section'>
         <FavoritePanel favorites={this.state.favorites} favorited={this.state.favorited} />
-        {this.state.tags && this.state.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
+        {this.props.sb.tags && this.props.sb.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         {sortOptions()}
         <div id='separator' />
         <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />

@@ -12,7 +12,10 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     })
     update('choices', updatedChoices)
   }
-  const checkKey = (e) => { if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice() }
+  const checkKey = (e) => { 
+    if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice()
+    if (e.keyCode === 13 && choices.length >= 2 && choices[0].title.length > 0 && choices[1].title.length > 0) document.querySelector('.sbCreationButton').click()
+  }
   const addChoice = () => {
     const newChoice = {title: '', votes: 0, id: choices.length + 1, added: Date.now()}
     update('choices', [...choices, newChoice])

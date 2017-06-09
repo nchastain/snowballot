@@ -1,26 +1,14 @@
 import React from 'react'
 import FA from 'react-fontawesome'
 import Tagger from './Tagger'
-import { DatePicker } from '.././utilities/generalUtils'
+// import { DatePicker } from '.././utilities/generalUtils'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
 
 const OptionUnit = function (props) {
-  const { name, didExpire, isPrivate, description, alias, expires, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
+  const { name, didExpire, save, isPrivate, description, alias, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
+  let expires = props.expires ? props.expires : moment().add(1, 'week')
   const optionUnits = {
-    expire: {
-      icon: 'calendar-times-o',
-      text: 'Lock voting on snowballot after certain time?',
-      selector: (
-        <FA
-          id='didExpire'
-          name={didExpire ? 'check-circle' : 'circle'}
-          className='fa fa-fw custom-check'
-          onClick={(e) => toggle(e)}
-        />
-      ),
-      etc: (
-        <span>{didExpire && <DatePicker expires={expires} setDate={setDate} {...props} />}</span>
-      )
-    },
     private: {
       icon: 'eye-slash',
       text: 'Make snowballot private?',
@@ -45,6 +33,24 @@ const OptionUnit = function (props) {
         />
       )
     },
+    expire: {
+      icon: 'calendar-times-o',
+      text: 'Set a deadline for voting?',
+      selector: (
+        <FA
+          id='didExpire'
+          name={didExpire ? 'check-circle' : 'circle'}
+          className='fa fa-fw custom-check'
+          value={expires}
+          onClick={(e) => toggle(e)}
+        />
+      ),
+      etc: (
+        <span>
+          {didExpire && <DatePicker selected={moment(expires)} onChange={setDate} minDate={moment()} placeholderText='Select a deadline for voting' />}
+        </span>
+      )
+    },
     alias: {
       icon: 'snowflake-o',
       text: (
@@ -62,8 +68,23 @@ const OptionUnit = function (props) {
           {!isPrivate && <input
             type='text'
             value={alias}
-            onChange={(e) => toggle(e)}
+            onChange={(e) => {
+              document.querySelector('.save-option-button#alias').style.display = 'inline-block'
+              document.querySelector('.save-option-button#alias').innerHTML = 'save'
+              document.querySelector('.save-option-button#alias').classList.remove('saved')
+              toggle(e)
+            }}
           />}
+        </span>
+      ),
+      etc: (
+        <span>
+          {!isPrivate && <div className='save-option-button' id='alias' onClick={(e) => {
+            document.querySelector('.save-option-button#alias').innerHTML = 'saved!'
+            document.querySelector('.save-option-button#alias').classList.add('saved')
+            save(e)
+          }
+          }>save</div>}
         </span>
       )
     },
@@ -75,8 +96,21 @@ const OptionUnit = function (props) {
           <textarea
             rows={3}
             value={description}
-            onChange={(e) => toggle(e)}
+            onChange={(e) => {
+              document.querySelector('.save-option-button#description').style.display = 'inline-block'
+              document.querySelector('.save-option-button#description').innerHTML = 'save'
+              document.querySelector('.save-option-button#description').classList.remove('saved')
+              toggle(e)
+            }}
           />
+          <div className='save-option-button' id='description' onClick={(e) => {
+            document.querySelector('.save-option-button#description').classList.add('saved')
+            document.querySelector('.save-option-button#description').innerHTML = 'saved!'
+            save(e)
+          }}
+          >
+            save
+          </div>
         </span>
       )
     },

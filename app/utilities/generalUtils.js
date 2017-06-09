@@ -3,19 +3,6 @@ import DateTime from 'react-datetime'
 import { didExpire } from 'utilities/sbUtils'
 import { setDOMReferences } from 'utilities/markupUtils'
 
-export const DatePicker = ({setDate, expires}) => {
-  return (
-    <div>
-      <DateTime
-        inputProps={{placeholder: 'Enter an expiration date'}}
-        value={expires || ''}
-        onChange={(data) => setDate(data)}
-        closeOnSelect
-      />
-    </div>
-  )
-}
-
 export const modalStyles = {
   content: {
     top: '25%',
