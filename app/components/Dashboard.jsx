@@ -123,7 +123,7 @@ export class Dashboard extends Component {
             <div className='snowballots-section'>
               {sbContent()}
             </div>
-            {showFavoritedContent() && this.state.favoritedSbs && this.state.favoritedSbs.length > 0 && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
+            {showFavoritedContent() && this.state.favoriteSbs && this.state.favoriteSbs.length > 0 && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
               <div className='favorites-section'>
                 {favorites}
               </div>

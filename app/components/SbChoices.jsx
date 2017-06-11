@@ -55,7 +55,6 @@ class SbChoices extends React.Component {
   }
 
   buildModal (choice, name) {
-    console.log(choice, name)
     this.setState({modalOpen: name, [`${name}ModalOpen`]: true, viewingChoice: choice, viewingSection: name})
   }
 
@@ -64,9 +63,13 @@ class SbChoices extends React.Component {
     const lightBackgrounds = ['#87FFD2', '#84C5FF', '#FFD1FF', '#FF6775', '#FFDF8C', '#FFB283', '#FFCED4']
     const mediaIcon = (name, icon, choice) => {
       return (
-        <span className={`icon-${name}`} id={`icon-${name}-${choice.id}`} onClick={() => this.buildModal(choice, name)}>
-          <span>{choice[name] && <span className='extra-media-button' style={{color: 'white', backgroundColor: lightBackgrounds[choice.id % lightBackgrounds.length]}} data-tip data-for={`${name}-tooltip-${choice.id}`}><FA name={icon} className='fa fa-fw' /></span>}</span>
-          <ReactTooltip id={`${name}-tooltip-${choice.id}`} effect='solid'><span>View {name === 'youtube' ? 'YouTube link' : name}</span></ReactTooltip>
+        <span>
+          {choice[name] && <span className='icon-wrapper'>
+            <span className={`icon-${name}`} id={`icon-${name}-${choice.id}`} onClick={() => this.buildModal(choice, name)}>
+              <span>{choice[name] && <span className='extra-media-button' style={{color: 'white', backgroundColor: lightBackgrounds[choice.id % lightBackgrounds.length]}} data-tip data-for={`${name}-tooltip-${choice.id}`}><FA name={icon} className='fa fa-fw' /></span>}</span>
+              <ReactTooltip id={`${name}-tooltip-${choice.id}`} effect='solid'><span>View {name === 'youtube' ? 'YouTube link' : name}</span></ReactTooltip>
+            </span>
+          </span>}
         </span>
       )
     }
@@ -74,11 +77,11 @@ class SbChoices extends React.Component {
     const addExtraMedia = (choice) => {
       return (
         <span>
-          {mediaIcon('info', 'file-text-o', choice)}
-          {mediaIcon('photo', 'picture-o', choice)}
-          {mediaIcon('youtube', 'youtube', choice)}
-          {mediaIcon('link', 'link', choice)}
-          {mediaIcon('GIF', 'film', choice)}
+          {choice.info && mediaIcon('info', 'file-text-o', choice)}
+          {choice.photo && mediaIcon('photo', 'picture-o', choice)}
+          {choice.youtube && mediaIcon('youtube', 'youtube', choice)}
+          {choice.link && mediaIcon('link', 'link', choice)}
+          {choice.GIF && mediaIcon('GIF', 'film', choice)}
           {hasExtraMedia(choice) && <span id={`icon-more-${choice.id}`} onClick={() => this.buildModal(choice, 'more')}>
             <span><span className='more-media-button' style={{color: 'white', backgroundColor: lightBackgrounds[choice.id % lightBackgrounds.length]}} data-tip data-for={`more-tooltip-${choice.id}`}><FA name='ellipsis-h' className='fa fa-fw' /></span></span>
             <ReactTooltip id={`more-tooltip-${choice.id}`} effect='solid'><span>View more media</span></ReactTooltip>
@@ -101,7 +104,7 @@ class SbChoices extends React.Component {
     const isLeader = function (choice) { return didExpire(that.state.expires) && getVoteSum(that.props.choices) > 0 && choice.id === findLeader(that.props.choices).id }
     return (
         <span>
-          <ReactModal contentLabel='delete-sb' isOpen={this.state.modalOpen !== null} className='Modal' overlayClassName='Overlay'>
+          <ReactModal contentLabel='delete-sb' isOpen={this.state.modalOpen !== null} className='Modal' overlayClassName='Overlay media-modal'>
             <div id='close-modal' onClick={() => this.setState({modalOpen: null})}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top'>{this.state.viewingChoice && this.state.viewingSection ? `${this.state.viewingChoice.title} - Additional Media` : null}</div>
             <span id='included-media-container'>
@@ -128,7 +131,7 @@ class SbChoices extends React.Component {
                   onClick={(e) => !this.props.userID || didExpire(this.state.expires) ? null : this.vote(choice.id, e)}
                   style={{background: `${choice.photo ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${choice.photo})` : ''}`, backgroundSize: '40%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundColor: backgrounds[choice.id % backgrounds.length]}}
                 >
-                  <div className={choice.photo ? 'photo-title' : 'title'} style={{backgroundColor: `${choice.photo ? backgrounds[choice.id % backgrounds.length] : ''}`}}>{choice.title}</div>
+                  <div className={choice.photo ? 'photo-title' : 'title'} style={{backgroundColor: `${choice.photo ? 'rgba(0,0,0,0.3)' : ''}`}}>{choice.title}</div>
                   <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{addCommas(choice.votes)}</span>
                   <div className='center-cell'>
                     {choice.id === this.state.userVote && <img className='check' src='.././assets/check.png' />}

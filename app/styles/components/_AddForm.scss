@@ -202,7 +202,7 @@
 		color: $primary;
 		margin-bottom: 0px;
 		font-size: 24px;
-		border-left: 0px;
+		border: 0px;
 		border-radius: 5px;
 		padding-top: 1.5rem;
 		padding-bottom: 1.5rem;
@@ -226,7 +226,7 @@
 		margin: auto;
 		margin-top: 250px;
 		margin-bottom: 11rem;
-		background:
+		/*background:
       linear-gradient(
         limegreen,
         transparent
@@ -241,7 +241,7 @@
         #ff7f50,
         transparent
       );
-    background-blend-mode: screen;
+    background-blend-mode: screen;*/
 		padding: 4px;
 	}
 
@@ -336,8 +336,7 @@
 			margin-bottom: 0;
 		}
 		input {
-			border: 0px;
-			border-left: 5px solid $primary;
+			border: 1px solid #eee;
 			box-shadow: none;
 		}
 	}
@@ -360,6 +359,8 @@
 			margin-bottom: 0px !important;
 		}
 	}
+
+	
 
 	#tag-section {
 		display: inline-block;
@@ -429,6 +430,25 @@
 		display: block;
 		margin-top: 1rem;
 		margin-bottom: 0;
+	}
+
+	.sbCreationAccent {
+		padding: calc(3rem + 15px);
+		min-height: 130px;
+		background: $gradientBackground;
+		background-blend-mode: screen;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+		font-size: 25px;
+		margin-bottom: 0;
+		color: white;
+		margin-top: 25px;
+		text-align: center;
+		z-index: -1;
 	}
 
 	.sbCreationButton {

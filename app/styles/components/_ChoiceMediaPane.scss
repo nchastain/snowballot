@@ -2,10 +2,8 @@
   .choice-media-pane {
     display: block;
     text-align: left;
-    margin-left: 2rem;
-    margin-right: 2rem;
     margin-top: 10px;
-    width: calc(100% - 2rem);
+    width: 100%;
     &.expanded {
       padding: 10px;
     }

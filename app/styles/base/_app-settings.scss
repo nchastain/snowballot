@@ -26,12 +26,17 @@ body {
   font-family: 'Futura';
 }
 
+textarea {
+  resize: none !important;
+}
+
 #accent-container {
   padding: 4px;
   max-width: 1000px;
   min-width: 380px;
   width: 80%;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

@@ -12,8 +12,7 @@ export class Navigation extends Component {
     this.state = {
       authed: false,
       loading: true,
-      searchTerm: '',
-      hamburgerOpen: false
+      searchTerm: ''
     }
   }
 
@@ -58,6 +57,7 @@ export class Navigation extends Component {
     return (
       <span id='navigation'>
         <WindowResizeListener onResize={() => this.checkForLargeScreen()} />
+        <div id='navigationAccent' />
         <div className='bar'>
           <img className='logo' src='.././assets/logo.png' />
           <Link to='/discover' className={navclasses + this.isActive('/discover')}>
@@ -74,9 +74,8 @@ export class Navigation extends Component {
               <div id='nav-magnifying-glass'><FA name='search' className='fa fa-fw' /></div>
             </Link>
           </div>
-          <FA name={this.state.hamburgerOpen ? 'window-close' : 'bars'} id='nav-menu-hamburger' className='right display-for-mobile' onClick={() => this.setState({hamburgerOpen: !this.state.hamburgerOpen})} />
           <AccountControl className='right hide-for-mobile' active={this.props.active} authed={this.state.authed} />
-          <div id='open-nav-menu' className={this.state.hamburgerOpen ? '' : 'hidden'}>
+          <div id='open-nav-menu'>
             <Link to='/discover' className='open-nav-menu-item'>
               Discover
             </Link>

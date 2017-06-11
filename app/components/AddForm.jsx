@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import FA from 'react-fontawesome'
+import moment from 'moment'
 import * as actions from '.././actions'
 import DateTime from 'react-datetime'
 import { imagesRef } from '../firebase/constants'
@@ -29,6 +30,7 @@ class AddForm extends React.Component {
   }
 
   handleAdd (tag) {
+    if (this.state.tags.length >= 7) return
     const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
     this.setState({tags: newTags})
   }
@@ -106,10 +108,12 @@ class AddForm extends React.Component {
 
   buildOptionPanel () {
     const stateProps = {...this.state}
-    console.log(stateProps)
     return (
       <OptionPanel
         handleOptionToggle={(e, specifier) => {
+          if (specifier === 'expires') {
+            this.setState({[e.currentTarget.id]: !this.state[e.currentTarget.id], expires: moment().add(1, 'week').format('MM/DD/YYYY')})
+          }
           if (!specifier) this.setState({[e.target.id]: !this.state[e.target.id]})
           else this.setState({[e.currentTarget.id]: !this.state[e.currentTarget.id]})
         }}
@@ -131,14 +135,20 @@ class AddForm extends React.Component {
   }
 
   showButtonForStep () {
-    const choicesValid = () => this.state.choices && this.state.choices.length >= 2 && this.state.choices[0].title !== '' && this.state.choices[1].title !== ''
+    const choicesValid = () => {
+      return this.state.choices &&
+      this.state.choices.length >= 2 &&
+      this.state.choices[0].title !== '' &&
+      this.state.choices[1].title !== '' &&
+      this.state.choices[0].title.toLowerCase() !== this.state.choices[1].title.toLowerCase()
+    }
     const noTitleButton = <div className='sbCreationButton action-required button primary'>Enter a title above</div>
     const submitButton = <div className='sbCreationButton button primary' onClick={(e) => this.handleSubmit(e)}><FA name='arrow-right' className='fa fa-fw' /> submit snowballot</div>
     const showChoicesButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showChoices: true})}><FA name='arrow-right' className='fa fa-fw' /> next: choices</div>
     const choicesInvalidButton = <div className='sbCreationButton action-required button primary'>Enter at least two choices</div>
     const toOptionsButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showOptions: true})}><FA name='arrow-right' className='fa fa-fw' /> next: options</div>
     if (!this.state.title || this.state.title.length === 0) return noTitleButton
-    else if (this.state.showChoices && this.state.showOptions) return submitButton
+    else if (this.state.showChoices && this.state.showOptions && choicesValid()) return submitButton
     else if (this.state.showChoices) return choicesValid() ? toOptionsButton : choicesInvalidButton
     return showChoicesButton
   }
@@ -162,6 +172,7 @@ class AddForm extends React.Component {
               {this.state.showOptions && this.buildOptionPanel()}
             </form>
           </div>
+          <div className='sbCreationAccent' />
           {this.showButtonForStep()}
         </div>
       </span>

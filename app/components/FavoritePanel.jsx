@@ -22,7 +22,7 @@ class FavoritePanel extends React.Component {
       this.props.dispatch(actions.startUpdateUserAll('favorites', {[this.props.sb.id]: this.state.favorited}))
       const delta = this.state.favorited ? 1 : -1
       this.setState({favorites: this.state.favorites + delta}, function () {
-        this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {favorites: this.props.sb.favorites + delta}))
+        this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {...this.props.sb, favorites: parseInt(this.props.sb.favorites) + delta}))
       })
     })
   }

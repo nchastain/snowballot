@@ -45,8 +45,8 @@ class ListItem extends React.Component {
             <div id='discover-list-item-title'>{sb.title}</div>
             {sb.description && <div id='discover-list-item-description' className={classnames(taglist !== null ? {hasTags: true} : {})}>{sb.description}</div>}
           </div>
-          {sb.favorites && <div id='discover-list-item-favorites'>
-            <FA name='star' className='fa fa-fw' />{sb.favorites} <span className='hide-for-mobile'>favorite{sb.favorites > 1 ? 's' : ''}</span>
+          {sb.favorites !== 0 && <div id='discover-list-item-favorites'>
+            <FA name='star' className='fa fa-fw' />{sb.favorites}<span className='hide-for-mobile'> favorite{sb.favorites > 1 ? 's' : ''}</span>
           </div>}
           {this.props.sharePanel && <div id='share-panel' className={classnames(sharePanelClasses)}>
             <span className='button action-button' data-tip data-for='copy-tooltip' onClick={() => copyToClipboard(sb.alias)}>

@@ -19,7 +19,7 @@ import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage,
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {sortType: 'date'}
+    this.state = {sortType: 'date', tags: props.tags || []}
     this.addEventListening = this.addEventListening.bind(this)
   }
 
@@ -38,7 +38,7 @@ export class SbDetail extends Component {
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
     if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
-    this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags, alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
+    this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags || [], alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
 
   updateSbImages (props) {
@@ -119,13 +119,21 @@ export class SbDetail extends Component {
     document.getElementById('link-following-deletion').click()
   }
 
-  handleOptionToggle (e) {
-    const option = e.target.id
-    const that = this
-    this.setState({[option]: !this.state[option]}, function () {
-      this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {[option]: this.state[option]}))
-    })
+  handleOptionToggle (e, specifier) {
+    if (specifier === 'expires') {
+      this.setState({[e.currentTarget.id]: !this.state[e.currentTarget.id], expires: DateTime.moment(moment().add(1, 'week')).format('MM/DD/YYYY h:mm a')})
+    }
+    if (!specifier) this.setState({[e.target.id]: !this.state[e.target.id]})
+    else this.setState({[e.currentTarget.id]: !this.state[e.currentTarget.id]})
   }
+
+  // handleOptionToggle (e) {
+  //   const option = e.target.id
+  //   const that = this
+  //   this.setState({[option]: !this.state[option]}, function () {
+  //     this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {[option]: this.state[option]}))
+  //   })
+  // }
 
   editMessage () {
     if (!isCreator(this.props.user.uid, this.props.sb.creator)) return
@@ -135,7 +143,7 @@ export class SbDetail extends Component {
         <ReactTooltip id='delete-tooltip' effect='solid'><span>Delete snowballot</span></ReactTooltip>
         <div className='edit-button button action-button' onClick={() => this.toggleModal('showOptionsModal')} data-tip data-for='settings-tooltip'>
           <FA name='gear' className='fa fa-fw' />
-          <ReactModal id='edit-options-modal' contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay'>
+          <ReactModal contentLabel='delete-sb' isOpen={this.state.showOptionsModal} className='Modal' overlayClassName='Overlay edit-options-modal'>
             <div id='close-modal' onClick={() => this.toggleModal('showOptionsModal')}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top'>Edit Snowballot Options</div>
             <OptionPanel
@@ -149,14 +157,13 @@ export class SbDetail extends Component {
               toggleAlias={(e) => this.setState({alias: e.target.value})}
               deletion={() => this.setUpEventHandling(this.state.choices)}
               toggleDescription={(e) => this.setState({description: e.target.value})}
-              handleAdd={(tag) => this.handleAdd(tag, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
-              handleDelete={(i) => this.handleDelete(i, () => { this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {tags: this.state.tags})) })}
+              handleAdd={(tag) => this.handleAdd(tag)}
+              handleDelete={(i) => this.handleDelete(i)}
               toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
               optionsExpanded
               didExpire={Boolean(this.state.expires)}
               showButton={false}
               save={(e) => {
-                console.log(e)
                 this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {[e.target.id]: this.state[e.target.id]}))
               }}
               tags={this.props.sb.tags}
@@ -174,21 +181,21 @@ export class SbDetail extends Component {
     const that = this
     const newTags = [...this.state.tags.slice(0, i), ...this.state.tags.slice(i + 1)]
     this.setState({tags: newTags}, function () {
-       that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
-    })
-  }
-
-  handleAdd (tag) {
-    if (!this.state.tags || this.state.tags.length >= 7) return
-    const that = this
-    const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
-    this.setState({tags: newTags}, function () {
       that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: that.state.tags}))
     })
   }
 
+  handleAdd (tag) {
+    if (this.state.tags && this.state.tags.length >= 7) return
+    const that = this
+    const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
+    this.setState({tags: newTags}, function () {
+      that.props.dispatch(actions.startUpdateSb(that.props.sb.id, {tags: this.state.tags}))
+    })
+  }
+
   updateField (field) {
-    !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false}) 
+    !this.state.editing ? this.setState({editing: field}) : this.setState({editing: false})
   }
 
   handleSbChange (field) {

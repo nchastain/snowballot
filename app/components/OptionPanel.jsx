@@ -30,25 +30,25 @@ const OptionPanel = (props) => {
       <div id='real-options-section' className={optionsExpanded ? 'expanded' : ''}>
 
         <div id='isPrivate' className='option-unit-small-container' onClick={(e) => handleOptionToggle(e, true)}>
-          <div className={`option-unit-item ${isPrivate ? 'active' : ''}`}>
-            <div className='option-unit-text'>is private</div>
+          <div id='isPrivate' className={`option-unit-item ${isPrivate ? 'active' : ''}`} onClick={(e) => handleOptionToggle(e, true)}>
+            <div id='isPrivate' className='option-unit-text'>is private</div>
           </div>
         </div>
 
         <div id='isExtensible' className='option-unit-small-container' onClick={(e) => handleOptionToggle(e, true)}>
-          <div className={`option-unit-item ${isExtensible ? 'active' : ''}`}>
-            <div className='option-unit-text'>voters can add choices</div>
+          <div id='isExtensible' className={`option-unit-item ${isExtensible ? 'active' : ''}`} onClick={(e) => handleOptionToggle(e, true)}>
+            <div id='isExtensible' className='option-unit-text' onClick={(e) => handleOptionToggle(e, true)}>voters can add choices</div>
           </div>
         </div>
 
-        <div id='didExpire' className='option-unit-small-container' onClick={(e) => handleOptionToggle(e, true)}>
-          <div className={`option-unit-item ${didExpire ? 'active' : ''}`}>
-            <div className='option-unit-text'>has voting deadline</div>
+        <div id='didExpire' className='option-unit-small-container' onClick={(e) => handleOptionToggle(e, 'expires')}>
+          <div id='didExpire' className={`option-unit-item ${didExpire ? 'active' : ''}`} onClick={(e) => handleOptionToggle(e, 'expires')}>
+            <div id='didExpire' className='option-unit-text' onClick={(e) => handleOptionToggle(e, 'expires')}>has voting deadline</div>
           </div>
         </div>
-        {didExpire && <div id='deadline-header'>voting deadline</div>}
-        {didExpire && <div className='option-unit-small-container' style={{width: '100%', 'text-align': 'right', 'border-left': '0px solid white !important'}}>
-          <DatePicker id='option-date-picker' selected={expires ? moment(expires) : moment().add(1, 'week')} onChange={setDate} minDate={moment()} placeholderText='Select a deadline for voting' />
+        {didExpire && <div id='deadline-header' onClick={() => document.getElementById('option-date-picker').click()}>voting deadline</div>}
+        {didExpire && <div className='option-unit-small-container' id='date-picker-container'>
+          <DatePicker withPortal id='option-date-picker' selected={expires ? moment(expires) : moment().add(1, 'week')} onChange={setDate} minDate={moment()} placeholderText='Select a deadline for voting' />
         </div>}
 
         <div className='option-unit-large-container'>
@@ -101,7 +101,7 @@ const OptionPanel = (props) => {
           </div>
         </div>
 
-        <div className='option-unit-medium-container'>
+        <div className='option-unit-medium-container' id='tags'>
           <div id='tags' className='option-unit-item'>
             <div id='tags' className='option-unit-text'>
               tags

@@ -1,14 +1,11 @@
 #included-media {
   color: white;
-  width: 100%;
   text-align: center;
   .included-media-item {
     background-color: rgba($primary, 0.4);
-    display: table;
-    width: calc(100% - 2rem);
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin: auto;
     padding: 10px;
+    padding-left: 0px;
     text-align: left;
     opacity: 1;
     transition: opacity 0.3s linear, height 0.3s linear;
@@ -50,7 +47,6 @@
   }
 
   .video-container {
-    display: table-cell;
     vertical-align: middle;
     white-space: nowrap;
   }

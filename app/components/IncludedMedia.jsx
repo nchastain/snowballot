@@ -15,17 +15,19 @@ const IncludedMedia = ({included, onDelete, showDelete}) => {
   const container = (type) => <div className='included-content'>{included[type]}</div>
   const img = (type) => <img className={classnames(imgClasses(type))} src={included[type]} />
   const link = <div className='included-content'><a href={included.link}>{included.link}</a></div>
-  const youtube = <div className='video-container'><ReactPlayer url={included.youtube} controls /></div>
+  const youtube = <div className='video-container'><ReactPlayer width='100%' url={included.youtube} controls /></div>
   const more = <div className='included-content'>Click on an icon below to view additional media for this choice.</div>
   const displayMedia = (mediaType) => {
+    let media
     switch (mediaType) {
       case 'photo':
-      case 'GIF': return img(mediaType)
-      case 'youtube': return youtube
-      case 'link': return link
-      case 'more': return more
-      default: return container(mediaType)
+      case 'GIF': media = img(mediaType) ; break
+      case 'youtube': media = youtube ; break
+      case 'link': media = link ; break
+      case 'more': media = more ; break
+      default: media = container(mediaType) ; break
     }
+    return media
   }
   return (
     <div id='included-media'>

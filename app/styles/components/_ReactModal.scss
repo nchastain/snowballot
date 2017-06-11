@@ -69,17 +69,17 @@
 
   #included-media-container {
     margin-top: 20px;
-    margin-right: 10%;
-    margin-left: 10%;
     margin-bottom: 10px;
+    margin: auto;
+    width: 100%;
     display: inline-block;
-    width: 80%;
     .included-media-item {
       display: inline-block;
-      width: 100%;
       text-align: center;
       background-color: white;
       color: $primary;
+      width: calc(100% - 20px);
+      margin-left: 10px;
     }
     .key-container {
       display: none;
@@ -121,9 +121,39 @@
     background-color: rgba(black, 0.5) !important;
   }
 
-  #edit-options-modal {
+  .edit-options-modal, .media-modal {
+    #modal-top {
+      background: white;
+    }
+
+    .react-datepicker__portal {
+      width: 100%;
+      margin-top: -2px;
+      height: calc(100% + 4px);
+    }
+
+    input, textarea {
+      border: 1px solid #eee !important;
+      box-shadow: none !important;
+      outline: none !important;
+      width: 100%;
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+
+    .newSbOptions {
+      border: 0px;
+      background: #eee;
+    }
     .ReactModal__Content--after-open {
-      bottom: calc(75% - 100px) !important;
+    }
+    .Modal {
+      top: calc(50% - 100px) !important;
+      transform: translateY(-50%) !important;
+      left: 1rem !important;
+      right: 1rem !important;
+      min-width: 200px;
     }
   }
 
@@ -131,6 +161,7 @@
     padding: 0px !important;
     border: 0 !important;
     display: inline-block !important; 
+    margin: auto;
   }
 
   #modal-top {
