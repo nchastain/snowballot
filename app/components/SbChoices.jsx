@@ -134,7 +134,7 @@ class SbChoices extends React.Component {
                   <div className={choice.photo ? 'photo-title' : 'title'} style={{backgroundColor: `${choice.photo ? 'rgba(0,0,0,0.3)' : ''}`}}>{choice.title}</div>
                   <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{addCommas(choice.votes)}</span>
                   <div className='center-cell'>
-                    {choice.id === this.state.userVote && <img className='check' src='.././assets/check.png' />}
+                    {choice.id === this.state.userVote && <img className='check' src='.././check.png' />}
                   </div>
                   <div className='top-right-cell'>
                     {isLeader(choice) && <FA name='trophy' className='fa fa-fw' />}
@@ -147,7 +147,7 @@ class SbChoices extends React.Component {
             )}
             {this.props.isExtensible && <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >
               <div className='center-cell'>
-                <img className='add-tile-image' src='.././assets/addtile.png' />
+                <img className='add-tile-image' src='.././addtile.png' />
               </div>
             </div>}
           </div>

@@ -59,7 +59,7 @@ export class Navigation extends Component {
         <WindowResizeListener onResize={() => this.checkForLargeScreen()} />
         <div id='navigationAccent' />
         <div className='bar'>
-          <img className='logo' src='.././assets/logo.png' />
+          <img className='logo' src='.././Logo.png' />
           <Link to='/discover' className={navclasses + this.isActive('/discover')}>
             Discover
           </Link>

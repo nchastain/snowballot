@@ -29,14 +29,14 @@ export const expiresMessage = function (expiration) {
 export const linkMessage = function (alias) {
   const copyToClipboard = function () {
     var aux = document.createElement('input')
-    aux.setAttribute('value', `http://localhost:3003/sbs/${alias}`)
+    aux.setAttribute('value', window.location.href)
     document.body.appendChild(aux)
     aux.select()
     document.execCommand('copy')
     document.body.removeChild(aux)
   }
   if (!alias) return
-  return <li>{addFA('link')} You can find this snowballot at http://localhost:3003/sbs/{alias} (<span style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={copyToClipboard}>click here to copy link</span>)</li>
+  return <li>{addFA('link')} You can find this snowballot at window.location.href (<span style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={copyToClipboard}>click here to copy link</span>)</li>
 }
 
 export const votesMessage = function (choices, id, user, expires) {

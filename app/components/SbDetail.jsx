@@ -19,6 +19,7 @@ import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage,
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
+    console.log(process.env)
     this.state = {sortType: 'date', tags: props.tags || []}
     this.addEventListening = this.addEventListening.bind(this)
   }
