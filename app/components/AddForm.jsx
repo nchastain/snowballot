@@ -172,7 +172,7 @@ class AddForm extends React.Component {
               {this.state.showOptions && this.buildOptionPanel()}
             </form>
           </div>
-          <div className='sbCreationAccent' />
+          <div className='sbCreationAccent'>''</div>
           {this.showButtonForStep()}
         </div>
       </span>
