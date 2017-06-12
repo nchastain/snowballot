@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
-    "start": "babel-node server.js",
+    "start": "node server.js",
     "dev": "npm start & webpack-dev-server --progress --color"
   },
   "author": "Andrew Mead",
