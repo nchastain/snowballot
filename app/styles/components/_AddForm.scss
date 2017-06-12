@@ -224,8 +224,11 @@
 	#outer-add-form-container {
 		max-width: 1000px;
 		margin: auto;
-		margin-top: 250px;
-		margin-bottom: 11rem;
+		position: absolute;
+		left: 2rem;
+		right: 2rem;
+		top: 150px;
+		margin-bottom: 12rem;
 		/*background:
       linear-gradient(
         limegreen,
@@ -433,8 +436,6 @@
 	}
 
 	.sbCreationAccent {
-		padding: calc(3rem + 15px);
-		min-height: 130px;
 		background: $gradientBackground;
 		background-blend-mode: screen;
 		position: fixed;
@@ -446,6 +447,7 @@
 		font-size: 25px;
 		margin-bottom: 0;
 		color: white;
+		height: 128px;
 		margin-top: 25px;
 		text-align: center;
 		z-index: -1;
@@ -464,6 +466,7 @@
 		background-color: $primary;
 		color: white;
 		margin-top: 25px;
+		height: 125px;
 		text-align: center;
 		&.action-required {
 			/*border-top: 5px solid rgba($primary, 0.8);*/
