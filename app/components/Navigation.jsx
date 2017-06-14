@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { WindowResizeListener } from 'react-window-resize-listener'
 import AccountControl from './AccountControl'
-import { firebaseAuth } from '../firebase/constants'
+import { firebaseAuth, storageRef } from '../firebase/constants'
 import FA from 'react-fontawesome'
 
 export class Navigation extends Component {
@@ -59,7 +59,7 @@ export class Navigation extends Component {
         <WindowResizeListener onResize={() => this.checkForLargeScreen()} />
         <div id='navigationAccent' />
         <div className='bar'>
-          <img className='logo' src='.././Logo.png' />
+          <img className='logo' src='.././logo.png' />
           <Link to='/discover' className={navclasses + this.isActive('/discover')}>
             Discover
           </Link>

@@ -106,7 +106,9 @@ class SbChoices extends React.Component {
         <span>
           <ReactModal contentLabel='delete-sb' isOpen={this.state.modalOpen !== null} className='Modal' overlayClassName='Overlay media-modal'>
             <div id='close-modal' onClick={() => this.setState({modalOpen: null})}><FA className='fa-2x fa-fw' name='times-circle' /></div>
-            <div id='modal-top'>{this.state.viewingChoice && this.state.viewingSection ? `${this.state.viewingChoice.title} - Additional Media` : null}</div>
+            <div id='modal-top-container'>
+              <div id='modal-top'>{this.state.viewingChoice && this.state.viewingSection ? `${this.state.viewingChoice.title} - Additional Media` : null}</div>
+            </div>
             <span id='included-media-container'>
               <IncludedMedia included={this.state.viewingSection && this.state.viewingChoice ? {[this.state.viewingSection]: this.state.viewingChoice[this.state.viewingSection]} : {}} id={that.props.sb.id} onDelete={(type) => console.log(type)} showDelete={false} />
             </span>

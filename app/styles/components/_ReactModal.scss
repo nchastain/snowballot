@@ -109,7 +109,7 @@
     }
     position: absolute;
     right: 0px;
-    top: 5px;
+    top: 10px;
   }
   padding: 0px;
   text-align: left;
@@ -121,7 +121,7 @@
     background-color: rgba(black, 0.5) !important;
   }
 
-  .edit-options-modal, .media-modal {
+  .edit-options-modal {
     #modal-top {
       background: white;
     }
@@ -156,6 +156,112 @@
       min-width: 200px;
     }
   }
+
+  .media-modal {
+    &.ReactModal__Overlay {
+      background-color: rgba(0,0,0,0) !important;
+      z-index: 30000;
+      top: initial;
+    }
+
+    #modal-top {
+      background: $primary;
+      width: 100%;
+      color: white;
+      border: 0;
+    }
+
+    #modal-top-container {
+      padding-top: 3px;
+      background: $gradientBackground;
+      background-blend-mode: screen;
+      height: 35px;
+    }
+
+    .Modal {
+      top: initial !important;
+      transform: initial !important;
+      left: 0px !important;
+      right: 0px !important;
+      min-width: 200px;
+      bottom: 0px !important;
+      max-width: initial !important;
+      /*z-index: 10000;*/
+      /*background-color: rgba($primary, 0.2);*/
+      /*z-index: 10000;*/
+      background-color: rgba($primary, 0.8);
+    }
+
+    #included-media {
+      display: table;
+      width: 100%;
+      min-height: 250px;
+    }
+
+    #included-media-container .included-media-item {
+      background-color: initial;
+      color: white;
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      padding: 10px;
+      .included-content a {
+        color: white;
+      }
+    }
+
+    #other-media-container {
+      /*z-index: 10000;*/
+      background-color: rgba($primary, 1);
+      border-top: 0px;
+      .inner-media-icon {
+        border: 2px solid rgba(0,0,0,0);
+        .fa {
+          color: white;
+        }
+      }
+      .inner-media-icon.active {
+        background-color: white;
+        .fa {
+          color: $primary !important;
+        }
+      }
+      .inner-media-icon:hover {
+        border: 2px solid $primary;
+      }
+    }
+
+    .react-datepicker__portal {
+      width: 100%;
+      margin-top: -2px;
+      height: calc(100% + 4px);
+    }
+
+    input, textarea {
+      border: 1px solid #eee !important;
+      box-shadow: none !important;
+      outline: none !important;
+      width: 100%;
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+
+    .newSbOptions {
+      border: 0px;
+      background: #eee;
+    }
+
+    &.ReactModal__Content {
+      max-width: initial !important;
+      top: initial !important;
+    }
+
+    #close-modal .fa {
+      color: white !important;
+    }
+  }
+  
 
   .ReactModal__Content {
     padding: 0px !important;
@@ -224,5 +330,11 @@
       float: right;
     }
 
+  }
+}
+
+@media (max-width: 600px) {
+  .media-modal #modal-top {
+    font-size: 12px;
   }
 }

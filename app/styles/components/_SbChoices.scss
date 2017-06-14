@@ -43,6 +43,7 @@
     text-align: left;
     background-color: white;
     overflow: hidden;
+    z-index: 1005;
     &:hover {
       .title {
         top: 45%;
@@ -119,7 +120,7 @@
       display: inline-block;
     }
     .extra-media-button, .more-media-button {
-      z-index: 101;
+      z-index: 1001;
       border-radius: 5px;
       padding: 5px 10px;
       padding-top: 0px;

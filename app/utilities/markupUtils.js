@@ -36,7 +36,7 @@ export const linkMessage = function (alias) {
     document.body.removeChild(aux)
   }
   if (!alias) return
-  return <li>{addFA('link')} You can find this snowballot at window.location.href (<span style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={copyToClipboard}>click here to copy link</span>)</li>
+  return <li>{addFA('link')} You can find this snowballot at {window.location.href} (<span style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={copyToClipboard}>click here to copy link</span>)</li>
 }
 
 export const votesMessage = function (choices, id, user, expires) {
