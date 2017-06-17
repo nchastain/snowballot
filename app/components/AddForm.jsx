@@ -97,11 +97,14 @@ class AddForm extends React.Component {
   choiceExtraUpdate () {
     const that = this
     const updatedChoices = this.state.choices.map(function (choice) {
-      choice.info = that.props.createdSb[choice.id].info || ''
-      // choice.GIF = that.props.createdSb[choice.id].GIF || ''
-      choice.youtube = that.props.createdSb[choice.id].youtube || ''
-      choice.link = that.props.createdSb[choice.id].link || ''
-      choice.photo = that.props.createdSb[choice.id].photo || ''
+      if (that.props.createdSb[choice.id]) {
+        choice.info = that.props.createdSb[choice.id].info || ''
+        // choice.GIF = that.props.createdSb[choice.id].GIF || ''
+        choice.youtube = that.props.createdSb[choice.id].youtube || ''
+        choice.link = that.props.createdSb[choice.id].link || ''
+        choice.photo = that.props.createdSb[choice.id].photo || ''
+      }
+      return choice
     })
     this.setState({ choices: updatedChoices })
   }
