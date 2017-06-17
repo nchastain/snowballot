@@ -12,6 +12,8 @@ import OptionPanel from './OptionPanel'
 import FavoritePanel from './FavoritePanel'
 import DeleteModal from './DeleteModal'
 import SbChoices from './SbChoices'
+import ChoiceMediaPane from './ChoiceMediaPane'
+import ChoiceMediaButton from './ChoiceMediaButton'
 import { createStateFromProps } from 'utilities/generalUtils'
 import { didExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage, winnerMessage } from 'utilities/markupUtils'
@@ -19,7 +21,7 @@ import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage,
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {sortType: 'date', tags: props.tags || []}
+    this.state = {sortType: 'date', addChoiceOptions: false, tags: props.tags || []}
     this.addEventListening = this.addEventListening.bind(this)
   }
 
@@ -54,10 +56,14 @@ export class SbDetail extends Component {
         title: this.state.newChoice,
         votes: 0,
         id: this.props.sb.choices.length + 1,
-        added: Date.now()
+        added: Date.now(),
+        info: this.state.info || '',
+        photo: this.state.photo || '',
+        youtube: this.state.youtube || '',
+        link: this.state.link || ''
       }
       const options = {}
-      this.setState({newChoice: '', showAddForm: false}, function() {
+      this.setState({newChoice: '', showAddForm: false, info: '', photo: '', youtube: '', link: ''}, function() {
         this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options))
       })
     }
@@ -76,18 +82,34 @@ export class SbDetail extends Component {
     } else this.setState({newChoice: e.target.value})
   }
 
+  renderOptionsPanel () {
+    return <div style={{'background-color': 'white', 'padding': '10px'}}>Hi</div>
+  }
+
+  toggleChoiceOptions (e) {
+    console.log('nosndfsdf')
+    this.setState({addChoiceOptions: !this.state.addChoiceOptions})
+  }
+
   showAddChoice (expires) {
     const extensibleOrCreated = this.props.sb.isExtensible || isCreator(this.props.user.uid, this.props.sb.creator)
     if (extensibleOrCreated && this.props.user.uid && didExpire(expires)) return
     return (
-      <span>
+      <ReactModal contentLabel='delete-sb' isOpen={this.state.showAddForm} className='Modal' overlayClassName='Overlay add-modal'>
+        <div id='close-modal' onClick={() => this.setState({showAddForm: null})}><FA className='fa-2x fa-fw' name='times-circle' /></div>
+            <div id='modal-top-container' style={{display: 'inline-block', 'width': '100%', 'height': '55px'}}>
+              <div id='modal-top'>
+              </div>   
+            </div>
         <input
+          style={{top: '50px'}}
           id='detail-add-input'
           type='text' placeholder='Start typing a new choice here.'
           onChange={(e) => this.handleAddChoiceChange(e)}
           onKeyDown={(e) => this.handleAddChoiceChange(e)}
           value={this.state.newChoice}
         />
+        <ChoiceMediaPane id={this.props.sb.choices.length + 1} choices={this.props.sb.choices} isNewChoice updateSection={(section, content) => this.setState({[section]: content})} />
         <div
           id='detail-add-choice'
           className='button secondary'
@@ -96,11 +118,11 @@ export class SbDetail extends Component {
           <FA name='plus' className='fa fa-fw' />add choice
         </div>
         {this.state.error ? <div className='error-message'>{this.state.error}</div> : null}
-      </span>
+      </ReactModal>
     )
   }
 
-  hasExtra ({info, photo, GIF, youtube, link}) { return info || photo || GIF || youtube || link }
+  hasExtra ({info, photo, /* GIF, */ youtube, link}) { return info || photo || /* GIF || */ youtube || link }
 
   favoriteSnowballot (id, favorites) {
     this.setState({'favorited': !this.state.favorited}, function () {

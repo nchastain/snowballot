@@ -122,6 +122,7 @@
   }
 
   .edit-options-modal {
+    z-index: 99999999;
     #modal-top {
       background: white;
     }
@@ -157,11 +158,11 @@
     }
   }
 
-  .media-modal {
+  .media-modal, .add-modal {
     &.ReactModal__Overlay {
       background-color: rgba(0,0,0,0) !important;
-      z-index: 30000;
       top: initial;
+      z-index: 3000000;
     }
 
     #modal-top {
@@ -175,7 +176,7 @@
       padding-top: 3px;
       background: $gradientBackground;
       background-blend-mode: screen;
-      height: 35px;
+      height: 55px !important;
     }
 
     .Modal {
@@ -261,7 +262,88 @@
       color: white !important;
     }
   }
-  
+
+  .add-modal {
+    #modal-top-container {
+      height: initial !important;
+      text-align: center;
+      width: 100%;
+      #add-choice-options {
+        padding: 5px 10px;
+        background-color: white;
+        color: $primary;
+        border-radius: 5px;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        &:hover {
+          opacity: 0.8;
+          cursor: pointer;
+        }
+      }
+    }
+    #choice-media-pane {
+      width: 100%;
+      margin-left: 0px;
+      display: block;
+    }
+    #modal-top {
+      display: block;
+    }
+    .choice-more-info {
+      height: initial !important;
+      min-height: 60px;
+      opacity: 1;
+      padding-top: 10px;
+      padding-left: 10px;
+    }
+    .choice-media-pane {
+      padding-right: 10px;
+      padding-bottom: 10px;
+    }
+    #included-media {
+      min-height: initial;
+    }
+    input {
+      width: calc(100% - 50px) !important;
+      margin-left: 10px;
+      color: $primary;
+      font-size: 25px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      height: 50px;
+      border: 0px !important;
+      text-align: center;
+    }
+    #detail-add-choice {
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      background-color: $primary;
+      color: white;
+      width: 100%;
+      padding: 25px;
+      font-size: 18px;
+      .fa {
+        color: white !important;
+        font-size: 18px;
+      }
+      &:hover {
+        opacity: 0.8;
+        color: white;
+        cursor: pointer;
+      }
+    }
+    .Modal {
+      background-color: white !important;
+    }
+  }
+
+  .ReactModalPortal .add-modal .Modal {
+    background-color: white !important;
+  }
 
   .ReactModal__Content {
     padding: 0px !important;
@@ -336,5 +418,11 @@
 @media (max-width: 600px) {
   .media-modal #modal-top {
     font-size: 12px;
+  }
+  .ReactModalPortal .add-modal input {
+    font-size: 20px !important; 
+  }
+  .ReactModalPortal .add-modal #detail-add-choice {
+    height: 30px;
   }
 }

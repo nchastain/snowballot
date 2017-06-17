@@ -245,25 +245,6 @@
     display: inline-block;
     width: 50%;
   }
-  #detail-add-choice {
-    width: 125px;
-    margin-top: 5px;
-    height: 40px;
-    margin-right: 50px;
-    margin-bottom: 0;
-    padding-bottom: 11px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 12px;
-    display: inline-block;
-    vertical-align: bottom;
-    background-color: rgba($primary, 0.2);
-    color: $primary;
-    border-left: 0px;
-    &:hover {
-      background-color: rgba($primary, 0.3);
-    }
-  }
 
   #edit-description {
     color: #A7A7A7 !important;
@@ -278,17 +259,15 @@
     max-width: 700px;
   }
 
-  #detail-add-input {
-    width: 50%;
-    display: inline-block;
-    height: 40px;
+  .ReactModalPortal.add-modal input#detail-add-input {
+    display: inline-block !important;
     border: 1px solid #eee;
     box-shadow: none;
-    vertical-align: bottom;
-    margin-bottom: 0;
     color: #A7A7A7;
-    max-width: 400px;
-    margin-left: 5px;
+    margin-left: 25px !important;
+    margin-right: 25px !important;
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
   }
 
   #sb-description-text {
@@ -369,6 +348,7 @@
       vertical-align: top;
     }
   }
+
   @media (max-width: 800px) {
     #main-info, #sort-option-content, #sb-info, #sb-actions {
       width: 100% !important;

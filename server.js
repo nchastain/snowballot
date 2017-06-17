@@ -41,10 +41,10 @@ app.use(webpackHotMiddleware(compiler, {
   heartbeat: 10 * 1000
 }))
 
-app.use(express.static('public'))
+app.use(express.static('dist'))
 
 app.get('*', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html')
+  res.sendFile(__dirname + '/dist/index.html')
 })
 
 app.listen(PORT, function () {

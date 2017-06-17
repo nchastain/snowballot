@@ -13,6 +13,7 @@ class Discover extends React.Component {
     this.itemsPerPage = 16
     this.state = {
       images: {},
+      sbs: [],
       searchTerm: this.getSearchTermFromURL(props.history.location.search) || ''
     }
   }
@@ -23,7 +24,7 @@ class Discover extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({searchTerm: this.getSearchTermFromURL(nextProps.history.location.search)})
+    this.setState({searchTerm: this.getSearchTermFromURL(nextProps.history.location.search), sbs: nextProps.sbs})
   }
 
   componentDidMount () {
@@ -38,6 +39,20 @@ class Discover extends React.Component {
   searchUpdated (term) {
     this.props.history.push(`/discover?q=${term}`)
     this.setState({searchTerm: term || ''})
+  }
+
+  renderSbsOrLoader (sbs) {
+    if (sbs.length === 0) {
+      return (
+        <span>
+          <FA className="fa fa-spin fa-3x fa-fw" name='spinner' />
+          <span className="sr-only">Loading...</span>
+        </span>
+      )
+    }
+    else {
+      return this.renderSbs(getSearchResults(this.state.searchTerm, sbs))
+    }
   }
 
   renderSearch () {
@@ -56,7 +71,7 @@ class Discover extends React.Component {
         </div>
         <div id='discover-body-container'>
           <div id='discover-grid'>
-            {this.renderSbs(getSearchResults(this.state.searchTerm, this.props.sbs))}
+            {this.renderSbsOrLoader(this.state.sbs)}
           </div>
         </div>
       </span>

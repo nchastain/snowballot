@@ -5,7 +5,7 @@ import FA from 'react-fontawesome'
 import { connect } from 'react-redux'
 
 const IncludedMedia = ({included, onDelete, showDelete}) => {
-  const imgClasses = (type) => { return {'included-GIF': type === 'GIF', 'gallery-image': true, 'included-content': true} }
+  const imgClasses = (type) => { /* return {'included-GIF': type === 'GIF', */ return {'gallery-image': true, 'included-content': true} }
   const deleteButton = (type) => (
     <span className='fa-stack fa-md delete-button' id={type} onClick={() => onDelete(type)}>
       <FA name='circle' className='fa fa-stack-2x' />
@@ -21,7 +21,7 @@ const IncludedMedia = ({included, onDelete, showDelete}) => {
     let media
     switch (mediaType) {
       case 'photo':
-      case 'GIF': media = img(mediaType) ; break
+      // case 'GIF': media = img(mediaType) ; break
       case 'youtube': media = youtube ; break
       case 'link': media = link ; break
       case 'more': media = more ; break

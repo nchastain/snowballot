@@ -73,7 +73,7 @@ class SbChoices extends React.Component {
         </span>
       )
     }
-    const hasExtraMedia = choice => choice.GIF || choice.photo || choice.info || choice.link || choice.youtube
+    const hasExtraMedia = choice => /* choice.GIF || */ choice.photo || choice.info || choice.link || choice.youtube
     const addExtraMedia = (choice) => {
       return (
         <span>
@@ -81,7 +81,7 @@ class SbChoices extends React.Component {
           {choice.photo && mediaIcon('photo', 'picture-o', choice)}
           {choice.youtube && mediaIcon('youtube', 'youtube', choice)}
           {choice.link && mediaIcon('link', 'link', choice)}
-          {choice.GIF && mediaIcon('GIF', 'film', choice)}
+          {/* {choice.GIF && mediaIcon('GIF', 'film', choice)} */}
           {hasExtraMedia(choice) && <span id={`icon-more-${choice.id}`} onClick={() => this.buildModal(choice, 'more')}>
             <span><span className='more-media-button' style={{color: 'white', backgroundColor: lightBackgrounds[choice.id % lightBackgrounds.length]}} data-tip data-for={`more-tooltip-${choice.id}`}><FA name='ellipsis-h' className='fa fa-fw' /></span></span>
             <ReactTooltip id={`more-tooltip-${choice.id}`} effect='solid'><span>View more media</span></ReactTooltip>
@@ -97,7 +97,7 @@ class SbChoices extends React.Component {
     }
     const addModalIcon = (name) => {
       if (!this.state.viewingChoice[name]) return
-      const iconMap = {link: 'link', youtube: 'youtube', info: 'file-text-o', GIF: 'film', photo: 'photo'}
+      const iconMap = {link: 'link', youtube: 'youtube', info: 'file-text-o', /* GIF: 'film', */photo: 'photo'}
       return <div className={classnames(mediaClassNames(name))} onClick={() => this.buildModal(this.state.viewingChoice, name)} style={{marginLeft: '20px', marginBottom: '20px', display: 'inline-block'}}><FA name={iconMap[name]} className='fa fa-fw inner-media-real-icon' style={{display: 'inline-block', fontSize: '36px'}} /></div>
     }
     const that = this
@@ -119,7 +119,7 @@ class SbChoices extends React.Component {
                 {addModalIcon('photo')}
                 {addModalIcon('youtube')}
                 {addModalIcon('link')}
-                {addModalIcon('GIF')}
+                {/* addModalIcon('GIF')} */}
               </span>}
             </div>
           </ReactModal>

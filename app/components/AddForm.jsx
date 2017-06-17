@@ -20,7 +20,6 @@ class AddForm extends React.Component {
       {title: '', votes: 0, id: 1, info: '', added: 1495860030876},
       {title: '', votes: 0, id: 2, info: '', added: 1495860030877}
     ]}, function () {
-      console.log('updated choices')
     })
   }
 
@@ -35,7 +34,7 @@ class AddForm extends React.Component {
     this.setState({tags: newTags})
   }
 
-  setGIF (id, gif) {
+/*  setGIF (id, gif) {
     const that = this
     if (!that.state) return
     const updatedChoices = that.state.choices.map((choice) => {
@@ -48,7 +47,8 @@ class AddForm extends React.Component {
     const imageToSet = document.querySelector(`#gif-${id}`)
     imageToSet.src = gif.downsized.url
     that.setState({choices: updatedChoices})
-  }
+  } 
+*/
 
   choiceImageUpdate (id, choices, uploadedFile) {
     return choices.map((choice) => {
@@ -98,7 +98,7 @@ class AddForm extends React.Component {
     const that = this
     const updatedChoices = this.state.choices.map(function (choice) {
       choice.info = that.props.createdSb[choice.id].info || ''
-      choice.GIF = that.props.createdSb[choice.id].GIF || ''
+      // choice.GIF = that.props.createdSb[choice.id].GIF || ''
       choice.youtube = that.props.createdSb[choice.id].youtube || ''
       choice.link = that.props.createdSb[choice.id].link || ''
       choice.photo = that.props.createdSb[choice.id].photo || ''
