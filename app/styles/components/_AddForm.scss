@@ -23,6 +23,20 @@
 		background-color: rgba($primary, 0.1) !important;
 	}
 
+	#add-form-error-container {
+		background-color: #ff5b5b;
+		color: white;
+		width: 100%;
+		text-align: center;
+		padding: 10px;
+		font-size: 16px;
+		margin-bottom: 10px;
+	}
+
+	.add-form-error {
+		border: 3px solid $primary !important;
+	}
+
 	.options-unit {
 		width: 100%;
 		color: rgba($primary, 0.9);

@@ -25,7 +25,10 @@ export class SbDetail extends Component {
     this.addEventListening = this.addEventListening.bind(this)
   }
 
-  componentWillMount () { this.props.dispatch(actions.findSb(this.props.match.params.alias)) }
+  componentWillMount () { 
+    window.scrollTo(0, 0)
+    this.props.dispatch(actions.findSb(this.props.match.params.alias)) 
+  }
 
   componentDidMount () {
     this.props.dispatch(actions.findSb(this.props.match.params.alias))

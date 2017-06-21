@@ -22,6 +22,7 @@ const OptionPanel = (props) => {
     tags,
     suggestions,
     save,
+    errorType,
     showSave = false,
     optionsExpanded = true
   } = props
@@ -97,6 +98,7 @@ const OptionPanel = (props) => {
               if (showSave) document.querySelector('.save-option-button#alias').classList.remove('saved')
               toggleAlias(e)
             }}
+            className={`${errorType === 'alias' && 'add-form-error'}`}
             />}
           </div>
         </div>

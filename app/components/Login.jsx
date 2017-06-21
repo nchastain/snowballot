@@ -14,6 +14,10 @@ export class Login extends Component {
       emailLogin: false
     }
   }
+
+  componentWillMount () {
+    window.scrollTo(0, 0)
+  }
   
   setErrorMsg (err) { return { loginMessage: err } }
   

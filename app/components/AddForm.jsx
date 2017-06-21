@@ -12,10 +12,11 @@ import { previewImage, initialState, validateSb } from '.././utilities/sbUtils'
 class AddForm extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {...initialState, showOptions: false, showChoices: false}
+    this.state = {...initialState, showOptions: false, showChoices: false, error: ''}
   }
 
   componentWillMount () {
+    window.scrollTo(0,0)
     this.setState({choices: [
       {title: '', votes: 0, id: 1, info: '', added: 1495860030876},
       {title: '', votes: 0, id: 2, info: '', added: 1495860030877}
@@ -88,10 +89,18 @@ class AddForm extends React.Component {
     e.preventDefault()
     this.choiceExtraUpdate()
     const validSb = validateSb(this.state)
-    this.setState({...initialState})
-    this.props.dispatch(actions.startAddSb(validSb.options, validSb.filteredChoices))
-    this.addAllImages(validSb.options.privateAlias)
-    this.props.history.push(`/sbs/${validSb.options.alias}`)
+    const aliases = this.props.sbs.map(sb => sb.alias)
+    let shouldAdvance = true
+    if (aliases.indexOf(validSb.options.alias) !== -1) {
+      this.setState({errorType: 'alias', errorText: 'That custom URL has already been taken'})
+      shouldAdvance = false
+    }
+    else {
+      this.props.dispatch(actions.startAddSb(validSb.options, validSb.filteredChoices))
+      this.addAllImages(validSb.options.privateAlias)
+      this.setState({...initialState})
+    }
+    if (shouldAdvance) this.props.history.push(`/sbs/${validSb.options.alias}`)
   }
 
   choiceExtraUpdate () {
@@ -123,13 +132,14 @@ class AddForm extends React.Component {
         setDate={data => this.setState(
           {expires: DateTime.moment(data).format('MM/DD/YYYY h:mm a')}
         )}
-        toggleAlias={(e) => this.setState({alias: e.target.value})}
+        toggleAlias={(e) => this.setState({alias: e.target.value, errorType: this.state.errorType === 'alias' ? '' : this.state.errorType, errorText: this.state.errorType === 'alias' ? '' : this.state.errorType})}
         deletion={() => this.setUpEventHandling(this.state.choices)}
         toggleDescription={(e) => this.setState({description: e.target.value})}
         handleAdd={(tag) => this.handleAdd(tag)}
         handleDelete={(i) => this.handleDelete(i)}
         tags={this.state.tags}
         toggleMenu={() => this.setState({optionsExpanded: !this.state.optionsExpanded})}
+        error={this.state.errorType}
         {...stateProps}
         showButton
         optionsExpanded
@@ -145,15 +155,17 @@ class AddForm extends React.Component {
       this.state.choices[1].title !== '' &&
       this.state.choices[0].title.toLowerCase() !== this.state.choices[1].title.toLowerCase()
     }
+    let contentToDisplay
     const noTitleButton = <div className='sbCreationButton action-required button primary'>Enter a title above</div>
     const submitButton = <div className='sbCreationButton button primary' onClick={(e) => this.handleSubmit(e)}><FA name='arrow-right' className='fa fa-fw' /> submit snowballot</div>
     const showChoicesButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showChoices: true})}><FA name='arrow-right' className='fa fa-fw' /> next: choices</div>
     const choicesInvalidButton = <div className='sbCreationButton action-required button primary'>Enter at least two choices</div>
     const toOptionsButton = <div className='sbCreationButton button primary' onClick={() => this.setState({showOptions: true})}><FA name='arrow-right' className='fa fa-fw' /> next: options</div>
-    if (!this.state.title || this.state.title.length === 0) return noTitleButton
-    else if (this.state.showChoices && this.state.showOptions && choicesValid()) return submitButton
-    else if (this.state.showChoices) return choicesValid() ? toOptionsButton : choicesInvalidButton
-    return showChoicesButton
+    if (!this.state.title || this.state.title.length === 0) contentToDisplay = noTitleButton
+    else if (this.state.showChoices && this.state.showOptions && choicesValid()) contentToDisplay = submitButton
+    else if (this.state.showChoices) contentToDisplay = choicesValid() ? toOptionsButton : choicesInvalidButton
+    else contentToDisplay = showChoicesButton
+    return this.state.errorText ? <div className='sbCreationButton action-required button primary'>{this.state.errorText}</div> : contentToDisplay 
   }
 
   handleTitleChange (e) {

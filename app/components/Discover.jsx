@@ -19,6 +19,7 @@ class Discover extends React.Component {
   }
 
   componentWillMount () {
+    window.scrollTo(0, 0)
     this.props.dispatch(actions.findPublicSbs())
     getSearchResults(this.state.searchTerm, this.props.sbs)
   }

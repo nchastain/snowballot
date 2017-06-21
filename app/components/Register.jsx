@@ -15,6 +15,10 @@ export default class Register extends Component {
   //   this.setState({registerError: null, password: '', email: ''})
   // }
 
+  componentWillMount () {
+    window.scrollTo(0, 0)
+  }
+
   setErrorMsg (err) { return { registerError: err.message } }
 
   handleSubmit (e) {

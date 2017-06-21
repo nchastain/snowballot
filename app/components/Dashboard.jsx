@@ -20,6 +20,10 @@ export class Dashboard extends Component {
     }
   }
 
+  componentWillMount () {
+    window.scrollTo(0, 0)
+  }
+  
   componentWillReceiveProps (nextProps) {
     this.getFavorites(nextProps)
   }
