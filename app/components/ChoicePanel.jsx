@@ -22,7 +22,11 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
   }
   const deleteChoice = (e, choice) => {
     if (choice.id === 1 || choice.id === 2) return
-    const updatedChoices = choices.filter(choice => choice.id !== getChoiceNumber(e))
+    let updatedChoices = choices.filter(choice => choice.id !== getChoiceNumber(e))
+    updatedChoices = updatedChoices.map(function(choice) {
+      if (choice.id > getChoiceNumber(e)) choice.id--
+      return choice
+    })
     update('choices', updatedChoices)
   }
   const toggleChoiceOptions = (e) => {
