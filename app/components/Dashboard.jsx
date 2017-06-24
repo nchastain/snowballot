@@ -78,11 +78,21 @@ export class Dashboard extends Component {
   }
 
   renderNone () {
-    return (
-      <div id='create-first-sb-text'>You have not yet created any snowballots.
-        <Link to='/sbs/add' authed={this.props.user.uid}><FA name='plus' className='fa fa-fw' /> add a snowballot</Link>
-      </div>
-    )
+    if (!this.props.user || !this.props.user.sbs) {
+      return (
+        <div id='loading-spinner'>
+          <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>
+          <div>Loading...</div>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div id='create-first-sb-text'>You have not yet created any snowballots.
+          <Link to='/sbs/add' authed={this.props.user.uid}><FA name='plus' className='fa fa-fw' /> add a snowballot</Link>
+        </div>
+      )
+    }
   }
 
   render () {

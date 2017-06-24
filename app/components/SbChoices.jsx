@@ -26,13 +26,15 @@ class SbChoices extends React.Component {
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
     newState.userVote = nextProps.user.votes && nextProps.user.votes[nextProps.sb.id] ? nextProps.user.votes[nextProps.sb.id] : null
+    newState.expires = nextProps.sb.expires
     this.setState(newState)
   }
 
   sbClasses (choice) {
     return classnames({
       'box-header': true,
-      'clearfix': true
+      'clearfix': true,
+      'expired-box': didExpire(this.state.expires)
     })
   }
 
@@ -129,7 +131,7 @@ class SbChoices extends React.Component {
                   key={choice.title + idx}
                   className={this.sbClasses(choice)}
                   onClick={(e) => !this.props.userID || didExpire(this.state.expires) ? null : this.vote(choice.id, e)}
-                  style={{background: `${choice.photo ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${choice.photo})` : ''}`, backgroundSize: '40%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundColor: backgrounds[choice.id % backgrounds.length]}}
+                  style={{background: `${choice.photo ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${choice.photo})` : ''}`, backgroundSize: '60%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundColor: backgrounds[choice.id % backgrounds.length]}}
                 >
                   <div className={choice.photo ? 'photo-title' : 'title'} style={{backgroundColor: `${choice.photo ? 'rgba(0,0,0,0.3)' : ''}`}}>{choice.title}</div>
                   <span className='vote-count' style={{color: backgrounds[choice.id % backgrounds.length]}}>{addCommas(choice.votes)}</span>

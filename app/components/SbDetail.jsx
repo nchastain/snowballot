@@ -42,13 +42,13 @@ export class SbDetail extends Component {
 
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
-    if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
+    // if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
     this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags || [], alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
 
-  updateSbImages (props) {
-    props.sb.choices.forEach(function (choice) { if (choice.photo) updateImage(props.sb.privateAlias, choice.id) })
-  }
+  // updateSbImages (props) {
+  //   props.sb.choices.forEach(function (choice) { if (choice.photo) updateImage(props.sb.privateAlias, choice.id) })
+  // }
 
   addChoice () {
     if (didExpire(this.state.expires)) this.setState({error: 'Sorry, this snowballot has expired!'})
@@ -151,14 +151,6 @@ export class SbDetail extends Component {
     if (!specifier) this.setState({[e.target.id]: !this.state[e.target.id]})
     else this.setState({[e.currentTarget.id]: !this.state[e.currentTarget.id]})
   }
-
-  // handleOptionToggle (e) {
-  //   const option = e.target.id
-  //   const that = this
-  //   this.setState({[option]: !this.state[option]}, function () {
-  //     this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {[option]: this.state[option]}))
-  //   })
-  // }
 
   editMessage () {
     if (!isCreator(this.props.user.uid, this.props.sb.creator)) return
@@ -325,14 +317,33 @@ export class SbDetail extends Component {
       )
     }
 
+    const showSbChoicesOrLoader = () => {
+      if (!this.props.sb.choices) {
+        console.log('here')
+        return (
+          <div id='loading-spinner'>
+            <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>
+            <div>Loading...</div>
+          </div>
+        )
+      }
+      else {
+        return (
+          <span>
+            <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+            {this.state.showAddForm && this.showAddChoice(this.state.expires)}
+          </span>
+        )
+      }
+    }
+
     return (
       <div className='snowballots-section'>
         <FavoritePanel favorites={this.state.favorites} favorited={this.state.favorited} />
         {this.props.sb.tags && this.props.sb.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         {sortOptions()}
         <div id='separator' />
-        <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
-        {this.state.showAddForm && this.showAddChoice(this.state.expires)}
+        {showSbChoicesOrLoader()}
       </div>
     )
   }

@@ -10,9 +10,10 @@
 		position: fixed;
 		top: 0px;
 		z-index: 10000;
-		font-weight: bold;
+		/*font-weight: bold;*/
 		text-transform: uppercase;
-		font-size: 110%;
+		font-size: 100%;
+		font-family: 'FuturaExtraBold';
 		background-color: rgba($primary, 0.9) !important;
 		color: white !important;
 		display: inline-block;
@@ -81,9 +82,10 @@
 			width: 75%;
 			min-width: 175px;
 			border: 3px solid #8ea6d9;
-			border-right: 0;
 			color: $primary;
-			padding: 6px;
+			padding: 8px;
+			font-size: 14px;
+			font-family: 'Futura' !important;
 			transition: width 0.3s linear;
 			&:focus {
 				outline: none;
@@ -91,12 +93,14 @@
 		}
 		#nav-magnifying-glass {
 			display: inline-block;
-			border: 3px solid #8ea6d9;
-			border-left: 0;
+			/*border: 3px solid #8ea6d9;*/
 			color: $primary;
 			vertical-align: initial;
-			background-color: #eee;
-			padding: 5px;
+			/*background-color: #eee;*/
+			/*padding: 7px;*/
+			font-size: 18px;
+			margin-left: -30px;
+			padding: 0px;
 			.fa {
 				padding-bottom: 3px;
 			}
@@ -125,8 +129,10 @@
 				background-color: initial;
 			}
 		}
-		&:hover {
-			background-color: #6785c1;
+		&:not(.active):hover {
+			/*background-color: rgba($primary, 0.1);*/
+			/*color: red;*/
+			border-bottom: 5px solid white;
 		}
 		& + .link-container {
 			margin-left: 0.5rem;

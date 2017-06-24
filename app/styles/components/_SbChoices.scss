@@ -56,6 +56,20 @@
       cursor: pointer;
       filter: brightness(105%);
     }
+    &.expired-box {
+      &:hover {
+        .title {
+          top: 50%;
+        }
+        &#add-tile {
+          .title {
+            top: 50%;
+          }
+        }
+        cursor: initial;
+        filter: initial;
+      }
+    }
     &.selected {
       background-color: rgba($primary, 0.4);
       .selection-icon.selected {

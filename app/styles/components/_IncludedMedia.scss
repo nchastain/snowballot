@@ -62,3 +62,10 @@
     }
   }
 }
+
+@media (max-width: 680px) {
+  #react-player-youtube {
+    width: 65% !important;
+    height: 100% !important;
+  }
+}

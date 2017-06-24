@@ -26,7 +26,7 @@
   }
 
   .sb-title {
-    font-weight: bold;
+    /*font-weight: bold;*/
     border: 1px solid white;
     &:hover {
       border: 1px solid #eee;
@@ -349,6 +349,11 @@
     }
   }
 
+  @media (min-width: 1900px) {
+    .photo-title {
+      font-size: 0.75vw !important;
+    }
+  }
   @media (max-width: 800px) {
     #main-info, #sort-option-content, #sb-info, #sb-actions {
       width: 100% !important;
@@ -380,7 +385,7 @@
       margin-top: 10px;
     }
     .photo-title {
-      font-size: 5vw !important;
+      font-size: 2vw !important;
     }
     #sb-actions {
       padding-bottom: 10px !important;

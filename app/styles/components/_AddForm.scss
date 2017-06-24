@@ -1,6 +1,6 @@
 #add-form, .ReactModalPortal {
 	.create-title {
-		font-family: 'FuturaExtraBold';
+		font-family: 'FuturaExtraBold', 'Futura', 'Arial';
 		background-color: white;
 		position: fixed;
 		top: 55px;
@@ -218,8 +218,8 @@
 		font-size: 24px;
 		border: 0px;
 		border-radius: 5px;
-		padding-top: 1.5rem;
-		padding-bottom: 1.5rem;
+		/*padding-top: 1.5rem;*/
+		/*padding-bottom: 1.5rem;*/
 		text-align: center;
 		&:focus {
 			border-left: 0px;

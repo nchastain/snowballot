@@ -43,16 +43,23 @@ class Discover extends React.Component {
   }
 
   renderSbsOrLoader (sbs) {
+    // debugger
     if (sbs.length === 0) {
       return (
-        <span>
-          <FA className="fa fa-spin fa-3x fa-fw" name='spinner' />
-          <span className="sr-only">Loading...</span>
-        </span>
+        <div id='loading-spinner'>
+          <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>
+          <div>Loading...</div>
+        </div>
       )
     }
     else {
-      return this.renderSbs(getSearchResults(this.state.searchTerm, sbs))
+      return (
+        <div id='discover-body-container'>
+          <div id='discover-grid'>
+            {this.renderSbs(getSearchResults(this.state.searchTerm, sbs))}
+          </div>
+        </div>
+      )
     }
   }
 
@@ -70,11 +77,7 @@ class Discover extends React.Component {
             onChange={(e) => this.searchUpdated(e)}
           />
         </div>
-        <div id='discover-body-container'>
-          <div id='discover-grid'>
-            {this.renderSbsOrLoader(this.state.sbs)}
-          </div>
-        </div>
+        {this.renderSbsOrLoader(this.state.sbs)}
       </span>
     )
   }

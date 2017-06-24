@@ -12,6 +12,11 @@
       vertical-align: bottom;
       margin-right: 0px;
     }
+    .fa-stack-2x {
+      background-color: $primary;
+      color: white !important;
+      border-radius: 25px;
+    }
     .edit-fa {
       color: white !important;
     }
@@ -155,6 +160,13 @@
       left: 1rem !important;
       right: 1rem !important;
       min-width: 200px;
+    }
+  }
+
+  .media-modal {
+    .gallery-image {
+      height: initial !important;
+      width: initial !important;
     }
   }
 
