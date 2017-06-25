@@ -141,19 +141,19 @@ export var changeProfilePhoto = (imageURL) => {
   return user.updateProfile({
     photoURL: imageURL
   }).then(function () {
-    console.log('Changed profile photo')
+    // console.log('Changed profile photo')
   }, function (error) {
-    console.log('an error occurred.')
+    // console.log('an error occurred.')
   })
 }
 
 export var changeEmail = (email) => {
   var user = firebase.auth().currentUser
-  console.log(email)
+  // console.log(email)
   return user.updateEmail(email).then(function() {
-    console.log('updated email')
+    // console.log('updated email')
   }, function (error) {
-    console.log('error updating email')
+    // console.log('error updating email')
   })
 }
 
@@ -161,9 +161,9 @@ export var deleteAccount = () => {
   var user = firebase.auth().currentUser
 
   return user.delete().then(function () {
-    console.log('User deleted')
+    // console.log('User deleted')
   }, function (error) {
-    console.log('There was an error deleting the user.')
+    // console.log('There was an error deleting the user.')
   })
 }
 
@@ -171,9 +171,9 @@ export var resetPassword = (password) => {
   var user = firebase.auth().currentUser
 
   return user.updatePassword(password).then(function () {
-    console.log('updated password')
+    // console.log('updated password')
   }, function(error) {
-    console.log('error updating password')
+    // console.log('error updating password')
   })
 }
 

@@ -10,7 +10,6 @@
 		position: fixed;
 		top: 0px;
 		z-index: 10000;
-		/*font-weight: bold;*/
 		text-transform: uppercase;
 		font-size: 100%;
 		font-family: 'FuturaExtraBold';
@@ -132,7 +131,7 @@
 		&:not(.active):hover {
 			/*background-color: rgba($primary, 0.1);*/
 			/*color: red;*/
-			border-bottom: 5px solid white;
+			opacity: 0.5;
 		}
 		& + .link-container {
 			margin-left: 0.5rem;

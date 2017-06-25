@@ -42,6 +42,26 @@ textarea {
   margin-bottom: 15px;
 }
 
+  #discover-thumbnail {
+    height: 150px;
+    width: 100px;
+    margin-left: 20px;
+    vertical-align: middle;
+    top: -24px;
+    bottom: 0px;
+    position: absolute;
+    clip: rect(44px 96px 142px 4px) !important
+  }
+
+  #discover-thumbnail-container {
+    width: 120px;
+    text-align: left;
+    vertical-align: middle;
+    margin: 10px;
+    height: 100%;
+    display: table-cell;
+  }
+
 #accent-container {
   padding: 4px;
   max-width: 1000px;

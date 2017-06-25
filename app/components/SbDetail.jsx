@@ -21,7 +21,7 @@ import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage,
 export class SbDetail extends Component {
   constructor (props) {
     super(props)
-    this.state = {sortType: 'date', addChoiceOptions: false, tags: props.tags || []}
+    this.state = {sortType: 'votes', addChoiceOptions: false, tags: props.tags || []}
     this.addEventListening = this.addEventListening.bind(this)
   }
 
@@ -42,13 +42,8 @@ export class SbDetail extends Component {
 
   componentWillReceiveProps (nextProps) {
     let newState = createStateFromProps(this.props, nextProps)
-    // if (nextProps.sb && nextProps.sb.choices && nextProps.sb.choices.length > 1) this.setState(newState, () => this.updateSbImages(nextProps))
     this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags || [], alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
   }
-
-  // updateSbImages (props) {
-  //   props.sb.choices.forEach(function (choice) { if (choice.photo) updateImage(props.sb.privateAlias, choice.id) })
-  // }
 
   addChoice () {
     if (didExpire(this.state.expires)) this.setState({error: 'Sorry, this snowballot has expired!'})
@@ -90,7 +85,6 @@ export class SbDetail extends Component {
   }
 
   toggleChoiceOptions (e) {
-    console.log('nosndfsdf')
     this.setState({addChoiceOptions: !this.state.addChoiceOptions})
   }
 
@@ -269,8 +263,9 @@ export class SbDetail extends Component {
   }
 
   addEventListening () {
-    const editElems = ['edit-description', 'edit-title', 'edit-save-button', 'sb-title', 'sb-description-text', 'detail-add-choice', 'detail-add-input', 'add-tile']
-    if (editElems.indexOf(event.target.id) === -1 && document.getElementById('add-tile')) this.setState({editing: false})
+    // const editElems = ['edit-description', 'edit-title', 'edit-save-button', 'sb-title', 'sb-description-text', 'detail-add-choice', 'detail-add-input', 'add-tile']
+    // if (e.target.className === 'extra-media-button' || e.target.className.indexOf('fa') !== -1) return null
+    // if (editElems.indexOf(event.target.id) === -1 && document.getElementById('add-tile')) this.setState({editing: false})
   }
 
   checkEnter (e, editField) {
@@ -319,7 +314,6 @@ export class SbDetail extends Component {
 
     const showSbChoicesOrLoader = () => {
       if (!this.props.sb.choices) {
-        console.log('here')
         return (
           <div id='loading-spinner'>
             <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>

@@ -77,7 +77,7 @@ class AddForm extends React.Component {
 
   addImage (alias, choiceId, file) {
     let newImageRef = imagesRef.child(`${alias}/${choiceId}`)
-    newImageRef.put(file).then(() => console.log('Uploaded a file!'))
+    newImageRef.put(file)
   }
 
   addAllImages (alias) {
