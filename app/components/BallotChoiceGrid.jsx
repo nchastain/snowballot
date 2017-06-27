@@ -33,7 +33,7 @@ class BallotChoiceGrid extends React.Component {
     this.setState(newState)
   }
 
-  vote (choiceId, e) {
+  vote (e, choiceId) {
     if (e.target.className === 'extra-media-button' || e.target.className.indexOf('fa') !== -1 || e.target.className === 'youtube-video-embed') return
     const previousVote = this.props.user.votes && this.props.user.votes[this.props.sb.id] !== undefined && this.props.user.votes[this.props.sb.id] !== null ? this.props.user.votes[this.props.sb.id] : null
     this.setState({userVote: previousVote === choiceId ? null : choiceId}, function () {
@@ -51,9 +51,7 @@ class BallotChoiceGrid extends React.Component {
     })
   }
 
-  buildModal (choice, name) {
-    this.setState({modalOpen: name, [`${name}ModalOpen`]: true, viewingChoice: choice, viewingSection: name})
-  }
+  
 
   render () {
     const backgrounds = ['#54D19F', '#5192E8', '#DE80FF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
@@ -90,8 +88,12 @@ class BallotChoiceGrid extends React.Component {
     
     const that = this
 
+    const buildModal = function(choice, name) {
+      that.setState({modalOpen: name, [`${name}ModalOpen`]: true, viewingChoice: choice, viewingSection: name})
+    }
+
     return (
-        <span style={{display: 'inline-block'}}>
+        <span>
           <ReactModal contentLabel='delete-sb' isOpen={this.state.modalOpen !== null} className='Modal' overlayClassName='Overlay media-modal'>
             <div id='close-modal' onClick={() => this.setState({modalOpen: null})}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top'>{this.state.viewingChoice && this.state.viewingSection ? `${this.state.viewingChoice.title} - Additional Media` : null}</div>
@@ -116,9 +118,9 @@ class BallotChoiceGrid extends React.Component {
                 expires={this.state.expires}
                 userID={this.props.userID}
                 userVote={this.state.userVote}
-                vote={(e) => this.vote(choiceID, e)}
+                vote={(e) => this.vote(e)}
                 choices={this.props.choices}
-                // buildModal={function(choice, name) { that.setState({modalOpen: name, [`${name}ModalOpen`]: true, viewingChoice: choice, viewingSection: name}) }}
+                buildModal={buildModal}
               />
             )}
             {this.props.isExtensible && <div className='box-header clearfix' id='add-tile' onClick={() => this.props.onAdd()} >
