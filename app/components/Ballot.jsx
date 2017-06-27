@@ -12,11 +12,18 @@ import OptionPanel from './OptionPanel'
 import FavoritePanel from './FavoritePanel'
 import DeleteModal from './DeleteModal'
 import BallotChoiceGrid from './BallotChoiceGrid'
+import BallotInfoPanel from './BallotInfoPanel'
 import ChoiceMediaPane from './ChoiceMediaPane'
-import ChoiceMediaButton from './ChoiceMediaButton'
-import { createStateFromProps } from 'utilities/generalUtils'
-import { didExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
-import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage, winnerMessage } from 'utilities/markupUtils'
+import LoadingSpinner from './LoadingSpinner'
+import { didExpire, isCreator, favoritedSb } from 'utilities/ballotUtils'
+import {
+  creatorMessage,
+  expiresMessage,
+  authMessage,
+  votesMessage,
+  linkMessage,
+  winnerMessage
+} from 'utilities/markupUtils'
 
 export class Ballot extends Component {
   constructor (props) {
@@ -24,9 +31,9 @@ export class Ballot extends Component {
     this.state = {sortType: 'votes', addChoiceOptions: false, tags: props.tags || []}
   }
 
-  componentWillMount () { 
+  componentWillMount () {
     window.scrollTo(0, 0)
-    this.props.dispatch(actions.findSb(this.props.match.params.alias)) 
+    this.props.dispatch(actions.findSb(this.props.match.params.alias))
   }
 
   componentDidMount () {
@@ -38,8 +45,17 @@ export class Ballot extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    let newState = createStateFromProps(this.props, nextProps)
-    this.setState({expires: nextProps.sb.expires, title: nextProps.sb.title, isPrivate: nextProps.sb.isPrivate, isExtensible: nextProps.sb.isExtensible, tags: nextProps.sb.tags || [], alias: nextProps.sb.alias, description: nextProps.sb.description, favorites: nextProps.sb.favorites, favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)})
+    this.setState({
+      expires: nextProps.sb.expires,
+      title: nextProps.sb.title,
+      isPrivate: nextProps.sb.isPrivate,
+      isExtensible: nextProps.sb.isExtensible,
+      tags: nextProps.sb.tags || [],
+      alias: nextProps.sb.alias,
+      description: nextProps.sb.description,
+      favorites: nextProps.sb.favorites,
+      favorited: favoritedSb(nextProps.sb.id, nextProps.user.favorites)
+    })
   }
 
   addChoice () {
@@ -58,7 +74,14 @@ export class Ballot extends Component {
         link: this.state.link || ''
       }
       const options = {}
-      this.setState({newChoice: '', showAddForm: false, info: '', photo: '', youtube: '', link: ''}, function() {
+      this.setState({
+        newChoice: '',
+        showAddForm: false,
+        info: '',
+        photo: '',
+        youtube: '',
+        link: ''
+      }, function () {
         this.props.dispatch(actions.startUpdateSb(this.props.sb.id, {choices: [...this.props.sb.choices, choice]}, options))
       })
     }
@@ -93,7 +116,7 @@ export class Ballot extends Component {
         <div id='close-modal' onClick={() => this.setState({showAddForm: null})}><FA className='fa-2x fa-fw' name='times-circle' /></div>
             <div id='modal-top-container' style={{display: 'inline-block', 'width': '100%', 'height': '55px'}}>
               <div id='modal-top'>
-              </div>   
+              </div>
             </div>
         <input
           style={{top: '50px'}}
@@ -115,8 +138,6 @@ export class Ballot extends Component {
       </ReactModal>
     )
   }
-
-  hasExtra ({info, photo, youtube, link}) { return info || photo || youtube || link }
 
   favoriteSnowballot (id, favorites) {
     this.setState({'favorited': !this.state.favorited}, function () {
@@ -211,48 +232,6 @@ export class Ballot extends Component {
     this.setState({editing: false})
   }
 
-  buildInfoPanel (expires, userID, creator, createdAt, alias, choices, id, user) {
-    const pageUrl = `http://www.snowballot.com/sbs/${alias}`
-    const pageTitle = this.props.sb.title
-    const description = 'Please click the link to vote on this.'
-    const { FacebookShareButton, TwitterShareButton } = ShareButtons
-    return (
-      <div className='above-sb-container'>
-        <div id='sb-info'>
-          <ul>
-            {creatorMessage(userID, creator, createdAt, alias)}
-            {expiresMessage(expires)}
-            {votesMessage(choices, id, user, expires)}
-            {winnerMessage(expires, choices)}
-            {linkMessage(alias)}
-            {authMessage(userID)}
-          </ul>
-        </div>
-        <div id='sb-actions'>
-          {this.editMessage()}
-          <span className='button action-button' data-tip data-for='twitter-share-tooltip'>
-            <TwitterShareButton
-              children={<FA name='twitter' className='fa fa-fw' />}
-              url={pageUrl}
-              title={pageTitle}
-              description={description}
-            />
-          </span>
-          <ReactTooltip id='twitter-share-tooltip' effect='solid'><span>Share on Twitter</span></ReactTooltip>
-          <span className='button action-button' data-tip data-for='facebook-share-tooltip'>
-            <FacebookShareButton
-              children={<FA name='facebook' className='fa fa-fw' />}
-              url={pageUrl}
-              title={pageTitle}
-              description={description}
-            />
-          </span>
-          <ReactTooltip id='facebook-share-tooltip' effect='solid'><span>Share on Facebook</span></ReactTooltip>
-        </div>
-      </div>
-    )
-  }
-
   sortChoices (a, b) {
     if (this.state.sortType === 'date') return moment.unix(a.added).isBefore(moment.unix(b.added)) ? -1 : 1
     if (this.state.sortType === 'AZ') return b.title > a.title ? -1 : 1
@@ -303,24 +282,19 @@ export class Ballot extends Component {
       )
     }
 
-    const showSbChoicesOrLoader = () => {
-      if (!this.props.sb.choices) {
-        return (
-          <div id='loading-spinner'>
-            <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>
-            <div>Loading...</div>
-          </div>
-        )
-      }
-      else {
-        return (
-          <span>
-            <BallotChoiceGrid choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
-            {this.state.showAddForm && this.showAddChoice(this.state.expires)}
-          </span>
-        )
-      }
-    }
+    const fullGrid = (
+      <span>
+        <BallotChoiceGrid
+          choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))}
+          isExtensible={this.state.isExtensible}
+          userID={this.props.user.uid}
+          expires={this.state.expires}
+          userChoice={this.props.sb.userChoice}
+          onAdd={() => this.setState({showAddForm: true})}
+        />
+        {this.state.showAddForm && this.showAddChoice(this.state.expires)}
+      </span>
+    )
 
     return (
       <div className='snowballots-section'>
@@ -328,18 +302,17 @@ export class Ballot extends Component {
         {this.props.sb.tags && this.props.sb.tags.length > 0 && <div className='tag-list'><FA name='tags' className='fa fa-fw' />{taglist}</div>}
         {sortOptions()}
         <div id='separator' />
-        {showSbChoicesOrLoader()}
+        {!this.props.sb.choices ? <LoadingSpinner /> : fullGrid}
       </div>
     )
   }
 
   render () {
-    const { creator, createdAt, alias, choices, id } = this.props.sb
-    const userID = this.props.user.uid
+    let that = this
     return (
       <div id='accent-container' className='sb-detail-accent'>
         <div id='ballot'>
-          {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias, choices, id, this.props.user)}
+          <BallotInfoPanel sb={that.props.sb} user={that.props.user} editMessage={() => this.editMessage()} />
           <div className='detail-snowballot-container'>{this.renderSb()}</div>
         </div>
       </div>

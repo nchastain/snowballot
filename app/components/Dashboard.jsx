@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import AccountPanel from './AccountPanel'
+import LoadingSpinner from './LoadingSpinner'
 import ListItem from './ListItem'
 import FA from 'react-fontawesome'
 
@@ -23,7 +24,7 @@ export class Dashboard extends Component {
   componentWillMount () {
     window.scrollTo(0, 0)
   }
-  
+
   componentWillReceiveProps (nextProps) {
     this.getFavorites(nextProps)
   }
@@ -78,14 +79,7 @@ export class Dashboard extends Component {
   }
 
   renderNone () {
-    if (!this.props.user || !this.props.user.sbs) {
-      return (
-        <div id='loading-spinner'>
-          <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>
-          <div>Loading...</div>
-        </div>
-      )
-    }
+    if (!this.props.user || !this.props.user.sbs) return <LoadingSpinner />
     else {
       return (
         <div id='create-first-sb-text'>You have not yet created any snowballots.

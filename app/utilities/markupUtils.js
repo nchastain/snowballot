@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { isCreator, didExpire, findLeader } from 'utilities/sbUtils'
+import { isCreator, didExpire, findLeader } from 'utilities/ballotUtils'
 import FA from 'react-fontawesome'
 import { Link } from 'react-router-dom'
 

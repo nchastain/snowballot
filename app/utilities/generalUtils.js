@@ -1,6 +1,6 @@
 import React from 'react'
 import DateTime from 'react-datetime'
-import { didExpire } from 'utilities/sbUtils'
+import { didExpire } from 'utilities/ballotUtils'
 import { setDOMReferences } from 'utilities/markupUtils'
 
 export const modalStyles = {

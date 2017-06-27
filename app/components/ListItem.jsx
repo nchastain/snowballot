@@ -3,7 +3,7 @@ import FA from 'react-fontawesome'
 import classnames from 'classnames'
 import ReactTooltip from 'react-tooltip'
 import { ShareButtons } from 'react-share'
-import { getVoteSum } from '.././utilities/sbUtils'
+import { getVoteSum } from '.././utilities/ballotUtils'
 
 class ListItem extends React.Component {
   constructor (props) {

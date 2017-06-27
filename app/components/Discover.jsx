@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import * as actions from '../actions'
 import SearchInput from 'react-search-input'
 import FA from 'react-fontawesome'
-import { getSearchResults } from '.././utilities/sbUtils'
+import { getSearchResults } from '.././utilities/ballotUtils'
 import ListItem from './ListItem'
+import LoadingSpinner from './LoadingSpinner'
 
 class Discover extends React.Component {
   constructor (props) {
@@ -43,14 +44,7 @@ class Discover extends React.Component {
   }
 
   renderSbsOrLoader (sbs) {
-    if (sbs.length === 0) {
-      return (
-        <div id='loading-spinner'>
-          <div id='loading-spinner-icon'><FA className="fa fa-spin fa-3x fa-fw" name='spinner' /></div>
-          <div>Loading...</div>
-        </div>
-      )
-    }
+    if (sbs.length === 0) return <LoadingSpinner />
     else {
       return (
         <div id='discover-body-container'>

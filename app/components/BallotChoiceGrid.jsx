@@ -1,17 +1,12 @@
 import React from 'react'
 import IncludedMedia from './IncludedMedia'
 import FA from 'react-fontawesome'
-import ReactTooltip from 'react-tooltip'
-import omit from 'object.omit'
 import { connect } from 'react-redux'
 import * as actions from '.././actions'
 import classnames from 'classnames'
 import ReactModal from 'react-modal'
-import ReactPlayer from 'react-player'
-import NewBallotChoice from './NewBallotChoice'
 import ChoiceCard from './ChoiceCard'
-import { didExpire, getVoteSum, findLeader } from 'utilities/sbUtils'
-import { createStateFromProps, addCommas } from 'utilities/generalUtils'
+import { createStateFromProps } from 'utilities/generalUtils'
 
 class BallotChoiceGrid extends React.Component {
   constructor (props) {
@@ -51,27 +46,7 @@ class BallotChoiceGrid extends React.Component {
     })
   }
 
-  
-
   render () {
-    const backgrounds = ['#54D19F', '#5192E8', '#DE80FF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
-    
-    const lightBackgrounds = ['#87FFD2', '#84C5FF', '#FFD1FF', '#FF6775', '#FFDF8C', '#FFB283', '#FFCED4']
-    
-    const mediaIcon = (name, icon, choice) => {
-      return (
-        <span>
-          {choice[name] && <span className='icon-wrapper'>
-            <span className={`icon-${name}`} id={`icon-${name}-${choice.id}`} onClick={() => this.buildModal(choice, name)}>
-              <span>{choice[name] && <span className='extra-media-button' style={{color: 'white', backgroundColor: lightBackgrounds[choice.id % lightBackgrounds.length]}} data-tip data-for={`${name}-tooltip-${choice.id}`}><FA name={icon} className='fa fa-fw' /></span>}</span>
-              <ReactTooltip id={`${name}-tooltip-${choice.id}`} effect='solid'><span>View {name === 'youtube' ? 'YouTube link' : name}</span></ReactTooltip>
-            </span>
-          </span>}
-        </span>
-      )
-    }
-    
-    const hasExtraMedia = choice => choice.photo || choice.info || choice.link || choice.youtube
 
     const mediaClassNames = (section) => {
       return {

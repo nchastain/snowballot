@@ -7,7 +7,7 @@ import DateTime from 'react-datetime'
 import { imagesRef } from '../firebase/constants'
 import OptionPanel from './OptionPanel'
 import ChoicePanel from './ChoicePanel'
-import { previewImage, initialState, validateSb } from '.././utilities/sbUtils'
+import { previewImage, initialState, validateSb } from '.././utilities/ballotUtils'
 
 class NewBallot extends React.Component {
   constructor (props) {

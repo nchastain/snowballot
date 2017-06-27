@@ -1,5 +1,5 @@
 import React from 'react'
-import { getChoiceNumber } from '.././utilities/sbUtils'
+import { getChoiceNumber } from '.././utilities/ballotUtils'
 import NewBallotChoice from './NewBallotChoice'
 import ChoiceMediaPane from './ChoiceMediaPane'
 import FA from 'react-fontawesome'

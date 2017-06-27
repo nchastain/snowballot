@@ -13,14 +13,6 @@
   src: url('fonts/FuturaLT-LightOblique.ttf');
 }
 
-.container {
-	padding: 5rem;
-}
-
-.fa:not(.page-arrow), .fa-2x:not(.page-arrow), .fa-3x:not(.page-arrow) {
-  vertical-align: middle;
-}
-
 body {
   background-color: rgba($primary, 0.8);
   font-family: 'Futura';
@@ -28,18 +20,6 @@ body {
 
 textarea {
   resize: none !important;
-}
-
-#loading-spinner {
-  color: $primary;
-  width: 100%;
-  text-align: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-#loading-spinner-icon {
-  margin-bottom: 15px;
 }
 
 #discover-thumbnail {
@@ -90,4 +70,12 @@ textarea {
     margin-bottom: 5rem;
     margin-top: 120px;
   }
+}
+
+.container {
+  padding: 5rem;
+}
+
+.fa:not(.page-arrow), .fa-2x:not(.page-arrow), .fa-3x:not(.page-arrow) {
+  vertical-align: middle;
 }

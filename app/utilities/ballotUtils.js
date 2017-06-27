@@ -1,11 +1,13 @@
 import moment from 'moment'
 import { createFilter } from 'react-search-input'
 import uuid from 'uuid'
-import { imagesRef } from '../firebase/constants'
+
+export const cardBackgrounds = ['#54D19F', '#5192E8', '#DE80FF', '#E83442', '#FFAC59', 'coral', '#F19BA1']
+
+export const lightCardBackgrounds = ['#87FFD2', '#84C5FF', '#FFD1FF', '#FF6775', '#FFDF8C', '#FFB283', '#FFCED4']
 
 export const didExpire = function (expires) {
   if (typeof expires !== 'string') return false
-  // console.log(moment(expires).isBefore(moment().format('MM/DD/YYYY')))
   return moment(expires).isBefore(moment().format('MM/DD/YYYY'))
 }
 
@@ -30,6 +32,10 @@ export const findLeader = function (choices) {
     }
   })
   return leader
+}
+
+export const isLeader = function (choice, expiration, choices) {
+  return didExpire(expiration) && getVoteSum(choices) > 0 && choice.id === findLeader(choices).id
 }
 
 export const getVoteSum = choices => choices.reduce((prev, next) => prev + next.votes, 0)
@@ -59,7 +65,7 @@ export const initialState = {
   ],
   tags: [],
   suggestions: [],
-  favorites: 0,
+  favorites: 0
 }
 
 export const validateSb = function (sbOptions) {
@@ -93,6 +99,8 @@ export const validateSb = function (sbOptions) {
 
 export const getChoiceNumber = e => parseInt(e.target.id.match(/\d+$/).join(''))
 
+export const hasExtraMedia = choice => choice.photo || choice.info || choice.link || choice.youtube
+
 export const favoritedSb = function (sbId, favorites) {
   if (!favorites) return false
   if (Object.keys(favorites).indexOf(sbId) !== -1) {
@@ -100,23 +108,4 @@ export const favoritedSb = function (sbId, favorites) {
       if (sb === sbId) return favorites[sb]
     })
   } else return false
-}
-
-export const updateImage = (alias, selector) => {
-  let imageUrl = imagesRef.child(`${alias}/${selector}`)
-  imageUrl.getDownloadURL().then(function (url) {
-    const imageHolder = document.querySelector(`#image-holder-${selector}`)
-    imageHolder.src = imageHolder === null ? 'http://placehold.it/200x200' : url
-  }).catch(function (error) {
-    switch (error.code) {
-      case 'storage/object_not_found':
-        break
-      case 'storage/unauthorized':
-        break
-      case 'storage/canceled':
-        break
-      case 'storage/unknown':
-        break
-    }
-  })
 }
