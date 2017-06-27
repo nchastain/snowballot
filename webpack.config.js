@@ -13,8 +13,8 @@ module.exports = {
   entry: [
     'script!jquery/dist/jquery.min.js',
     'script!foundation-sites/dist/foundation.min.js',
-    'webpack/hot/dev-server',
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    // 'webpack/hot/dev-server',
+    // 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     './app/index.jsx'
   ],
   externals: {
@@ -26,7 +26,7 @@ module.exports = {
       'jQuery': 'jquery'
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
@@ -42,8 +42,8 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     publicPath: '/',
     filename: 'bundle.js',
-    hotUpdateChunkFilename: 'hot/hot-update.js',
-    hotUpdateMainFilename: 'hot/hot-update.json'
+    // hotUpdateChunkFilename: 'hot/hot-update.js',
+    // hotUpdateMainFilename: 'hot/hot-update.json'
   },
   resolve: {
     root: path.join(__dirname),

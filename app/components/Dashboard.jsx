@@ -89,7 +89,7 @@ export class Dashboard extends Component {
     else {
       return (
         <div id='create-first-sb-text'>You have not yet created any snowballots.
-          <Link to='/sbs/add' authed={this.props.user.uid}><FA name='plus' className='fa fa-fw' /> add a snowballot</Link>
+          <Link to='/sbs/new' authed={this.props.user.uid}><FA name='plus' className='fa fa-fw' /> add a snowballot</Link>
         </div>
       )
     }

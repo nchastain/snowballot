@@ -1,4 +1,4 @@
-#navigation {
+#navigation-bar {
 	.right {
 		float: right;
 	}
@@ -194,39 +194,6 @@
 		&:hover {
 			cursor: default;
 			background-color: initial;
-		}
-	}
-}
-
-@media (max-width: 800px) {
-	#navigation #open-nav-menu {
-		display: inline-block;
-	}
-	#navigation #navigationAccent {
-		height: 111px;
-	}
-	#navigation #nav-search {
-		width: calc(100% - 62px);
-		margin-left: 0px;
-		input {
-			width: 89%;
-		}
-	}
-	#navigation .bar {
-		min-width: 400px;
-	}
-	#navigation .hide-for-mobile {
-		display: none;
-	}
-	#navigation .display-for-mobile {
-		display: inline-block;
-		color: white !important;
-		&#nav-menu-hamburger {
-			position: absolute;
-			top: 10px;
-			right: 15px;
-			font-size: 35px;
-			display: none;
 		}
 	}
 }

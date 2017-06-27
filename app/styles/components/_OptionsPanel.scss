@@ -303,33 +303,3 @@
     text-align: center;
   }
 }
-
-@media (max-width: 745px) {
-  #options-panel .option-unit-small-container#didExpire, #options-panel .option-unit-medium-container {
-    width: 100%;
-    .option-unit-item {
-       padding-bottom: 10px;
-       margin-bottom: 10px;
-    }
-  }
-
-  #options-panel .option-unit-small-container#didExpire {
-    margin-bottom: 0px;
-  }
-  #options-panel .option-unit-medium-container#tags {
-    .option-unit-item {
-      margin-bottom: 0px !important;
-      padding-bottom: 10px;
-    }
-  }
-
-  #options-panel .option-unit-small-container:not(#didExpire) {
-    width: 50%;
-  }
-}
-
-@media (max-width: 550px) {
-  #options-panel .option-unit-small-container:not(#didExpire) {
-    width: 100%;
-  }
-}

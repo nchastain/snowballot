@@ -147,15 +147,4 @@
   }
 }
 
-@media(max-width: 800px) {
-  #discover-list-item #discover-list-item-tags, #discover-list-item #discover-list-item-favorites {
-    display: none;
-  }
-}
-@media(max-width: 500px) {
-  .hide-for-mobile {
-    display: none !important;
-  }
-}
-
 

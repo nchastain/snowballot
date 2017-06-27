@@ -5,24 +5,27 @@ import FA from 'react-fontawesome'
 
 export const AccountControl = props => {
   const isActive = navLink => navLink === props.active ? 'active' : ''
+  
   const navclasses = 'navbar-brand link-container right '
-  const photoURL = props.user.photoURL
+  
   const photoLink = (
     <Link className={navclasses} to='/dashboard'>
-      <img id='profile-image' className='right' src={photoURL} />
+      <img id='profile-image' className='right' src={props.user.photoURL} />
     </Link>
   )
+
   const userNav = (
     <span className='right'>
-      {photoURL && photoLink}
+      {props.user.photoURL && photoLink}
       <Link className={navclasses + isActive('/dashboard')} to='/dashboard'>
         Dashboard
       </Link>
-      <Link to='/sbs/add' className={isActive('/sbs/add') + ' ' + navclasses + 'addLink'}>
+      <Link to='/sbs/new' className={isActive('/sbs/new') + ' ' + navclasses + 'addLink'}>
         <FA className='addButton fa fa-fw' name='plus' />Add
       </Link>
     </span>
   )
+
   const noUserNav = (
     <span className='right'>
       <Link to='/login' className={navclasses + isActive('/login')}>
@@ -33,11 +36,13 @@ export const AccountControl = props => {
       </Link>
     </span>
   )
+  
   return (
     <span id='account-control'>
       <span className='hide-for-mobile'>{props.authed ? userNav : noUserNav}</span>
     </span>
   )
+
 }
 
 export default connect(state => state)(AccountControl)

@@ -1,5 +1,5 @@
-#sb-detail {
-  .sb-choices {
+#ballot {
+  .ballot-choice-grid {
     margin-left: 0;
   }
 
@@ -26,7 +26,6 @@
   }
 
   .sb-title {
-    /*font-weight: bold;*/
     border: 1px solid white;
     &:hover {
       border: 1px solid #eee;
@@ -346,61 +345,6 @@
       color: rgba($primary, 0.6);
       min-height: 80px;
       vertical-align: top;
-    }
-  }
-
-  @media (min-width: 1900px) {
-    .photo-title {
-      font-size: 0.75vw !important;
-    }
-  }
-  @media (max-width: 800px) {
-    #main-info, #sort-option-content, #sb-info, #sb-actions {
-      width: 100% !important;
-    }
-    .above-sb-container {
-      min-height: 30px !important;
-    }
-    #sb-title {
-      text-align: center !important;
-      width: 100%;
-    }
-    .edit-form input {
-      font-size: 1.125rem !important;
-    }
-    #sb-description-text {
-      width: 100% !important;
-    }
-    #sb-actions, #sb-info {
-      min-height: 0px !important;
-    }
-    #sb-info {
-      font-size: 80% !important;
-      ul {
-        text-indent: 0px !important;
-      }
-    }
-    .tag-list {
-      width: 100%;
-      margin-top: 10px;
-    }
-    .photo-title {
-      font-size: 2vw !important;
-    }
-    #sb-actions {
-      padding-bottom: 10px !important;
-      text-align: center !important;
-      width: 100%;
-    }
-    #sort-option-content {
-      font-size: 75% !important;
-      margin-top: 10px !important;
-      text-align: center !important;
-      width: 100% !important;
-    }
-    #sort-option-key {
-      padding-left: 0px !important;
-      width: 100% !important;
     }
   }
 }

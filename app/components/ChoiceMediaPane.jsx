@@ -18,10 +18,6 @@ class ChoiceMediaPane extends React.Component {
     }
   }
 
-  componentWillMount () {
-    // if (!this.props.newChoice) this.props.dispatch(actions.updateCreatedSb(this.props.id, {})) not entirely sure why this is here
-  }
-
   expandSection (sectionID) {
     const toExpand = this.state.expanded === sectionID ? '' : sectionID
     this.setState({ expanded: toExpand, [sectionID]: '' })
@@ -98,16 +94,6 @@ class ChoiceMediaPane extends React.Component {
       </div>
     )
 
-    // sections.GIF = (
-    //   <div id='gif-selector'>
-    //     <Picker onSelected={(e) => this.setState({GIF: e.downsized.url})} />
-    //     <div className='gif-container' id={`gif-container-${this.props.id}`}>
-    //       <img className={this.state.GIF ? 'gallery-image selected-GIF' : 'gallery-image hidden'} id={`gif-${this.props.id}`} src={this.state.GIF} />
-    //     </div>
-    //     {this.state.GIF && saveButton('GIF')}
-    //   </div>
-    // )
-
     return sections
   }
 
@@ -134,7 +120,6 @@ class ChoiceMediaPane extends React.Component {
       {icon: 'photo', label: 'add photo', id: 'photo'},
       {icon: 'youtube', label: 'add YouTube video', id: 'youtube'},
       {icon: 'link', label: 'add link', id: 'link'}
-      // {icon: 'film', label: 'add GIF', id: 'GIF'}
     ]
     const paneClasses = {'choice-media-pane': true, 'choice-more-info': true, 'expanded': this.props.choiceExpanded}
     const mediaButtonSection = mediaButtons.map(function (mB) {

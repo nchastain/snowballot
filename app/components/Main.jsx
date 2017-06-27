@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import Dashboard from './Dashboard'
 import Login from './Login'
 import Register from './Register'
-import SbDetail from './SbDetail'
+import Ballot from './Ballot'
 import Discover from './Discover'
-import AddForm from './AddForm'
-import Navigation from './Navigation'
+import NewBallot from './NewBallot'
+import NavigationBar from './NavigationBar'
 import { firebaseAuth } from '../firebase/constants'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
@@ -63,16 +63,16 @@ class Main extends Component {
   render () {
     return (
       <span id='main'>
-        <Navigation active={window.location.pathname} />
+        <NavigationBar active={window.location.pathname} />
         <main>
           <Switch>
             <Route exact path='/' component={Discover} />
             <PublicRoute authed={this.state.authed} path='/login' component={Login} />
             <PublicRoute authed={this.state.authed} path='/register' component={Register} />
             <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
-            <Route exact authed={this.state.authed} path='/sbs/add' component={AddForm} />
+            <Route exact authed={this.state.authed} path='/sbs/new' component={NewBallot} />
             <Route path='/discover/' component={Discover} />
-            <Route path='/sbs/:alias' component={SbDetail} />
+            <Route path='/sbs/:alias' component={Ballot} />
             <Route render={() => <h3>404 - Page Not Found</h3>} />
           </Switch>
         </main>

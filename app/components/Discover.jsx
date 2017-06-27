@@ -43,7 +43,6 @@ class Discover extends React.Component {
   }
 
   renderSbsOrLoader (sbs) {
-    // debugger
     if (sbs.length === 0) {
       return (
         <div id='loading-spinner'>

@@ -42,25 +42,25 @@ textarea {
   margin-bottom: 15px;
 }
 
-  #discover-thumbnail {
-    height: 150px;
-    width: 100px;
-    margin-left: 20px;
-    vertical-align: middle;
-    top: -24px;
-    bottom: 0px;
-    position: absolute;
-    clip: rect(44px 96px 142px 4px) !important
-  }
+#discover-thumbnail {
+  height: 150px;
+  width: 100px;
+  margin-left: 20px;
+  vertical-align: middle;
+  top: -24px;
+  bottom: 0px;
+  position: absolute;
+  clip: rect(44px 96px 142px 4px) !important
+}
 
-  #discover-thumbnail-container {
-    width: 120px;
-    text-align: left;
-    vertical-align: middle;
-    margin: 10px;
-    height: 100%;
-    display: table-cell;
-  }
+#discover-thumbnail-container {
+  width: 120px;
+  text-align: left;
+  vertical-align: middle;
+  margin: 10px;
+  height: 100%;
+  display: table-cell;
+}
 
 #accent-container {
   padding: 4px;
@@ -73,6 +73,7 @@ textarea {
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 1px 1px 2px #555;
+  background-color: #eee;
   &.accent-under {
     margin-bottom: 0px;
     padding: 5px;
@@ -89,21 +90,4 @@ textarea {
     margin-bottom: 5rem;
     margin-top: 120px;
   }
-  background-color: #eee;
-  /*background:
-    linear-gradient(
-      limegreen,
-      transparent
-    ),
-    linear-gradient(
-      90deg,
-      #5192e8,
-      transparent
-    ),
-    linear-gradient(
-      -90deg,
-      #ff7f50,
-      transparent
-    );
-  background-blend-mode: screen;*/
 }

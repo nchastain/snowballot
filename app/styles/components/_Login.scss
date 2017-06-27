@@ -89,38 +89,4 @@
       }
     }
   }
-
-  @media(max-width: 1300px) {
-    #icons-container {
-      text-align: center;
-    }
-    .login-page-button {
-      width: 400px;
-      text-align: left;
-      margin-right: 0;
-    }
-  }
-  @media(max-width: 500px) {
-    #icons-container {
-      text-align: center;
-    }
-    .login-text {
-      display: none;
-    }
-    .login-page-button {
-      padding-right: 0px;
-      margin-right: 5px;
-      width: initial;
-    }
-    .fa-icon-holder {
-      border-radius: 9px;
-      margin-right: 0px;
-      margin: 0;
-
-    }
-    #fb-button, #google-button, #email-button {
-      margin-right: 0px;
-      margin: 0;
-    }
-  }
 }

@@ -10,7 +10,7 @@
     opacity: 1;
     transition: opacity 0.3s linear, height 0.3s linear;
     & + .included-media-item {
-      border-top: 1px solid $light-grey;
+      border-top: 1px solid $light-gray;
     }
   }
   .delete-button {
@@ -60,12 +60,5 @@
         opacity: 0.8;
       }
     }
-  }
-}
-
-@media (max-width: 680px) {
-  #react-player-youtube {
-    width: 65% !important;
-    height: 100% !important;
   }
 }

@@ -1,0 +1,308 @@
+@media (min-width: 1900px) {
+  .photo-title {
+    font-size: 0.75vw !important;
+  }
+}
+
+@media(max-width: 1300px) {
+  #icons-container {
+    text-align: center;
+  }
+  .login-page-button {
+    width: 400px;
+    text-align: left;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 1000px) {
+  .box-header .extra-media-button, .icon-wrapper {
+    display: none !important;
+  }
+  .box-header .more-media-button {
+    display: inline-block !important;
+  }
+}
+
+@media (max-width: 905px) {
+  #dashboard #account-settings-button-outer, #dashboard #account-settings-button {
+    text-align: center !important;
+    width: 100%;
+    top: 0px !important;
+    right: 0px !important;
+    margin: 0 !important;
+    margin-bottom: 0px !important;
+  }
+  #account-panel #account-settings .button {
+    width: 100%;
+    text-align: center;
+    margin: auto !important;
+    + .button {
+      margin-top: 10px !important;
+    }
+  }
+  #account-panel {
+    padding-top: 10px;
+  }
+  #account-panel #account-section {
+    padding-top: 0px;
+  }
+}
+
+@media (max-width: 860px) {
+  .choice-media-button {
+    width: 100%;
+    margin: auto !important;
+  }
+  .choice-media-button + .choice-media-button {
+    margin-top: 10px !important;
+  }
+  #choice-media-button-film {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  #account-control .hide-for-mobile {
+    display: none !important;
+  }
+  #new-ballot-choice .choice-input  {
+    font-size: 13px;
+    width: 100% !important;
+  }
+  #new-ballot-choice .choice-container:hover {
+    .choice-input {
+      border-bottom: 2px dotted white !important;
+    }
+  }
+  #choice-media-pane #gif-selector {
+    display: none;
+  }
+  #dashboard #account-settings-button-outer {
+    width: 100% !important;
+    position: relative;
+    display: block;
+    margin-bottom: 15px;
+    left: 0 !important;
+  }
+  #dashboard #create-first-sb-text {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px;
+    a {
+      margin-top: 10px;
+      width: 100%;
+      text-align: center;
+      float: initial;
+      display: inline-block;
+    }
+  }
+  #discover-list-item #discover-list-item-tags, #discover-list-item #discover-list-item-favorites {
+    display: none;
+  }
+  #navigation-bar #open-nav-menu {
+    display: inline-block;
+  }
+  #navigation-bar #navigationAccent {
+    height: 111px;
+  }
+  #navigation-bar #nav-search {
+    width: calc(100% - 62px);
+    margin-left: 0px;
+    input {
+      width: 89%;
+    }
+  }
+  #navigation-bar .bar {
+    min-width: 400px;
+  }
+  #navigation-bar .hide-for-mobile {
+    display: none;
+  }
+  #navigation-bar .display-for-mobile {
+    display: inline-block;
+    color: white !important;
+    &#nav-menu-hamburger {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 35px;
+      display: none;
+    }
+  }
+ #ballot {
+    .snowballots-section {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  }
+  .box-header {
+    width: 50%;
+  }
+  .title, .add-title {
+    font-size: 4vw !important;
+  }
+  .top-cell {
+    .fa {
+      font-size: 30vw !important;
+      transform: translateY(10vw);
+    }
+  }
+  .vote-count {
+    font-size: 3vw !important;
+    border-radius: 3vw !important;
+    padding-left: 1.33vw !important;
+    padding-right: 1.33vw !important;
+    bottom: 1.5vw !important;
+    right: 1.5vw !important;
+  }
+  #main-info, #sort-option-content, #sb-info, #sb-actions {
+      width: 100% !important;
+    }
+    .above-sb-container {
+      min-height: 30px !important;
+    }
+    #sb-title {
+      text-align: center !important;
+      width: 100%;
+    }
+    .edit-form input {
+      font-size: 1.125rem !important;
+    }
+    #sb-description-text {
+      width: 100% !important;
+    }
+    #sb-actions, #sb-info {
+      min-height: 0px !important;
+    }
+    #sb-info {
+      font-size: 80% !important;
+      ul {
+        text-indent: 0px !important;
+      }
+    }
+    .tag-list {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .photo-title {
+      font-size: 2vw !important;
+    }
+    #sb-actions {
+      padding-bottom: 10px !important;
+      text-align: center !important;
+      width: 100%;
+    }
+    #sort-option-content {
+      font-size: 75% !important;
+      margin-top: 10px !important;
+      text-align: center !important;
+      width: 100% !important;
+    }
+    #sort-option-key {
+      padding-left: 0px !important;
+      width: 100% !important;
+    }
+
+}
+
+@media (max-width: 745px) {
+  #options-panel .option-unit-small-container#didExpire, #options-panel .option-unit-medium-container {
+    width: 100%;
+    .option-unit-item {
+       padding-bottom: 10px;
+       margin-bottom: 10px;
+    }
+  }
+
+  #options-panel .option-unit-small-container#didExpire {
+    margin-bottom: 0px;
+  }
+  #options-panel .option-unit-medium-container#tags {
+    .option-unit-item {
+      margin-bottom: 0px !important;
+      padding-bottom: 10px;
+    }
+  }
+
+  #options-panel .option-unit-small-container:not(#didExpire) {
+    width: 50%;
+  }
+}
+
+@media (max-width: 680px) {
+  #react-player-youtube {
+    width: 65% !important;
+    height: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #new-ballot #title-input {
+    font-size: 15px;
+    padding: 5px;
+  } 
+  .media-modal #modal-top {
+    font-size: 12px;
+  }
+  .ReactModalPortal .add-modal input {
+    font-size: 20px !important; 
+  }
+  .ReactModalPortal .add-modal #detail-add-choice {
+    height: 30px;
+  }
+}
+
+@media (max-width: 550px) {
+  #options-panel .option-unit-small-container:not(#didExpire) {
+    width: 100%;
+  }
+}
+
+@media(max-width: 500px) {
+  .hide-for-mobile {
+    display: none !important;
+  }
+  #icons-container {
+    text-align: center;
+  }
+  .login-text {
+    display: none;
+  }
+  .login-page-button {
+    padding-right: 0px;
+    margin-right: 5px;
+    width: initial;
+  }
+  .fa-icon-holder {
+    border-radius: 9px;
+    margin-right: 0px;
+    margin: 0;
+  }
+  #fb-button, #google-button, #email-button {
+    margin-right: 0px;
+    margin: 0;
+  }
+  .box-header {
+    width: 100%;
+  }
+  .title, .add-title {
+    font-size: 8vw !important;
+  }
+  .top-cell {
+    .fa {
+      font-size: 38vw !important;
+      transform: translateY(20vw);
+    }
+  }
+  .vote-count {
+    font-size: 6vw !important;
+    border-radius: 6vw !important;
+    padding-left: 2.67vw !important;
+    padding-right: 2.67vw !important;
+    bottom: 2vw !important;
+    right: 2vw !important;
+  }
+}
+

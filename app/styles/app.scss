@@ -10,27 +10,30 @@
 @import "base/app-settings";
 
 /*Components*/
-@import "components/Navigation";
+@import "components/NavigationBar";
 @import "components/Dashboard";
-@import "components/SbDetail";
+@import "components/Ballot";
+@import "components/BallotChoiceGrid";
+@import "components/ChoiceCard";
 @import "components/Main";
 @import "components/Discover";
-@import "components/AddForm";
 @import "components/AccountControl";
-@import "components/SharePanel";
 @import "components/Login";
 @import "components/Tagger";
 @import "components/ChoiceMediaButton";
 @import "components/ChoiceMediaPane";
 @import "components/IncludedMedia";
-@import "components/Choice";
+@import "components/NewBallot";
+@import "components/NewBallotChoice";
 @import "components/ReactModal";
 @import "components/AccountPanel";
 @import "components/OptionUnit";
 @import "components/OptionsPanel";
 @import "components/ChoicePanel";
 @import "components/Register";
-@import "components/SbChoices";
 @import "components/DeleteModal";
 @import "components/FavoritePanel";
 @import "components/ListItem";
+
+/* breakpoints */
+@import "base/breakpoints.scss";

@@ -11,10 +11,6 @@ export default class Register extends Component {
     }
   }
 
-  // componentWillUnmount () {
-  //   this.setState({registerError: null, password: '', email: ''})
-  // }
-
   componentWillMount () {
     window.scrollTo(0, 0)
   }

@@ -9,7 +9,7 @@ import OptionPanel from './OptionPanel'
 import ChoicePanel from './ChoicePanel'
 import { previewImage, initialState, validateSb } from '.././utilities/sbUtils'
 
-class AddForm extends React.Component {
+class NewBallot extends React.Component {
   constructor (props) {
     super(props)
     this.state = {...initialState, showOptions: false, showChoices: false, error: ''}
@@ -34,22 +34,6 @@ class AddForm extends React.Component {
     const newTags = [...this.state.tags, {id: this.state.tags.length + 1, text: tag}]
     this.setState({tags: newTags})
   }
-
-/*  setGIF (id, gif) {
-    const that = this
-    if (!that.state) return
-    const updatedChoices = that.state.choices.map((choice) => {
-      if (choice.id === id) {
-        choice.GIF = gif.downsized.url
-        choice.hasGIF = true
-      }
-      return choice
-    })
-    const imageToSet = document.querySelector(`#gif-${id}`)
-    imageToSet.src = gif.downsized.url
-    that.setState({choices: updatedChoices})
-  } 
-*/
 
   choiceImageUpdate (id, choices, uploadedFile) {
     return choices.map((choice) => {
@@ -108,7 +92,6 @@ class AddForm extends React.Component {
     const updatedChoices = this.state.choices.map(function (choice) {
       if (that.props.createdSb[choice.id]) {
         choice.info = that.props.createdSb[choice.id].info || ''
-        // choice.GIF = that.props.createdSb[choice.id].GIF || ''
         choice.youtube = that.props.createdSb[choice.id].youtube || ''
         choice.link = that.props.createdSb[choice.id].link || ''
         choice.photo = that.props.createdSb[choice.id].photo || ''
@@ -177,7 +160,7 @@ class AddForm extends React.Component {
 
   render () {
     return (
-      <span id='add-form'>
+      <span id='new-ballot'>
         <h1 className='create-title'>Create a Snowballot</h1>
         <div id='outer-add-form-container'>
           <div className='newSnowballot-section'>
@@ -195,4 +178,4 @@ class AddForm extends React.Component {
   }
 }
 
-export default connect(state => state)(AddForm)
+export default connect(state => state)(NewBallot)

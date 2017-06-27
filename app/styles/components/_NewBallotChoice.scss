@@ -1,4 +1,4 @@
-#choice {
+#new-ballot-choice {
     .choice-container {
     padding-left: 10px;
     height: auto;
@@ -9,7 +9,7 @@
       &.options-button {
         width: 80px !important;
         text-transform: uppercase;
-        font-size: 11px;
+        font-size: 12px;
       }
     }
     .choice-input {
@@ -77,18 +77,6 @@
         border-bottom: 2px dotted rgba($primary, 0.2) !important;
       }
 
-    }
-  }
-}
-
-@media (max-width: 800px) {
-  #choice .choice-input  {
-    font-size: 13px;
-    width: 100% !important;
-  }
-  #choice .choice-container:hover {
-    .choice-input {
-      border-bottom: 2px dotted white !important;
     }
   }
 }

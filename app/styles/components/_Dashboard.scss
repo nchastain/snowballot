@@ -212,29 +212,3 @@
 		}
 	}
 }
-
-@media (max-width: 800px) {
-	#dashboard #account-settings-button-outer {
-		width: 100% !important;
-		position: relative;
-		display: block;
-		margin-bottom: 15px;
-		left: 0 !important;
-	}
-}
-
-@media (max-width: 800px) {
-	#dashboard #create-first-sb-text {
-		width: 100%;
-		text-align: center;
-		display: inline-block;
-		font-size: 14px;
-		a {
-			margin-top: 10px;
-			width: 100%;
-			text-align: center;
-			float: initial;
-			display: inline-block;
-		}
-	}
-}

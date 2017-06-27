@@ -1,8 +1,8 @@
 import React from 'react'
 import FA from 'react-fontawesome'
 
-const Choice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choiceUpdate, deleteChoice }) => (
-  <span id='choice'>
+const NewBallotChoice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choiceUpdate, deleteChoice }) => (
+  <span id='new-ballot-choice'>
     <div
       id={`choice-container-choice-${choice.id}`}
       className='choice-container input-group'
@@ -33,4 +33,4 @@ const Choice = ({ choice, toggleChoiceOptions, checkKey, choicesExpanded, choice
   </span>
 )
 
-export default Choice
+export default NewBallotChoice

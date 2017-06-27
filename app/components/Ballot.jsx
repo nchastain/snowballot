@@ -11,18 +11,17 @@ import * as actions from '.././actions'
 import OptionPanel from './OptionPanel'
 import FavoritePanel from './FavoritePanel'
 import DeleteModal from './DeleteModal'
-import SbChoices from './SbChoices'
+import BallotChoiceGrid from './BallotChoiceGrid'
 import ChoiceMediaPane from './ChoiceMediaPane'
 import ChoiceMediaButton from './ChoiceMediaButton'
 import { createStateFromProps } from 'utilities/generalUtils'
 import { didExpire, isCreator, updateImage, favoritedSb } from 'utilities/sbUtils'
 import { creatorMessage, expiresMessage, authMessage, votesMessage, linkMessage, winnerMessage } from 'utilities/markupUtils'
 
-export class SbDetail extends Component {
+export class Ballot extends Component {
   constructor (props) {
     super(props)
     this.state = {sortType: 'votes', addChoiceOptions: false, tags: props.tags || []}
-    this.addEventListening = this.addEventListening.bind(this)
   }
 
   componentWillMount () { 
@@ -32,12 +31,10 @@ export class SbDetail extends Component {
 
   componentDidMount () {
     this.props.dispatch(actions.findSb(this.props.match.params.alias))
-    window.addEventListener('click', this.addEventListening, false)
   }
 
   componentWillUnmount () {
     this.props.dispatch(actions.showSb({}))
-    window.removeEventListener('click', this.addEventListening, false)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -119,7 +116,7 @@ export class SbDetail extends Component {
     )
   }
 
-  hasExtra ({info, photo, /* GIF, */ youtube, link}) { return info || photo || /* GIF || */ youtube || link }
+  hasExtra ({info, photo, youtube, link}) { return info || photo || youtube || link }
 
   favoriteSnowballot (id, favorites) {
     this.setState({'favorited': !this.state.favorited}, function () {
@@ -262,12 +259,6 @@ export class SbDetail extends Component {
     if (this.state.sortType === 'votes') return b.votes - a.votes
   }
 
-  addEventListening () {
-    // const editElems = ['edit-description', 'edit-title', 'edit-save-button', 'sb-title', 'sb-description-text', 'detail-add-choice', 'detail-add-input', 'add-tile']
-    // if (e.target.className === 'extra-media-button' || e.target.className.indexOf('fa') !== -1) return null
-    // if (editElems.indexOf(event.target.id) === -1 && document.getElementById('add-tile')) this.setState({editing: false})
-  }
-
   checkEnter (e, editField) {
     if (e.keyCode === 13) this.handleSbChange(editField)
   }
@@ -324,7 +315,7 @@ export class SbDetail extends Component {
       else {
         return (
           <span>
-            <SbChoices choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
+            <BallotChoiceGrid choices={this.props.sb.choices.sort((a, b) => this.sortChoices(a, b))} isExtensible={this.state.isExtensible} userID={this.props.user.uid} expires={this.state.expires} userChoice={this.props.sb.userChoice} onAdd={() => this.setState({showAddForm: true})} />
             {this.state.showAddForm && this.showAddChoice(this.state.expires)}
           </span>
         )
@@ -347,7 +338,7 @@ export class SbDetail extends Component {
     const userID = this.props.user.uid
     return (
       <div id='accent-container' className='sb-detail-accent'>
-        <div id='sb-detail'>
+        <div id='ballot'>
           {this.buildInfoPanel(this.state.expires, userID, creator, createdAt, alias, choices, id, this.props.user)}
           <div className='detail-snowballot-container'>{this.renderSb()}</div>
         </div>
@@ -356,4 +347,4 @@ export class SbDetail extends Component {
   }
 }
 
-export default connect(state => state)(SbDetail)
+export default connect(state => state)(Ballot)

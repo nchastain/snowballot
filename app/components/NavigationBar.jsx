@@ -6,7 +6,7 @@ import AccountControl from './AccountControl'
 import { firebaseAuth, storageRef } from '../firebase/constants'
 import FA from 'react-fontawesome'
 
-export class Navigation extends Component {
+export class NavigationBar extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -55,7 +55,7 @@ export class Navigation extends Component {
   render () {
     const navclasses = 'navbar-brand link-container left hide-for-mobile '
     return (
-      <span id='navigation'>
+      <span id='navigation-bar'>
         <WindowResizeListener onResize={() => this.checkForLargeScreen()} />
         <div id='navigationAccent' />
         <div className='bar'>
@@ -84,7 +84,7 @@ export class Navigation extends Component {
               Dashboard
             </Link>}
             {this.state.authed &&
-            <Link to='/sbs/add' className='open-nav-menu-item'>
+            <Link to='/sbs/new' className='open-nav-menu-item'>
               <FA className='addButton fa fa-fw' name='plus' />Add
             </Link>}
             {!this.state.authed && <Link to='/login' className='open-nav-menu-item'>
@@ -100,4 +100,4 @@ export class Navigation extends Component {
   }
 }
 
-export default connect(state => state)(Navigation)
+export default connect(state => state)(NavigationBar)

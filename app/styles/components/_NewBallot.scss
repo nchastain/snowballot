@@ -1,4 +1,4 @@
-#add-form, .ReactModalPortal {
+#new-ballot, .ReactModalPortal {
 	.create-title {
 		font-family: 'FuturaExtraBold', 'Futura', 'Arial';
 		background-color: white;
@@ -218,8 +218,6 @@
 		font-size: 24px;
 		border: 0px;
 		border-radius: 5px;
-		/*padding-top: 1.5rem;*/
-		/*padding-bottom: 1.5rem;*/
 		text-align: center;
 		&:focus {
 			border-left: 0px;
@@ -243,22 +241,6 @@
 		right: 2rem;
 		top: 150px;
 		margin-bottom: 12rem;
-		/*background:
-      linear-gradient(
-        limegreen,
-        transparent
-      ),
-      linear-gradient(
-        90deg,
-        #5192e8,
-        transparent
-      ),
-      linear-gradient(
-        -90deg,
-        #ff7f50,
-        transparent
-      );
-    background-blend-mode: screen;*/
 		padding: 4px;
 	}
 
@@ -483,11 +465,7 @@
 		height: 125px;
 		text-align: center;
 		&.action-required {
-			/*border-top: 5px solid rgba($primary, 0.8);*/
-			/*background-color: white !important;*/
-			/*color: rgba($primary, 0.8);*/
 			&:hover {
-				/*color: rgba($primary, 0.8);*/
 				cursor: initial;
 				color: white;
 			}
@@ -495,22 +473,6 @@
 		&:hover {
 			color: rgba(white, 0.5);
 		}
-		/*background:
-      linear-gradient(
-        limegreen,
-        transparent
-      ),
-      linear-gradient(
-        90deg,
-        #5192e8,
-        transparent
-      ),
-      linear-gradient(
-        -90deg,
-        #ff7f50,
-        transparent
-      );
-    background-blend-mode: screen;*/
 	}
 
 	#upload-button {
@@ -546,11 +508,4 @@
 			opacity: 0.8;
 		}
 	}
-}
-
-@media (max-width: 600px) {
-	#add-form #title-input {
-		font-size: 15px;
-		padding: 5px;
-	} 
 }

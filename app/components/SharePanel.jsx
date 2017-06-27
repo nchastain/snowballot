@@ -43,10 +43,15 @@ const SharePanel = function (props) {
   }
 
   const { FacebookShareButton, TwitterShareButton } = ShareButtons
+  
   const FacebookIcon = generateShareIcon('facebook')
+  
   const TwitterIcon = generateShareIcon('twitter')
+  
   const pageUrl = `http://www.snowballot.com/sbs/${props.sb.alias}`
+  
   const pageTitle = props.sb.title
+  
   const description = 'Please click the link to vote on this.'
 
   return (

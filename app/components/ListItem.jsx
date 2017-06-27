@@ -41,7 +41,6 @@ class ListItem extends React.Component {
               <div id='discover-list-item-vote-label'>votes</div>
             </div>
           </div>
-        {/* <div id='discover-thumbnail-container'><img id='discover-thumbnail' src={`https://shrinktheweb.snapito.io/v2/webshot/spu-ea68c8-ogi2-3cwn3bmfojjlb56e?size=800x0&screen=1024x768&url=https%3A%2F%2Fsnowballot-be37c.firebaseapp.com%2Fsbs%2F${sb.alias}`} /></div> */}
           <div id='discover-list-item-title-container'>
             <div id='discover-list-item-title'>{sb.title}</div>
             {sb.description && <div id='discover-list-item-description' className={classnames(taglist !== null ? {hasTags: true} : {})}>{sb.description}</div>}
