@@ -10,7 +10,7 @@ import {
   cardBackgrounds,
   lightCardBackgrounds
 } from 'utilities/ballotUtils'
-import { addCommas } from 'utilities/generalUtils'
+import { addCommas } from 'utilities/markupUtils'
 
 const ChoiceCard = (props) => {
   const {choice, expires, userID, userVote, vote, buildModal, choices} = props
@@ -44,7 +44,19 @@ const ChoiceCard = (props) => {
       <span>
         {choice[name] && <span className='icon-wrapper'>
           <span className={`icon-${name}`} id={`icon-${name}-${choice.id}`} onClick={() => buildModal(choice, name)}>
-            <span>{choice[name] && <span className='extra-media-button' style={{color: 'white', backgroundColor: lightCardBackgrounds[choice.id % lightCardBackgrounds.length]}} data-tip data-for={`${name}-tooltip-${choice.id}`}><FA name={icon} className='fa fa-fw' /></span>}</span>
+            <span>
+              {choice[name] && 
+              <span 
+                className='extra-media-button' 
+                style={{
+                  color: 'white',
+                  backgroundColor: lightCardBackgrounds[choice.id % lightCardBackgrounds.length]
+                }}
+                data-tip
+                data-for={`${name}-tooltip-${choice.id}`}
+              >
+              <FA name={icon} className='fa fa-fw' /></span>}
+            </span>
             <ReactTooltip id={`${name}-tooltip-${choice.id}`} effect='solid'><span>View {name === 'youtube' ? 'YouTube link' : name}</span></ReactTooltip>
           </span>
         </span>}
@@ -57,15 +69,13 @@ const ChoiceCard = (props) => {
       id={`choice-container-${choice.id}`}
       className={choiceCardClasses()}
       onClick={(e) => !userID || didExpire(expires) ? null : vote(e, choice.id)}
-      style={
-        {
-          background: `${choice.photo ? `url(${choice.photo})` : ''}`,
-          backgroundSize: '60%',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: cardBackgrounds[choice.id % cardBackgrounds.length]
-        }
-      }
+      style={{
+        background: `${choice.photo ? `url(${choice.photo})` : ''}`,
+        backgroundSize: '60%',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: cardBackgrounds[choice.id % cardBackgrounds.length]
+      }}
     >
       <div
         className={(choice.photo || choice.youtube) ? 'photo-title' : 'title'}
@@ -78,13 +88,11 @@ const ChoiceCard = (props) => {
         <ReactPlayer
           width={'90%'}
           height={'50%'}
-          style={
-            {
-              margin: 'auto',
-              padding: '0px',
-              position: 'relative'
-            }
-          }
+          style={{
+            margin: 'auto',
+            padding: '0px',
+            position: 'relative'
+          }}
           url={choice.youtube}
           controls
           id='react-player-youtube'

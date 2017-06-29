@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import * as actions from '../actions'
 import SearchInput from 'react-search-input'
 import FA from 'react-fontawesome'
-import { getSearchResults } from '.././utilities/ballotUtils'
-import ListItem from './ListItem'
+import { getSearchResults, findLeader, cardBackgrounds, lightCardBackgrounds } from '.././utilities/ballotUtils'
+import BallotListItem from './BallotListItem'
 import LoadingSpinner from './LoadingSpinner'
 
 class Discover extends React.Component {
@@ -44,7 +44,7 @@ class Discover extends React.Component {
   }
 
   renderSbsOrLoader (sbs) {
-    if (sbs.length === 0) return <LoadingSpinner />
+    if (sbs.length === 0) return <LoadingSpinner color='white' />
     else {
       return (
         <div id='discover-body-container'>
@@ -59,6 +59,7 @@ class Discover extends React.Component {
   renderSearch () {
     return (
       <span>
+        {this.state.sbs.length !== 0 &&
         <div id='discover-search-bar'>
           <FA
             name='search'
@@ -69,10 +70,14 @@ class Discover extends React.Component {
             value={this.state.searchTerm}
             onChange={(e) => this.searchUpdated(e)}
           />
-        </div>
+        </div>}
         {this.renderSbsOrLoader(this.state.sbs)}
       </span>
     )
+  }
+
+  sample (input) {
+    console.log(input)
   }
 
   renderSbs (sbs) {
@@ -88,14 +93,19 @@ class Discover extends React.Component {
     return sortedSbs.map((sb, idx) => (
       <div key={`sb-${sb.createdAt}`} >
         <Link to={`/sbs/${sb.alias}`}>
-          <ListItem sb={sb} />
+          <BallotListItem sb={sb} />
         </Link>
+        <div className='leading-choice-container' style={{background: `${cardBackgrounds[idx]}`}}>
+          <div className='leading-choice-label' style={{background: `${lightCardBackgrounds[idx]}`, color: `${cardBackgrounds[idx]}`}}>leading</div>
+          <div className='leading-choice-content'>{findLeader(sb.choices).title}</div>
+          <div className='leading-choice-votes' style={{color: `${lightCardBackgrounds[idx]}`}}>{findLeader(sb.choices).votes} votes</div>
+        </div>
       </div>
     ))
   }
 
   render () {
-    return <div id='accent-container'><div id='discover'>{this.renderSearch()}</div></div>
+    return <div id='discover'>{this.renderSearch()}</div>
   }
 }
 

@@ -1,18 +1,19 @@
 #ballot-list-item {
   font-size: 16px;
-  padding: 10px;
-  border: 1px solid #eee;
   background-color: white;
   border-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
   text-align: left;
   margin-bottom: 10px;
   color: $primary;
-  display: block;
+  display: table;
   position: relative;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: 10px;
+  width: 100%;
   &:hover {
-    background-color: rgba(#eee, 0.4);
+    opacity: 0.9;
   }
   &.favorite-item {
     background-color: #eee;
@@ -25,6 +26,42 @@
     &:hover {
       background-color: rgba(#eee, 0.5);
     }
+  }
+
+  .list-item-information {
+    width: calc(80% - 10px);
+    margin-right: 10px;
+    display: table-cell;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-right: 0px;
+  }
+  .list-item-leader {
+    display: table-cell;
+    width: 20%;
+    vertical-align: middle;
+  }
+  .leading-choice-label {
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    border: 0px;
+  }
+  .leading-choice-votes {
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+  }
+  .leading-choice-content {
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    padding: 0px 10px;
+    vertical-align: middle;
   }
   #expiration {
     width: 100%;
@@ -43,34 +80,40 @@
       margin-top: 10px;
     }
   }
+  #ballot-list-item-vote-count {
+    font-size: 20px;
+    font-family: 'FuturaExtraBold', 'Arial', 'Times New Roman';
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 75px;
+  }
   #ballot-list-item-vote-container {
     display: table-cell;
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
+    width: 75px;
   }
   #inner-vote-container {
     display: inline-block;
-    border: 1px solid #eee;
     font-size: 18px;
     text-align: center;
-    background-color: white;
   }
   #ballot-list-item-title-container {
     display: table-cell;
     vertical-align: middle;
     padding: 10px;
     text-align: left;
-    padding-left: 15px;
+    padding-left: 0px;
     font-size: 14px;
   }
+  #ballot-list-item-title {
+    font-family: 'FuturaExtraBold', 'Arial', 'Times New Roman';
+  }
   #ballot-list-item-vote-label {
-    border-top: 1px solid #eee;
-    font-size: 11px;
-    background-color: white;
-    padding: 2px;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: #eee;
+    font-size: 13px;
+    text-align: center;
+    width: 75px;
   }
   #ballot-list-item-description {
     font-size: 14px;
@@ -86,8 +129,8 @@
     text-align: right;
     color: rgba($primary,0.8);
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: calc(20% + 15px);
   }
   #ballot-list-item-tags {
     font-size: 11px;

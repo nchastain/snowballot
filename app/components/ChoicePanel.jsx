@@ -5,7 +5,7 @@ import ChoiceMediaPane from './ChoiceMediaPane'
 import FA from 'react-fontawesome'
 
 const ChoicePanel = ({choices, choicesExpanded, update}) => {
-  
+
   const choiceUpdate = (e) => {
     const updatedChoices = choices.map((choice) => {
       if (choice.id === getChoiceNumber(e)) choice.title = e.target.value
@@ -13,17 +13,17 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     })
     update('choices', updatedChoices)
   }
-  
+
   const checkKey = (e) => { 
     if (e.keyCode === 9 && getChoiceNumber(e) === choices.length) addChoice()
     if (e.keyCode === 13 && choices.length >= 2 && choices[0].title.length > 0 && choices[1].title.length > 0) document.querySelector('.sbCreationButton').click()
   }
-  
+
   const addChoice = () => {
     const newChoice = {title: '', votes: 0, id: choices.length + 1, added: Date.now()}
     update('choices', [...choices, newChoice])
   }
-  
+
   const deleteChoice = (e, choice) => {
     if (choice.id === 1 || choice.id === 2) return
     let updatedChoices = choices.filter(choice => choice.id !== getChoiceNumber(e))
@@ -33,14 +33,14 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     })
     update('choices', updatedChoices)
   }
-  
+
   const toggleChoiceOptions = (e) => {
     const infoSection = document.querySelector(`#choice-more-info-${e.target.id}`)
     const expandState = Boolean(!choicesExpanded[e.target.id])
     infoSection.classList.toggle('choice-more-info-expanded')
     update('choicesExpanded', {...choicesExpanded, [e.target.id]: expandState})
   }
-  
+
   const choiceList = choices.map(choice => (
     <span key={`choice-container-${choice.id}`} className='individual-choice'>
       <div className='gutter-indexes'>{choice.id}</div>

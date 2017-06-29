@@ -6,7 +6,7 @@ import * as actions from '.././actions'
 import classnames from 'classnames'
 import ReactModal from 'react-modal'
 import ChoiceCard from './ChoiceCard'
-import { createStateFromProps } from 'utilities/generalUtils'
+import { createStateFromProps } from 'utilities/markupUtils'
 
 class BallotChoiceGrid extends React.Component {
   constructor (props) {

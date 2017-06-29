@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 import {firebaseRef, firebaseAuth} from './constants.js'
-import * as actions from '.././actions'
 
 export function auth (email, pw) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
@@ -18,27 +17,27 @@ export function login (email, pw) {
 export function fbLogin () {
   let provider = new firebase.auth.FacebookAuthProvider()
   return firebaseAuth().signInWithPopup(provider).then(function (result) {
-    let token = result.credential.accessToken
-    let user = result.user
+    // let token = result.credential.accessToken
+    // let user = result.user
   }).catch(function (error) {
-    let errorCode = error.code
-    let errorMessage = error.message
-    let email = error.email
-    var credential = error.credential
+    // let errorCode = error.code
+    // let errorMessage = error.message
+    // let email = error.email
+    // var credential = error.credential
   })
 }
 
 export function googleLogin () {
   var provider = new firebase.auth.GoogleAuthProvider()
   firebase.auth().signInWithPopup(provider).then(function (result) {
-    var token = result.credential.accessToken
-    var user = result.user
+    // var token = result.credential.accessToken
+    // var user = result.user
   }).catch(function (error) {
-    var errorCode = error.code
-    var errorMessage = error.message
-    var email = error.email
-    var credential = error.credential
-  });
+    // var errorCode = error.code
+    // var errorMessage = error.message
+    // var email = error.email
+    // var credential = error.credential
+  })
 }
 
 export function resetPassword (email) {

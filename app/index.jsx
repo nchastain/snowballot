@@ -18,14 +18,12 @@ firebase.auth().onAuthStateChanged((user) => {
   }
 })
 
-// Load foundation
 $(document).foundation()
 
 if (module.hot) {
   module.hot.accept()
 }
 
-// App css
 require('style!css!sass!applicationStyles')
 require('font-awesome-webpack')
 
@@ -37,4 +35,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
-

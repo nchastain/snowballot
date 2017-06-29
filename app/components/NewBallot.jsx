@@ -16,7 +16,7 @@ class NewBallot extends React.Component {
   }
 
   componentWillMount () {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
     this.setState({choices: [
       {title: '', votes: 0, id: 1, info: '', added: 1495860030876},
       {title: '', votes: 0, id: 2, info: '', added: 1495860030877}

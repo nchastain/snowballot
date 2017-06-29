@@ -1,6 +1,4 @@
 import React from 'react'
-import OptionUnit from './OptionUnit'
-import FA from 'react-fontawesome'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import Tagger from './Tagger'

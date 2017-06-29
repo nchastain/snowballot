@@ -59,7 +59,8 @@ export const authMessage = function (userID) {
   const loginMessage = (
     <li className='please-login-message'>
       <span className='login-message-text'>
-        {addFA('sign-in')} To vote on this, <Link to='/login'>log in</Link> or <Link to='/register'>register</Link>. It's how we stop stage moms from rigging children's beauty pageants.</span>
+        {addFA('sign-in')} To vote on this, <Link to='/login'>log in</Link> or <Link to='/register'>register</Link>.
+      </span>
     </li>
   )
   return userID ? null : loginMessage
@@ -71,4 +72,23 @@ export const setDOMReferences = function (e) {
   const selected = e.currentTarget.className.indexOf('selected') !== -1
   const votedBox = document.querySelector('.box-header.selected')
   return {selected, votedBox, plusText, voteCount}
+}
+
+export const modalStyles = {
+  content: {
+    top: '25%',
+    bottom: 'calc(75% - 125px)',
+    left: '300px',
+    right: '300px'
+  }
+}
+
+export const addCommas = (num) => (num + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+
+export const createStateFromProps = function (prevProps, nextProps) {
+  let newState = {}
+  for (const prop in nextProps) {
+    if (nextProps[prop] !== prevProps[prop]) newState[prop] = nextProps[prop]
+  }
+  return newState
 }

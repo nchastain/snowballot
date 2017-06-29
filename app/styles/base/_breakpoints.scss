@@ -98,7 +98,16 @@
       display: inline-block;
     }
   }
-  #discover-list-item #discover-list-item-tags, #discover-list-item #discover-list-item-favorites {
+  #dashboard #share-panel {
+    display: none;
+  }
+  #ballot-list-item .list-item-information {
+    width: calc(60% - 10px);
+  }
+  #ballot-list-item .list-item-leader {
+    width: 40%;
+  }
+  #ballot-list-item #ballot-list-item-tags, #ballot-list-item #ballot-list-item-favorites {
     display: none;
   }
   #navigation-bar #open-nav-menu {

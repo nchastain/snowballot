@@ -1,12 +1,27 @@
 import React from 'react'
 import FA from 'react-fontawesome'
 import Tagger from './Tagger'
-// import { DatePicker } from '.././utilities/generalUtils'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 
 const OptionUnit = function (props) {
-  const { name, didExpire, showSave, expires, save, isPrivate, description, alias, extensible, tagAdd, tagDelete, tags, suggestions, toggle, setDate } = props
+  const {
+    name,
+    didExpire,
+    showSave,
+    expires,
+    save,
+    isPrivate,
+    description,
+    alias,
+    extensible,
+    tagAdd,
+    tagDelete,
+    tags,
+    suggestions,
+    toggle,
+    setDate
+  } = props
   const optionUnits = {
     private: {
       icon: 'eye-slash',

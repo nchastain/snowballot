@@ -1,7 +1,7 @@
 import React from 'react'
 import FA from 'react-fontawesome'
 import ReactModal from 'react-modal'
-import { modalStyles } from 'utilities/generalUtils'
+import { modalStyles } from 'utilities/markupUtils'
 import { Link } from 'react-router-dom'
 
 const DeleteModal = (props) => {

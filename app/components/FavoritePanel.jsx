@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import ReactTooltip from 'react-tooltip'
 import * as actions from '.././actions'
 import { connect } from 'react-redux'
-import { addCommas } from '.././utilities/generalUtils'
+import { addCommas } from '.././utilities/markupUtils'
 
 class FavoritePanel extends React.Component {
   constructor (props) {

@@ -25,12 +25,12 @@ const BallotInfoPanel = (props) => {
     <div className='above-sb-container'>
       <div id='sb-info'>
         <ul>
-            {creatorMessage(props.user.uid, creator, createdAt, alias)}
-            {expiresMessage(expires)}
-            {votesMessage(choices, id, props.user, expires)}
-            {winnerMessage(expires, choices)}
-            {linkMessage(alias)}
-            {authMessage(props.user.uid)}
+          {creatorMessage(props.user.uid, creator, createdAt, alias)}
+          {expiresMessage(expires)}
+          {votesMessage(choices, id, props.user, expires)}
+          {winnerMessage(expires, choices)}
+          {linkMessage(alias)}
+          {authMessage(props.user.uid)}
         </ul>
       </div>
       <div id='sb-actions'>

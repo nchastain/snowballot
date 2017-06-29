@@ -74,9 +74,6 @@ class AccountPanel extends React.Component {
   }
 
   render () {
-    const accountButton = (setting) => {
-      return <div></div>
-    }
     const settings = [
       {name: 'email', label: 'Change email'},
       {name: 'password', label: 'Change password'},

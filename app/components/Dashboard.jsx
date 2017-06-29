@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import AccountPanel from './AccountPanel'
 import LoadingSpinner from './LoadingSpinner'
-import ListItem from './ListItem'
+import BallotListItem from './BallotListItem'
 import FA from 'react-fontawesome'
 
 export class Dashboard extends Component {
@@ -62,7 +62,7 @@ export class Dashboard extends Component {
     return sortedSbs.map((sb, idx) => (
       <span key={`sb-${sb.createdAt}`} className='total-sb-container'>
         <Link to={`/sbs/${sb.alias}`} className='snowballot-container'>
-          <ListItem sb={sb} sharePanel />
+          <BallotListItem sb={sb} sharePanel />
         </Link>
       </span>
     ))
