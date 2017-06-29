@@ -17,14 +17,13 @@
   }
   &.favorite-item {
     background-color: #eee;
+    border-radius: 0px;
     #inner-vote-container {
-      border: 1px solid rgba($primary, 0.4);
     }
     #ballot-list-item-vote-label {
-      border-top: 1px solid rgba($primary, 0.4);
     }
     &:hover {
-      background-color: rgba(#eee, 0.5);
+      opacity: 0.9;
     }
   }
 

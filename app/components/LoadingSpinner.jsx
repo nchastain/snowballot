@@ -3,7 +3,7 @@ import FA from 'react-fontawesome'
 
 const LoadingSpinner = (props) => (
   <div id='loading-spinner'>
-    <div id='loading-spinner-icon'><FA className={`fa fa-spin fa-3x fa-fw ${props.color === 'white' ? 'white' : ''}`} name='spinner' /></div>
+    <img className='logo' src='.././logo.png' id='loading-spinner-icon' />
     <div className={props.color === 'white' ? 'white' : ''}>Loading...</div>
   </div>
 )

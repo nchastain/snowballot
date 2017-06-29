@@ -79,7 +79,7 @@ export class Dashboard extends Component {
   }
 
   renderNone () {
-    if (!this.props.user || !this.props.user.sbs) return <LoadingSpinner />
+    if (!this.props.user || !this.props.user.sbs) return <LoadingSpinner color='white' />
     else {
       return (
         <div id='create-first-sb-text'>You have not yet created any snowballots.
@@ -93,7 +93,7 @@ export class Dashboard extends Component {
     const that = this
     const favorites = this.state.favoriteSbs.map((sb) => {
       return <div key={sb.id}>
-        <Link to={`/sbs/${sb.alias}`}><ListItem type='favorite' sb={sb} sharePanel={false} /></Link>
+        <Link to={`/sbs/${sb.alias}`}><BallotListItem type='favorite' sb={sb} sharePanel={false} /></Link>
       </div>
     })
     const filterClasses = (filterName) => {
@@ -114,31 +114,29 @@ export class Dashboard extends Component {
     }
     const showFavoritedContent = () => that.state.showFavorited || that.state.showAll
     return (
-      <div id='accent-container'>
-        <span id='dashboard'>
-          <div className='dashboard-outer'>
-            <div id='account-settings-button-outer' className={this.state.showAccountPanel ? 'active' : ''}>
-              <div id='account-settings-button' onClick={() => this.setState({showAccountPanel: !this.state.showAccountPanel})}>
-                <FA name='gear' className='fa fa-fw' />{this.state.showAccountPanel ? 'Hide ' : ''}Account Settings
-              </div>
+      <span id='dashboard'>
+        <div className='dashboard-outer'>
+          <div id='account-settings-button-outer' className={this.state.showAccountPanel ? 'active' : ''}>
+            <div id='account-settings-button' onClick={() => this.setState({showAccountPanel: !this.state.showAccountPanel})}>
+              <FA name='gear' className='fa fa-fw' />{this.state.showAccountPanel ? 'Hide ' : ''}Account Settings
             </div>
-            {this.state.showAccountPanel && <AccountPanel />}
-            {typeof that.props.user.sbs !== 'undefined' && that.props.user.sbs.length > 0 && <div id='dashboard-view-filter'>
-              <span className={classnames(filterClasses('showCreated'))} onClick={() => this.setState({showCreated: true, showFavorited: false, showAll: false})}>My Snowballots</span>
-              <span className={classnames(filterClasses('showFavorited'))} onClick={() => this.setState({showCreated: false, showFavorited: true, showAll: false})}>Favorites</span>
-              <span className={classnames(filterClasses('showAll'))} onClick={() => this.setState({showCreated: true, showFavorited: true, showAll: true})}>All</span>
-            </div>}
-            <div className='snowballots-section'>
-              {sbContent()}
-            </div>
-            {showFavoritedContent() && this.state.favoriteSbs && this.state.favoriteSbs.length > 0 && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
-              <div className='favorites-section'>
-                {favorites}
-              </div>
-            </span>}
           </div>
-        </span>
-      </div>
+          {this.state.showAccountPanel && <AccountPanel />}
+          {typeof that.props.user.sbs !== 'undefined' && that.props.user.sbs.length > 0 && <div id='dashboard-view-filter'>
+            <span className={classnames(filterClasses('showCreated'))} onClick={() => this.setState({showCreated: true, showFavorited: false, showAll: false})}>My Snowballots</span>
+            <span className={classnames(filterClasses('showFavorited'))} onClick={() => this.setState({showCreated: false, showFavorited: true, showAll: false})}>Favorites</span>
+            <span className={classnames(filterClasses('showAll'))} onClick={() => this.setState({showCreated: true, showFavorited: true, showAll: true})}>All</span>
+          </div>}
+          <div className='snowballots-section'>
+            {sbContent()}
+          </div>
+          {showFavoritedContent() && this.state.favoriteSbs && this.state.favoriteSbs.length > 0 && <span><div id='favorites-header'><FA name='star' className='fa fa-fw' />Favorites</div>
+            <div className='favorites-section'>
+              {favorites}
+            </div>
+          </span>}
+        </div>
+      </span>
     )
   }
 }
