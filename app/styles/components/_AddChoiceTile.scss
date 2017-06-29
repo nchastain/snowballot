@@ -1,0 +1,25 @@
+#add-choice-tile {
+  position: relative;
+  border: 5px solid white;
+  background:
+    linear-gradient(
+      limegreen,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      #5192e8,
+      transparent
+    ),
+    linear-gradient(
+      -90deg,
+      #ff7f50,
+      transparent
+    );
+  background-blend-mode: screen;
+  .fa {
+    font-size: 10vw;
+    height: 90%;
+    width: 100%;
+  }
+}

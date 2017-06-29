@@ -1,0 +1,36 @@
+#ballot-info-panel {
+  display: inline-block;
+  width: 100%;
+  color: rgba($primary, 0.3);
+  background-color: #ecf0f7;
+  min-height: 80px;
+  font-size: 90%;
+  a {
+    color: rgba($primary, 0.6);
+    text-decoration: underline;
+  }
+  #sb-info {
+    padding: 10px;
+    display: inline-block;
+    width: 65%;
+    color: rgba($primary, 0.6);
+    background-color: rgba(0,0,0,0);
+    min-height: 80px;
+    vertical-align: top;
+    ul {
+      margin: 0;
+      display: inline-block;
+      list-style: none;
+    }
+  }
+  #sb-actions {
+    background-color: rgba(0,0,0,0);
+    padding-top: 10px;
+    padding-right: 10px;
+    display: inline-block;
+    width: 35%;
+    color: rgba($primary, 0.6);
+    min-height: 80px;
+    vertical-align: top;
+  }
+}
