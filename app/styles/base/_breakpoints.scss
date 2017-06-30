@@ -98,8 +98,17 @@
       display: inline-block;
     }
   }
+  #dashboard .dashboard-outer {
+    padding-top: 70px;
+  }
   #dashboard #share-panel {
     display: none;
+  }
+  #discover {
+    padding-top: 70px;
+  }
+  #discover #discover-search-bar {
+    width: 100%;
   }
   #ballot-list-item .list-item-information {
     width: calc(60% - 10px);
