@@ -62,7 +62,7 @@ export class Dashboard extends Component {
     return sortedSbs.map((sb, idx) => (
       <span key={`sb-${sb.createdAt}`} className='total-sb-container'>
         <Link to={`/sbs/${sb.alias}`} className='snowballot-container'>
-          <BallotListItem sb={sb} sharePanel />
+          <BallotListItem sb={sb} idx={idx} sharePanel />
         </Link>
       </span>
     ))
@@ -93,7 +93,7 @@ export class Dashboard extends Component {
     const that = this
     const favorites = this.state.favoriteSbs.map((sb) => {
       return <div key={sb.id}>
-        <Link to={`/sbs/${sb.alias}`}><BallotListItem type='favorite' sb={sb} sharePanel={false} /></Link>
+        <Link to={`/sbs/${sb.alias}`}><BallotListItem type='favorite' sb={sb} sharePanel={false} idx={Math.floor(Math.random() * 7)} /></Link>
       </div>
     })
     const filterClasses = (filterName) => {

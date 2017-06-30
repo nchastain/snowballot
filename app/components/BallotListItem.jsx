@@ -31,9 +31,9 @@ class BallotListItem extends React.Component {
       hasTags: taglist !== null,
       'hide-for-mobile': true
     }
-    const randomNumber = Math.floor(Math.random() * 7)
-    const darkBackground = cardBackgrounds[randomNumber]
-    const lightBackground = lightCardBackgrounds[randomNumber]
+    const num = this.props.idx % cardBackgrounds.length
+    const darkBackground = cardBackgrounds[num]
+    const lightBackground = lightCardBackgrounds[num]
     return (
       <span className={this.props.type === 'favorite' ? 'favorite-item' : ''} id='ballot-list-item'>
         <div id='ballot-list-item-vote-container'>

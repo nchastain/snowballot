@@ -93,7 +93,7 @@ class Discover extends React.Component {
     return sortedSbs.map((sb, idx) => (
       <div key={`sb-${sb.createdAt}`} >
         <Link to={`/sbs/${sb.alias}`}>
-          <BallotListItem sb={sb} />
+          <BallotListItem sb={sb} idx={idx} />
         </Link>
         <div className='leading-choice-container' style={{background: `${cardBackgrounds[idx]}`}}>
           <div className='leading-choice-label' style={{background: `${lightCardBackgrounds[idx]}`, color: `${cardBackgrounds[idx]}`}}>leading</div>
