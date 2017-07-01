@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import * as actions from '../actions'
 import SearchInput from 'react-search-input'
 import FA from 'react-fontawesome'
-import { getSearchResults, findLeader, cardBackgrounds, lightCardBackgrounds } from '.././utilities/ballotUtils'
+import { getSearchResults, findLeader } from '.././utilities/ballotUtils'
+import { pluralize } from '.././utilities/markupUtils'
 import BallotListItem from './BallotListItem'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -95,10 +96,14 @@ class Discover extends React.Component {
         <Link to={`/sbs/${sb.alias}`}>
           <BallotListItem sb={sb} idx={idx} />
         </Link>
-        <div className='leading-choice-container' style={{background: `${cardBackgrounds[idx]}`}}>
-          <div className='leading-choice-label' style={{background: `${lightCardBackgrounds[idx]}`, color: `${cardBackgrounds[idx]}`}}>leading</div>
-          <div className='leading-choice-content'>{findLeader(sb.choices).title}</div>
-          <div className='leading-choice-votes' style={{color: `${lightCardBackgrounds[idx]}`}}>{findLeader(sb.choices).votes} votes</div>
+        <div className='leading-choice-container' style={{background: `${sb.color}`}}>
+          <div className='leading-choice-label' style={{background: `${sb.lightColor}`, color: `${sb.color}`}}>leading</div>
+          <div className='leading-choice-content'>{findLeader(sb.choices) ? findLeader(sb.choices).title : sb.choices[0].title}</div>
+          <div className='leading-choice-votes' style={{
+            color: `${sb.lightColor}`
+          }}>
+            {findLeader(sb.choices) ? findLeader(sb.choices).votes : '0'} vote{pluralize(findLeader(sb.choices))}
+          </div>
         </div>
       </div>
     ))

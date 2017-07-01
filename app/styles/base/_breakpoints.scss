@@ -110,14 +110,55 @@
   #discover #discover-search-bar {
     width: 100%;
   }
+  #ballot-list-item {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-bottom: 20px;
+  }
+  #ballot-list-item .leading-choice-label {
+    display: inline-block;
+    margin-right: 5px;
+    width: auto;
+  }
+  #ballot-list-item .leading-choice-votes {
+    display: inline-block;
+    margin-left: 5px;
+    width: auto;
+  }
   #ballot-list-item .list-item-information {
-    width: calc(60% - 10px);
+    width: 100%;
+    display: table;
+  }
+  #ballot-list-item #ballot-list-item-vote-container {
+    width: 100%;
+    display: table;
+    text-align: right;
+  }
+  #ballot-list-item #ballot-list-item-vote-count {
+    font-size: 15px;
+    width: auto;
+    display: inline-block;
+    padding: 5px;
+  }
+  #ballot-list-item #ballot-list-item-vote-label {
+    font-size: 15px;
+    width: auto;
+    display: inline-block;
+    padding: 5px;
+    padding-right: 10px;
   }
   #ballot-list-item .list-item-leader {
-    width: 40%;
+    width: 100%;
+    display: inline-block;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
   }
   #ballot-list-item #ballot-list-item-tags, #ballot-list-item #ballot-list-item-favorites {
-    display: none;
+    right: initial;
+    left: 5px;
+    top: 8px;
   }
   #navigation-bar #open-nav-menu {
     display: inline-block;

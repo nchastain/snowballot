@@ -3,7 +3,8 @@ import FA from 'react-fontawesome'
 import classnames from 'classnames'
 import ReactTooltip from 'react-tooltip'
 import { ShareButtons } from 'react-share'
-import { getVoteSum, cardBackgrounds, lightCardBackgrounds, findLeader } from '.././utilities/ballotUtils'
+import { getVoteSum, findLeader } from '.././utilities/ballotUtils'
+import { pluralize } from '.././utilities/markupUtils'
 
 class BallotListItem extends React.Component {
   constructor (props) {
@@ -31,26 +32,23 @@ class BallotListItem extends React.Component {
       hasTags: taglist !== null,
       'hide-for-mobile': true
     }
-    const num = this.props.idx % cardBackgrounds.length
-    const darkBackground = cardBackgrounds[num]
-    const lightBackground = lightCardBackgrounds[num]
     return (
       <span className={this.props.type === 'favorite' ? 'favorite-item' : ''} id='ballot-list-item'>
         <div id='ballot-list-item-vote-container'>
           <div id='inner-vote-container'>
-            <div id='ballot-list-item-vote-count' style={{background: `${darkBackground}`}}>{getVoteSum(sb.choices)}</div>
-            <div id='ballot-list-item-vote-label' style={{color: `${darkBackground}`}}>{`vote${getVoteSum(sb.choices) > 1 ? 's' : ''}`}</div>
+            <div id='ballot-list-item-vote-count' style={{background: `${sb.color}`}}>{getVoteSum(sb.choices)}</div>
+            <div id='ballot-list-item-vote-label' style={{color: `${sb.color}`}}>{`vote${pluralize(getVoteSum(sb.choices))}`}</div>
           </div>
         </div>
         <div className='list-item-information'>
           <div id='expiration'>{sb.expires && sb.expires !== '' && <span><FA name='clock-o' className='fa fa-fw' />expires: {sb.expires}</span>}</div>
           <div className={classnames(sb.expires && sb.expires !== '' ? {hasExpiration: true, 'ballot-list-item': true} : {'ballot-list-item': true})}>
             <div id='ballot-list-item-title-container'>
-              <div id='ballot-list-item-title' style={{color: `${darkBackground}`}}>{sb.title}</div>
+              <div id='ballot-list-item-title' style={{color: `${sb.color}`}}>{sb.title}</div>
               {sb.description && <div id='ballot-list-item-description' className={classnames(taglist !== null ? {hasTags: true} : {})}>{sb.description}</div>}
             </div>
             {sb.favorites !== 0 && <div id='ballot-list-item-favorites'>
-              <FA name='star' className='fa fa-fw' />{sb.favorites}<span className='hide-for-mobile'> favorite{sb.favorites > 1 ? 's' : ''}</span>
+              <FA name='star' className='fa fa-fw' />{sb.favorites}<span className='hide-for-mobile'> favorite{pluralize(sb.favorites)}</span>
             </div>}
             {this.props.sharePanel &&
               <div id='share-panel' className={classnames(sharePanelClasses)}>
@@ -83,12 +81,12 @@ class BallotListItem extends React.Component {
             <FA name='tags' className='fa fa-fw' />{taglist}
           </div>}
         </div>
-        <div className='list-item-leader' style={{background: `${darkBackground}`}}>
+        <div className='list-item-leader' style={{background: `${sb.color}`}}>
           <div className='leading-choice-content'>
-            <div className='leading-choice-label' style={{color: `${lightBackground}`}}>leading</div>
+            <div className='leading-choice-label' style={{color: `${sb.lightColor}`}}>leading</div>
             {findLeader(sb.choices) ? findLeader(sb.choices).title : 'N/A'}
-            <div className='leading-choice-votes' style={{color: `${lightBackground}`}}>
-              {findLeader(sb.choices) ? `${findLeader(sb.choices).votes} vote${findLeader(sb.choices).votes > 1 ? 's' : ''}` : ''}
+            <div className='leading-choice-votes' style={{color: `${sb.lightColor}`}}>
+              {findLeader(sb.choices) ? `${findLeader(sb.choices).votes} vote${pluralize(findLeader(sb.choices).votes)}` : ''}
             </div>
           </div>
         </div>

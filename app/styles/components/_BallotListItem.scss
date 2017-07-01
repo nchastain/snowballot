@@ -18,9 +18,13 @@
   &.favorite-item {
     background-color: #eee;
     border-radius: 0px;
+    color: $primary !important;
     #inner-vote-container {
     }
     #ballot-list-item-vote-label {
+    }
+    #ballot-list-item-description {
+      color: $primary;
     }
     &:hover {
       opacity: 0.9;
@@ -170,10 +174,10 @@
       margin-left: 10px;
       border-radius: 10px;
       padding: 5px !important;
-      border: 2px solid rgba($primary,0.4);
+      border: 1px solid rgba($primary,0.4);
       display: inline-block;
       &:hover {
-        border: 2px solid rgba($primary, 0.8);
+        border: 1px solid rgba($primary, 0.8);
       }
       .fa {
         vertical-align: initial;

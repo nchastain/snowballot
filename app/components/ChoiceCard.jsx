@@ -8,7 +8,8 @@ import {
   isLeader,
   hasExtraMedia,
   cardBackgrounds,
-  lightCardBackgrounds
+  lightCardBackgrounds,
+  findLeader
 } from 'utilities/ballotUtils'
 import { addCommas } from 'utilities/markupUtils'
 
@@ -81,6 +82,7 @@ const ChoiceCard = (props) => {
         className={(choice.photo || choice.youtube) ? 'photo-title' : 'title'}
         style={{backgroundColor: `${(choice.photo || choice.youtube) ? 'rgba(0,0,0,0.3)' : ''}`}}
       >
+        {(findLeader(choices) && findLeader(choices).id === choice.id) ? <div className='leading-choice-subheader' style={{'fontSize': '16px', color: `${lightCardBackgrounds[choice.id % cardBackgrounds.length]}`}}>leading</div> : null}
         {choice.title}
       </div>
       {choice.youtube && !choice.photo &&

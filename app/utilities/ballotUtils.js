@@ -83,6 +83,10 @@ export const validateSb = function (sbOptions) {
   if (filteredChoices.length < 2 && !isExtensible) {
     throw new Error('Snowballots that cannot by extended by other users must be created with at least 2 choices.')
   }
+  const colorRandomizer = Math.floor(Math.random() * 7) % cardBackgrounds.length
+  const color = cardBackgrounds[colorRandomizer]
+  const lightColor = lightCardBackgrounds[colorRandomizer]
+  debugger
   const options = {
     title: title,
     alias: realAlias,
@@ -92,7 +96,9 @@ export const validateSb = function (sbOptions) {
     isExtensible: isExtensible || false,
     tags: tags || null,
     description: description || '',
-    favorites: 0
+    favorites: 0,
+    color: color,
+    lightColor: lightColor
   }
   return {options, filteredChoices}
 }

@@ -44,7 +44,7 @@ export const votesMessage = function (choices, id, user, expires) {
   const leader = findLeader(choices)
   return (
     <li>{addFA('line-chart')} You voted for <span style={{fontWeight: 'bold'}}>{choices[user.votes[id] - 1].title} </span>
-    and <span style={{fontWeight: 'bold'}}>{leader.title}</span> leads, with {leader.votes} vote{leader.votes === 1 ? '' : 's'}</li>
+    and <span style={{fontWeight: 'bold'}}>{leader.title}</span> leads, with {leader.votes} vote{pluralize(leader.votes)}</li>
   )
 }
 
@@ -82,6 +82,8 @@ export const modalStyles = {
     right: '300px'
   }
 }
+
+export const pluralize = (whatToPluralize) => (whatToPluralize && whatToPluralize === 1) ? '' : 's'
 
 export const addCommas = (num) => (num + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,')
 
