@@ -5,6 +5,7 @@ import ReactModal from 'react-modal'
 import DateTime from 'react-datetime'
 import { ShareButtons } from 'react-share'
 import ReactTooltip from 'react-tooltip'
+import SearchInput from 'react-search-input'
 import classnames from 'classnames'
 import moment from 'moment'
 import * as actions from '.././actions'
@@ -28,7 +29,7 @@ import {
 export class Ballot extends Component {
   constructor (props) {
     super(props)
-    this.state = {sortType: 'votes', addChoiceOptions: false, tags: props.tags || []}
+    this.state = {sortType: 'votes', addChoiceOptions: false, tags: props.tags || [], searchTerm: ''}
   }
 
   componentWillMount () {
@@ -240,6 +241,10 @@ export class Ballot extends Component {
 
   checkEnter (e, editField) {
     if (e.keyCode === 13) this.handleSbChange(editField)
+  }
+
+  searchUpdated (term) {
+    this.setState({searchTerm: term || ''})
   }
 
   renderSb () {

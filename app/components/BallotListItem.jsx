@@ -84,7 +84,7 @@ class BallotListItem extends React.Component {
         <div className='list-item-leader' style={{background: `${sb.color}`}}>
           <div className='leading-choice-content'>
             <div className='leading-choice-label' style={{color: `${sb.lightColor}`}}>leading</div>
-            {findLeader(sb.choices) ? findLeader(sb.choices).title : 'N/A'}
+            <span className='leading-choice-title'>{findLeader(sb.choices) ? findLeader(sb.choices).title : 'N/A'}</span>
             <div className='leading-choice-votes' style={{color: `${sb.lightColor}`}}>
               {findLeader(sb.choices) ? `${findLeader(sb.choices).votes} vote${pluralize(findLeader(sb.choices).votes)}` : ''}
             </div>

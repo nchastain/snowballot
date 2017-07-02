@@ -50,6 +50,14 @@ export const getSearchResults = function (term, sbs) {
   })
 }
 
+export const filterChoices = function (term, choices) {
+  const KEYS_TO_FILTERS = ['title']
+  const filteredChoices = term !== ''
+    ? choices.filter(createFilter(term, KEYS_TO_FILTERS))
+    : choices
+  return filteredChoices
+}
+
 export const initialState = {
   optionsExpanded: false,
   title: '',
@@ -86,7 +94,6 @@ export const validateSb = function (sbOptions) {
   const colorRandomizer = Math.floor(Math.random() * 7) % cardBackgrounds.length
   const color = cardBackgrounds[colorRandomizer]
   const lightColor = lightCardBackgrounds[colorRandomizer]
-  debugger
   const options = {
     title: title,
     alias: realAlias,

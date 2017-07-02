@@ -77,10 +77,6 @@ class Discover extends React.Component {
     )
   }
 
-  sample (input) {
-    console.log(input)
-  }
-
   renderSbs (sbs) {
     let startIdx = this.state.currentPage === 1 ? 0 : (this.state.currentPage - 1) * this.state.itemsPerPage
     if (document.querySelector('#discover-body-container')) {
