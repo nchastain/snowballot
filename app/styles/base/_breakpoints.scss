@@ -107,8 +107,14 @@
   #discover {
     padding-top: 70px;
   }
+  #discover #sort-ballots-content {
+    display: block;
+    width: 100%;
+    text-align: right;
+  }
   #discover #discover-search-bar {
     width: 100%;
+    display: inline-block;
   }
   #ballot-list-item {
     border-bottom-right-radius: 5px;

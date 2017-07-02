@@ -27,7 +27,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
   const deleteChoice = (e, choice) => {
     if (choice.id === 1 || choice.id === 2) return
     let updatedChoices = choices.filter(choice => choice.id !== getChoiceNumber(e))
-    updatedChoices = updatedChoices.map(function(choice) {
+    updatedChoices = updatedChoices.map(function (choice) {
       if (choice.id > getChoiceNumber(e)) choice.id--
       return choice
     })
@@ -61,6 +61,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     <span id='choice-panel'>
       <div className='newSbSection newSbChoices'>
         <div id='choices-area'>
+          {/* <div id='gallery-ballot-creator-container'><div id='gallery-ballot-creator'></div></div> */}
           <div id='choice-containers'>
             {choiceList}
           </div>

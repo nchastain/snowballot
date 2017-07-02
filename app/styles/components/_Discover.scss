@@ -1,6 +1,7 @@
 #discover {
 	display: block;
 	margin: auto;
+	margin-top: 100px;
 	.snowballot-square-text {
 		text-align: center;
 		position: absolute;
@@ -21,6 +22,53 @@
 			cursor: pointer;
 		}
 	}
+
+  #sort-ballots-content {
+    text-align: left;
+    display: table-cell;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    vertical-align: bottom;
+    font-size: 90%;
+    border-radius: 5px;
+    color: $primary;
+  }
+  #sort-ballots-key {
+    display: inline-block;
+    border-radius: 5px;
+    padding-left: 10px;
+    color: white;
+  }
+  .sort-option {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    & + .sort-option {
+      margin-left: 5px;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: rgba($primary, 0.2);
+    }
+    &.active {
+      color: rgba($primary, 1);
+      background-color: white;
+      border: 1px solid $primary;
+      &:hover {
+        cursor: initial;
+        background-color: white;
+      }
+    }
+  }
+  #above-discover-section {
+  	display: table;
+  	width: calc(100% - 1rem);
+  	vertical-align: bottom;
+  	margin: auto;
+  	margin-bottom: 10px;
+  }
 
 	#discover-body-container {
 		width: 100%;
@@ -125,12 +173,9 @@ background:
 	}
 
 	#discover-search-bar {
-		display: inline-block;
+		display: table-cell;
 		text-align: right;
 		width: 50%;
-		padding: 1rem;
-		padding-right: 0.5rem;
-		float: right;
 		.fa {
 			color: white;
 		}
@@ -147,7 +192,8 @@ background:
 		
 		input {
 			border: 1px solid #eee !important;
-			box-shadow: 0px 0px 0px white !important
+			box-shadow: 0px 0px 0px white !important;
+			height: 43px !important;
 		}
 	}
 
@@ -169,7 +215,87 @@ background:
 		}
 	}
 
+	#discover-pages {
+		color: white;
+		display: inline-block;
+		text-transform: uppercase;
+		width: calc(100% - 1rem);
+		margin: auto;
+		margin-left: 0.5rem;
+		text-align: right;
+		.fa-holder {
+			display: inline-block;
+			vertical-align: top !important;
+		}
+		#all-the-pages {
+			display: inline-block;
+		}
+		.page {
+			padding: 5px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			display: inline;
+			margin-left: 5px;
+			margin-right: 5px;
+			&:hover {
+				background-color: rgba($primary, 0.6);
+				cursor: pointer;
+			}
+		}
+	}
 
+	.pagination {
+    display: inline-block;
+    margin: 0;
+	}
+
+	.pagination a {
+    color: white;
+    float: left;
+    padding: 8px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 90%;
+    &:hover {
+    	cursor: pointer;
+    	background-color: rgba($primary, 0.2);
+  	}
+    &.page-arrow {
+			padding: 8px 10px;
+			font-weight: bold;
+		}
+		&.active-page {
+      color: rgba($primary, 1);
+      background-color: white;
+      border: 1px solid $primary;
+      &:hover {
+        cursor: initial;
+        background-color: white;
+      }
+  	}
+	}
+
+	.sort-option {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    & + .sort-option {
+      margin-left: 5px;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: rgba($primary, 0.2);
+    }
+    
+  }
+
+	.disabled-arrow {
+		pointer-events: none;
+		cursor: default;
+		opacity: 0;
+		background-color: initial !important;
+	}
 
 	.search-icon {
 		display: inline-block;

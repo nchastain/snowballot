@@ -40,14 +40,14 @@ export const isLeader = function (choice, expiration, choices) {
 
 export const getVoteSum = choices => choices.reduce((prev, next) => prev + next.votes, 0)
 
+export const popularityFilter = sb => getVoteSum(sb.choices) + sb.favorites
+
 export const getSearchResults = function (term, sbs) {
   const KEYS_TO_FILTERS = ['title']
   const filteredSbs = term !== ''
     ? sbs.filter(createFilter(term, KEYS_TO_FILTERS))
     : sbs
-  return filteredSbs.sort((a, b) => {
-    return b.createdAt - a.createdAt
-  })
+  return filteredSbs
 }
 
 export const filterChoices = function (term, choices) {
