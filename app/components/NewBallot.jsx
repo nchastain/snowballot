@@ -160,7 +160,7 @@ class NewBallot extends React.Component {
   setNewChoice (e, file) {
     let existingChoices = this.state.choices.filter(choice => choice.title)
     let newChoice = {title: file.name, votes: 0, id: existingChoices.length + 1, added: Date.now(), photo: e.target.result, included: ['photo']}
-    this.setState({choices: [newChoice, ...existingChoices], bulkPhotos: {[existingChoices.length + 1]: e.target.result}, ...this.state.bulkPhotos)
+    this.setState({choices: [newChoice, ...existingChoices], bulkPhotos: {[existingChoices.length + 1]: e.target.result, ...this.state.bulkPhotos})
   }
 
   uploadImageFromBulk (file) {
