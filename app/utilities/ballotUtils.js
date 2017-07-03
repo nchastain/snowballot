@@ -77,6 +77,7 @@ export const initialState = {
   suggestions: [],
   favorites: 0
 }
+const randomizedColor = (choices) => choices.length % cardBackgrounds.length
 
 export const validateSb = function (sbOptions) {
   const { title, alias, isPrivate, choices, isExtensible, expires, description, tags } = sbOptions
@@ -93,9 +94,9 @@ export const validateSb = function (sbOptions) {
   if (filteredChoices.length < 2 && !isExtensible) {
     throw new Error('Snowballots that cannot by extended by other users must be created with at least 2 choices.')
   }
-  const colorRandomizer = Math.floor(Math.random() * 7) % cardBackgrounds.length
-  const color = cardBackgrounds[colorRandomizer]
-  const lightColor = lightCardBackgrounds[colorRandomizer]
+  let randomColor = randomizedColor(choices)
+  let color = cardBackgrounds[randomColor]
+  let lightColor = lightCardBackgrounds[randomColor]
   const options = {
     title: title,
     alias: realAlias,

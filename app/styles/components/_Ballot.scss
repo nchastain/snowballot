@@ -35,7 +35,7 @@
 
   #top-info {
     color: rgba($primary, 0.4);
-    margin-top: 75px;
+    margin-top: 20px;
     margin-left: 15px;
     margin-bottom: 10px;
     width: calc(100% - 25px);
@@ -44,8 +44,9 @@
     #main-info {
       display: inline-block;
       text-align: left;
-      width: 50%;
+      width: 100%;
       vertical-align: bottom;
+      margin-bottom: 10px;
     }
     #sort-option-content {
       text-align: right;
@@ -53,7 +54,7 @@
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 10px;
-      width: 50%;
+      width: 100%;
       vertical-align: bottom;
       font-size: 90%;
     }

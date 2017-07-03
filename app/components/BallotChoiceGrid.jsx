@@ -55,17 +55,17 @@ class BallotChoiceGrid extends React.Component {
       }
     }
 
-    const addModalIcon = (name) => {
-      if (!this.state.viewingChoice[name]) return
-      const iconMap = {link: 'link', youtube: 'youtube', info: 'file-text-o', /* GIF: 'film', */photo: 'photo'}
-      return <div className={classnames(mediaClassNames(name))} onClick={() => this.buildModal(this.state.viewingChoice, name)} style={{marginLeft: '20px', marginBottom: '20px', display: 'inline-block'}}><FA name={iconMap[name]} className='fa fa-fw inner-media-real-icon' style={{display: 'inline-block', fontSize: '36px'}} /></div>
-    }
-    
-    const that = this
-
     const buildModal = function(choice, name) {
       that.setState({modalOpen: name, [`${name}ModalOpen`]: true, viewingChoice: choice, viewingSection: name})
     }
+
+    const addModalIcon = (name) => {
+      if (!this.state.viewingChoice[name]) return
+      const iconMap = {link: 'link', youtube: 'youtube', info: 'file-text-o', /* GIF: 'film', */photo: 'photo'}
+      return <div className={classnames(mediaClassNames(name))} onClick={() => buildModal(this.state.viewingChoice, name)} style={{marginLeft: '20px', marginBottom: '20px', display: 'inline-block'}}><FA name={iconMap[name]} className='fa fa-fw inner-media-real-icon' style={{display: 'inline-block', fontSize: '36px'}} /></div>
+    }
+    
+    const that = this
 
     return (
         <span>

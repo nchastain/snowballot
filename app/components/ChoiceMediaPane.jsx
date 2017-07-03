@@ -20,10 +20,13 @@ class ChoiceMediaPane extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({included: Object.keys(nextProps.bulkPhotos).indexOf(nextProps.id.toString()) !== -1
-      ? {'photo': nextProps.bulkPhotos[nextProps.id.toString()]}
-      : {}
-    })
+    if (Object.keys(nextProps.bulkPhotos).indexOf(nextProps.id.toString()) !== -1) {
+      this.setState(
+        {'included':
+          {'photo': nextProps.bulkPhotos[nextProps.id.toString()]}
+        }
+      )
+    }
   }
 
   expandSection (sectionID) {

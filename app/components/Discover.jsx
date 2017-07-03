@@ -18,7 +18,7 @@ class Discover extends React.Component {
       sbs: [],
       searchTerm: this.getSearchTermFromURL(props.history.location.search) || '',
       sortType: 'new',
-      itemsPerPage: 10,
+      itemsPerPage: 25,
       currentPage: 1
     }
   }
@@ -70,6 +70,13 @@ class Discover extends React.Component {
     }
   }
 
+  changeSort (sortType) {
+    console.log(sortType)
+    this.setState({sortType: sortType}, function () {
+      document.getElementById('sortLink').click()
+    })
+  }
+
   renderSearch () {
     const sortClasses = (sortType) => {
       return {
@@ -85,8 +92,9 @@ class Discover extends React.Component {
           <div id='sort-ballots-content'>
             <div id='sort-ballots-key'>
               sort by:&nbsp;&nbsp;
-              <div className={classnames(sortClasses('new'))} onClick={() => this.setState({sortType: 'new'})}>newest</div>
-              <div className={classnames(sortClasses('popular'))} onClick={() => this.setState({sortType: 'popular'})}>most popular</div>
+              <Link id='sortLink' to={`/discover/page=1?q=${this.state.searchTerm}`} />
+              <div className={classnames(sortClasses('new'))} onClick={() => this.changeSort('new')}>newest</div>
+              <div className={classnames(sortClasses('popular'))} onClick={() => this.changeSort('popular')}>most popular</div>
             </div>
           </div>
           <div id='discover-search-bar'>
@@ -110,9 +118,10 @@ class Discover extends React.Component {
     let startIdx = this.state.currentPage === 1 ? 0 : (this.state.currentPage - 1) * this.state.itemsPerPage
     let endIdx = startIdx + this.state.itemsPerPage
     if (sbs.length === 0 && this.state.searchTerm) return <div className='empty-search-results'>Sorry, no snowballots found for that search</div>
-    let sortedSbs = sbs.slice(startIdx, endIdx)
+    let sortedSbs = sbs
     if (this.state.sortType === 'new') sortedSbs = sortedSbs.sort((a, b) => b.createdAt - a.createdAt)
     if (this.state.sortType === 'popular') sortedSbs = sortedSbs.sort((a, b) => popularityFilter(b) - popularityFilter(a))
+    sortedSbs = sbs.slice(startIdx, endIdx)
     return sortedSbs.map((sb, idx) => (
       <div key={`sb-${sb.createdAt}`} >
         <Link to={`/sbs/${sb.alias}`}>

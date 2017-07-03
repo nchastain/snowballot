@@ -45,7 +45,8 @@ class BallotListItem extends React.Component {
           <div className={classnames(sb.expires && sb.expires !== '' ? {hasExpiration: true, 'ballot-list-item': true} : {'ballot-list-item': true})}>
             <div id='ballot-list-item-title-container'>
               <div id='ballot-list-item-title' style={{color: `${sb.color}`}}>{sb.title}</div>
-              {sb.description && <div id='ballot-list-item-description' className={classnames(taglist !== null ? {hasTags: true} : {})}>{sb.description}</div>}
+              {sb.description && <div id='ballot-list-item-description' className={classnames(taglist !== null ? {hasTags: true} : {})}>
+                {sb.description.length > 250 ? sb.description.substr(0,250) + '...' : sb.description}</div>}
             </div>
             {sb.favorites !== 0 && <div id='ballot-list-item-favorites'>
               <FA name='star' className='fa fa-fw' />{sb.favorites}<span className='hide-for-mobile'> favorite{pluralize(sb.favorites)}</span>
