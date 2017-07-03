@@ -10,12 +10,20 @@ import FA from 'react-fontawesome'
 
 class ChoiceMediaPane extends React.Component {
   constructor (props) {
+    if (props.id === 1) console.log(Object.keys(props.bulkPhotos), Object.keys(props.bulkPhotos).indexOf(props.id.toString()))
     super(props)
     this.state = {
       expanded: '',
-      included: {'photo': props.bulkPhotos[props.id]},
+      included: Object.keys(props.bulkPhotos).indexOf(props.id.toString()) !== -1 ? {'photo': props.bulkPhotos[props.id.toString()]} : {},
       id: props.id
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({included: Object.keys(nextProps.bulkPhotos).indexOf(nextProps.id.toString()) !== -1
+      ? {'photo': nextProps.bulkPhotos[nextProps.id.toString()]}
+      : {}
+    })
   }
 
   expandSection (sectionID) {

@@ -18,7 +18,7 @@ class Discover extends React.Component {
       sbs: [],
       searchTerm: this.getSearchTermFromURL(props.history.location.search) || '',
       sortType: 'new',
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       currentPage: 1
     }
   }
