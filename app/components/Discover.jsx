@@ -33,7 +33,7 @@ class Discover extends React.Component {
     this.setState({
       searchTerm: this.getSearchTermFromURL(nextProps.history.location.search),
       sbs: nextProps.sbs,
-      currentPage: this.getCurrentPage(nextProps.history.location.pathname)
+      currentPage: this.getCurrentPage(nextProps.history.location.pathname) > 0 ? this.getCurrentPage(nextProps.history.location.pathname) : 1
     })
   }
 
