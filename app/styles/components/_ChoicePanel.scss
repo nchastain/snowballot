@@ -3,7 +3,7 @@
     position: relative;
     margin-right: 0px;
     background-color: white;
-    display: inline-block;
+    display: block;
     background-color: white;
     text-align: center;
     .gutter-indexes {
@@ -27,17 +27,6 @@
       top: 0px;
       margin-top: 15px;
     }
-  }
-  #gallery-ballot-creator-container {
-    text-align: right;
-  }
-  #gallery-ballot-creator {
-    background-color: $primary;
-    font-size: 12px;
-    display: inline-block;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
   }
   .individual-choice {
     margin-bottom: 10px !important;

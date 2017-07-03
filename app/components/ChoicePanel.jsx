@@ -4,8 +4,7 @@ import NewBallotChoice from './NewBallotChoice'
 import ChoiceMediaPane from './ChoiceMediaPane'
 import FA from 'react-fontawesome'
 
-const ChoicePanel = ({choices, choicesExpanded, update}) => {
-
+const ChoicePanel = ({choices, choicesExpanded, update, bulkPhotos}) => {
   const choiceUpdate = (e) => {
     const updatedChoices = choices.map((choice) => {
       if (choice.id === getChoiceNumber(e)) choice.title = e.target.value
@@ -53,7 +52,7 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
         choiceUpdate={(e) => choiceUpdate(e, choice)}
         deleteChoice={(e) => deleteChoice(e, choice)}
       />
-      <ChoiceMediaPane id={choice.id} choices={choices} />
+      <ChoiceMediaPane id={choice.id} choices={choices} bulkPhotos={bulkPhotos} />
     </span>
   ))
 
@@ -61,7 +60,6 @@ const ChoicePanel = ({choices, choicesExpanded, update}) => {
     <span id='choice-panel'>
       <div className='newSbSection newSbChoices'>
         <div id='choices-area'>
-          {/* <div id='gallery-ballot-creator-container'><div id='gallery-ballot-creator'></div></div> */}
           <div id='choice-containers'>
             {choiceList}
           </div>

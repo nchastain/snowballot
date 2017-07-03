@@ -23,6 +23,25 @@
 		background-color: rgba($primary, 0.1) !important;
 	}
 
+	#gallery-ballot-creator-container {
+    text-align: right;
+    position: absolute;
+    top: 75px;
+    right: 15px;
+  }
+  #gallery-ballot-creator {
+    background-color: $primary;
+    font-size: 15px;
+    display: inline-block;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    &:hover {
+    	opacity: 0.8;
+    	cursor: pointer;
+    };
+  }
+
 	#add-form-error-container {
 		background-color: #ff5b5b;
 		color: white;

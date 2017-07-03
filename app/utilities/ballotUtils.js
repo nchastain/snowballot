@@ -47,7 +47,9 @@ export const getSearchResults = function (term, sbs) {
   const filteredSbs = term !== ''
     ? sbs.filter(createFilter(term, KEYS_TO_FILTERS))
     : sbs
-  return filteredSbs
+  return filteredSbs.sort((a, b) => {
+    return b.createdAt - a.createdAt
+  })
 }
 
 export const filterChoices = function (term, choices) {

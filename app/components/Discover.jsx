@@ -18,7 +18,7 @@ class Discover extends React.Component {
       sbs: [],
       searchTerm: this.getSearchTermFromURL(props.history.location.search) || '',
       sortType: 'new',
-      itemsPerPage: 2,
+      itemsPerPage: 5,
       currentPage: 1
     }
   }
@@ -39,6 +39,7 @@ class Discover extends React.Component {
 
   componentDidMount () {
     this.props.dispatch(actions.findPublicSbs())
+    getSearchResults(this.state.searchTerm, this.props.sbs)
   }
 
   getSearchTermFromURL (searchStr) {
@@ -198,7 +199,7 @@ class Discover extends React.Component {
     return (
       <div id='discover'>
         {this.renderSearch()}
-        <div id='discover-pages'>{this.renderPages()}</div>
+        <div id='discover-pages'>{this.state.sbs.length > 0 && this.renderPages()}</div>
       </div>
     )
   }

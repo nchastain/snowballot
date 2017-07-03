@@ -38,6 +38,7 @@
     padding: 10px;
     border: 1px solid #eee;
     border-right: 0px;
+    vertical-align: middle;
   }
   .list-item-leader {
     display: table-cell;
@@ -96,11 +97,13 @@
     vertical-align: middle;
     text-align: center;
     width: 75px;
+    height: 80px;
   }
   #inner-vote-container {
     display: inline-block;
     font-size: 18px;
     text-align: center;
+    padding-top: 19px;
   }
   #ballot-list-item-title-container {
     display: table-cell;
@@ -128,7 +131,7 @@
     }
   }
   #ballot-list-item-favorites {
-    font-size: 11px;
+    font-size: 13px;
     text-align: right;
     color: rgba($primary,0.8);
     position: absolute;
@@ -136,7 +139,7 @@
     right: calc(20% + 15px);
   }
   #ballot-list-item-tags {
-    font-size: 11px;
+    font-size: 13px;
     display: inline-block;
     width: 100%;
     text-align: right;

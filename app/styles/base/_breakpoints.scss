@@ -116,6 +116,9 @@
     width: 100%;
     display: inline-block;
   }
+  #discover #discover-pages {
+    text-align: center;
+  }
   #ballot-list-item {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -145,8 +148,12 @@
     width: 100%;
     display: table;
   }
+  #ballot-list-item #inner-vote-container {
+    padding-top: initial;
+  }
   #ballot-list-item #ballot-list-item-vote-container {
     width: 100%;
+    height: initial;
     display: table;
     text-align: right;
   }
@@ -204,6 +211,9 @@
       font-size: 35px;
       display: none;
     }
+  }
+  #new-ballot #gallery-ballot-creator-container {
+    display: none;
   }
  #ballot {
     .snowballots-section {

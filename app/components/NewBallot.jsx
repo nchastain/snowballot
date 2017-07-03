@@ -12,7 +12,7 @@ import { previewImage, initialState, validateSb } from '.././utilities/ballotUti
 class NewBallot extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {...initialState, showOptions: false, showChoices: false, error: ''}
+    this.state = {...initialState, showOptions: false, showChoices: false, error: '', idxCounter: 0, bulkPhotos: {}}
   }
 
   componentWillMount () {
@@ -78,8 +78,7 @@ class NewBallot extends React.Component {
     if (aliases.indexOf(validSb.options.alias) !== -1) {
       this.setState({errorType: 'alias', errorText: 'That custom URL has already been taken'})
       shouldAdvance = false
-    }
-    else {
+    } else {
       this.props.dispatch(actions.startAddSb(validSb.options, validSb.filteredChoices))
       this.addAllImages(validSb.options.privateAlias)
       this.setState({...initialState})
@@ -148,7 +147,7 @@ class NewBallot extends React.Component {
     else if (this.state.showChoices && this.state.showOptions && choicesValid()) contentToDisplay = submitButton
     else if (this.state.showChoices) contentToDisplay = choicesValid() ? toOptionsButton : choicesInvalidButton
     else contentToDisplay = showChoicesButton
-    return this.state.errorText ? <div className='sbCreationButton action-required button primary'>{this.state.errorText}</div> : contentToDisplay 
+    return this.state.errorText ? <div className='sbCreationButton action-required button primary'>{this.state.errorText}</div> : contentToDisplay
   }
 
   handleTitleChange (e) {
@@ -158,15 +157,39 @@ class NewBallot extends React.Component {
     }
   }
 
+  setNewChoice (e, file) {
+    let existingChoices = this.state.choices.filter(choice => choice.title)
+    let newChoice = {title: file.name, votes: 0, id: existingChoices.length + 1, added: Date.now(), photo: e.target.result, included: ['photo']}
+    this.setState({choices: [newChoice, ...existingChoices], bulkPhotos: {[existingChoices.length + 1]: e.target.result}, ...this.state.bulkPhotos)
+  }
+
+  uploadImageFromBulk (file) {
+    let reader = new FileReader()
+    let that = this
+    reader.readAsDataURL(file)
+    reader.onload = function (e) {
+      that.setNewChoice(e, file)
+    }
+  }
+
+  batchUpdateChoices () {
+    const files = document.getElementById('fileInput').files
+    const fileArray = Array.from(files)
+    const that = this
+    fileArray.forEach(function (file) { that.uploadImageFromBulk(file) })
+  }
+
   render () {
     return (
       <span id='new-ballot'>
-        <h1 className='create-title'>Create a Snowballot</h1>
+        <input type='file' id='fileInput' name='files[]' multiple style={{display: 'none'}} onChange={() => this.batchUpdateChoices()}/>
+        <img id='stupid' src={this.state.photoForStupid} />
+        {this.state.showChoices && <div id='gallery-ballot-creator-container'><div id='gallery-ballot-creator' onClick={() => document.getElementById('fileInput').click()}><FA name='upload' className='fa fa-fw' />&nbsp;&nbsp;bulk upload images as choices</div></div>}
         <div id='outer-add-form-container'>
           <div className='newSnowballot-section'>
             <form id='newSnowballotForm' ref='addSnowballotForm' onSubmit={(e) => this.handleSubmit(e)}>
               <input id='title-input' type='text' value={this.state.title} placeholder='Enter title of new snowballot' onChange={(e) => this.setState({title: e.target.value})} onKeyDown={(e) => this.handleTitleChange(e)} />
-              {this.state.showChoices && <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} update={(field, updates) => this.setState({[field]: updates})} />}
+              {this.state.showChoices && <ChoicePanel choices={this.state.choices} choicesExpanded={this.state.choicesExpanded} bulkPhotos={this.state.bulkPhotos} update={(field, updates) => this.setState({[field]: updates})} />}
               {this.state.showOptions && this.buildOptionPanel()}
             </form>
           </div>

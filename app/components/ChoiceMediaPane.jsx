@@ -13,7 +13,7 @@ class ChoiceMediaPane extends React.Component {
     super(props)
     this.state = {
       expanded: '',
-      included: {},
+      included: {'photo': props.bulkPhotos[props.id]},
       id: props.id
     }
   }
