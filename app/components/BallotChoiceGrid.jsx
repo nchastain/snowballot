@@ -28,7 +28,7 @@ class BallotChoiceGrid extends React.Component {
     this.setState(newState)
   }
 
-  vote (e, choiceId) {
+  vote (choiceId, e) {
     if (e.target.className === 'extra-media-button' || e.target.className.indexOf('fa') !== -1 || e.target.className === 'youtube-video-embed') return
     const previousVote = this.props.user.votes && this.props.user.votes[this.props.sb.id] !== undefined && this.props.user.votes[this.props.sb.id] !== null ? this.props.user.votes[this.props.sb.id] : null
     this.setState({userVote: previousVote === choiceId ? null : choiceId}, function () {
@@ -87,13 +87,13 @@ class BallotChoiceGrid extends React.Component {
           </ReactModal>
           <div id='ballot-choice-grid' className='ballot-choice-grid'>
             {this.state.choices && this.state.choices.map((choice, idx) =>
-              <ChoiceCard 
-                key={choice.id} 
+              <ChoiceCard
+                key={choice.id}
                 choice={choice}
                 expires={this.state.expires}
                 userID={this.props.userID}
                 userVote={this.state.userVote}
-                vote={(e) => this.vote(e)}
+                vote={(e) => this.vote(choice.id, e)}
                 choices={this.props.choices}
                 buildModal={buildModal}
               />

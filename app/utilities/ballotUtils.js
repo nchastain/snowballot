@@ -68,7 +68,7 @@ export const initialState = {
   description: '',
   didExpire: false,
   isPrivate: false,
-  isExtensible: false,
+  isExtensible: true,
   choices: [
     {title: '', votes: 0, id: 1, info: '', added: 1495860030876},
     {title: '', votes: 0, id: 2, info: '', added: 1495860030877}
