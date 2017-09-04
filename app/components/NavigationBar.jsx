@@ -100,4 +100,4 @@ export class NavigationBar extends Component {
   }
 }
 
-export default connect(state => state)(NavigationBar)
+export default NavigationBar
